@@ -22,21 +22,21 @@
       <div class="splide py-5">
         <div class="splide__track">
           <ul class="splide__list">
-            <li class="splide__slide">
-             <a href="/Projet2/page/movie.php">
+            <li class="splide__slide hoverMovie">
+             <a href="/Projet2/page/movie.php ">
                  <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" />
                  <span>Like</span>
                  <span>Note</span>
              </a>
             </li>
-            <li class="splide__slide">
+            <li class="splide__slide hoverMovie">
                 <a href="/Projet2/page/movie.php">
                     <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" />
                     <span>Like</span>
                     <span>Note</span>
                 </a>
             </li>
-            <li class="splide__slide">
+            <li class="splide__slide hoverMovie">
                 <a href="/Projet2/page/movie.php">
                     <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" />
                     <span>Like</span>

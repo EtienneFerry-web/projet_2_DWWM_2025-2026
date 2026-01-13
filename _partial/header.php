@@ -4,9 +4,9 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<?php if($strPage ==="index" || $strPage ==="movie" ){ ?>
+	<?php if($strPage ==="index" || $strPage ==="movie" || $strPage ==="actor"){ ?>
 	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
-		<?php if($strPage ==="movie"){ ?>
+		<?php if($strPage ==="movie" ){ ?>
 		<link rel="stylesheet" href="/Projet2/asset/css/slideMovie.css">
 		<?php }?>
 	<?php }?>

@@ -10,7 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
         <script src="/Projet2/asset/js/slideIndex.js"></script>
 
-    <?php } elseif($strPage ==="movie"){ ?>
+    <?php } elseif($strPage ==="movie" || $strPage ==="actor"){ ?>
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
         <script src="/Projet2/asset/js/slideMovie.js"></script>

@@ -133,45 +133,59 @@ nav a{
     padding: 1rem 0;
 }
 
-#newMovie ul il a{
+.hoverMovie a{
     position: relative;
+    display: block;
+    overflow: hidden;
 }
-#newMovie ul .splide__slide a :is(a, img){
+.hoverMovie :is(a, img){
     transition: all 0.3s ease-out;
 }
 
-#newMovie ul .splide__slide a span{
+.hoverMovie a span{
     position: absolute;
     opacity: 0;
     padding: 1rem;
     transform: translate(-50%, -50%);
     color: #ffffff;
-    left: 50%;
     z-index: 2;
     font-size: 2rem;
     text-transform: uppercase;
     font-weight: 500;
 }
 
-#newMovie ul .splide__slide a :nth-child(2){
+.hoverMovie a span:first-of-type{
+    left: 50%;
     top: 33%;
 }
 
-#newMovie ul .splide__slide a :nth-child(3){
+.hoverMovie a span:last-of-type{
+    left: 50%;
     top: 66%;
 }
 
 
-#newMovie ul .splide__slide a:hover span{
+.hoverMovie a:hover span{
     opacity: 1;
 }
 
-#newMovie ul .splide__slide a:hover img{
+.hoverMovie a:hover img{
     filter: grayscale(100%) brightness(50%);
 }
 
-/*Page movie*/
+#actor .filterActor{
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
 
+#actor .filterActor select{
+    border: 0;
+}
+
+#actor .filterActor option:hover{
+    background-color: #000000;
+    color: #ffffff;
+}
 
 
  a.link{
@@ -208,7 +222,7 @@ nav a{
         border-left: 1px solid #000000;
     }
 
-    #movie > :first-child{
+    #movie > :first-child,  #actor > :first-child {
         border-right: 1px solid #000000;
     }
 
@@ -225,13 +239,18 @@ nav a{
         overflow: auto;
     }
 
+    #actor .scrollList{
+        height: 600px;
+        overflow: auto;
+    }
+
 }
 
 #userComment .allComment {
     height: 600px;
     overflow: auto;
 }
-#userComment .allComment::-webkit-scrollbar {
+#userComment .allComment::-webkit-scrollbar,  #actor .scrollList::-webkit-scrollbar {
     display: none;
 }
 
