@@ -19,29 +19,61 @@
             <div class="splide py-2">
               <div class="splide__track">
                 <ul class="splide__list">
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
+                  <li class="splide__slide hoverMovie">
+                      <a href="/Projet2/page/movie.php">
+                          <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                          <span>Like</span>
+                          <span>Note</span>
+                      </a>
                   </li>
                 </ul>
               </div>
@@ -52,30 +84,62 @@
             <div class="splide py-2">
               <div class="splide__track">
                 <ul class="splide__list">
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
-                  <li class="splide__slide">
-                    <img src="https://dummyimage.com/300x400/000/fff" />
-                  </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
+                    <li class="splide__slide hoverMovie">
+                        <a href="/Projet2/page/movie.php">
+                            <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                            <span>Like</span>
+                            <span>Note</span>
+                        </a>
+                    </li>
                 </ul>
               </div>
             </div>
@@ -86,8 +150,12 @@
     <h2>Vos review / pseudo</h2>
     <div class="col-12 col-md-10 mx-auto py-1 scrollList">
         <div class="row py-2 ">
-            <div class="col-3 my-auto">
-                <img src="https://dummyimage.com/300x400/000/fff" alt="dqdqz" class="img-fluid">
+            <div class="col-3 my-auto hoverMovie">
+                <a href="/Projet2/page/movie.php">
+                    <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                    <span>Like</span>
+                    <span>Note</span>
+                </a>
             </div>
             <div class="col-9 d-flex flex-column text-start py-3">
                 <h3>Titre du film</h3>
@@ -102,8 +170,12 @@
             </div>
         </div>
         <div class="row py-2 ">
-            <div class="col-3 my-auto">
-                <img src="https://dummyimage.com/300x400/000/fff" alt="dqdqz" class="img-fluid">
+            <div class="col-3 my-auto hoverMovie">
+                <a href="/Projet2/page/movie.php">
+                    <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                    <span>Like</span>
+                    <span>Note</span>
+                </a>
             </div>
             <div class="col-9 d-flex flex-column text-start py-3">
                 <h3>Titre du film</h3>
@@ -118,8 +190,12 @@
             </div>
         </div>
         <div class="row py-2 ">
-            <div class="col-3 my-auto">
-                <img src="https://dummyimage.com/300x400/000/fff" alt="dqdqz" class="img-fluid">
+            <div class="col-3 my-auto hoverMovie">
+                <a href="/Projet2/page/movie.php">
+                    <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
+                    <span>Like</span>
+                    <span>Note</span>
+                </a>
             </div>
             <div class="col-9 d-flex flex-column text-start py-3">
                 <h3>Titre du film</h3>
@@ -133,22 +209,7 @@
                 </span>
             </div>
         </div>
-        <div class="row py-2 ">
-            <div class="col-3 my-auto">
-                <img src="https://dummyimage.com/300x400/000/fff" alt="dqdqz" class="img-fluid">
-            </div>
-            <div class="col-9 d-flex flex-column text-start py-3">
-                <h3>Titre du film</h3>
-                <p>Avis de l'utilisateur Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, dignissimos repudiandae laudantium quos sed ut dicta perspiciatis.</p>
-                <span class="d-block mt-auto">
-                    <i class="bi bi-star-fill fs-4"></i>
-                    <i class="bi bi-star-fill fs-4"></i>
-                    <i class="bi bi-star-fill fs-4"></i>
-                    <i class="bi bi-star-fill fs-4"></i>
-                    <i class="bi bi-star fs-4"></i>
-                </span>
-            </div>
-        </div>
+
 
     </div>
 </section>
