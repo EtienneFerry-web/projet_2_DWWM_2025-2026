@@ -187,6 +187,10 @@ nav a{
     color: #ffffff;
 }
 
+#user > div:first-of-type, #user .spanMovie{
+    border-bottom: 1px solid #000000;
+}
+
 
  a.link{
     text-transform: uppercase ;
@@ -197,13 +201,15 @@ nav a{
     text-decoration: underline;
 }
 
-
-
 #search .scrollSearch::-webkit-scrollbar {
     display: none;
 }
 
 #listFilter .scrollList::-webkit-scrollbar {
+    display: none;
+}
+
+#review .scrollList::-webkit-scrollbar{
     display: none;
 }
 
@@ -242,6 +248,16 @@ nav a{
     #actor .scrollList{
         height: 600px;
         overflow: auto;
+    }
+
+    #review .scrollList{
+        height: 600px;
+        overflow: auto;
+    }
+
+    #review h2{
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #000000;
     }
 
 }

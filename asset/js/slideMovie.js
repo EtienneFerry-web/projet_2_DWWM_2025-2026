@@ -1,6 +1,7 @@
 
 window.addEventListener('DOMContentLoaded', () => {
-  new Splide('.splide', {
+  document.querySelectorAll('.splide').forEach(slider => {
+    new Splide(slider, {
       type: 'slide',
       drag: 'free',
       autoWidth: true,
@@ -9,4 +10,5 @@ window.addEventListener('DOMContentLoaded', () => {
       pagination: false,
       focus: false,
     }).mount();
+  });
 });

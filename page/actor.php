@@ -20,14 +20,14 @@
         <div class="row filterActor align-items-center">
             <div class="col-5 col-md-4 ">
 
-                <select class="form-select" id="country">
+                <select class="form-select">
                     <option value="">Date</option>
                     <option value="usa">Croissant</option>
                     <option value="france">Decroissant</option>
                 </select>
             </div>
             <div class="col-5 col-md-4">
-                <select class="form-select" id="country">
+                <select class="form-select" >
                     <option value="">Popularité</option>
                     <option value="usa">Moin Populaire</option>
                     <option value="france">Plus Populaire</option>
@@ -105,95 +105,7 @@
 
     </div>
 </section>
-<!--
-<section id="addComment" class="container text-center py-5">
-    <h2>Avis</h2>
-    <div class="text-start py-2">
-        <form method="post" class="">
-            <div class="py-2">
-                <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
-                <textarea
-                    id="comment"
-                    class="form-control"
-                    rows="4"
-                    placeholder="Écrivez votre commentaire..."
-                ></textarea>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-8 rating user-select-none text-center text-md-start py-2">
-                    <span class="spanMovie">Votre Note :
-                    <i class="bi bi-star" data-value="1"></i>
-                    <i class="bi bi-star" data-value="2"></i>
-                    <i class="bi bi-star" data-value="3"></i>
-                    <i class="bi bi-star" data-value="4"></i>
-                    <i class="bi bi-star" data-value="5"></i>
-                    </span>
-                    <input type="hidden" name="note" id="note" value="0">
 
-                </div>
-                <div class="col-md-4 mw-100 " >
-                    <input type="submit" value="Envoyer" class="btnCustom w-100">
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-<section id="userComment" class="container py-5">
-    <h3 class="py-3">Avis utilisateur</h3>
-    <div class="allComment">
-        <div class="comment my-5">
-            <div class="row align-items-center">
-                <span class="spanMovie col-auto">Nom Prenom</span>
-
-                <span class="col-auto ms-auto">
-                    <i class="bi bi-star" data-value="1"></i>
-                    <i class="bi bi-star" data-value="2"></i>
-                    <i class="bi bi-star" data-value="3"></i>
-                    <i class="bi bi-star" data-value="4"></i>
-                    <i class="bi bi-star" data-value="5"></i>
-                </span>
-            </div>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus laudantium maxime neque repellendus molestiae fugiat quod voluptatem cupiditate fugit molestias!
-            </p>
-        </div>
-
-        <div class="comment my-5">
-            <div class="row align-items-center">
-                <span class="spanMovie col-auto">Nom Prenom</span>
-
-                <span class="col-auto ms-auto">
-                    <i class="bi bi-star" data-value="1"></i>
-                    <i class="bi bi-star" data-value="2"></i>
-                    <i class="bi bi-star" data-value="3"></i>
-                    <i class="bi bi-star" data-value="4"></i>
-                    <i class="bi bi-star" data-value="5"></i>
-                </span>
-            </div>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus laudantium maxime neque repellendus molestiae fugiat quod voluptatem cupiditate fugit molestias!
-            </p>
-        </div>
-
-        <div class="comment my-5">
-            <div class="row align-items-center">
-                <span class="spanMovie col-auto">Nom Prenom</span>
-
-                <span class="col-auto ms-auto">
-                    <i class="bi bi-star" data-value="1"></i>
-                    <i class="bi bi-star" data-value="2"></i>
-                    <i class="bi bi-star" data-value="3"></i>
-                    <i class="bi bi-star" data-value="4"></i>
-                    <i class="bi bi-star" data-value="5"></i>
-                </span>
-            </div>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus laudantium maxime neque repellendus molestiae fugiat quod voluptatem cupiditate fugit molestias!
-            </p>
-        </div>
-    </div>
-</section>
--->
 <?php
     require'../_partial/footer.php';
 ?>
