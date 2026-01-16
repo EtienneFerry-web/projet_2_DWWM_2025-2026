@@ -1,4 +1,3 @@
-
     <section id="hero" class=" container  row mx-auto py-5">
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
             <h1>Bienvenue sur give me five</h1>
