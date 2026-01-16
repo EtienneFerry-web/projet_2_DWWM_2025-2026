@@ -3,6 +3,12 @@
     require'entities/user_entity.php';
     require'models/user_model.php';
 
+    /**
+     * @author Marco Schmitt
+     * 16/01/2026
+     * Version 0.1
+     */
+
     class UserCtrl extends MotherCtrl{
 
         public function login(){

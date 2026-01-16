@@ -1,4 +1,11 @@
 <?php
+
+    /**
+    * @author All
+    * 16/01/2026
+    * Version 0.1
+    */
+
     class Connect {
 
 		protected $_db;

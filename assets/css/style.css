@@ -32,6 +32,7 @@ label{
 .spanMovie{
     font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 400 ;
+    color: #000000;
 }
 
 #hero .logo img{
@@ -292,7 +293,50 @@ nav a{
     border-bottom: 1px solid #000000;
 }
 
+#dashboard{
+    position: relative;
+}
 
+#dashboard .homeBtn{
+    position: absolute;
+    top: 4rem;
+    right: 1rem;
+    cursor: pointer;
+    display: block;
+    color: #000000;
+}
+
+#dashboard :is(#user, #addMovie, #report){
+    border-bottom: 1px solid #000000;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#dashboard #listUser > form:first-of-type{
+    border-bottom: solid 1px #000000;
+}
+
+#dashboard #listUser > .allUser{
+    height: 600px;
+    overflow: auto;
+}
+
+#dashboard #listUser > .allUser::-webkit-scrollbar{
+    display: none;
+}
+
+
+
+#addMovie .accordion-button.collapsed {
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+
+#addMovie .accordion-button {
+    background-color: #ffffff;
+    color: #000;
+}
 
 
 footer div a.nav-link {

@@ -14,9 +14,8 @@
     </div>
     <div class="col-12 col-md-9 py-1 py-md-5 text-center text-md-start ">
         <h1 class="d-md">NOM & PRENOM </h1>
-        <div class="row filterActor align-items-center">
+        <form method="post" class="row filterActor align-items-center">
             <div class="col-5 col-md-4 ">
-
                 <select class="form-select">
                     <option value="">Date</option>
                     <option value="usa">Croissant</option>
@@ -30,8 +29,10 @@
                     <option value="france">Plus Populaire</option>
                 </select>
             </div>
-            <i class="bi bi-arrow-clockwise fs-2 col-2 col-md-4 text-end" id="send"></i>
-        </div>
+            <button type="submit" class="btn p-0 border-0 bg-transparent col-2 col-md-4 text-end" id="send">
+              <i class="bi bi-arrow-clockwise fs-2"></i>
+            </button>
+        </form>
         <div class="row p-3 scrollList">
             <div class="col-6 col-md-3 p-1 hoverMovie">
                 <a href="/Projet2/page/movie.php">
