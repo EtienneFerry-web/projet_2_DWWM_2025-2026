@@ -1,8 +1,4 @@
-<?php
-    $strPage ="index";
-    require'../_partial/header.php';
 
-?>
 <section id="search" class="container row flex-lg-row-reverse py-5 mx-auto text-center text-lg-start">
     <h1>Resultat</h1>
     <p>Résultat a la recherche "qzdqzd qdqzdqz dqdz".</p>
@@ -78,8 +74,3 @@
     </div>
 
 </section>
-
-
-
-
-<?php require'../_partial/footer.php'; ?>

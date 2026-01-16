@@ -1,11 +1,8 @@
-<?php
-    $strPage = "user";
-    require'../_partial/header.php';
-?>
+
 <section id="user" class="container py-5">
     <div class="col-12 row text-center align-items-center text-md-start py-2 mx-auto">
         <div class="col-6 col-md-3 col-lg-2 mx-auto ">
-            <img src="/Projet2/img/mouse.png" alt="image de profil" class="img-fluid">
+            <img src="/Projet2/assets/img/mouse.png" alt="image de profil" class="img-fluid">
         </div>
         <div class="col-12 col-md-9 col-lg-10 ">
             <h1>Pseudo</h1>
@@ -209,13 +206,5 @@
                 </span>
             </div>
         </div>
-
-
     </div>
 </section>
-
-
-
-<?php
-    require'../_partial/footer.php';
-?>

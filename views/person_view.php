@@ -1,7 +1,4 @@
-<?php
-    $strPage = "actor";
-    require'../_partial/header.php';
-?>
+
 <section class="container row mx-auto" id="actor">
     <div class="col-12 col-md-3  py-5 text-center ">
         <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="" class="img-fluid w-75 w-50">
@@ -105,7 +102,3 @@
 
     </div>
 </section>
-
-<?php
-    require'../_partial/footer.php';
-?>

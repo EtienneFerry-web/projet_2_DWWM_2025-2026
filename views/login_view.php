@@ -1,8 +1,4 @@
-<?php
-    $strPage ="login";
-    require'../_partial/header.php';
-    var_dump($_GET);
-?>
+
 
     <section id="login" class="container py-5 my-auto ">
 	    <h1 class="text-center">Connexion</h1>
@@ -20,4 +16,3 @@
             <input class="w-100 btnCustom" type="submit" >
         </form>
     </section>
-<?php require'../_partial/footer.php'; ?>
