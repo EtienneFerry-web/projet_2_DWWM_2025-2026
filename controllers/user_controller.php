@@ -10,7 +10,14 @@
         }
 
         public function logout(){
-            $this->getContent($strPage = "logout");
+            session_start();
+
+           	unset($_SESSION['user']);
+
+           	$_SESSION['success'] 	= "Vous êtes bien déconnecté";
+
+           	header("Location:index.php");
+           	exit;
         }
 
         public function createAccount(){
@@ -25,4 +32,5 @@
         public function user(){
             $this->getContent($strPage = "user");
         }
+
     }

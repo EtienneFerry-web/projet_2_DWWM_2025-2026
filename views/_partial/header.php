@@ -19,7 +19,7 @@
         <div class="container">
             <a href="index.php"><img src="/Projet2/assets/img/iconSite.png" alt="icon du site" class="iconHeader"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-                <img src="/Projet2/img/menu.svg" alt="menu burger" class="iconHeader">
+                <img src="/Projet2/assets/img/menu.svg" alt="menu burger" class="iconHeader">
             </button>
             <div class="collapse navbar-collapse" id="navbarMain">
                 <?php require'navHeader.php'?>

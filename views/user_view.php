@@ -17,56 +17,56 @@
               <div class="splide__track">
                 <ul class="splide__list">
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
                       </a>
                   </li>
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
                       </a>
                   </li>
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
                       </a>
                   </li>
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
                       </a>
                   </li>
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
                       </a>
                   </li>
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
                       </a>
                   </li>
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
                       </a>
                   </li>
                   <li class="splide__slide hoverMovie">
-                      <a href="/Projet2/page/movie.php">
+                      <a href="index.php?ctrl=content&action=movie&id=">
                           <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                           <span>Like</span>
                           <span>Note</span>
@@ -82,56 +82,56 @@
               <div class="splide__track">
                 <ul class="splide__list">
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
                         </a>
                     </li>
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
                         </a>
                     </li>
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
                         </a>
                     </li>
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
                         </a>
                     </li>
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
                         </a>
                     </li>
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
                         </a>
                     </li>
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
                         </a>
                     </li>
                     <li class="splide__slide hoverMovie">
-                        <a href="/Projet2/page/movie.php">
+                        <a href="index.php?ctrl=content&action=movie&id=">
                             <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                             <span>Like</span>
                             <span>Note</span>
@@ -148,7 +148,7 @@
     <div class="col-12 col-md-10 mx-auto py-1 scrollList">
         <div class="row py-2 ">
             <div class="col-3 my-auto hoverMovie">
-                <a href="/Projet2/page/movie.php">
+                <a href="index.php?ctrl=content&action=movie&id=">
                     <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                     <span>Like</span>
                     <span>Note</span>
@@ -168,7 +168,7 @@
         </div>
         <div class="row py-2 ">
             <div class="col-3 my-auto hoverMovie">
-                <a href="/Projet2/page/movie.php">
+                <a href="index.php?ctrl=content&action=movie&id=">
                     <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                     <span>Like</span>
                     <span>Note</span>
@@ -188,7 +188,7 @@
         </div>
         <div class="row py-2 ">
             <div class="col-3 my-auto hoverMovie">
-                <a href="/Projet2/page/movie.php">
+                <a href="index.php?ctrl=content&action=movie&id=">
                     <img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="couverture de film" class="img-fluid">
                     <span>Like</span>
                     <span>Note</span>
