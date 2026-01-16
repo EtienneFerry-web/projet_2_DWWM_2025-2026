@@ -10,4 +10,8 @@ class MotherCtrl{
 
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/marco

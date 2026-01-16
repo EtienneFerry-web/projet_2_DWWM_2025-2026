@@ -11,4 +11,8 @@
             $this->getContent($strPage = "policy");
         }
 
+<<<<<<< HEAD
     }
+=======
+    }
+>>>>>>> origin/marco
