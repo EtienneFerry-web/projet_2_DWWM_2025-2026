@@ -35,8 +35,4 @@
             $this->getContent($strPage = "addMovie");
         }
 
-<<<<<<< HEAD
     }
-=======
-    }
->>>>>>> origin/marco

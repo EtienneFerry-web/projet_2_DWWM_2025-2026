@@ -8,8 +8,4 @@
         public function dashboard(){
             $this->getContent($strPage = "dashboard");
         }
-<<<<<<< HEAD
     }
-=======
-    }
->>>>>>> origin/marco
