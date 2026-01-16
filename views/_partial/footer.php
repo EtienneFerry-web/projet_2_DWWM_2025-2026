@@ -1,11 +1,11 @@
     <footer>
         <div class="container text-center py-5">
-            <a href="/Projet2/page/mention.php" class="p-2 nav-link <?= ($strPage ==="mention")? "active" : ""; ?>">Mentions Légales</a>|
-            <a href="/Projet2/page/policy.php" class="p-2 nav-link <?= ($strPage ==="policy")? "active" : ""; ?>">Politique de confidentialité</a>
+            <a href="index.php?ctrl=page&action=mention" class="p-2 nav-link <?= ($strPage ==="mention")? "active" : ""; ?>">Mentions Légales</a>|
+            <a href="index.php?ctrl=page&action=policy" class="p-2 nav-link <?= ($strPage ==="policy")? "active" : ""; ?>">Politique de confidentialité</a>
             <div>© 2026 GIVE MY FIVE. Tous droits réservés.</div>
         </div>
     </footer>
-    <?php if($strPage ==="index"){ ?>
+    <?php if($strPage ==="home"){ ?>
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
         <script src="/Projet2/assets/js/slideIndex.js"></script>

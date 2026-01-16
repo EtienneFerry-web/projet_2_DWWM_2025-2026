@@ -1,7 +1,4 @@
-<?php
-    $strPage ="movie";
-    require'../_partial/header.php';
-?>
+
 
 <section class="container row mx-auto" id="movie">
     <div class="col-12 col-md-4  py-5 text-center">
@@ -122,7 +119,7 @@
     <div class="allComment">
         <div class="comment my-5">
             <div class="row align-items-center">
-                <span class="spanMovie col-auto">Nom Prenom</span>
+                <span class="spanMovie col-auto"><a href="index.php?ctrl=user&action=user&id=">Nom & Prenom</a></span>
 
                 <span class="col-auto ms-auto">
                     <i class="bi bi-star" data-value="1"></i>
@@ -139,7 +136,7 @@
 
         <div class="comment my-5">
             <div class="row align-items-center">
-                <span class="spanMovie col-auto">Nom Prenom</span>
+                <span class="spanMovie col-auto"><a href="index.php?ctrl=user&action=user&id=">Nom & Prenom</a></span>
 
                 <span class="col-auto ms-auto">
                     <i class="bi bi-star" data-value="1"></i>
@@ -156,7 +153,7 @@
 
         <div class="comment my-5">
             <div class="row align-items-center">
-                <span class="spanMovie col-auto">Nom Prenom</span>
+                <span class="spanMovie col-auto"><a href="index.php?ctrl=user&action=user&id=">Nom & Prenom</a></span>
 
                 <span class="col-auto ms-auto">
                     <i class="bi bi-star" data-value="1"></i>
@@ -172,7 +169,3 @@
         </div>
     </div>
 </section>
-
-
-
-<?php require'../_partial/footer.php'; ?>

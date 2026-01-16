@@ -21,10 +21,10 @@
     <div class="py-2 col-12 col-lg-8 scrollSearch">
         <div class="row py-2">
             <div class="col-4 text-center my-auto">
-                <a href="/Projet2/page/movie.php"><img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="" class="img-fluid"></a>
+                <a href="index.php?ctrl=content&action=movie&id=""><img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="" class="img-fluid"></a>
             </div>
             <div class="col-8 text-start">
-                <a href="/Projet2/page/movie.php" class="link"><h2>Titre du film</h2></a>
+                <a href="index.php?ctrl=content&action=movie&id=" class="link"><h2>Titre du film</h2></a>
                 <p>Lorem  molestiae laudantium adipisci dicta deserunt error alias consectetur dignissimos iure commodi, quasi rem recusandae cum eum. Eius magni quisquam explicabo adipisci aut.</p>
                 <span class="spanMovie d-block"><i class="bi bi-heart"></i> 7231873 </span>
                 <span class="col-auto ms-auto">
@@ -38,10 +38,10 @@
         </div>
         <div class="row py-2">
             <div class="col-4 text-center my-auto">
-                <a href="/Projet2/page/movie.php"><img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="" class="img-fluid"></a>
+                <a href="index.php?ctrl=content&action=movie&id=""><img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="" class="img-fluid"></a>
             </div>
             <div class="col-8 text-start">
-                <a href="/Projet2/page/movie.php" class="link"><h2>Titre du film</h2></a>
+                <a href="index.php?ctrl=content&action=movie&id="" class="link"><h2>Titre du film</h2></a>
                 <p>Lorem  molestiae laudantium adipisci dicta deserunt error alias consectetur dignissimos iure commodi, quasi rem recusandae cum eum. Eius magni quisquam explicabo adipisci aut.</p>
                 <span class="spanMovie d-block"><i class="bi bi-heart"></i> 7231873 </span>
                 <span class="col-auto ms-auto">
@@ -55,10 +55,10 @@
         </div>
         <div class="row py-2">
             <div class="col-4 text-center my-auto">
-                <a href="/Projet2/page/movie.php"><img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="" class="img-fluid"></a>
+                <a href="index.php?ctrl=content&action=movie&id="><img src="https://a.ltrbxd.com/resized/film-poster/1/1/9/7/4/9/9/1197499-marty-supreme-0-300-0-450-crop.jpg?v=b14a26bb43 2x" alt="" class="img-fluid"></a>
             </div>
             <div class="col-8 text-start">
-                <a href="/Projet2/page/movie.php" class="link"><h2>Titre du film</h2></a>
+                <a href="index.php?ctrl=content&action=movie&id=" class="link"><h2>Titre du film</h2></a>
                 <p>Lorem  molestiae laudantium adipisci dicta deserunt error alias consectetur dignissimos iure commodi, quasi rem recusandae cum eum. Eius magni quisquam explicabo adipisci aut.</p>
                 <span class="spanMovie d-block"><i class="bi bi-heart"></i> 7231873 </span>
                 <span class="col-auto ms-auto">
