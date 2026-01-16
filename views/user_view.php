@@ -7,7 +7,7 @@
         <div class="col-12 col-md-9 col-lg-10 ">
             <h1>Pseudo</h1>
             <p>Petit bio Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ratione facilis tempora reprehenderit molestiae iste.</p>
-            <a href="#">Gestion du Compte</a>
+            <a href="index.php?ctrl=user&action=settingsUser">Gestion du Compte</a>
         </div>
     </div>
     <div class="col-12  py-2">
