@@ -12,7 +12,7 @@
 		
 		// Méthodes
 		public function __construct(){
-			parent::__construct();
+				parent::__construct();
 		}
 
         /**
@@ -27,15 +27,15 @@
 		}
 
         /**
-         * @param string $strMail
+         * @param string $stEmail
          * @param string $strPwd
          * @return array|bool
          */
-		public function verifUser(string $strMail, string $strPwd):array|bool{
+		public function verifUser(string $strEmail, string $strPwd):array|bool{
 			// 2. Construire la requête
 			$strRq	= "SELECT user_id, user_name, user_firstname, user_pwd
 						FROM users
-						WHERE user_mail = '".$strMail."'";
+						WHERE user_email = '".$strEmail."'";
 			// Récupère mon utilisateur
 			// Executer la requête et récupérer les résultats
 			$arrUser 	= $this->_db->query($strRq)->fetch();
@@ -58,17 +58,17 @@
          * 
          */
 			// 2. Construire la requête
-			$strRq 	=   "INSERT INTO users (user_name, user_firstname, user_email, user_birthdate, user_pwd, user_creadate)
-						            VALUES (:name, :firstname, :email, :birthdate,:pwd, ,NOW(),)";
+			$strRq 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
+						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
 			// Préparer la requête
 			$rqPrep	= $this->_db->prepare($strRq);
 			// Donne les informations
 			$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
-            $rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
 			// 3. Executer la requête
 			return $rqPrep->execute();
 		}

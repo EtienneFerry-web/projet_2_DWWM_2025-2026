@@ -3,11 +3,13 @@
 	
 	class User extends Entity{
 		// Attributs 
-		private string $_name = '';
-		private string $_firstname = '';
-        private string $_birthdate = '';
-		private string $_mail = '';
-		private string $_pwd;	
+		public string $_name = '';
+		public string $_firstname = '';
+
+		public string $_pseudo = '';
+        public string $_birthdate = '';
+		public string $_email = '';
+		public string $_pwd;	
 
 
 		
@@ -32,11 +34,24 @@
 		public function setFirstname(string $strFirstname){
 			$this->_firstname = $this->nettoyer($strFirstname);
 		}
-		public function getMail():string{
-			return $this->_mail;
+		public function getPseudo():string{
+			return $this->_pseudo;
 		}
-		public function setMail(string $strMail){
-			$this->_mail = strtolower($this->nettoyer($strMail));
+		public function setPseudo(string $strPseudo){
+			$this->_pseudo = $this->nettoyer($strPseudo);
+		}
+
+        public function getBirthdate():string{
+            return $this->_birthdate;
+        }
+        public function setBirthdate(string $strBirthdate){
+            $this->_birthdate = $strBirthdate;
+        }
+		public function getEmail():string{
+			return $this->_email;
+		}
+		public function setEmail(string $strEmail){
+			$this->_email = strtolower($this->nettoyer($strEmail));
 		}
 		public function getPwd():string{
 			return $this->_pwd;

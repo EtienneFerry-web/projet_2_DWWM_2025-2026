@@ -14,10 +14,11 @@
         }
 
         public function createAccount(){
-
+            
             // Traitement du formulaire
             $strName 		= $_POST['name']??"";
             $strFirstname 	= $_POST['firstname']??"";
+            $strPseudo 	    = $_POST['pseudo']??"";
             $strBirthdate   = $_POST['birthdate']??"";
             $strEmail 		= $_POST['email']??"";
             $strPwd 		= $_POST['pwd']??"";
@@ -35,13 +36,16 @@
                 if ($objUser->getFirstname() == ""){
                     $arrError['firstname'] = "Le prénom est obligatoire";
                 }	
+                if ($objUser->getPseudo() == ""){
+                    $arrError['pseudo'] = "Le pseudo est obligatoire";
+                }	
                 if ($objUser->getBirthdate() == ""){
                     $arrError['birthdate'] = "La date de naissance est obligatoire";
                 }
                 if ($objUser->getEmail() == ""){
-                    $arrError['mail'] = "Le mail est obligatoire";
-                }else if (!filter_var($objUser->getMail(), FILTER_VALIDATE_EMAIL)){
-                    $arrError['mail'] = "Le format du mail n'est pas correct";
+                    $arrError['email'] = "Le mail est obligatoire";
+                }else if (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)){
+                    $arrError['email'] = "Le format du mail n'est pas correct";
                 }
                 $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
                 if ($objUser->getPwd() == ""){
@@ -56,7 +60,6 @@
                 // Si le formulaire est rempli correctement
                 if (count($arrError) == 0){
                     // => Ajout dans la base de données 
-                    require("user_model.php");
                     $objUserModel	= new UserModel;
                     //$intNbInsert 	= $objUserModel->insert($strName, $strFirstname, $strMail, $strPwd);
                     $boolInsert 	= $objUserModel->insert($objUser);
@@ -70,7 +73,11 @@
                 }
             }   
             //Display variable
-            $this->getContent($strPage = "createAccount");
+            $arrData = array(
+                'objUser'   => $objUser,
+                'arrError'  => $arrError
+            );
+            $this->getContent($strPage = "createAccount",$arrData);
         }
 
         public function settingsUser(){
