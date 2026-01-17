@@ -65,8 +65,8 @@
                     $boolInsert 	= $objUserModel->insert($objUser);
                     if ($boolInsert === true){
                         $_SESSION['success'] 	= "Le compte a bien été créé";
-                        //header("Location:index.php");
-                        //exit;
+                    header("Location:index.php");
+                    exit;
                     }else{
                         $arrError[] = "Erreur lors de l'ajout";
                     }
