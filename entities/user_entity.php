@@ -1,11 +1,18 @@
 <?php
+
+	/**
+	 * @author Etienne
+	 * user entity
+	 */
 	require_once("mother_entity.php");
 	
 	class User extends Entity{
+		/**
+		 * @todo string > private
+		 */
 		// Attributes 
 		public string $_name = '';
 		public string $_firstname = '';
-
 		public string $_pseudo = '';
         public string $_birthdate = '';
 		public string $_email = '';
@@ -68,8 +75,4 @@
 		public function setPwd(string $strPwd){
 			$this->_pwd = $strPwd;
 		}		
-		
-		
-		
-		
 	}

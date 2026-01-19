@@ -3,14 +3,68 @@
     require'entities/user_entity.php';
     require'models/user_model.php';
 
+        /**
+         * Log in  
+         * @author Etienne
+         * 
+         * 1. Collect information from the form
+         * 2. Test if the form is correctly filled
+         * 3. If the form is correctly filled, add of the information in the database, else ERROR
+         * 
+         * @todo Green alert when connected/account created 
+         * 
+         * 
+         */
+
+
     class UserCtrl extends MotherCtrl{
 
         public function login(){
-            $this->getContent($strPage = "login");
+            // Treating login form
+            $strEmail       = $_POST['email']??"";
+            $strPwd 		= $_POST['pwd']??"";
+            
+                        
+            // Preparing hydrate
+            $objUser	        = new User;
+            $objUserModel       = new UserModel;
+            $objUser->hydrate($_POST);
+
+            // Testing form
+            $arrError = [];
+            if (count($_POST) > 0) {
+                // Vérifier le formulaire
+                if ($strEmail == ""){
+                    $arrError['email'] = "Le mail est obligatoire";
+                }	
+                if ($strPwd == ""){
+                    $arrError['pwd'] = "Le mot de passe est obligatoire";
+                }
+                if (count($arrError) == 0){
+                    $arrResult = $objUserModel->verifUser($strEmail, $strPwd);
+                    if ($arrResult === false){//If database return nothing
+                            $arrError[] = "Mail ou mot de passe invalide";
+                        }else{
+                            session_start();
+                            $_SESSION['user']		= $arrResult;
+                            $_SESSION['success'] 	= "Bienvenue, vous êtes bien connecté";
+                            header("Location:index.php");
+                            exit;
+			            }
+		            }
+	        }	
+            $this->getContent($strPage = "login", $objUser, $arrError);
         }
 
         public function logout(){
-            $this->getContent($strPage = "logout");
+            session_start();
+	        /*session_destroy();
+	        session_start();*/
+	        // on supprime l'utilisateur en session
+	        unset($_SESSION['user']);
+	        $_SESSION['success'] 	= "Vous êtes bien déconnecté";
+	        header("Location:index.php");
+	        exit;
         }
 
 
@@ -30,7 +84,7 @@
          */
         public function createAccount(){
             
-            //Treating Form
+            //Treating createAccount Form
             $strName 		= $_POST['name']??"";
             $strFirstname 	= $_POST['firstname']??"";
             $strPseudo 	    = $_POST['pseudo']??"";
@@ -89,11 +143,7 @@
                 }
             }   
             //Display variable
-            $arrData = array(
-                'objUser'   => $objUser,
-                'arrError'  => $arrError
-            );
-            $this->getContent($strPage = "createAccount",$arrData);
+            $this->getContent($strPage = "createAccount",$objUser, $arrError);
         }
 
         public function settingsUser(){

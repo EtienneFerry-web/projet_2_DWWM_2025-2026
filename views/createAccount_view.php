@@ -1,7 +1,8 @@
 
 
     <section class="container py-5 my-auto">
-    <?php if (count($arrError) > 0) {?>
+    <?php 
+    if (count($arrError) > 0) {?>
 		<div class="alert alert-danger">
 		<?php foreach ($arrError as $strError){ ?>
 			<p><?php echo $strError; ?></p>
@@ -61,7 +62,6 @@
                 <input  type="password" 
                         name="pwd"
                         class="form-control <?php if (isset($arrError['pwd'])) { echo 'is-invalid'; } ?>"  
-                        
                         placeholder="Mots de Passe">
             </div>
             <div class="form-group py-2">

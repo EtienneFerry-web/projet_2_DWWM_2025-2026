@@ -46,7 +46,7 @@
 			// Hached password verification 
 			if (password_verify($strPwd, $arrUser['user_pwd'])){
 				// User return
-				unset($arrResult['user_pwd']); // removing pwd
+				unset($arrUser['user_pwd']); // removing pwd
 				return $arrUser;
 			}else{
 				return false;
