@@ -6,7 +6,7 @@
 	 */
 	require_once("mother_entity.php");
 	
-	class User extends Entity{
+	class UserEntity extends Entity{
 		/**
 		 * @todo string > private
 		 */

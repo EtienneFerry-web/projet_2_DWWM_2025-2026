@@ -51,10 +51,3 @@
 </div>
 
 </section>
-<<<<<<< HEAD
-<!--Contenue mail mots de passe -->
-
-<!-- Visibilé profil privé public -->
-<!-- Supprimmer compte de sé déconnecter -->
-=======
->>>>>>> origin/marco

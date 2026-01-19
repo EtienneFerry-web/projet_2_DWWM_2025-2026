@@ -26,7 +26,7 @@
             
                         
             // Preparing hydrate
-            $objUser	        = new User;
+            $objUser	        = new UserEntity;
             $objUserModel       = new UserModel;
             $objUser->hydrate($_POST);
 
@@ -94,7 +94,7 @@
             $strPwdConfirm	= $_POST['pwd_confirm']??"";
             
             //Preparing hydrate
-            $objUser	= new User;
+            $objUser	= new UserEntity;
             $objUser->hydrate($_POST);
 
             //Testing Form

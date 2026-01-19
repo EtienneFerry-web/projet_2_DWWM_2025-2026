@@ -8,7 +8,7 @@
                 <a href="index.php?ctrl=user&action=createAccount" class="btnCustom ">S'incrire</a>
             </div>
             <?php } else { ?>
-            <h1>Bienvenue <?php echo($objUser->getPseudo()); ?></h1>
+            <h1>Bienvenue <?php echo(($_SESSION['user']["user_firstname"])); ?></h1>
             <?php } ?>
         </div>
 
