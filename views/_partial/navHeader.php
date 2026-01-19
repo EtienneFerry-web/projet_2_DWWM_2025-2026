@@ -5,7 +5,7 @@
         <li class="nav-item"><a class="nav-link <?= ($strPage ==="addAccount")? "active" : ""; ?>" href="index.php?ctrl=user&action=createAccount">Inscription</a></li>
     <?php } else { ?>
         <li class="nav-item"><a class="nav-link <?= ($strPage ==="logout")? "active" : ""; ?>" href="index.php?ctrl=user&action=logout">Déconnection</a></li>
-        <li class="nav-item"><a class="nav-link <?= ($strPage ==="user")? "active" : ""; ?>" href="index.php?ctrl=user&action=login">Profil</a></li>
+        <li class="nav-item"><a class="nav-link <?= ($strPage ==="user")? "active" : ""; ?>" href="index.php?ctrl=user&action=user">Profil</a></li>
     <?php } ?>
     <li class="nav-item"><a class="nav-link <?= ($strPage ==="addMovie")? "active" : ""; ?>" href="index.php?ctrl=content&action=addMovie">Ajouter un film</a></li>
 </ul>

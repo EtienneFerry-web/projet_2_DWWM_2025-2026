@@ -8,7 +8,9 @@
                 <a href="index.php?ctrl=user&action=createAccount" class="btnCustom ">S'incrire</a>
             </div>
             <?php } else { ?>
-            <h1>Bienvenue <?php echo(($_SESSION['user']["user_firstname"])); ?></h1>
+            <h1>Bienvenue</h1>
+            <h2><?php echo(($_SESSION['user']["user_firstname"])); ?></h2>
+            <p class="py-3">On veut connaître vos goûts ! Sentez-vous libres de présenter et noter vos films favoris.</p>
             <?php } ?>
         </div>
 

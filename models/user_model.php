@@ -2,7 +2,6 @@
 	require_once("mother_model.php");
 
 	/**
-	* Traitement des requêtes pour les utilisateurs
 	* Treating user request
 	* @author : Etienne
 	* @version : V0.5
@@ -21,9 +20,8 @@
          */
 		public function findAllUsers():array{
 			// Writing request
-			$strRq	= "SELECT user_id, user_firstname, user_name
+			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo
 						FROM users ";
-			// Lancer la requête et récupérer les résultats
 			// Launching request and collecting results
 			return $this->_db->query($strRq)->fetchAll();
 		}
@@ -37,7 +35,7 @@
          */
 		public function verifUser(string $strEmail, string $strPwd):array|bool{
 			// verify user request 
-			$strRq	= "SELECT user_id, user_name, user_firstname, user_pwd
+			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd
 						FROM users
 						WHERE user_email = '".$strEmail."'";
 			// Recover user information
@@ -65,7 +63,7 @@
 		// Request construction
 			$strRq 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
 						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
-			// Request preparation
+			// Prepared request
 			$rqPrep	= $this->_db->prepare($strRq);
 			// Sending information
 			$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);

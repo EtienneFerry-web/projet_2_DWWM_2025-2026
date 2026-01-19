@@ -34,6 +34,7 @@
             $arrError = [];
             if (count($_POST) > 0) {
                 // Vérifier le formulaire
+                // Verify form
                 if ($strEmail == ""){
                     $arrError['email'] = "Le mail est obligatoire";
                 }	
@@ -58,9 +59,7 @@
 
         public function logout(){
             session_start();
-	        /*session_destroy();
-	        session_start();*/
-	        // on supprime l'utilisateur en session
+            // Cleaning session from User
 	        unset($_SESSION['user']);
 	        $_SESSION['success'] 	= "Vous êtes bien déconnecté";
 	        header("Location:index.php");
@@ -117,6 +116,7 @@
                 }else if (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)){
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
+
             // Adding regex to verify password
                 $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
                 if ($objUser->getPwd() == ""){
@@ -142,6 +142,7 @@
                     }
                 }
             }   
+
             //Display variable
             $this->getContent($strPage = "createAccount",$objUser, $arrError);
         }
