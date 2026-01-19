@@ -9,7 +9,7 @@
 
 class MotherCtrl{
 
-    protected function getContent($strPage=""){
+    protected function getContent($strPage="", $objContent=[], $objAllPerson=[], $objComment=[], $objPerson=[], $objUser=[]){
 
         include'views/_partial/header.php';
         include"views/".$strPage."_view.php";

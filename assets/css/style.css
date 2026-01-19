@@ -134,45 +134,76 @@ nav a{
     padding: 1rem 0;
 }
 
-.hoverMovie a{
-    position: relative;
-    display: block;
-    overflow: hidden;
-}
-.hoverMovie :is(a, img){
-    transition: all 0.3s ease-out;
+.hoverMovie a {
+  position: relative;
+  display: block;
+  overflow: hidden;
 }
 
-.hoverMovie a span{
-    position: absolute;
-    opacity: 0;
-    padding: 1rem;
-    transform: translate(-50%, -50%);
-    color: #ffffff;
-    z-index: 2;
-    font-size: 2rem;
-    text-transform: uppercase;
-    font-weight: 500;
-}
-
-.hoverMovie a span:first-of-type{
-    left: 50%;
-    top: 33%;
-}
-
-.hoverMovie a span:last-of-type{
-    left: 50%;
-    top: 66%;
+.hoverMovie a img {
+  transition: all 0.3s ease-out;
 }
 
 
-.hoverMovie a:hover span{
-    opacity: 1;
+.hoverMovie a .movieNote {
+  position: absolute;
+  top: 33%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  transition: opacity 0.3s ease-out;
+  margin: 0 auto;
 }
 
-.hoverMovie a:hover img{
-    filter: grayscale(100%) brightness(50%);
+
+.movieNote .stars {
+    display: flex;
+    gap: 1px;
 }
+
+.movieNote .stars i {
+  color: #ffffff;
+  font-size: clamp(1rem, 3vw, 2rem);
+}
+
+
+.movieNote .note {
+  color: #ffffff;
+  font-size: clamp(1rem, 3vw, 2rem);
+  font-weight: bold;
+}
+
+
+.hoverMovie a .movieLikes {
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  color: #ffffff;
+  font-size: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  z-index: 2;
+  transition: opacity 0.3s ease-out;
+}
+
+
+.hoverMovie a:hover .movieNote,
+.hoverMovie a:hover .movieLikes {
+  opacity: 1;
+}
+
+.hoverMovie a:hover img {
+  filter: grayscale(100%) brightness(50%);
+}
+
 
 #actor .filterActor{
     border-top: 1px solid #000000;
@@ -343,11 +374,22 @@ footer div a.nav-link {
     display: inline-block;
 }
 
+.splide__slide {
+  height: 450px;
+  display: flex;
 
+  align-items: center;
+  justify-content: center;
+}
 
+.splide__slide a {
+  display: block;
+  height: 100%;
+}
 
 .splide__slide img {
-    height: auto;
-    width: 100%;
-    display: block;
+  display: block;
+  height: 100%;
+  width: 100%;
+
 }

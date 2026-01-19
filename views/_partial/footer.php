@@ -10,12 +10,18 @@
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
         <script src="/Projet2/assets/js/slideIndex.js"></script>
 
-    <?php } elseif($strPage ==="movie" || $strPage ==="actor" || $strPage ==="user"){ ?>
+
+    <?php } elseif($strPage ==="movie" || $strPage ==="user"){ ?>
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
         <script src="/Projet2/assets/js/slideMovie.js"></script>
         <script src="/Projet2/assets/js/star.js"> </script>
-    <?php }?>
+    <?php } elseif($strPage ==="list" || $strPage ==="resultSearch" ){ ?>
+        <script src="/Projet2/assets/js/search.js"> </script>
+    <?php } elseif($strPage ==="person"){ ?>
+        <script src="/Projet2/assets/js/person.js"> </script>
+    <?php } ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

@@ -23,7 +23,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarMain">
                 <?php require'navHeader.php'?>
-                <form action="index.php?ctrl=content&action=resultSearch" class="d-flex ms-lg-3" role="search" method="post">
+                <form action="index.php?ctrl=movie&action=resultSearch" class="d-flex ms-lg-3" role="search" method="post">
                     <input class="form-control me-2" type="search" placeholder="Rechercher..." name="search" value="">
                     <button class="btn" type="submit">
                         <img src="/Projet2/assets/img/iconBtnSearch.svg" height="32" width="32">
