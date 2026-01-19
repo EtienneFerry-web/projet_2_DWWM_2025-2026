@@ -34,7 +34,7 @@
 		}
 		
 		// Méthodes 
-		protected function nettoyer(string $strText){
+		protected function clean(string $strText){
 			$strText	= trim($strText);
 			$strText	= str_replace("<script>", "", $strText);
 			$strText	= str_replace("</script>", "", $strText);
