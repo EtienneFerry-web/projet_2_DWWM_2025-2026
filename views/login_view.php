@@ -1,6 +1,14 @@
 
 
     <section id="login" class="container py-5 my-auto ">
+    <?php 
+    if (count($arrError) > 0) {?>
+		<div class="alert alert-danger">
+		<?php foreach ($arrError as $strError){ ?>
+			<p><?php echo $strError; ?></p>
+		<?php }	?>
+		</div>
+	<?php } ?>
 	    <h1 class="text-center">Connexion</h1>
 		<p class="mx-auto text-center py-2">Si vous n'avez pas de compte vous pouvez en créer un sur la page <a href="/Projet2/page/create_account.html" class="text-dark">d'inscription !</a></p>
 		<form method="post">

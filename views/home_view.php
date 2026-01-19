@@ -51,8 +51,4 @@
         <h2>Ajoutez un film</h2>
         <p class="mx-auto py-3">Vous vous pouvez ajouter un nouveau film a condition qui soit sourcer etc etc bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, possimus cupiditate esse ducimus soluta earum?</p>
         <a href="index.php?ctrl=content&action=addMovie" class="btnCustom ">Ajoutez un film</a>
-<<<<<<< HEAD
     </section>
-=======
-    </section>
->>>>>>> origin/marco
