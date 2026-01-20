@@ -1,0 +1,17 @@
+<?php
+    require'controllers/mother_controller.php';
+    require'entities/admin_entity.php';
+    require'models/admin_model.php';
+
+    /**
+     * @author Marco Schmitt
+     * 16/01/2026
+     * Version 0.1
+     */
+
+    class AdminCtrl extends MotherCtrl{
+
+        public function dashboard(){
+            require'views/dashboard_view.php';
+        }
+    }
