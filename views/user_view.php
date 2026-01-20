@@ -7,7 +7,7 @@
         <div class="col-12 col-md-9 col-lg-10 ">
             <h1><?= $objUser->getPseudo() ?></h1>
             <p><?= $objUser->getBio() ?></p>
-            <?= (isset($_SESSION['user']) && $_SESSION['user_id'] == $_GET['id'] )? "<a href='index.php?ctrl=user&action=settingsUser'>Gestion du Compte</a>": "" ?>
+            <?= (isset($_SESSION['user']) && $_SESSION['user']['user_id'] == $_GET['id'] )? "<a href='index.php?ctrl=user&action=settingsUser'>Gestion du Compte</a>": "" ?>
             <span class="spanMovie d-block py-1 border-0"><?= $objUser->getFunction() ?></span>
         </div>
     </div>

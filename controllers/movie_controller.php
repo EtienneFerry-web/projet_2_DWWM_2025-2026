@@ -29,7 +29,7 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "home", $arrMovieToDisplay);
+            $this->getContent($strPage = "home", objContent: $arrMovieToDisplay);
         }
 
         public function list(){
@@ -46,7 +46,7 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "list", $arrMovieToDisplay);
+            $this->getContent($strPage = "list", objContent: $arrMovieToDisplay);
         }
 
         public function movie(){
@@ -83,7 +83,7 @@
 			}
 
 
-            $this->getContent($strPage = "movie", $objMovie, $arrPersToDisplay, $arrCommentToDisplay );
+            $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay );
         }
 
         public function resultSearch(){
@@ -102,7 +102,7 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "resultSearch", $arrMovieToDisplay);
+            $this->getContent($strPage = "resultSearch",objContent: $arrMovieToDisplay);
         }
 
         public function person(){

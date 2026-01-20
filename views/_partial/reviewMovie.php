@@ -1,6 +1,6 @@
 <div class="row py-2 ">
     <div class="col-3 my-auto">
-        <a href="index.php?ctrl=content&action=movie&id=<?= $review->getId() ?>">
+        <a href="index.php?ctrl=movie&action=movie&id=<?= $review->getId() ?>">
             <img src="<?= $review->getUrl() ?>" alt="couverture de film" class="img-fluid">
         </a>
     </div>

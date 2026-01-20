@@ -1,12 +1,18 @@
-
+    <?php var_dump($_SESSION)?>
     <section id="hero" class=" container  row mx-auto py-5">
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
+            <?php if(!isset($_SESSION['user'])){?>
             <h1>Bienvenue sur give me five</h1>
             <p class="py-3">N'hésitez a vous connecter ou vous créer un compte pour accéder a plus de fonctionnalité donnez votre avis sur nos film !</p>
             <div>
                 <a href="index.php?ctrl=user&action=login" class="btnCustom">Se connecter</a>
                 <a href="index.php?ctrl=user&action=createAccount" class="btnCustom ">S'incrire</a>
             </div>
+            <?php } else { ?>
+            <h1>Bienvenue <?php echo(($_SESSION['user']["user_firstname"])); ?></h1>
+            
+            <p class="py-3">On veut connaître vos goûts ! Sentez-vous libres de présenter et noter vos films favoris.</p>
+            <?php } ?>
         </div>
 
         <div class="col-12 col-md-6 text-center py-5 logo">

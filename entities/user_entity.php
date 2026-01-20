@@ -26,11 +26,20 @@
 
 		/**
 		 * Method - getters et setters
-		 * Format value to prepare Hydratation
-		 *
-		 * @param clean trim undesirable space before and after the value
-		 * @param strtolower sanitize from unwanted CAP
+		 * Format value to prepare Hydrate
+		 * 
+		 * @param clean 		trim undesirable space before and after the value
+		 * @param strtolower 	sanitize from unwanted CAP
+		 * @param password_hash 
 		 */
+
+		/**
+		* Name recover
+		* @return string Object name
+		*/
+		
+		
+		
 		public function getName():string{
 			return $this->_name;
 		}
@@ -88,11 +97,11 @@
 		}
 
 
-		/*public function getPwdHash():string{
+		public function getPwdHash():string{
 			return password_hash($this->_pwd, PASSWORD_DEFAULT);
 		}
 		public function setPwd(string $strPwd){
 			$this->_pwd = $strPwd;
-			}*/
+		}
 
     }
