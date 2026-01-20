@@ -25,19 +25,22 @@
 			return $this->_id;
 		}
 		/**
-		* Mise à jour de l'identifiant
-		* @param int le nouvel identifiant
+		*ID update
+		* @param int new ID
 		*/
 		public function setId(int $intId){
 			$this->_id = $intId;
 		}
-
-		// Méthodes
+		
+		// Method
 		protected function clean(string $strText){
 			$strText	= trim($strText);
 			$strText	= str_replace("<script>", "", $strText);
 			$strText	= str_replace("</script>", "", $strText);
 			return $strText;
 		}
-
+				
+		
+		
+		
 	}

@@ -1,16 +1,23 @@
 <?php
-    require_once'models/mother_model.php';
+	require_once("mother_model.php");
 
-    class UserModel extends Connect{
-
-        // Methods
+	/**
+	* Treating user request
+	* @author : Etienne
+	* @version : V0.5
+	*/
+	class UserModel extends Connect{
+		// Attribut
+		
+		
+		// Methods
 		public function __construct(){
 				parent::__construct();
 		}
-        
+
         /**
-        * @return array
-        */
+         * @return array
+         */
 		public function findAllUsers():array{
 			// Writing request
 			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo
@@ -18,14 +25,14 @@
 			// Launching request and collecting results
 			return $this->_db->query($strRq)->fetchAll();
 		}
-        
+
         /**
 		 * User login request
 		 * 
-                 * @param string $stEmail
-                 * @param string $strPwd
-                 * @return array|bool
-                 */
+         * @param string $stEmail
+         * @param string $strPwd
+         * @return array|bool
+         */
 		public function verifUser(string $strEmail, string $strPwd):array|bool{
 			// verify user request 
 			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd
@@ -50,7 +57,9 @@
 		* @return bool If request ok (true) else (false)
 		*/
 		public function insert(object $objUser):bool{
-                
+        /**
+         * 
+         */
 		// Request construction
 			$strRq 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
 						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";

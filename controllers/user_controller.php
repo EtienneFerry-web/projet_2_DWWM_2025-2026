@@ -20,6 +20,20 @@
     * 
     */
 
+        /**
+         * Log in  
+         * @author Etienne
+         * 
+         * 1. Collect information from the form
+         * 2. Test if the form is correctly filled
+         * 3. If the form is correctly filled, add of the information in the database, else ERROR
+         * 
+         * @todo Green alert when connected/account created 
+         * 
+         * 
+         */
+
+
     class UserCtrl extends MotherCtrl{
 
         public function login(){
@@ -32,6 +46,33 @@
             $objUser	        = new UserEntity;
             $objUserModel       = new UserModel;
             $objUser->hydrate($_POST);
+
+            // Testing form
+            $arrError = [];
+            if (count($_POST) > 0) {
+                // Vérifier le formulaire
+                // Verify form
+                if ($strEmail == ""){
+                    $arrError['email'] = "Le mail est obligatoire";
+                }	
+                if ($strPwd == ""){
+                    $arrError['pwd'] = "Le mot de passe est obligatoire";
+                }
+                if (count($arrError) == 0){
+                    $arrResult = $objUserModel->verifUser($strEmail, $strPwd);
+                    if ($arrResult === false){//If database return nothing
+                            $arrError[] = "Mail ou mot de passe invalide";
+                        }else{
+                            session_start();
+                            $_SESSION['user']		= $arrResult;
+                            $_SESSION['success'] 	= "Bienvenue, vous êtes bien connecté";
+                            header("Location:index.php");
+                            exit;
+			            }
+		            }
+	        }	
+            $this->getContent($strPage = "login", $objUser, $arrError);
+        }
 
             // Testing form
             $arrError = [];
@@ -68,19 +109,22 @@
 	        header("Location:index.php");
 	        exit;
         }
-        /**
-        * Create account 
-        * @author Etienne
-        * 
-        * 1. Collect information from the form
-        * 2. Test if the form is correctly filled
-        * 3. If the form is correctly filled, add of the information in the database, else ERROR
-        * 
-        * @todo Green alert when connected/account created 
-        * 
-        * 
-        */
 
+
+
+
+        /**
+         * Create account 
+         * @author Etienne
+         * 
+         * 1. Collect information from the form
+         * 2. Test if the form is correctly filled
+         * 3. If the form is correctly filled, add of the information in the database, else ERROR
+         * 
+         * @todo Green alert when connected/account created 
+         * 
+         * 
+         */
         public function createAccount(){
             
             //Treating createAccount Form
@@ -95,7 +139,7 @@
             //Preparing hydrate
             $objUser	= new UserEntity;
             $objUser->hydrate($_POST);
-    
+
             //Testing Form
             $arrError = [];
             if (count($_POST) > 0) {
@@ -116,7 +160,7 @@
                 }else if (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)){
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
-    
+
             // Adding regex to verify password
                 $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
                 if ($objUser->getPwd() == ""){
@@ -142,9 +186,9 @@
                     }
                 }
             }   
-    
+
             //Display variable
-            $this->getContent($strPage = "createAccount", objUser: $objUser, arrError: $arrError);
+            $this->getContent($strPage = "createAccount",$objUser, $arrError);
         }
 
         public function settingsUser(){
@@ -189,5 +233,4 @@
 
             $this->getContent($strPage = "user", objUser: $objUser, objContent: $arrMovieToDisplay, objComment: $arrCommentToDisplay );
         }
-
     }

@@ -1,4 +1,3 @@
-    <?php var_dump($_SESSION)?>
     <section id="hero" class=" container  row mx-auto py-5">
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
             <?php if(!isset($_SESSION['user'])){?>
