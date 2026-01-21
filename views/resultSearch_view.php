@@ -7,8 +7,8 @@
             <label for="filmTitle" class="form-label w-100">Rechercher Par :</label>
             <select class="form-select form-control">
                 <option value="">Tous</option>
-                <option value="Film">Film</option>
-                <option value="Acteur">Acteur</option>
+                <option value="movies">Film</option>
+                <option value="persons">Acteur</option>
                 <option value="Réalisateur">Réalisateur</option>
                 <option value="Producteur">Producteurs</option>
             </select>

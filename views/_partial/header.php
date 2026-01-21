@@ -2,8 +2,6 @@
     //activate session on all page using the header
     session_start();
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>

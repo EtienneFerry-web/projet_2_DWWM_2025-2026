@@ -8,6 +8,7 @@
             <h1><?= $objUser->getPseudo() ?></h1>
             <p><?= $objUser->getBio() ?></p>
             <?= (isset($_SESSION['user']) && $_SESSION['user']['user_id'] == $_GET['id'] )? "<a href='index.php?ctrl=user&action=settingsUser'>Gestion du Compte</a>": "" ?>
+            <?=(isset($_SESSION['user']) && $_SESSION['user']['user_id'] == $_GET['id'] && $objUser->getFunction() === "Administrator")? "<a class='ms-2' href='index.php?ctrl=admin&action=dashboard'>Dashboard</a>": "" ?>
             <span class="spanMovie d-block py-1 border-0"><?= $objUser->getFunction() ?></span>
         </div>
     </div>

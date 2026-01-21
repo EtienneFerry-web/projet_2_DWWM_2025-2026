@@ -6,7 +6,7 @@
 
         public function newMovie(){
           $strRq	= "
-                        SELECT mov_id, pho_url AS 'mov_url', AVG(ratings.rat_score) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
+                        SELECT mov_id, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
@@ -25,7 +25,7 @@
 						 string $strEndDate=''):array{
 
 			// Ecrire la requête
-			$strRq	= " SELECT mov_id, mov_title, mov_description , pho_url AS 'mov_url', AVG(ratings.rat_score) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
+			$strRq	= " SELECT mov_id, mov_title, mov_description , pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
@@ -90,7 +90,7 @@
 		public function findMovie(int $idMovie=0){
 
  	        $strRq	= "
-                        SELECT movies.*, pho_url AS 'mov_url', AVG(ratings.rat_score) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like', nat_country AS 'mov_country'
+                        SELECT movies.*, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like', nat_country AS 'mov_country'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
@@ -107,7 +107,7 @@
           	$strRq	= " SELECT
                         movies.mov_id,
                         photos.pho_url AS 'mov_url',
-                        AVG(DISTINCT ratings.rat_score) AS 'mov_rating',
+                        COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                         COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
                         FROM persons
                         LEFT JOIN participates ON persons.pers_id = participates.part_pers_id
