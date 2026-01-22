@@ -1,3 +1,9 @@
+<?php 
+    //activate session on all page using the header
+    session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,18 +23,27 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a href="/projet2/index.php"><img src="/Projet2/assets/img/iconSite.png" alt="icon du site" class="iconHeader"></a>
+            <a href="index.php"><img src="/Projet2/assets/img/iconSite.png" alt="icon du site" class="iconHeader"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-                <img src="/Projet2/img/menu.svg" alt="menu burger" class="iconHeader">
+                <img src="/Projet2/assets/img/menu.svg" alt="menu burger" class="iconHeader">
             </button>
             <div class="collapse navbar-collapse" id="navbarMain">
                 <?php require'navHeader.php'?>
-                <form action="/Projet2/page/resultSearch.php" class="d-flex ms-lg-3" role="search" method="get">
+                <form action="index.php?ctrl=movie&action=resultSearch" class="d-flex ms-lg-3" role="search" method="post">
                     <input class="form-control me-2" type="search" placeholder="Rechercher..." name="search" value="">
                     <button class="btn" type="submit">
-                        <img src="/Projet2/img/iconBtnSearch.svg" height="32" width="32">
+                        <img src="/Projet2/assets/img/iconBtnSearch.svg" height="32" width="32">
                     </button>
                 </form>
             </div>
         </div>
     </nav>
+    <?php if (isset($_SESSION['success'])){ ?>
+    	<div class="alert alert-success">
+    		<p><?php 
+    				echo $_SESSION['success']; 
+    				unset($_SESSION['success']);
+    			?>
+    		</p>
+    	</div>
+    <?php } ?>

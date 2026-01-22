@@ -1,41 +1,75 @@
 
 
     <section class="container py-5 my-auto">
+    <?php 
+    if (count($arrError) > 0) {?>
+		<div class="alert alert-danger">
+		<?php foreach ($arrError as $strError){ ?>
+			<p><?php echo $strError; ?></p>
+		<?php }	?>
+		</div>
+	<?php } ?>
 	    <h1 class="text-center">Inscription</h1>
-		<p class="mx-auto text-center py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quae pariatur sint, atque sed soluta numquam! Doloremque voluptatem odit temporibus.</a></p>
-		<form>
+		<p class="mx-auto text-center py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quae pariatur sint, atque sed soluta numquam! Doloremque voluptatem odit temporibus.</p>
+		<form method="post">
             <div class="form-group py-2">
-                <label class="form-label">Nom</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nom">
+                <label  class="form-label">Nom :</label>
+                <input  type="text" 
+                        name="name"
+                        class="form-control <?php if (isset($arrError['name'])) { echo 'is-invalid'; } ?> "  
+                        value="<?php echo($objUser->getName()); ?>"
+                        placeholder="Nom">
             </div>
             <div class="form-group py-2">
-                <label class="form-label">Prenom</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Prenom">
+                <label  class="form-label">Prenom :</label>
+                <input  type="text"
+                        name="firstname"
+                        class="form-control <?php if (isset($arrError['firstname'])) { echo 'is-invalid'; } ?>"  
+                        value="<?php echo($objUser->getFirstname()); ?>"
+                        placeholder="Prenom">
             </div>
             <div class="form-group py-2">
-                <label for="date" class="form-label">Date</label>
+                <label  class="form-label">Pseudo :</label>
+                <input  type="text"
+                        name="pseudo"
+                        class="form-control <?php if (isset($arrError['pseudo'])) { echo 'is-invalid'; } ?>"  
+                        value="<?php echo($objUser->getPseudo()); ?>"
+                        placeholder="Pseudo">
+            </div>
+            <div class="form-group py-2">
+                <label for="date" class="form-label">Date de naissance :</label>
      			<input
     				type="date"
     				class="form-control"
-    				id="date"
-    				name="date"
+    				id="birthdate"
+    				name="birthdate"
     				aria-describedby="date-help"
-    				value="" >
+    				value="<?php echo($objUser->getBirthdate()); ?>" >
      			<small id="date-help" class="form-text text-muted">
         				Format: JJ/MM/AAAA
                 </small>
             </div>
             <div class="form-group py-2">
-                <label class="form-label">Adresse Mail</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+                <label class="form-label">Adresse Mail :</label>
+                <input  type="email" 
+                        name="email"
+                        class="form-control <?php if (isset($arrError['email'])) { echo 'is-invalid'; } ?>" 
+                        value="<?php echo($objUser->getEmail()); ?>"
+                        placeholder="Email">
             </div>
             <div class="form-group py-2">
-                <label class="form-label" >Mots de passe</label>
-                <input type="password" class="form-control"  placeholder="Mots de Passe">
+                <label class="form-label" >Mots de passe :</label>
+                <input  type="password" 
+                        name="pwd"
+                        class="form-control <?php if (isset($arrError['pwd'])) { echo 'is-invalid'; } ?>"  
+                        placeholder="Mots de Passe">
             </div>
             <div class="form-group py-2">
-                <label class="form-label">Mots de passe de comfirmation</label>
-                <input type="password" class="form-control"  placeholder="Mots de passe de comfirmation">
+                <label class="form-label">Confirmation du mot de passe :</label>
+                <input  type="password" 
+                        name="pwd_confirm"
+                        class="form-control <?php if (isset($arrError['pwd_confirm'])) { echo 'is-invalid'; } ?>"  
+                        placeholder="Mots de passe de comfirmation">
             </div>
 
             <input class="w-100 btnCustom" type="submit" >

@@ -1,34 +1,17 @@
 
+
+
+
+
+
+
+
+
+
+
 const stars = document.querySelectorAll(' .rating i');
 const inputNote = document.getElementById('note');
-let antiSpam = false;
-
-window.addEventListener('DOMContentLoaded', () => {
-  // On convertit en nombre pour pouvoir faire des calculs
-  let value = Number(inputNote.value);
-
-  if (value === 1 || value === 2 || value === 3 || value === 4 || value === 5) {
-    stars.forEach(s => {
-
-      s.classList.remove('bi-star-half');
-      s.classList.toggle('bi-star-fill', Number(s.dataset.value) <= value);
-      s.classList.toggle('bi-star', Number(s.dataset.value) > value);
-
-    });
-  } else {
-    stars.forEach(s => {
-
-      s.classList.toggle('bi-star', Number(s.dataset.value) > Math.ceil(value));
-      s.classList.toggle('bi-star-fill', Number(s.dataset.value) <= Math.floor(value));
-      s.classList.toggle('bi-star-half', Number(s.dataset.value) === Math.ceil(value));
-    });
-  }
-});
-
-
-
-
-
+let antiSpam = false
 
 
 stars.forEach(star => {
