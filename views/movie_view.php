@@ -1,4 +1,18 @@
+<section class="container py-5 my-auto"></section>
+        <?php if (isset($arrError) && count($arrError) > 0){ ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Oups !</h5>
+                <ul class="mb-0">
+                    <?php foreach($arrError as $errorMsg){ ?>
+                        <li><?= $errorMsg ?></li>
+                    <?php } ?>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+</section>
 <section class="container row mx-auto" id="movie">
+
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
         <h1 class="d-block d-md-none"><?= $objContent->getTitle() ?></h1>
         <img src="<?= $objContent->getUrl() ?>" alt="" class="img-fluid w-75 w-md-50">
@@ -45,7 +59,7 @@
                 <textarea
                     id="comment"
                     name="com_comment"
-                    class="form-control"
+                    class="form-control <?php if (isset($arrError['com_comment'])) { echo 'is-invalid'; } ?>"
                     rows="4"
                     placeholder="Écrivez votre commentaire..."
                 ></textarea>
@@ -61,7 +75,7 @@
                     <i class="bi bi-star" data-value="5"></i>
                     </span>
                     <!--input value for rating score-->
-                    <input type="hidden" name="noteRating" id="note" value="0">
+                    <input type="hidden" name="noteRating" id="note" value="0" class="form-control <?php if (isset($arrError['noteRating'])) { echo 'is-invalid'; } ?>">
 
                 </div>
                 <div class="col-md-4 mw-100 " >

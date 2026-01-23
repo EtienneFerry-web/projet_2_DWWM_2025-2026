@@ -35,7 +35,7 @@
                         WHERE users.user_id = $idUser";
 
 
-		    return $this->_db->query($strRq)->fetchAll();
+	        return $this->_db->query($strRq)->fetchAll();
 
         }
 
@@ -50,8 +50,8 @@
 public function commentInsert(object $objComment): bool {
     // 1. Insertion du commentaire (Cela fonctionne car on peut commenter plusieurs fois)
     $sql1 = "INSERT INTO comments (com_comment, com_user_id, com_movie_id, com_datetime) 
-             VALUES (:comment, :userId, :movieId, NOW())
-             ON DUPLICATE KEY UPDATE com_comment = :comment, com_datetime = NOW() ";
+            VALUES (:comment, :userId, :movieId, NOW())
+            ON DUPLICATE KEY UPDATE com_comment = :comment, com_datetime = NOW() ";
     
     $rq1 = $this->_db->prepare($sql1);
     $rq1->bindValue(":comment", $objComment->getComment(), PDO::PARAM_STR);
@@ -63,9 +63,9 @@ public function commentInsert(object $objComment): bool {
     // 2. CORRECTION ICI : Gestion de la note (INSERT ou UPDATE)
     // On utilise "ON DUPLICATE KEY UPDATE"
     $sql2 = "INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score) 
-             VALUES (:userId, :movieId, :rating)
-             ON DUPLICATE KEY UPDATE rat_score = :rating";
-             
+            VALUES (:userId, :movieId, :rating)
+            ON DUPLICATE KEY UPDATE rat_score = :rating";
+
     $rq2 = $this->_db->prepare($sql2);
     $rq2->bindValue(":userId",  $objComment->getUser_id(), PDO::PARAM_INT);
     $rq2->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
