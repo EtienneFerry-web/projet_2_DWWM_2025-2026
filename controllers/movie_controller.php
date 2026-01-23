@@ -50,14 +50,44 @@
         }
 
         public function movie(){
+			$arrError = [];
+            $intId = $_GET['id']; //<-- ID of Movie
+			$objCommentModel	= new CommentModel; 
+			/**
+			 * @author Etienne
+			 * We verify if the user is connected 
+			 * if not error 
+			 * else he can comment
+			 * 1. if $_POST is empty
+			 * 2. Recovering comment
+			 * 3. Verifying if the user is connected else ALERT
+			 */
 
-            $intId = $_GET['id'];
+    //activate session on all page using the header
+    session_start();
+				// Verify if user is connected
+				if(!empty($_POST)) {
 
+					if(isset($_SESSION['user'])) {
+						
+						
+						// L'utilisateur est connecté ET il a envoyé un commentaire
+						$objComment = new CommentEntity;
+						$objComment->setComment($_POST['com_comment']);
+						$objComment->setUser_id($_SESSION['user']['user_id']);
+						$objComment->setRating($_POST['noteRating']);
+						$objComment->setmovieId($intId);
+						
+						$objCommentModel->commentInsert($objComment);
+						
+					} else {
+					$arrError[] = "Vous devez être connecté pour commenter ou noter du contenu !";
+					}
+				}
             $objMovieModel 	= new MovieModel;
 			$arrMovie 		= $objMovieModel->findMovie($intId);
 			$objMovie       = new MovieEntity('mov_');
 			$objMovie->hydrate($arrMovie);
-
 			$objPersonModel = new PersonModel;
 			$arrPerson      = $objPersonModel->findAllPerson($intId);
 
@@ -70,7 +100,6 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$objCommentModel = new CommentModel;
 			$arrComment     = $objCommentModel->commentOfMovie($intId);
 
 			$arrCommentToDisplay	= array();
@@ -83,7 +112,7 @@
 			}
 
 
-            $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay );
+            $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay);
         }
 
         public function resultSearch(){

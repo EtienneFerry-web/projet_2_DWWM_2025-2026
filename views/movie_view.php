@@ -1,5 +1,3 @@
-
-
 <section class="container row mx-auto" id="movie">
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
         <h1 class="d-block d-md-none"><?= $objContent->getTitle() ?></h1>
@@ -38,45 +36,6 @@
         </div>
     </div>
 </section>
-<!--
-<section  id="imgMovie" class="container py-5">
-    <div class="splide">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/300x400/000/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/500x400/555/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/300x400/000/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/500x400/555/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-        </ul>
-      </div>
-    </div>
-    </section>-->
 <section id="addComment" class="container text-center py-5">
     <h2>Avis</h2>
     <div class="text-start py-2">
@@ -85,6 +44,7 @@
                 <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
                 <textarea
                     id="comment"
+                    name="com_comment"
                     class="form-control"
                     rows="4"
                     placeholder="Écrivez votre commentaire..."
@@ -93,16 +53,19 @@
             <div class="row align-items-center">
                 <div class="col-md-8 rating user-select-none text-center text-md-start py-2">
                     <span class="spanMovie">Votre Note :
+                    <!--Data value for ,5 with double click-->
                     <i class="bi bi-star" data-value="1"></i>
                     <i class="bi bi-star" data-value="2"></i>
                     <i class="bi bi-star" data-value="3"></i>
                     <i class="bi bi-star" data-value="4"></i>
                     <i class="bi bi-star" data-value="5"></i>
                     </span>
-                    <input type="hidden" name="note" id="note" value="0">
+                    <!--input value for rating score-->
+                    <input type="hidden" name="noteRating" id="note" value="0">
 
                 </div>
                 <div class="col-md-4 mw-100 " >
+                    <!--On click verify if ratings value > NULL & comment can be empty-->
                     <input type="submit" value="Envoyer" class="btnCustom w-100">
                 </div>
             </div>

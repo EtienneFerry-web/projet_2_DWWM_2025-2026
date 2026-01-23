@@ -15,6 +15,7 @@
 		private string $_comment;
 		private string $_title;
 		private string $_url;
+		private int $_movieId;
 
 
 		/**
@@ -93,5 +94,14 @@
 		public function setUser_id(string $intIdUser){
 			$this->_user_id = $intIdUser;
 		}
+
+		public function getMovieId(){
+			return $this->_movieId ; 
+		}
+
+		public function setMovieId(int $intNote){
+			$this->_movieId = $intNote ;
+		}
+
 
 	}

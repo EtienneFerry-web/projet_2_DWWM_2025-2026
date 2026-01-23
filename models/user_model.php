@@ -1,5 +1,6 @@
 <?php
     require_once'models/mother_model.php';
+	
 
     class UserModel extends Connect{
 
@@ -44,7 +45,7 @@
 			}
 		}
 		/**
-		* 
+		* @author Etienne
 		* Function Insert user in database
 		* @param object $objUser User object
 		* @return bool If request ok (true) else (false)

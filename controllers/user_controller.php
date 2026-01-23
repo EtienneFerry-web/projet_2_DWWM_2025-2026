@@ -133,8 +133,11 @@
             //Database add
                     $objUserModel	= new UserModel;
                     $boolInsert 	= $objUserModel->insert($objUser);
-                    if ($boolInsert === true){
-                        $_SESSION['success'] 	= "Le compte a bien été créé";
+
+                    if ($boolInsert == true){
+                    session_start();
+                    $_SESSION['success'] 	= "Le compte a bien été créé";
+
                     header("Location:index.php");
                     exit;
                     }else{

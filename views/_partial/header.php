@@ -1,6 +1,9 @@
 <?php 
+
     //activate session on all page using the header
+    if($strPage != "movie"){
     session_start();
+    }
 ?>
 
 
