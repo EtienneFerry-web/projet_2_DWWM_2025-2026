@@ -20,60 +20,25 @@
         }
 
 
-        public function allMovie(int $intLimit=0, string $strKeywords='', int $intAuthor=0,
-						 int $intPeriod=0, string $strDate='', string $strStartDate='',
-						 string $strEndDate=''):array{
+        public function allMovie(int $intLimit=0, ):array{
 
-			// Ecrire la requête
+		
 			$strRq	= " SELECT mov_id, mov_title, mov_description , pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN follows ON movies.mov_id = follows.follo_mov_id
                         ";
-			// Pour le where (un seul)
-			//$boolWhere	= false; // flag
-			/*$strWhere	= " WHERE ";
-			// Recherche par mot clé
-			if ($strKeywords != '') {
-				$strRq .= " WHERE (article_title LIKE '%".$strKeywords."%'
-								OR article_content LIKE '%".$strKeywords."%') ";
-				//$boolWhere	= true;
-				$strWhere	= " AND ";
-			}
-
-			// Recherche par auteur
-			if ($intAuthor > 0){
-				/*if ($boolWhere){
-					$strRq .= " AND ";
-				}else{
-					$strRq .= " WHERE ";
-				}
-				$strRq .= $strWhere." article_creator = ".$intAuthor;
-				$strWhere	= " AND ";
-			}
-
-			// Recherche par dates
-			if ($intPeriod == 0){
-				// Par date exacte
-				if ($strDate != ''){
-					$strRq .= $strWhere." article_createdate = '".$strDate."'";
-				}
-			}else{
-				// Par période de dates
-				if ($strStartDate != '' && $strEndDate != ''){
-				//if ( ($strStartDate != '') && ($strEndDate != '') ){ Parethèses selon le développeur - pas de changement si que des && - Attention ||
-					$strRq .= $strWhere." article_createdate BETWEEN '".$strStartDate."' AND '".$strEndDate."'";
-				}else{
-					if ($strStartDate != ''){
-						// A partir de
-						$strRq .= $strWhere." article_createdate >= '".$strStartDate."'";
-					}else if ($strEndDate != ''){
-						// Avant le
-						$strRq .= $strWhere." article_createdate <= '".$strEndDate."'";
-					}
-				}
-			}*/
+			
+            $strRq .= "
+            
+                    WHERE mov_id IN ( 	SELECT part_mov_id
+                             	FROM participates
+                             	WHERE part_pers_id = 7
+                                )
+                        
+                        
+                        ";            
 
 			$strRq .= " GROUP BY movies.mov_id
 			            ORDER BY mov_release_date DESC
@@ -130,6 +95,25 @@
                         INNER JOIN movies ON follows.follo_mov_id = movies.mov_id
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         WHERE user_id = $idUser";
+
+            return $this->_db->query($strRq)->fetchAll();
+
+		}
+		
+		
+		public function allCountry(){
+
+		    $strRq	= " SELECT nat_id AS 'mov_id', nat_country AS 'mov_country'
+						FROM nationalities";
+
+            return $this->_db->query($strRq)->fetchAll();
+
+		}
+		
+		public function allCategories(){
+
+		    $strRq	= " SELECT cat_id AS 'mov_id', cat_name AS 'mov_categories'
+						FROM categories";
 
             return $this->_db->query($strRq)->fetchAll();
 

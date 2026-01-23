@@ -3,11 +3,11 @@
          <!-- Filtre Réalisateur -->
          <div class="col-md-3 w-100">
          <label for="filmTitle" class="form-label">Réalisateur</label>
-         <select class="form-select">
-             <option value="">Tous</option>
-             <option value="inception">Inception</option>
-             <option value="interstellar">Interstellar</option>
-             <option value="matrix">Matrix</option>
+         <select class="form-select" name="producer">
+             <option value="0">Tous</option>
+             <?php foreach($objReal as $real){ ?>
+                 <option value="<?= $real->getId() ?>"><?= $real->getFullName() ?></option>
+            <?php } ?>
          </select>
          </div>
 
@@ -16,42 +16,42 @@
          <label for="actor" class="form-label">Acteur</label>
          <select class="form-select" id="actor">
              <option value="">Tous</option>
-             <option value="leo">Leonardo DiCaprio</option>
-             <option value="keanu">Keanu Reeves</option>
-             <option value="matt">Matt Damon</option>
+             <?php foreach($objActor as $actor){ ?>
+                 <option value="<?= $actor->getId() ?>"><?= $actor->getFullName() ?></option>
+            <?php } ?>
          </select>
          </div>
 
          <!-- Filtre  Genre -->
          <div class="col-md-3 w-100">
          <label for="actor" class="form-label">Genre</label>
-         <select class="form-select" id="actor">
+         <select class="form-select" id="categories">
              <option value="">Tous</option>
-             <option value="leo">Leonardo DiCaprio</option>
-             <option value="keanu">Keanu Reeves</option>
-             <option value="matt">Matt Damon</option>
+             <?php foreach($objCategories as $categories){ ?>
+                 <option value="<?= $categories->getId() ?>"><?= $categories->getCategories() ?></option>
+            <?php } ?>
          </select>
          </div>
 
          <!-- Filtre producteur -->
          <div class="col-md-3 w-100">
          <label for="producer" class="form-label">Producteur</label>
-         <select class="form-select" id="producer">
+         <select class="form-select" id="producer" name="producer">
              <option value="">Tous</option>
-             <option value="christopher">Christopher Nolan</option>
-             <option value="wachowski">Wachowski</option>
-             <option value="steven">Steven Spielberg</option>
+             <?php foreach($objProducer as $producer){ ?>
+                 <option value="<?= $producer->getId() ?>"><?= $producer->getFullName() ?></option>
+            <?php } ?>
          </select>
          </div>
 
          <!-- Filtre pays -->
          <div class="col-md-3 w-100">
              <label for="country" class="form-label">Pays</label>
-             <select class="form-select" id="country">
+             <select class="form-select" id="country" name="country">
                  <option value="">Tous</option>
-                 <option value="usa">USA</option>
-                 <option value="france">France</option>
-                 <option value="uk">UK</option>
+                 <?php foreach($objCountry as $country){ ?>
+                     <option value="<?= $country->getId() ?>"><?= $country->getCountry() ?></option>
+                <?php } ?>
              </select>
              </div>
 

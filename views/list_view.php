@@ -1,4 +1,4 @@
-
+<?php var_dump($objCategories); ?>
 <section id="listFilter" class="container text-center text-lg-start row py-5 mx-auto">
 	<h1 >Liste film</h1>
 	<div class="col-12 col-lg-3 p-3 ">

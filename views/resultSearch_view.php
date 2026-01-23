@@ -5,15 +5,15 @@
     <div class="py-2 col-12 col-lg-4">
         <form method="post">
             <label for="filmTitle" class="form-label w-100">Rechercher Par :</label>
-            <select class="form-select form-control">
+            <select class="form-select form-control" name="option"> 
                 <option value="">Tous</option>
                 <option value="movies">Film</option>
-                <option value="persons">Acteur</option>
-                <option value="Réalisateur">Réalisateur</option>
-                <option value="Producteur">Producteurs</option>
+                <option value="actor">Acteur</option>
+                <option value="director">Réalisateur</option>
+                <option value="producer">Producteurs</option>
             </select>
             <div class="py-3 text-center">
-                <button type="submit" class="btnCustom">Filtrer</button>
+                <button type="submit" class="btnCustom">Rechercher</button>
                 <button type="reset" class="btnCustom">Réinitialiser</button>
             </div>
         </form>
