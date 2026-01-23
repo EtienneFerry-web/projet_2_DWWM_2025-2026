@@ -58,6 +58,7 @@
 			return $strDate;
 		}
 
+		//Méthodes getters et se
 		public function setDeathDate(?string $strDeathDate){
 		    $this->_deathdate = $strDeathDate;
 		}
@@ -67,15 +68,21 @@
 		}
 
 		public function getFullName():string{
-			return $this->_name ." ".$this->_firstname ;
+			return $this->_name ." ".$this->_firstname;
+		}
+		public function getName():string{
+			return $this->_name;
 		}
 
 		public function setName(string $strName){
-			$this->_name = $strName;
+			$this->_name = $this->clean($strName);
+		}
+		public function getFirstame():string{
+			return $this->_firstname;
 		}
 
 		public function setFirstname(string $strFirstname){
-			$this->_firstname = $strFirstname;
+			$this->_firstname = $this->clean($strFirstname);
 		}
 
 		public function getCountry():string{
@@ -83,7 +90,7 @@
 		}
 
 		public function setCountry(string $strCountry){
-			$this->_country = $strCountry;
+			$this->_country = $this->clean($strCountry);
 		}
 
 		public function getBio():string{
@@ -94,7 +101,6 @@
 			$this->_bio = $strBio;
 		}
 
-
 		public function getPhoto():string{
 			return $this->_photo;
 		}
@@ -102,17 +108,4 @@
 		public function setPhoto(string $strPhoto){
 			$this->_photo = $strPhoto;
 		}
-		
-		/**
-		* Hydratation de l'objet en utilisant les setters 
-		*/
-		public function hydrate(array $arrData){
-			foreach($arrData as $key=>$value){
-				// nom de la méthode
-				$strMethodName = "set".ucfirst(str_replace($this->_prefixe, '', $key));
-				if (method_exists($this, $strMethodName)){
-					$this->$strMethodName($value); 
-				}
-			}
-		}
-	}
+}

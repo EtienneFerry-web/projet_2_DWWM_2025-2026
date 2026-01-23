@@ -139,15 +139,8 @@
 		* @author Audrey
 		* 17/01/2026
 		* @version: v0.1
-		* @todo comparer le film proposer est déjà dans la base de données
+		* @todo comparer si le film proposer est déjà dans la base de données
 		*/
-		
-		/**
-		* Constructeur
-		*/
-		public function __construct(){
-			parent::__construct();
-		}
 		
 		/**
 		* Recherche de toutes les categories de film
@@ -156,8 +149,7 @@
 		public function findAllCategories():array{
 			
 			$strRq = "SELECT cat_id, cat_name
-					  FROM categories
-					  WHERE cat_name LIKE 'S%'";	
+					  FROM categories";	
 			// Lancer la requête et récupérer les résultats
 			return $this->_db->query($strRq)->fetchAll();
 		
@@ -166,5 +158,20 @@
 		* Insertion d'un film dans la base données
 		* 
 		*/
-
+		public function insert(object $objNewMovie):bool{
+                
+		// Request construction
+			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_lenght, mov_descritpion, mov_release_date)
+						            VALUES (:title, :firstname, :length, :description, :createDate,:pwd, NOW())";
+			// Prepared request
+			$rqPrep	= $this->_db->prepare($strRq);
+			// Sending information
+			$rqPrep->bindValue(":title", $objNewMovie->getTitle(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginalTitle(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":length", $objNewMovie->getlenght(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":descritption", $objNewMovie->getDescritption(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":createDate", $objNewMovie->getCreateDate(), PDO::PARAM_STR);
+			// Request execution
+			return $rqPrep->execute();
+		}
     }

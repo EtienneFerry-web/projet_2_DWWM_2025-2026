@@ -5,6 +5,7 @@
 	/**
 	* Classe d'un objet Article
 	* @author Marco Audrey
+	* @todo Audrey > fonction ajout de film avec condition "connecter"
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
@@ -18,9 +19,8 @@
 		private int    $_like;
 		private float  $_rating;
 		private string $_originalTitle='';
-		private string $_length=''; 
-		private string $_description='';
-		protected int  $_id;
+		private string $_length='';	
+	
 
 		/**
 		* Constructeur
@@ -46,7 +46,6 @@
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
 		}
-
 		/**
 		* Récupération de l'image
 		* @return string l'image de l'objet
@@ -70,14 +69,6 @@
 			return $this->_description;
 		}
 		/**
-		* Mise à jour du contenu
-		* @param string le nouveau contenu
-		*/
-		public function setDescription(string $strContent){
-			$this->_description = $this->clean($strContent);
-		}
-
-		/**
 		* Récupérer le résumé du contenu
 		* @return string le résumé du contenu
 		*/
@@ -92,14 +83,7 @@
 		public function getCreatedate():string{
 			return $this->_release_date;
 		}
-		/**
-		* Mise à jour de la date de création
-		* @param string la nouvelle date de création
-		*/
-		public function setRelease_date(string $strCreatedate){
-			$this->_release_date = $strCreatedate;
-		}
-
+		
 		/**
 		* Récupérer la date selon un format
 		*/
@@ -154,19 +138,7 @@
 		public function setTrailer_url(string $strTrailer){
 			$this->_trailer_url = $strTrailer;
 		}
-
-
-		public function getCountry():string{
-			return $this->_country;
-		}
-		/**
-		* Mise à jour de l'identifiant du créateur
-		* @param int le nouvel identifiant du créateur
-		*/
-		public function setCountry(string $strCountry){
-			$this->_country = $strCountry;
-		}
-		
+				
 		/**
 		* Récupération du titre original
 		* @return string le titre original de l'objet
@@ -174,13 +146,7 @@
 		public function getOriginalTitle():string{
 			return $this->_originalTitle;
 		}
-		/**
-		* Mise à jour du titre original
-		* @param string le nouveau titre original
-		*/
-		public function setOriginalTitle(string $strOriginalTitle){
-			$this->_original_title = $this->clean($strOriginalTitle);
-		}
+		
 		/**
 		* Récupération de la durée
 		* @return string la durée de l'objet
@@ -189,11 +155,12 @@
 			return $this->_length;
 		}
 		/**
-		* Mise à jour de la durée
-		* @param string la nouvelle durée
+		* Récupération de la categorie
+		* @return string la categorie de l'objet
 		*/
-		public function setLength(string $strLength){
-			$this->_length = $this->clean($strLength);
+		public function getCategory():string{
+			return $this->_id;
 		}
-
+		
 	}
+	

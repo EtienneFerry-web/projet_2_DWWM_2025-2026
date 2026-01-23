@@ -6,8 +6,6 @@
     require'models/movie_model.php';
     require'models/comment_model.php';
     require'models/person_model.php';
-	require'models/movie_model.php';
-	require'entities/participate_entity.php';
 
     /**
      * @author Marco Schmitt
@@ -114,5 +112,65 @@
         public function addMovie(){
             $this->getContent($strPage = "addMovie");
         }
+		
+		/**
+	* @todo select sur les producteur realisateur et acteurs(ajout auto si n'existepas)
+	*/
+	//Récupérer les informations du Formulaire
+		public function AddMovie() {
+			var_dump($_POST);
+			$strTitle 				= $_POST['title']??'';
+			$intCategory			= $_POST5['category']??0;
+			$strOriginalTitle		= $_POST['original_title']??'';
+			$strLength				= $_POST['length']??'';
+			$strDescription			= $_POST['description']??'';
+			$strReleaseDate			= $_POST['release_date']??'';
+			$strCharacterName		= $_POST['characterName']??'';
+			$strUrl					= $_POST['url']??'';
+			$strActorName			= $_POST['actorName']??'';
+			$strActorFirstname		= $_POST['actorFirstame']??'';
+			$strCharacterName		= $_POST['characterName']??'';
 
-    }
+
+			$objMovie	= new MovieEntity;
+			$objPerson = new PersonEntity;
+			$objPerson->hydrate($_POST);
+			$objMovie->hydrate($_POST);
+			
+			$objMovieModel = new MovieModel;
+			$arrCategory = $objMovieModel->findAllCategories();
+			
+			if (count($_POST) > 0) {
+				if ($objMovie->getTitle() == ""){
+					$arrError['title'] = "Le titre est obligatoire";
+				}	
+				if ($objMovie->getLength() == ""){
+					$arrError['length'] = "La durée est obligatoire";
+				}	
+				if ($objMovie->getDescription() == ""){
+					$arrError['description'] = "La description est obligatoire";
+				}
+				if ($objMovie->getCreatedate() ==""){
+					$arrError['release_date'] = "La date de sortie est obligatoire";
+				}	
+			}
+			// Si le formulaire est rempli correctement
+			if (count($arrError) == 0){
+				// => Ajout dans la base de données 
+				$objNewMovie	= new MovieModel;
+				$boolInsert 	= $objNewMovie->insert($objMovie);
+				if ($boolInsert === true){
+					$_SESSION['success'] 	= "Le film a été soumis au modérateur";
+				header("Location:index.php");
+                exit;
+				}else{
+					$arrError[] = "Erreur lors de l'ajout";
+				}	
+			}
+			
+			var_dump($intCategory);
+			var_dump($objMovieModel);
+			var_dump($objPerson);
+			
+		}
+	}

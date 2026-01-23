@@ -19,108 +19,184 @@
     <a href="index.php" class="homeBtn"><i class="bi bi-house-fill fs-1"></i></a>
     <div id="ficheMovie" class="d-none">
         <h2>Fiche Film</h2>
-        <form method="post">
-            <div class="form-group py-2">
-                <label class="form-label">Titre*</label>
-                <input name="title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Titre">
+        <<form method="post">
+		
+			<div class="row">
+				<div class="col-6 form-group py-2">
+					<label class="form-label">Titre du film*</label>
+					<input 	name="title" 
+							type="text" 
+							class="form-control" 
+							id="Title" 
+							placeholder="Titre" 
+							value="<?php echo($strTitle); ?>"
+							required>
+				</div>
+				<div class="col-md-6">
+					<label for="categorie" class="form-label">Genre</label>
+					<select class="form-control" id="author" name="categorie">
+						<option value="0" <?php echo ($intCategory == 0)?'selected':''; ?> class="form-control">Toutes les catégories</option>
+						<!-- Faire une boucle sur les catégories de la base de données -->
+						<?php
+						foreach($arrCategory as $arrDetCategory){
+						?>
+							<option class="form-control" value="<?php echo $arrDetCategory['cat_id']; ?> " 
+								<?php echo ($intCategory == $arrDetCategory['cat_id'])?'selected':''; ?> 
+							>
+								<?php echo $arrDetCategory['cat_name']; ?>
+							</option>
+						<?php
+						}
+						?>
+					</select>
+				</div>
+			
+			
+			<div class="form-group py-2">
+                <label class="form-label">Date de sortie*</label>
+                <input 	name="release_date" 
+						type="date" 
+						class="form-control" 
+						id="release_date"  
+						value="<?php echo($strRelease_date); ?>"
+						placeholder="Quelle est la date de sortie du film?" 
+						required>
             </div>
-
+			
             <div class="form-group py-2">
-                <label class="form-label">Titre original*</label>
-                <input name="original_title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Prenom">
+                <label class="form-label">Titre original</label>
+                <input 	name="original_title" 						
+						type="text" 
+						class="form-control" 
+						id="original_title"
+						value="<?php echo($strOriginalTitle); ?>"
+						placeholder="">
             </div>
-
             <div class="form-group py-2">
                 <label class="form-label">Durée*</label>
-                <input name="length" type="time" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+                <input 	name="length" 
+						type="time" 
+						class="form-control" 
+						id="length"  
+						value="<?php echo($strLength); ?>"
+						placeholder="Email" 
+						required>
             </div>
-
             <div class="form-group py-2">
-                <label class="form-label">Synopsis*</label>
-                <input name="descritpion" type="text" class="form-control" placeholder="Synopsis">
-            </div>
-
-            <div class="form-group py-2">
-                <label class="form-label">Date de sortie*</label>
-                <input name="release_date" type="date" class="form-control" placeholder="">
-            </div>
-
-            <div class="form-group py-2">
+                <label class="form-label" >Synopsis*</label>
+                <textarea 	name="description" 	 
+							class="form-control textarea" 
+							id="description" 
+							placeholder="Synopsis" 
+							required><?php echo($strDescription); ?></textarea>
+            </div>            
+			
+			<hr>
+			<label for="" class="form-label">Producteur</label>
+			<div class="row">
+				<div class="col-6">
+					<label for="producerName" class="form-label">Nom</label>
+					<input 	name="producerName" 
+						type="text" 
+						class="form-control" 
+						id="producerName"  
+						value="<?php echo($strProducerName); ?>"
+						placeholder="" 
+						required>
+				</div>
+				<div class="col-6">
+					<label for="producerFirstname" class="form-label">Prénom</label>
+					<input 	name="producerFirstname" 
+						type="text" 
+						class="form-control" 
+						id="producerFirstname"  
+						value="<?php echo($strProducerFirstname); ?>"
+						placeholder="" 
+						required>
+				</div>
+			</div>
+			
+			</div>
+			<div class="form-group py-2">
                 <label class="form-label">Nationalité*</label>
-                <input name="country" type="text" class="form-control" placeholder="">
+                <input 	name="producerCountry" 
+						type="text" 
+						class="form-control" 
+						id="producerCountry"  
+						value="<?php echo($strProducerCountry); ?>"
+						placeholder="Quelle est la nationalité du producteur?" 
+						required>
             </div>
-
-            <div class="form-group py-2">
-                <label class="form-label">Produteur*</label>
-                <input name="productor" type="text" class="form-control" placeholder="">
-            </div>
-
-            <div class="form-group py-2">
-                <label class="form-label">Réalisteur*</label>
-                <input name="realisator" type="text" class="form-control" placeholder="">
-            </div>
-
-            <div class="row">
-                <div class="form-group col-6 py-2">
-                    <label class="form-label">Acteur principal*</label>
-                    <input name="actor1" type="text" class="form-control" placeholder="">
-                </div>
-                <div class="form-group col-6 py-2">
-                    <label class="form-label">Rôle principal</label>
-                    <input name="name1" type="text" class="form-control" placeholder="">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-6 py-2">
-                    <label class="form-label">Acteur secondaire</label>
-                    <input name="actor2" type="text" class="form-control" placeholder="">
-                </div>
-                <div class="form-group col-6 py-2">
-                    <label class="form-label">Rôle secondaire</label>
-                    <input name="name2" type="text" class="form-control" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group py-2">
+			
+			<hr>
+			<label for="" class="form-label">Réalisateur</label>
+			<div class="row">
+				<div class="col-6">
+					<label for="realisatorName" class="form-label">Nom</label>
+					<input 	name="realisatorName" 
+						type="text" 
+						class="form-control" 
+						id="realisatorName"  
+						value="<?php echo($strRealisatorName); ?>"
+						placeholder="" 
+						required>
+				</div>
+				<div class="col-6">
+					<label for="realisatorFirstname" class="form-label">Prénom</label>
+					<input 	name="realisatorFirstname" 
+						type="text" 
+						class="form-control" 
+						id="realisatorFirstname"  
+						value="<?php echo($strRealisatorFirstname); ?>"
+						placeholder="" 
+						required>
+				</div>
+			</div>
+			
+			<hr>
+			
+			</div>
+			</div>
+			<label class="form-label">Acteur principal*</label>
+			<div class="row">
+				<div class="form-group col-4 py-2">
+					<label class="form-label">Nom</label>
+					<input 	name="actorName" 
+							type="text" 
+							class="form-control" 
+							id="actorName" 
+							value="<?php echo($strActorName); ?>"
+							placeholder="Nom de l'acteur principal">
+				</div>
+				<div class="form-group col-4 py-2">
+					<label for="actorFirstname" class="form-label">Prénom</label>
+					<input 	name="actorFirstname" 
+							type="text" 
+							class="form-control" 
+							id="actorFirstname" 
+							value="<?php echo($strActorFirstname); ?>"
+							placeholder="Nom de l'acteur principal">
+				</div>
+				<div class="form-group col-4 py-2">
+					<label class="form-label">Rôle principal</label>
+					<input 	name="characterName" 
+							type="text" 
+							class="form-control" 
+							id="characterName" 
+							value="<?php echo($strCharacterName); ?>"
+							placeholder="nom du personnage de l'acteur principal">
+				</div>
+			</div>
+			
+			<hr>
+									
+			<div class="form-group py-2">
                 <label class="form-label">Affiche du film</label>
-                <input name="url" type="text" class="form-control" placeholder="Collez le lien vers votre image">
+                <input name="url" type="text" class="form-control"  placeholder="Collez le lien vers l'image de l'affiche">
             </div>
+		
 
-            <div class="accordion my-2" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Ajout lien photo
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="form-group py-2">
-                                <label class="form-label">Photo</label>
-                                <input name="url" type="text" class="form-control" placeholder="Collez le lien vers votre image">
-                            </div>
-                            <div class="form-group py-2">
-                                <label class="form-label">Photo</label>
-                                <input name="url" type="text" class="form-control" placeholder="Collez le lien vers votre image">
-                            </div>
-                            <div class="form-group py-2">
-                                <label class="form-label">Photo</label>
-                                <input name="url" type="text" class="form-control" placeholder="Collez le lien vers votre image">
-                            </div>
-                            <div class="form-group py-2">
-                                <label class="form-label">Photo</label>
-                                <input name="url" type="text" class="form-control" placeholder="Collez le lien vers votre image">
-                            </div>
-                            <div class="form-group py-2">
-                                <label class="form-label">Photo</label>
-                                <input name="url" type="text" class="form-control" placeholder="Collez le lien vers votre image">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <input class="w-100 btnCustom" type="submit">
+            <input class="w-100 btnCustom my-2" type="submit" >
         </form>
     </div>
     <div id="listUser" class="d-block">
