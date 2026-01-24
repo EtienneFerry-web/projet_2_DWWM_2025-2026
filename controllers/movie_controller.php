@@ -34,43 +34,52 @@
 
         public function list(){
 
+            $arrPost['producer']    = $_POST['producer']??"";
+            $arrPost['actor'] 	    = $_POST['actor']??"";
+            $arrPost['realisator'] 	= $_POST['realisator']??"";
+            $arrPost['categories'] 	= $_POST['categories']??"";
+            $arrPost['country']     = $_POST['country']??"";
+            $arrPost['date'] 		= $_POST['date']??"";
+            $arrPost['startDate'] 	= $_POST['startdate']??"";
+            $arrPost['endDate']	    = $_POST['enddate']??"";
+
             $objPersonModel 	   = new PersonModel;
             $arrActor              = $objPersonModel->findActor();
             $arrReal               = $objPersonModel->findReal();
             $arrProducer           = $objPersonModel->findProducer();
-            
+
             $arrActorToDisplay	= array();
-            
+
             foreach($arrActor as $arrDetActor){
 				$objContent = new PersonEntity('pers_');
 				$objContent->hydrate($arrDetActor);
-         
+
 				$arrActorToDisplay[]	= $objContent;
 			}
-			
+
 			$arrRealToDisplay	= array();
-			
+
 			foreach($arrReal as $arrDetReal){
 				$objContent = new PersonEntity('pers_');
 				$objContent->hydrate($arrDetReal);
 
 				$arrRealToDisplay[]	= $objContent;
 			}
-			
+
 			$arrProducerToDisplay	= array();
-			
+
 			foreach($arrProducer as $arrDetProducer){
 				$objContent = new PersonEntity('pers_');
 				$objContent->hydrate($arrDetProducer);
 
 				$arrProducerToDisplay[]	= $objContent;
 			}
-            
+
             $objContentModel 	= new MovieModel;
-			$arrMovie		    = $objContentModel->allMovie(0);
+			$arrMovie		    = $objContentModel->allMovie($arrPost);
 			$arrCountry         = $objContentModel->allCountry();
 			$arrCategories      = $objContentModel->allCategories();
-			
+
 			$arrCategoriesToDisplay	= array();
 
 			foreach($arrCategories as $arrDetCategories){
@@ -79,7 +88,7 @@
 
 				$arrCategoriesToDisplay[]	= $objContent;
 			}
-		
+
 			$arrCountryToDisplay	= array();
 
 			foreach($arrCountry as $arrDetCountry){
@@ -88,9 +97,9 @@
 
 				$arrCountryToDisplay[]	= $objContent;
 			}
-			
-			
-			
+
+
+
 			$arrMovieToDisplay	= array();
 
 			foreach($arrMovie as $arrDetMovie){
@@ -100,7 +109,7 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "list", objContent: $arrMovieToDisplay, objActor: $arrActorToDisplay, 
+            $this->getContent($strPage = "list", objContent: $arrMovieToDisplay, objActor: $arrActorToDisplay, arrPost: $arrPost,
                                 objReal: $arrRealToDisplay, objProducer: $arrProducerToDisplay, objCountry: $arrCountryToDisplay, objCategories: $arrCategoriesToDisplay );
         }
 
@@ -139,29 +148,6 @@
 
 
             $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay );
-        }
-
-        public function resultSearch(){
-
-            $objContentModel 	= new MovieModel;
-			$arrMovie		    = $objContentModel->allMovie(0);
-
-
-
-			$arrMovieToDisplay	= array();
-
-			foreach($arrMovie as $arrDetMovie){
-				$objContent = new MovieEntity('mov_');
-				$objContent->hydrate($arrDetMovie);
-
-				$arrMovieToDisplay[]	= $objContent;
-			}
-
-            $this->getContent($strPage = "resultSearch",objContent: $arrMovieToDisplay);
-        }
-
-        public function person(){
-            $this->getContent($strPage = "person");
         }
 
         public function addMovie(){

@@ -10,7 +10,7 @@
 class MotherCtrl{
 
     protected function getContent($strPage="", $objContent=[], $objAllPerson=[], $objComment=[], $objPerson=[], $objUser=[], $arrError=[], $arrResult=[], $objActor=[]
-    , $objReal=[], $objProducer=[], $objCountry=[], $objCategories=[]){
+    , $objReal=[], $objProducer=[], $objCountry=[], $objCategories=[], $arrPost=[], $objJobs=[], $objSearch=[]){
 
         include'views/_partial/header.php';
         include"views/".$strPage."_view.php";

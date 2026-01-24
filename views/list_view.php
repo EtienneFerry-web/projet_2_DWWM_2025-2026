@@ -1,4 +1,4 @@
-<?php var_dump($objCategories); ?>
+
 <section id="listFilter" class="container text-center text-lg-start row py-5 mx-auto">
 	<h1 >Liste film</h1>
 	<div class="col-12 col-lg-3 p-3 ">
@@ -26,9 +26,13 @@
 
 	<div class="col-12 col-lg-9 p-3 scrollList">
     	<?php
-        foreach($objContent as $objMovie){
-            require'views/_partial/movieSearch.php';
-        }
+            if(count($objContent) === 0){
+               echo "<h2 class='text-center'>Aucun Résultat !</h2>";
+            } else {
+                foreach($objContent as $objMovie){
+                    require'views/_partial/movieList.php';
+                }
+            }
         ?>
 	</div>
 </section>

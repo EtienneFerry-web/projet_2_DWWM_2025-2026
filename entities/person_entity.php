@@ -15,6 +15,8 @@
 		private ?string $_bio="";
 		private string $_country;
 		private string $_photo;
+		private string $_NameJob;
+
 
 		/**
 		* Constructeur
@@ -102,4 +104,15 @@
 		public function setPhoto(string $strPhoto){
 			$this->_photo = $strPhoto;
 		}
+
+		public function getNameJob():string{
+			return $this->_NameJob;
+		}
+
+		public function setNameJob(string $strJob){
+			$this->_NameJob = $strJob;
+		}
+
+
+
 	}

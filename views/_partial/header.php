@@ -1,4 +1,4 @@
-<?php 
+<?php
     //activate session on all page using the header
     session_start();
 ?>
@@ -27,8 +27,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarMain">
                 <?php require'navHeader.php'?>
-                <form action="index.php?ctrl=movie&action=resultSearch" class="d-flex ms-lg-3" role="search" method="post">
-                    <input class="form-control me-2" type="search" placeholder="Rechercher..." name="search" value="">
+                <form action="index.php?ctrl=search&action=searchPage" class="d-flex ms-lg-3" role="search" method="post">
+                    <input class="form-control me-2" type="search" placeholder="Rechercher..." name="search" value="<?php if(isset($objSearch) && is_object($objSearch)){ echo $objSearch->getSearch();} ?>" required>
                     <button class="btn" type="submit">
                         <img src="/Projet2/assets/img/iconBtnSearch.svg" height="32" width="32">
                     </button>
@@ -38,8 +38,8 @@
     </nav>
     <?php if (isset($_SESSION['success'])){ ?>
     	<div class="alert alert-success">
-    		<p><?php 
-    				echo $_SESSION['success']; 
+    		<p><?php
+    				echo $_SESSION['success'];
     				unset($_SESSION['success']);
     			?>
     		</p>

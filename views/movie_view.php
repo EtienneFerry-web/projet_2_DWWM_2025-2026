@@ -18,9 +18,8 @@
     </div>
     <div class="col-12 col-md-8 py-1 py-md-5 text-center text-md-start">
         <h1 class="d-md-block d-none"><?= $objContent->getTitle() ?></h1>
-
+        <span class=" spanMovie d-block py-2"> Durée : <?= $objContent->getLength() ?></span>
         <span class=" spanMovie d-block py-2"> Date de sortie : <?= $objContent->getDateFormat() ?> </span>
-
         <p><?= $objContent->getDescription() ?></p>
         <div class="col-12 col-md-8 py-2 row" >
 

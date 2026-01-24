@@ -31,7 +31,7 @@
         }
     //Search of Actor
     public function findActor(){
-       
+
             $strRq	= " SELECT pers_id, pers_name, pers_firstname
                         FROM persons
                         INNER JOIN participates ON persons.pers_id = participates.part_pers_id
@@ -40,9 +40,9 @@
                                        	FROM participates
                                        	WHERE part_job_id = 3)
                         GROUP BY pers_id;";
-    
+
             return $this->_db->query($strRq)->fetchAll();
-       
+
     }
     //Search of realisator
     public function findReal(){
@@ -54,7 +54,7 @@
                                        	FROM participates
                                        	WHERE part_job_id = 1)
                         GROUP BY pers_id;";
-    
+
             return $this->_db->query($strRq)->fetchAll();
         }
     //Search of Producer
@@ -67,8 +67,19 @@
                                        	FROM participates
                                        	WHERE part_job_id = 2)
                         GROUP BY pers_id;";
-    
+
             return $this->_db->query($strRq)->fetchAll();
         }
+
+    public function findJobsOfPerson(int $idPerson=0):array{
+        $strRq	= " SELECT job_id ,  job_name AS 'job_NameJob'
+                    FROM jobs
+                    WHERE job_id IN (	SELECT part_job_id
+                                   	FROM participates
+                                   	WHERE part_pers_id = $idPerson
+                               	) ";
+
+        return $this->_db->query($strRq)->fetchAll();
+    }
 
     }

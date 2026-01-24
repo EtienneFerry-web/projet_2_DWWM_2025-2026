@@ -27,19 +27,19 @@
 		/**
 		 * Method - getters et setters
 		 * Format value to prepare Hydrate
-		 * 
+		 *
 		 * @param clean 		trim undesirable space before and after the value
 		 * @param strtolower 	sanitize from unwanted CAP
-		 * @param password_hash 
+		 * @param password_hash
 		 */
 
 		/**
 		* Name recover
 		* @return string Object name
 		*/
-		
-		
-		
+
+
+
 		public function getName():string{
 			return $this->_name;
 		}
@@ -83,7 +83,7 @@
 		}
 
 		public function setPhoto(?string $strBio){
-			$this->_photo = $strBio??"/Projet2/assets/img/mouse.png" ;
+			$this->_photo = $strBio??"/Projet2/assets/img/defaultImgUser.jpg" ;
 		}
 		public function getPhoto():string{
 			return $this->_photo;

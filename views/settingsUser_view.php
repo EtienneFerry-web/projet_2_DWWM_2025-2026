@@ -1,6 +1,6 @@
 <section id="settingsUser" class="container py-5">
 <h1>Gestion de compte</h1>
-<div class="py-3"><a href="index.php?ctrl=user&action=user&id=" class="spanMovie">Votre Profil</a></div>
+<div class="py-3"><a href="index.php?ctrl=user&action=user&id=<?= $_SESSION['user']['user_id'] ?>" class="spanMovie">Votre Profil</a></div>
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>

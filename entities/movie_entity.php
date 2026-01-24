@@ -15,6 +15,7 @@
 		private string $_trailer_url;
 		private string $_country;
 		private string $_categories;
+		private string $_length;
 		private string $_func;
 		private int    $_like;
 		private float  $_rating;
@@ -163,7 +164,7 @@
 		public function setCountry(string $strCountry){
 			$this->_country = $strCountry;
 		}
-		
+
 		public function getCategories():string{
 			return $this->_categories;
 		}
@@ -173,6 +174,17 @@
 		*/
 		public function setCategories(string $strCategories){
 			$this->_categories = $strCategories;
+		}
+
+		public function getLength():string{
+			return $this->_length;
+		}
+		/**
+		* Mise à jour de l'identifiant du créateur
+		* @param int le nouvel identifiant du créateur
+		*/
+		public function setLength(string $strLength){
+			$this->_length = $strLength;
 		}
 
 	}
