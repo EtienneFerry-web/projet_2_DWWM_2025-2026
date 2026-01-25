@@ -79,7 +79,7 @@
 		}
 
 		public function getRating():float{
-		    return $this->_rating;
+		    return number_format($this->_rating, 1, '.', '');
 		}
 
 		public function setRating(?float $floatRating=0){

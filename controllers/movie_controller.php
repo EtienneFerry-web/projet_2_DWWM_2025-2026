@@ -110,7 +110,7 @@
 			}
 
             $this->getContent($strPage = "list", objContent: $arrMovieToDisplay, objActor: $arrActorToDisplay, arrPost: $arrPost,
-                                objReal: $arrRealToDisplay, objProducer: $arrProducerToDisplay, objCountry: $arrCountryToDisplay, objCategories: $arrCategoriesToDisplay );
+            objReal: $arrRealToDisplay, objProducer: $arrProducerToDisplay, objCountry: $arrCountryToDisplay, objCategories: $arrCategoriesToDisplay );
         }
 
         public function movie(){

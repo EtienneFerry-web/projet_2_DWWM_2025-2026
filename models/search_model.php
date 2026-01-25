@@ -15,13 +15,13 @@
             if(empty($searchBy) || $searchBy == 5){
                 $strRq .=" SELECT mov_id AS sear_id, mov_title AS sear_name, mov_description AS sear_content, pho_url AS sear_photo,
                                     COALESCE(AVG(ratings.rat_score), 0) AS sear_rating,
-                                    COALESCE(COUNT(DISTINCT follows.follo_user_id), 0) AS sear_like, 'movie' AS sear_type,
+                                    COALESCE(COUNT(DISTINCT lik_user_id, lik_item_id, lik_type), 0) AS sear_like, 'movie' AS sear_type,
                                     CASE WHEN mov_title LIKE :startSearch THEN 1 ELSE 2 END AS score
                             FROM movies
                             LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                             LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                            LEFT JOIN follows ON movies.mov_id = follows.follo_mov_id
-                            WHERE mov_title LIKE :fullSearch
+                            LEFT JOIN liked ON movies.mov_id = liked.lik_item_id
+                            WHERE mov_title LIKE :fullSearch AND lik_type = 'movies'
                          GROUP BY mov_id";
             }
 
