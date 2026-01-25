@@ -6,6 +6,7 @@
     require'models/movie_model.php';
     require'models/comment_model.php';
     require'models/person_model.php';
+	require'entities/categorie_entity.php';
 
     /**
      * @author Marco Schmitt
@@ -110,17 +111,23 @@
         }
 
         public function addMovie(){
-            $this->getContent($strPage = "addMovie");
+			$objMovie = new MovieEntity(); // On crée l'objet
+		$arrError = [];
+            $this->getContent(
+			strPage:"addMovie",
+			objContent: $objMovie, // On passe l'objet film dans le paramètre "objContent"
+			arrError: $arrError);
         }
 		
 		/**
 	* @todo select sur les producteur realisateur et acteurs(ajout auto si n'existepas)
 	*/
 	//Récupérer les informations du Formulaire
-		public function AddMovie() {
+		public function createMovie() {
 			var_dump($_POST);
+			
 			$strTitle 				= $_POST['title']??'';
-			$intCategory			= $_POST5['category']??0;
+			$intCategory			= $_POST['category']??0;
 			$strOriginalTitle		= $_POST['original_title']??'';
 			$strLength				= $_POST['length']??'';
 			$strDescription			= $_POST['description']??'';
@@ -130,47 +137,47 @@
 			$strActorName			= $_POST['actorName']??'';
 			$strActorFirstname		= $_POST['actorFirstame']??'';
 			$strCharacterName		= $_POST['characterName']??'';
-
-
-			$objMovie	= new MovieEntity;
-			$objPerson = new PersonEntity;
-			$objPerson->hydrate($_POST);
-			$objMovie->hydrate($_POST);
 			
-			$objMovieModel = new MovieModel;
-			$arrCategory = $objMovieModel->findAllCategories();
+
+			// 1. Initialisation des objets et variables
+			$objMovie = new MovieEntity();
+			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
 			
-			if (count($_POST) > 0) {
-				if ($objMovie->getTitle() == ""){
-					$arrError['title'] = "Le titre est obligatoire";
-				}	
-				if ($objMovie->getLength() == ""){
-					$arrError['length'] = "La durée est obligatoire";
-				}	
-				if ($objMovie->getDescription() == ""){
-					$arrError['description'] = "La description est obligatoire";
+			$objCategories = new CategoryModel();
+			$arrCategory = $objCategories->findAllCategories(); // Nécessaire pour réafficher le select
+			$arrError = [];
+			
+
+			// 2. Validation des données
+			if (empty($objMovie->getTitle())) {
+				$arrError['title'] = "Le titre est obligatoire";
+			}
+			if (empty($objMovie->getLength())) {
+				$arrError['length'] = "La durée est obligatoire";
+			}
+			if (empty($objMovie->getDescription())) {
+				$arrError['description'] = "La description est obligatoire";
+			}
+
+			// 3. Logique d'insertion
+			if (count($arrError) == 0) {
+				// Si aucune erreur, on tente l'insertion
+				if ($objModel->insert($objMovie)) {
+					$_SESSION['success'] = "Le film a été soumis avec succès !";
+					header("Location: index.php");
+					exit;
+				} else {
+					$arrError['global'] = "Erreur lors de l'enregistrement en base de données.";
 				}
-				if ($objMovie->getCreatedate() ==""){
-					$arrError['release_date'] = "La date de sortie est obligatoire";
-				}	
 			}
-			// Si le formulaire est rempli correctement
-			if (count($arrError) == 0){
-				// => Ajout dans la base de données 
-				$objNewMovie	= new MovieModel;
-				$boolInsert 	= $objNewMovie->insert($objMovie);
-				if ($boolInsert === true){
-					$_SESSION['success'] 	= "Le film a été soumis au modérateur";
-				header("Location:index.php");
-                exit;
-				}else{
-					$arrError[] = "Erreur lors de l'ajout";
-				}	
-			}
+
+			// 4. Si on arrive ici (erreur de saisie ou échec SQL), on réaffiche le formulaire
+			// On passe $objMovie pour que les champs restent remplis (UX)
+			$this->getContent("addMovie", $objMovie, $objCategories, null, null, null, $arrError, $arrCategory);
+			include("addMovie_view.php");
 			
 			var_dump($intCategory);
 			var_dump($objMovieModel);
 			var_dump($objPerson);
-			
 		}
 	}

@@ -6,7 +6,7 @@
 	* @author Christel
 	*/
 	
-	class CategorieModel extends Entity{
+	class CategoryModel extends Entity{
 		//Attributs
 	
 		private string $_name; 

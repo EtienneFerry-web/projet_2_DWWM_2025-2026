@@ -147,11 +147,11 @@
 		* @return array Liste de résultat
 		*/
 		public function findAllCategories():array{
-			
+			require'category_entity.php';
 			$strRq = "SELECT cat_id, cat_name
 					  FROM categories";	
 			// Lancer la requête et récupérer les résultats
-			return $this->_db->query($strRq)->fetchAll();
+			return $this->_db->query($strRq)->fetchAll(PDO::FECTCH_ASSOC);
 		
 		}
 		/**
@@ -162,7 +162,7 @@
                 
 		// Request construction
 			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_lenght, mov_descritpion, mov_release_date)
-						            VALUES (:title, :firstname, :length, :description, :createDate,:pwd, NOW())";
+						            VALUES (:title, :originalTitle, :length, :description, :createDate)";
 			// Prepared request
 			$rqPrep	= $this->_db->prepare($strRq);
 			// Sending information

@@ -1,9 +1,7 @@
 <?php
-	
-	
+	var_dump($_POST);
 ?>
-
-    <section class="container py-5 my-auto">
+   <section class="container py-5 my-auto">
 	<?php 
     if (count($arrError) > 0) {?>
 		<div class="alert alert-danger">
@@ -11,6 +9,7 @@
 			<p><?php echo $strError; ?></p>
 		<?php }	?>
 		</div>
+		
 	<?php } ?>
 	    <h1 class="text-center">Demande d'ajout de film</h1>
 		<p class="mx-auto text-center py-2">Vous ne trouvez pas votre film préféré dans notre catalogue ? Aidez-nous à enrichir notre base de données ! Remplissez le formulaire ci-dessous avec les informations du film, et notre équipe l'ajoutera après vérification. </a></p>
@@ -24,25 +23,26 @@
 							class="form-control" 
 							id="title" 
 							placeholder="Titre" 
-							value="<?php echo($objNewMovie->getTitle); ?>"
+							value="<?php echo($objContent->getTitle()); ?>"
 							required>
 				</div>
 				<div class="col-md-6">
 					<label for="categorie" class="form-label">Genre</label>
-					<select class="form-control" id="author" name="categorie">
-						<option value="0" <?php echo ($intCategory == 0)?'selected':''; ?> class="form-control" required>Toutes les catégories</option>
-						<!-- Faire une boucle sur les catégories de la base de données -->
-						<?php
-						foreach($arrCategory as $arrDetCategory){
-						?>
-							<option class="form-control" value="<?php echo $arrDetCategory['cat_id']; ?> " 
-								<?php echo ($intCategory == $arrDetCategory['cat_id'])?'selected':''; ?> 
-							>
-								<?php echo $arrDetCategory['cat_name']; ?>
-							</option>
-						<?php
-						}
-						?>
+					<select class="form-control" id="categorie" name="categorie">
+					<option value="0">Toutes les catégories</option>
+					
+					<?php foreach($arrResult as $arrDetCategory) { ?>
+						<option class="form-control" value="<?php echo $arrDetCategory['cat_id']; ?>" 
+							<?php 
+							if (isset($objCategories) && $objCategories->getID() == $arrDetCategory['cat_id']) {
+								echo 'selected';
+							} // <--- C'est cette accolade qui manquait !
+							?> 
+						> 
+							<?php echo $arrDetCategory['cat_name']; ?>
+						</option>
+					<?php } ?>
+        
 					</select>
 				</div>
 
@@ -54,7 +54,7 @@
 						type="date" 
 						class="form-control" 
 						id="release_date"  
-						value="<?php echo($objNewMovie->getCreatedate); ?>"
+						value="<?php echo($objContent->getCreatedate()); ?>"
 						placeholder="Quelle est la date de sortie du film?" 
 						required>
             </div>
@@ -65,7 +65,7 @@
 						type="text" 
 						class="form-control" 
 						id="original_title"
-						value="<?php echo($strOriginalTitle); ?>"
+						value="<?php echo($objContent->getOriginalTitle()); ?>"
 						placeholder="">
             </div>
             <div class="form-group py-2">
@@ -74,7 +74,7 @@
 						type="time" 
 						class="form-control" 
 						id="length"  
-						value="<?php echo($objNewMovie->getLength()); ?>"
+						value="<?php echo($objContent->getLength()); ?>"
 						placeholder="Email" 
 						required>
             </div>
@@ -84,7 +84,7 @@
 							class="form-control textarea" 
 							id="description" 
 							placeholder="Synopsis" 
-							required><?php echo($objNewMovie->getDescription()); ?></textarea>
+							required><?php echo($objContent->getDescription()); ?></textarea>
             </div>            
 			
 			<hr>

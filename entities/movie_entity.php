@@ -9,17 +9,18 @@
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
-		private string $_title;
-		private string $_url;
-		private string $_description;
-		private string $_release_date;
-		private string $_trailer_url;
-		private string $_country;
-		private string $_func;
-		private int    $_like;
-		private float  $_rating;
+		private string $_title='';
+		private string $_url='';
+		private string $_description='';
+		private string $_release_date='';
+		private string $_trailer_url='';
+		private string $_country='';
+		private string $_func='';
+		private int    $_like=0;
+		private float  $_rating=0.0;
 		private string $_originalTitle='';
-		private string $_length='';	
+		private string $_length='';
+		
 	
 
 		/**
@@ -31,7 +32,7 @@
 		}
 
 		// Méthodes - getters et setters
-
+		
 		/**
 		* Récupération du titre
 		* @return string le titre de l'objet
@@ -154,13 +155,5 @@
 		public function getLength():string{
 			return $this->_length;
 		}
-		/**
-		* Récupération de la categorie
-		* @return string la categorie de l'objet
-		*/
-		public function getCategory():string{
-			return $this->_id;
-		}
 		
 	}
-	
