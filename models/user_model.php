@@ -78,8 +78,21 @@
 
 
             return $this->_db->query($strRq)->fetch();
+        }
 
-
-
+	    /**
+         * Delete account 
+         * @author Etienne 
+         * @param $intId = $_GET['id'];
+         * return boolean
+         */
+		public function deleteUser(int $intId){
+			
+			$strRq = "DELETE FROM users WHERE user_id = :id";
+			
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+			
+			return $rqPrep->execute(['id' => $intId]);
         }
     }

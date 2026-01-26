@@ -193,4 +193,28 @@
             $this->getContent($strPage = "user", objUser: $objUser, objContent: $arrMovieToDisplay, objComment: $arrCommentToDisplay );
         }
 
+        /**
+         * Delete account 
+         * @author Etienne 
+         * @param $intId = $_GET['id'];
+         */
+       public function deleteAccount(){ 
+    
+        if(!isset($_SESSION['user']['user_id'])){
+            header("Location:index.php?ctrl=user&action=login");
+            exit;
+        }
+
+        $intId = $_SESSION['user']['user_id'];
+
+        $objUserModel = new UserModel();
+        $success = $objUserModel->deleteUser($intId);
+
+        // Si on a supprimé, on nettoie tout
+        unset($_SESSION['user']);
+        session_destroy();
+        
+        header("Location:index.php");
+        exit;
     }
+}

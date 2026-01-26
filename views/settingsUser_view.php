@@ -23,31 +23,34 @@
 </div>
 <!--Contenue mail mots de passe -->
 <div class="py-5">
-     <h2>Sécurité</h2>
-     <form method="post" class="row">
-         <div class="col-12 col-sm-6 p-2">
-             <label for="" class="form-label">Mots de Passe</label>
-             <input type="text" name="" value="" class="form-control">
-         </div>
-         <div class="col-12 col-sm-6 p-2">
-             <label for="" class="form-label">Adresse Email</label>
-             <input name="" id="" placeholder="Email" class="form-control">
-         </div>
-         <button type="submit" class="btnCustom py-3">Enregistrer</button>
-     </form>
-     <div class="row justify-content-center mt-3">
-         <div class="col-auto">
-             <a href="index.php?ctrl=user&action=logout" class="nav-link">
-                 Se déconnecter
-             </a>
-         </div>
-
-         <div class="col-auto">
-             <a href="index.php?ctrl=user&action=delete" class="nav-link">
-                 Supprimer votre compte
-             </a>
-         </div>
-     </div>
+    <h2>Sécurité</h2>
+    <form method="post" class="row">
+        <div class="col-12 col-sm-6 p-2">
+            <label for="" class="form-label">Mots de Passe</label>
+            <input type="text" name="" value="" class="form-control">
+        </div>
+        <div class="col-12 col-sm-6 p-2">
+            <label for="" class="form-label">Adresse Email</label>
+            <input name="" id="" placeholder="Email" class="form-control">
+        </div>
+        <button type="submit" class="btnCustom py-3">Enregistrer</button>
+    </form>
+    <div class="row justify-content-center mt-3">
+    <div class="col-auto">
+        <a href="index.php?ctrl=user&action=logout" class="btn btn-secondary">
+            Se déconnecter
+        </a>
+    </div>
+    <div class="col-12 mt-4 border-top pt-3">
+        <p>Attention, si vous cliquez ci-dessous, votre compte sera supprimé définitivement.</p>
+        
+        <form action="index.php?ctrl=user&action=deleteAccount" method="POST" onsubmit="return confirm('Êtes-vous sûr ? C\'est irréversible !');">
+            
+            <button type="submit" class="btn btn-danger">
+                Supprimer mon compte
+            </button>
+            
+        </form>
+    </div>
 </div>
-
 </section>
