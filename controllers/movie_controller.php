@@ -185,7 +185,7 @@
 
 			// 4. Si on arrive ici (erreur de saisie ou échec SQL), on réaffiche le formulaire
 			// On passe $objMovie pour que les champs restent remplis (UX)
-			$this->getContent("createMovie", arrError: $arrError, objCat: $arrcatToDisplay);
+			$this->getContent("createMovie",objContent: $objContent ,arrError: $arrError, objCat: $arrcatToDisplay);
 			
 			var_dump($intCategory);
 			var_dump($objMovieModel);

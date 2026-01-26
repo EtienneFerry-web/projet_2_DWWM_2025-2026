@@ -32,14 +32,14 @@
 					<option value="0">Toutes les catégories</option>
 					<?php var_dump($arrResult);?>
 					<?php foreach($arrResult as $arrDetCategory) { ?>
-						<option class="form-control" value="<?php echo $arrDetCategory['cat_id']; ?>" 
+						<option class="form-control" value="<?php echo $arrDetCategory['mov_id']; ?>" 
 							<?php 
-							if (isset($objCategories) && $objCategories->getID() == $arrDetCategory['cat_id']) {
+							if (isset($objCategories) && $objCategories->getID() == $arrDetCategory['mov_id']) {
 								echo 'selected';
-							} // <--- C'est cette accolade qui manquait !
+							}
 							?> 
 						> 
-							<?php echo $arrDetCategory['cat_name']; ?>
+							<?php echo $arrDetCategory['mov_categories']; ?>
 						</option>
 					<?php } ?>
         
