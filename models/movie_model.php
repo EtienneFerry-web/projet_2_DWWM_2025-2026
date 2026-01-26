@@ -147,11 +147,10 @@
 		* @return array Liste de résultat
 		*/
 		public function findAllCategories():array{
-			require'category_entity.php';
-			$strRq = "SELECT cat_id, cat_name
+			$strRq = " SELECT cat_id AS 'mov_id', cat_name AS 'mov_categories'
 					  FROM categories";	
 			// Lancer la requête et récupérer les résultats
-			return $this->_db->query($strRq)->fetchAll(PDO::FECTCH_ASSOC);
+			return $this->_db->query($strRq)->fetchAll();
 		
 		}
 		/**

@@ -6,7 +6,7 @@
     require'models/movie_model.php';
     require'models/comment_model.php';
     require'models/person_model.php';
-	require'entities/categorie_entity.php';
+	
 
     /**
      * @author Marco Schmitt
@@ -112,7 +112,7 @@
 
         public function addMovie(){
 			$objMovie = new MovieEntity(); // On crée l'objet
-		$arrError = [];
+			$arrError = [];
             $this->getContent(
 			strPage:"addMovie",
 			objContent: $objMovie, // On passe l'objet film dans le paramètre "objContent"
@@ -142,10 +142,22 @@
 			// 1. Initialisation des objets et variables
 			$objMovie = new MovieEntity();
 			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
+			$objMovieModel = new MovieModel();
+
+
+
+			$arrCategory = $objMovieModel->findAllCategories();
+			$arrcatToDisplay	= array();
+
+			foreach($arrCategory as $arrDetCat){
+				$objContent = new MovieEntity('mov_');
+				$objContent->hydrate($arrDetCat);
+
+				$arrcatToDisplay[]	= $objContent;
+			}
 			
-			$objCategories = new CategoryModel();
-			$arrCategory = $objCategories->findAllCategories(); // Nécessaire pour réafficher le select
 			$arrError = [];
+			var_dump($arrcatToDisplay);
 			
 
 			// 2. Validation des données
@@ -173,8 +185,7 @@
 
 			// 4. Si on arrive ici (erreur de saisie ou échec SQL), on réaffiche le formulaire
 			// On passe $objMovie pour que les champs restent remplis (UX)
-			$this->getContent("addMovie", $objMovie, $objCategories, null, null, null, $arrError, $arrCategory);
-			include("addMovie_view.php");
+			$this->getContent("createMovie", arrError: $arrError, objCat: $arrcatToDisplay);
 			
 			var_dump($intCategory);
 			var_dump($objMovieModel);

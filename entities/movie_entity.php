@@ -20,6 +20,7 @@
 		private float  $_rating=0.0;
 		private string $_originalTitle='';
 		private string $_length='';
+		private string $_categories;
 		
 	
 
@@ -154,6 +155,17 @@
 		*/
 		public function getLength():string{
 			return $this->_length;
+		}
+		
+		/**
+		* Mise à jour de 
+		* @param int le 
+		*/
+		public function setCategories(string $strCategories){
+			$this->_categories = $strCategories;
+		}
+		public function getCategories():string{
+			return $this->_categories;
 		}
 		
 	}
