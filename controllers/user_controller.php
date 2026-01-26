@@ -138,7 +138,7 @@
                             session_start();
                             $_SESSION['user']		= $arrResult;
                             $_SESSION['success'] 	= "Le compte compte a bien été crée";
-                            header("Location:index.php");
+                            header("Location:index.php?ctrl=user&action=login");
                             exit;
                     }else{
                         $arrError[] = "Erreur lors de l'ajout";
