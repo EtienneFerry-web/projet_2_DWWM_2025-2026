@@ -16,6 +16,7 @@
 			// si la classe existe, on l'instancie
 			$objController 	= new $strClassName();
 			if (method_exists($objController, $strMethod)){
+			    session_start();
 				// Si la méthode existe, on l'appelle
 				$objController->$strMethod();
 			}else{

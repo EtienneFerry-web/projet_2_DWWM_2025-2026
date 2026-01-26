@@ -114,14 +114,49 @@
         }
 
         public function movie(){
+			$arrError = [];
+            $intId = $_GET['id']; //<-- ID of Movie
+			$objCommentModel	= new CommentModel;
+			/**
+			 * @author Etienne
+			 *
+			 */
 
-            $intId = $_GET['id'];
+
+
+				// 1. Check if the form has been submitted
+				if(!empty($_POST)) {
+
+				// 2. Ensure the user is logged in
+					if(isset($_SESSION['user'])) {
+
+				// 3. Validation: Check if the comment is empty (after trimming whitespace)
+						if ((trim($_POST['com_comment'])== "")){
+							$arrError['com_comment'] = "Vous devez remplir le champ commentaire pour laisser un avis";
+						}
+				// 4. Validation: Check if a rating has been selected
+						if (empty($_POST['noteRating'])){
+							$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
+						}
+				/// 5. Final Verdict: If no errors were found, proceed with insertion
+						if(count($arrError)===0) {
+				// Instantiate and hydrate the CommentEntity
+							$objComment = new CommentEntity;
+							$objComment->setComment($_POST['com_comment']);
+							$objComment->setUser_id($_SESSION['user']['user_id']);
+							$objComment->setRating($_POST['noteRating']);
+							$objComment->setmovieId($intId);
+				// Insert into DB and set success notification
+							$objCommentModel->commentInsert($objComment);
+							$_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+						}
+					}
+				}
 
             $objMovieModel 	= new MovieModel;
 			$arrMovie 		= $objMovieModel->findMovie($intId);
 			$objMovie       = new MovieEntity('mov_');
 			$objMovie->hydrate($arrMovie);
-
 			$objPersonModel = new PersonModel;
 			$arrPerson      = $objPersonModel->findAllPerson($intId);
 
@@ -134,7 +169,6 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$objCommentModel = new CommentModel;
 			$arrComment     = $objCommentModel->commentOfMovie($intId);
 
 			$arrCommentToDisplay	= array();
@@ -147,7 +181,7 @@
 			}
 
 
-            $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay );
+            $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay, arrError: $arrError);
         }
 
         public function addMovie(){

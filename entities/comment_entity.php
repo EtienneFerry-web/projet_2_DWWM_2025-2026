@@ -16,6 +16,7 @@
 		private string $_title;
 		private string $_url;
 		private int    $_like;
+		private int $_movieId;
 
 
 		/**
@@ -102,5 +103,14 @@
 		public function setLike(int $intLike){
 			$this->_like = $intLike;
 		}
+
+		public function getMovieId(){
+			return $this->_movieId ;
+		}
+
+		public function setMovieId(int $intNote){
+			$this->_movieId = $intNote ;
+		}
+
 
 	}

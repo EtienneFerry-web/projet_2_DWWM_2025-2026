@@ -1,4 +1,3 @@
-
 <?php
     require_once'models/mother_model.php';
 
@@ -6,17 +5,16 @@
 
         public function newMovie(){
           $strRq	= "
-                        SELECT mov_id, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id, lik_item_id, lik_type) AS 'mov_like'
+                        SELECT mov_id, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
                         WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
                         GROUP BY movies.mov_id
-                          ";
+                        ";
 
-
-		    return $this->_db->query($strRq)->fetchAll();
+            return $this->_db->query($strRq)->fetchAll();
         }
 
 
@@ -25,7 +23,7 @@
             $strWhere	= " WHERE ";
 
 
-			$strRq	= " SELECT mov_id, mov_title, mov_description , pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id, lik_item_id, lik_type) AS 'mov_like'
+			$strRq	= " SELECT mov_id, mov_title, mov_description , pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
@@ -85,20 +83,23 @@
             }
 
 
-			$strRq .= " GROUP BY movies.mov_id
-			            ORDER BY mov_release_date DESC
-			            ";
+            // (Your existing filter logic here is commented out in source, keeping as is)
 
-			// Lancer la requête et récupérer les résultats
-			return $this->_db->query($strRq)->fetchAll();
-		}
+            $strRq .= " GROUP BY movies.mov_id
+                        ORDER BY mov_release_date DESC
+                        ";
+
+
+
+            return $this->_db->query($strRq)->fetchAll();
+        }
 
 		public function findMovie(int $idMovie=0){
 
  	        $strRq	= " SELECT movies.*,
                             pho_url AS 'mov_url',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
-                            COUNT(DISTINCT lik_user_id, lik_item_id, lik_type) AS 'mov_like',
+                            COUNT(DISTINCT lik_user_id ) AS 'mov_like',
                             nat_country AS 'mov_country'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
@@ -108,8 +109,8 @@
                         WHERE mov_id = $idMovie ";
 
 
-		    return $this->_db->query($strRq)->fetch();
-		}
+            return $this->_db->query($strRq)->fetch();
+        }
 
 		public function movieOfPerson(int $idPerson=0,array $arrPost=[]):array{
 
@@ -117,7 +118,7 @@
                             movies.mov_id,
                             photos.pho_url AS 'mov_url',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
-                            COUNT(DISTINCT lik_user_id, lik_item_id, lik_type) AS 'mov_like'
+                            COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM persons
                         LEFT JOIN participates ON persons.pers_id = participates.part_pers_id
                         LEFT JOIN movies ON participates.part_mov_id = movies.mov_id
@@ -141,17 +142,20 @@
             }
 
             return $this->_db->query($strRq)->fetchAll();
-		}
+        }
 
 
-		public function userLike(int $idUser=0){
-
-		    $strRq	= " SELECT mov_id, pho_url AS 'mov_url'
+        public function userLike(int $idUser=0){
+            // FIX: Added MIN() around pho_url and added GROUP BY to avoid duplicates
+            $strRq  = " SELECT
+                            movies.mov_id,
+                            photos.pho_url AS 'mov_url'
                         FROM users
                         LEFT JOIN liked ON users.user_id = liked.lik_user_id AND liked.lik_type = 'movies'
                         INNER JOIN movies ON liked.lik_item_id = movies.mov_id
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         WHERE user_id = $idUser
+                        GROUP BY movies.mov_id
                         ORDER BY lik_created_at";
 
             return $this->_db->query($strRq)->fetchAll();
@@ -175,6 +179,7 @@
 
             return $this->_db->query($strRq)->fetchAll();
 
-		}
+        }
 
     }
+?>

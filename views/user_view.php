@@ -12,6 +12,7 @@
             <span class="spanMovie d-block py-1 border-0"><?= $objUser->getFunction() ?></span>
         </div>
     </div>
+
     <div class="col-12  py-2">
         <div class="like py-3 col-12">
             <span class="spanMovie d-block col-12">Film Liker</span>
@@ -27,6 +28,7 @@
               </div>
             </div>
         </div>
+
 </section>
 <section id="review" class="container text-center">
     <h2>Vos review / pseudo</h2>

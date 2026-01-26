@@ -1,4 +1,4 @@
-   
+
     <section id="hero" class=" container  row mx-auto py-5">
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
             <?php if(!isset($_SESSION['user'])){?>
@@ -10,7 +10,7 @@
             </div>
             <?php } else { ?>
             <h1>Bienvenue <?php echo(($_SESSION['user']["user_pseudo"])); ?></h1>
-            
+
             <p class="py-3">On veut connaître vos goûts ! Sentez-vous libres de présenter et noter vos films favoris.</p>
             <?php } ?>
         </div>
@@ -25,16 +25,11 @@
       <div class="splide py-5">
         <div class="splide__track">
           <ul class="splide__list">
-
-
             <?php
                 foreach($objContent as $objMovie){
                 include("views/_partial/newMovie.php");
                 }
             ?>
-
-
-
           </ul>
         </div>
       </div>

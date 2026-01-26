@@ -1,7 +1,4 @@
-<?php
-    //activate session on all page using the header
-    session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -36,12 +33,13 @@
             </div>
         </div>
     </nav>
-    <?php if (isset($_SESSION['success'])){ ?>
-    	<div class="alert alert-success">
-    		<p><?php
-    				echo $_SESSION['success'];
-    				unset($_SESSION['success']);
-    			?>
-    		</p>
-    	</div>
-    <?php } ?>
+<?php if (isset($_SESSION['success'])){ ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <?php
+                    echo $_SESSION['success'];
+                    unset($_SESSION['success']);
+                ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>

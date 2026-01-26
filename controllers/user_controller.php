@@ -8,16 +8,16 @@
     require'models/comment_model.php';
 
     /**
-    * Log in  
+    * Log in
     * @author Etienne
-    * 
+    *
     * 1. Collect information from the form
     * 2. Test if the form is correctly filled
     * 3. If the form is correctly filled, add of the information in the database, else ERROR
-    * 
-    * @todo Green alert when connected/account created 
-    * 
-    * 
+    *
+    * @todo Green alert when connected/account created
+    *
+    *
     */
 
     class UserCtrl extends MotherCtrl{
@@ -26,8 +26,8 @@
             // Treating login form
             $strEmail       = $_POST['email']??"";
             $strPwd 		= $_POST['pwd']??"";
-            
-                        
+
+
             // Preparing hydrate
             $objUser	        = new UserEntity;
             $objUserModel       = new UserModel;
@@ -40,7 +40,7 @@
                 // Verify form
                 if ($strEmail == ""){
                     $arrError['email'] = "Le mail est obligatoire";
-                }	
+                }
                 if ($strPwd == ""){
                     $arrError['pwd'] = "Le mot de passe est obligatoire";
                 }
@@ -56,10 +56,10 @@
                             exit;
                     }
                 }
-            }	
+            }
 			$this->getContent($strPage = "login", objUser: $objUser, arrError: $arrError);
         }
-        
+
         public function logout(){
             session_start();
             // Cleaning session from User
@@ -69,20 +69,20 @@
 	        exit;
         }
         /**
-        * Create account 
+        * Create account
         * @author Etienne
-        * 
+        *
         * 1. Collect information from the form
         * 2. Test if the form is correctly filled
         * 3. If the form is correctly filled, add of the information in the database, else ERROR
-        * 
-        * @todo Green alert when connected/account created 
-        * 
-        * 
+        *
+        * @todo Green alert when connected/account created
+        *
+        *
         */
 
         public function createAccount(){
-            
+
             //Treating createAccount Form
             $strName 		= $_POST['name']??"";
             $strFirstname 	= $_POST['firstname']??"";
@@ -91,23 +91,23 @@
             $strEmail 		= $_POST['email']??"";
             $strPwd 		= $_POST['pwd']??"";
             $strPwdConfirm	= $_POST['pwd_confirm']??"";
-            
+
             //Preparing hydrate
             $objUser	= new UserEntity;
             $objUser->hydrate($_POST);
-    
+
             //Testing Form
             $arrError = [];
             if (count($_POST) > 0) {
                 if ($objUser->getName() == ""){
                     $arrError['name'] = "Le nom est obligatoire";
-                }	
+                }
                 if ($objUser->getFirstname() == ""){
                     $arrError['firstname'] = "Le prénom est obligatoire";
-                }	
+                }
                 if ($objUser->getPseudo() == ""){
                     $arrError['pseudo'] = "Le pseudo est obligatoire";
-                }	
+                }
                 if ($objUser->getBirthdate() == ""){
                     $arrError['birthdate'] = "La date de naissance est obligatoire";
                 }
@@ -116,7 +116,7 @@
                 }else if (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)){
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
-    
+
             // Adding regex to verify password
                 $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
                 if ($objUser->getPwd() == ""){
@@ -126,23 +126,26 @@
                 }else if($objUser->getPwd() != $strPwdConfirm){
                     $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
                 }
-                
-                
+
+
             //If form is correctly filled
                 if (count($arrError) == 0){
             //Database add
                     $objUserModel	= new UserModel;
                     $boolInsert 	= $objUserModel->insert($objUser);
-                    if ($boolInsert === true){
-                        $_SESSION['success'] 	= "Le compte a bien été créé";
-                    header("Location:index.php");
-                    exit;
+
+                    if ($boolInsert == true){
+                            session_start();
+                            $_SESSION['user']		= $arrResult;
+                            $_SESSION['success'] 	= "Le compte compte a bien été crée";
+                            header("Location:index.php");
+                            exit;
                     }else{
                         $arrError[] = "Erreur lors de l'ajout";
                     }
                 }
-            }   
-    
+            }
+
             //Display variable
             $this->getContent($strPage = "createAccount", objUser: $objUser, arrError: $arrError);
         }

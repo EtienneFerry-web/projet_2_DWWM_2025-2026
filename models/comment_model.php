@@ -59,15 +59,47 @@
                             comments.com_datetime";
 
 
-		    return $this->_db->query($strRq)->fetchAll();
+	        return $this->_db->query($strRq)->fetchAll();
 
         }
 
 
+        /**
+         * @author Etienne
+         * Function insert Comment & rating in database
+         * @param object $objComment Comment object
+         * 
+         */
+        
+public function commentInsert(object $objComment): bool {
+    // 1. Insertion du commentaire (Cela fonctionne car on peut commenter plusieurs fois)
+    $sql1 = "INSERT INTO comments (com_comment, com_user_id, com_movie_id, com_datetime) 
+            VALUES (:comment, :userId, :movieId, NOW())
+            ON DUPLICATE KEY UPDATE com_comment = :comment, com_datetime = NOW() ";
+    
+    $rq1 = $this->_db->prepare($sql1);
+    $rq1->bindValue(":comment", $objComment->getComment(), PDO::PARAM_STR);
+    $rq1->bindValue(":userId",  $objComment->getUser_id(), PDO::PARAM_INT);
+    $rq1->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
+    
+    $success1 = $rq1->execute();
 
+    // 2. CORRECTION ICI : Gestion de la note (INSERT ou UPDATE)
+    // On utilise "ON DUPLICATE KEY UPDATE"
+    $sql2 = "INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score) 
+            VALUES (:userId, :movieId, :rating)
+            ON DUPLICATE KEY UPDATE rat_score = :rating";
 
+    $rq2 = $this->_db->prepare($sql2);
+    $rq2->bindValue(":userId",  $objComment->getUser_id(), PDO::PARAM_INT);
+    $rq2->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
+    
+    // ATTENTION : Si tes notes sont à virgule (ex: 4.5), utilise PARAM_STR
+    $rq2->bindValue(":rating",  $objComment->getRating(),  PDO::PARAM_STR); 
+    
+    $success2 = $rq2->execute();
 
-
-
+    return ($success1 && $success2);
+}
 
     }
