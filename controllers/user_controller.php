@@ -198,7 +198,7 @@
          * @author Etienne 
          * @param $intId = $_GET['id'];
          */
-       public function deleteAccount(){ 
+        public function deleteAccount(){ 
     
         if(!isset($_SESSION['user']['user_id'])){
             header("Location:index.php?ctrl=user&action=login");
@@ -211,10 +211,11 @@
         $success = $objUserModel->deleteUser($intId);
 
         // Si on a supprimé, on nettoie tout
+        if($success){
         unset($_SESSION['user']);
-        session_destroy();
-        
+        $_SESSION['success'] = "Votre compte à bien été supprimé";
         header("Location:index.php");
         exit;
+        }
     }
 }

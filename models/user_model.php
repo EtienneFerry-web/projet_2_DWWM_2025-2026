@@ -87,7 +87,6 @@
          * return boolean
          */
 		public function deleteUser(int $intId){
-			
 			$strRq = "DELETE FROM users WHERE user_id = :id";
 			
 			$rqPrep = $this->_db->prepare($strRq);

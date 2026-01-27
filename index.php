@@ -1,4 +1,5 @@
 <?php
+session_start();
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'movie'; // quel contrôleur ?
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?
