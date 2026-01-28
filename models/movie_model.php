@@ -3,6 +3,19 @@
 
     class MovieModel extends Connect{
 
+        public string $producer     = '';
+        public string $actor        = '';
+        public string $realisator   = '';
+        public string $categories   = '';
+        public string $country      = '';
+        public string $date         = '';
+        public string $startdate    = '';
+        public string $enddate      = '';
+        public string $order        = '';
+        public string $job          = 'ASC';
+        
+
+
         public function newMovie(){
           $strRq	= "
                         SELECT mov_id, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
@@ -18,30 +31,29 @@
         }
 
 
-        public function allMovie(array $arrPost=[] ):array{
+        public function allMovie(): array {
+            $strWhere = " WHERE ";
+            $strRq = " SELECT mov_id, mov_title, mov_description, pho_url AS 'mov_url', 
+                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', 
+                            COUNT(DISTINCT lik_user_id) AS 'mov_like'
+                    FROM movies
+                    LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
+                    LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
+                    LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                    ";
 
-            $strWhere	= " WHERE ";
-
-
-			$strRq	= " SELECT mov_id, mov_title, mov_description , pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
-                        FROM movies
-                        LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
-                        LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        ";
             $conditions = [];
 
-            //Recherche de tel acteur en temps que acteur, realisateur et producter
-            if (!empty($arrPost['actor'])) {
-                $conditions[] = "participates.part_job_id = 3 AND participates.part_pers_id = " . (int)$arrPost['actor'] . "";
+            if (!empty($this->actor)) {
+                $conditions[] = "participates.part_job_id = 3 AND participates.part_pers_id = :actor";
             }
 
-            if (!empty($arrPost['producer'])) {
-                $conditions[] = "participates.part_job_id = 2 AND participates.part_pers_id = " . (int)$arrPost['producer'] . "";
+            if (!empty($this->producer)) {
+                $conditions[] = "participates.part_job_id = 2 AND participates.part_pers_id = :producer";
             }
 
-            if (!empty($arrPost['realisator'])) {
-                $conditions[] = "participates.part_job_id = 1 AND participates.part_pers_id = " . (int)$arrPost['realisator'] . "";
+            if (!empty($this->realisator)) {
+                $conditions[] = "participates.part_job_id = 1 AND participates.part_pers_id = :realisator";
             }
 
             if (!empty($conditions)) {
@@ -50,48 +62,69 @@
                                 FROM participates
                                 WHERE " . implode(" OR ", $conditions) . "
                             )";
-                $strWhere	= " AND ";
+                $strWhere = " AND ";
             }
 
-            if (!empty($arrPost['categories'])){
-                $strRq .=" $strWhere mov_id IN( SELECT belong_mov_id
-                                                FROM belongs
-                                                WHERE belong_cat_id =".$arrPost['categories'].")";
-                $strWhere	= " AND ";
+            if (!empty($this->categories)) {
+                $strRq .= " $strWhere mov_id IN (
+                                SELECT belong_mov_id
+                                FROM belongs
+                                WHERE belong_cat_id = :category
+                            )";
+                $strWhere = " AND ";
             }
 
-            if (!empty($arrPost['country'])){
-                $strRq .=" $strWhere mov_nat_id ='".$arrPost['country']."'";
-                $strWhere	= " AND ";
+            if (!empty($this->country)) {
+                $strRq .= " $strWhere mov_nat_id = :country";
+                $strWhere = " AND ";
             }
 
-            if(!empty($arrPost['date'])){
-                $strRq .=" $strWhere mov_release_date = '".$arrPost['date']."'
-                            ";
-            } elseif(!empty($arrPost['startDate']) && !empty($arrPost['endDate'])){
-
-                $strRq .=" $strWhere mov_release_date BETWEEN '".$arrPost['startDate']."' AND '".$arrPost['startDate']."'";
-
-            } elseif(!empty($arrPost['startDate'])){
-
-                $strRq .=" $strWhere mov_release_date > '".$arrPost['startDate']."'";
-
-            } elseif(!empty($arrPost['endDate'])){
-
-                $strRq .=" $strWhere mov_release_date < '".$arrPost['endDate']."'";
-
+            if (!empty($this->date)) {
+                $strRq .= " $strWhere mov_release_date = :date";
+            } elseif (!empty($this->startdate) && !empty($this->enddate)) {
+                $strRq .= " $strWhere mov_release_date BETWEEN :startDate AND :endDate";
+            } elseif (!empty($this->startdate)) {
+                $strRq .= " $strWhere mov_release_date > :startDate";
+            } elseif (!empty($this->enddate)) {
+                $strRq .= " $strWhere mov_release_date < :endDate";
             }
-
-
-            // (Your existing filter logic here is commented out in source, keeping as is)
 
             $strRq .= " GROUP BY movies.mov_id
-                        ORDER BY mov_release_date DESC
-                        ";
+                        ORDER BY mov_release_date DESC";
 
+            
+            $stmt = $this->_db->prepare($strRq);
 
+            
+            if (!empty($this->actor)) {
+                $stmt->bindValue(':actor', $this->actor, PDO::PARAM_INT);
+            }
+            if (!empty($this->producer)) {
+                $stmt->bindValue(':producer', $this->producer, PDO::PARAM_INT);
+            }
+            if (!empty($this->realisator)) {
+                $stmt->bindValue(':realisator', $this->realisator, PDO::PARAM_INT);
+            }
+            if (!empty($this->categories)) {
+                $stmt->bindValue(':category', $this->categories, PDO::PARAM_INT);
+            }
+            if (!empty($this->country)) {
+                $stmt->bindValue(':country', $this->country, PDO::PARAM_INT);
+            }
+            if (!empty($this->date)) {
+                $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
+            }
+            if (!empty($this->startdate)) {
+                $stmt->bindValue(':startDate', $this->startdate, PDO::PARAM_STR);
+            }
+            if (!empty($this->enddate)) {
+                $stmt->bindValue(':endDate', $this->enddate, PDO::PARAM_STR);
+            }
 
-            return $this->_db->query($strRq)->fetchAll();
+            // 4. Exécution
+            $stmt->execute();
+
+            return $stmt->fetchAll();
         }
 
 		public function findMovie(int $idMovie=0){
@@ -106,13 +139,20 @@
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE mov_id = $idMovie ";
+                        WHERE mov_id = :id ";
 
+            $stmt = $this->_db->prepare($strRq);
 
-            return $this->_db->query($strRq)->fetch();
+            $stmt->bindValue(':id', $idMovie, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
         }
 
-		public function movieOfPerson(int $idPerson=0,array $arrPost=[]):array{
+		public function movieOfPerson(int $idPerson=0):array{
+
+            $direction = (strtoupper($this->order) === 'ASC') ? 'ASC' : 'DESC';    
 
           	$strRq	= " SELECT
                             movies.mov_id,
@@ -125,23 +165,33 @@
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE persons.pers_id = $idPerson ";
+                        WHERE persons.pers_id = :id";
 
-            if(!empty($arrPost['job'])){
+            if(!empty($this->job)){
                 $strRq	.=" AND mov_id IN ( SELECT part_mov_id
                                            	FROM participates
-                                           	WHERE part_pers_id = $idPerson AND part_job_id = ".$arrPost['job'].")";
+                                           	WHERE part_pers_id = :id AND part_job_id = :job )";
             }
 
 
 
             $strRq	.=" GROUP BY movies.mov_id";
 
-            if(!empty($arrPost['order'])){
-                $strRq	.=" ORDER BY mov_release_date ".$arrPost['order'];
+            if(!empty($this->order)){
+                $strRq	.=" ORDER BY mov_release_date $direction ";
             }
 
-            return $this->_db->query($strRq)->fetchAll();
+            $stmt = $this->_db->prepare($strRq);
+
+            if(!empty($this->job)){
+                $stmt->bindValue(':job', $this->job, PDO::PARAM_INT);
+            }
+
+            $stmt->bindValue(':id', $idPerson, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(); 
         }
 
 

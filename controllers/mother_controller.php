@@ -12,17 +12,16 @@ class MotherCtrl{
 
     protected array $_arrData = [];
 
-    protected function _display($strPage="", $objContent=[], $objAllPerson=[], $objComment=[], $objPerson=[], $objUser=[], $arrError=[], $arrResult=[], $objActor=[]
-    , $objReal=[], $objProducer=[], $objCountry=[], $objCategories=[], $arrPost=[], $objJobs=[], $objSearch=[]){
+    protected function _display($strPage="", $objUser=[], $arrError=[]){
 
         foreach($this->_arrData as $key=>$value){
             $$key = $value;
         }
-        
+
         include'views/_partial/header.php';
-        include"views/".$strPage."_view.php";
+        include'views/'.$strPage.'_view.php';
         include'views/_partial/footer.php';
-        
+
 
     }
 

@@ -1,10 +1,10 @@
 
 <section id="search" class="container row flex-lg-row-reverse py-5 mx-auto text-center text-lg-start">
     <h1>Resultat</h1>
-    <p>Résultat a la recherche "<?= $objSearch->getSearch() ?>".</p>
+    <p>Résultat a la recherche "<?= $arrSearch->getSearch() ?>".</p>
     <div class="py-2 col-12 col-lg-4">
         <form method="post" action="index.php?ctrl=search&action=searchPage">
-            <input type="hidden" name="search" value="<?= $objSearch->getSearch() ?>">
+            <input type="hidden" name="search" value="<?= $arrSearch->getSearch() ?>">
             <label class="form-label w-100 border-bottom border-dark">Résultat Par :</label>
 
             <div class="d-block text-start p-2">
@@ -40,10 +40,10 @@
     </div>
     <div class="py-2 col-12 col-lg-8 scrollSearch">
     <?php
-    if(empty($objContent) || $objContent === 0){
+    if(empty($arrResultToDisplay) || $arrResultToDisplay === 0){
        echo "<h2 class='text-center'>Aucun Résultat !</h2>";
     } else {
-        foreach($objContent as $content){
+        foreach($arrResultToDisplay as $objContent){
             require'views/_partial/movieSearch.php';
         }
     }

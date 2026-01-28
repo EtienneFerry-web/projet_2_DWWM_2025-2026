@@ -1,5 +1,4 @@
 <?php
-    require'controllers/mother_controller.php';
     require'entities/movie_entity.php';
     require'entities/comment_entity.php';
     require'entities/person_entity.php';
@@ -17,14 +16,14 @@
 
         public function person(){
 
-            $intId = $_GET['id'];
+            $objMovieModel 	    = new MovieModel;
 
-            $arrPost['order'] = $_POST['order']??"";
-            $arrPost['job']  = $_POST['job']??"";
+            $objMovieModel->order = $_POST['order']??"";
+            $objMovieModel->job   = $_POST['job']??"";
 
             $objPersonModel = new PersonModel;
-			$arrPerson 		= $objPersonModel->findPerson($intId);
-			$arrJobs        = $objPersonModel->findJobsOfPerson($intId);
+			$arrPerson 		= $objPersonModel->findPerson($_GET['id']);
+			$arrJobs        = $objPersonModel->findJobsOfPerson($_GET['id']);
 
 			$arrJobToDisplay	= array();
 
@@ -36,12 +35,12 @@
             }
 
 
-			$objPerson      = new PersonEntity('pers_');
+			$objPerson = new PersonEntity('pers_');
 			$objPerson->hydrate($arrPerson);
 
 
-			$objMovieModel 	    = new MovieModel;
-            $arrMovie		    = $objMovieModel->movieOfPerson($intId, $arrPost);
+			
+            $arrMovie		    = $objMovieModel->movieOfPerson($_GET['id']);
 
             $arrMovieToDisplay	= array();
 
@@ -52,9 +51,15 @@
             $arrMovieToDisplay[]	= $objContent;
             }
 
+            $this->_arrData['arrMovieToDisplay']    = $arrMovieToDisplay;
+            $this->_arrData['arrJobToDisplay']      = $arrJobToDisplay;
+            $this->_arrData['objPerson']            = $objPerson;
+
+            $this->_arrData['order'] = $objMovieModel->order;
+            $this->_arrData['job']   = $objMovieModel->job;
 
 
-            $this->_display($strPage = "person", objPerson:  $objPerson, objContent:  $arrMovieToDisplay, objJobs: $arrJobToDisplay, arrPost: $arrPost );
+            $this->_display($strPage = "person");
         }
 
     }

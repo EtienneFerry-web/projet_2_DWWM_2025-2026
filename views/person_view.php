@@ -15,15 +15,15 @@
             <div class="col-5 col-md-4 ">
                 <select class="form-select" name="order">
                     <option value="">Date</option>
-                    <option value="ASC" <?= ("ASC" === (string)$arrPost['order'])? "selected" : "" ?>>Croissant</option>
-                    <option value="DESC" <?= ("DESC" === (string)$arrPost['order'])? "selected" : "" ?>>Decroissant</option>
+                    <option value="ASC" <?= ("ASC" === (string)$order)? "selected" : "" ?>>Croissant</option>
+                    <option value="DESC" <?= ("DESC" === (string)$order)? "selected" : "" ?>>Decroissant</option>
                 </select>
             </div>
             <div class="col-5 col-md-4">
                 <select class="form-select" name="job" >
                     <option value="">Rôle</option>
-                    <?php foreach($objJobs as $jobs){?>
-                        <option value="<?= $jobs->getId() ?>" <?= ($jobs->getId() === (int)$arrPost['job'])? "selected" : "" ?>><?= $jobs->getNameJob() ?></option>
+                    <?php foreach($arrJobToDisplay as $objJobs){?>
+                        <option value="<?= $objJobs->getId() ?>" <?= ($objJobs->getId() === (int)$job)? "selected" : "" ?>><?= $objJobs->getNameJob() ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -37,7 +37,7 @@
         <div class="row p-3 scrollList">
 
             <?php
-                foreach($objContent as $objMovie){
+                foreach($arrMovieToDisplay as $objMovie){
                 include("views/_partial/movieOfPerson.php");
                 }
             ?>

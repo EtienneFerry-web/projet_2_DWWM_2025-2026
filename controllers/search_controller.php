@@ -1,5 +1,5 @@
 <?php
-    require'controllers/mother_controller.php';
+    
     require'dto/search_dto.php';
     require'models/search_model.php';
 
@@ -17,6 +17,7 @@
 
                 $objSearch = new SearchDto();
                 $objSearch->setSearch($_POST['search']);
+                
                 $searchBy = $_POST['searchBy']??0;
 
                 $objSearchModel 	= new SearchModel;
@@ -36,7 +37,11 @@
                 header("Location: index.php");
                 exit();
             }
-            $this->_display($strPage = "resultSearch", objContent: $arrResultToDisplay, objSearch: $objSearch);
+
+            $this->_arrData['arrResultToDisplay']	= $arrResultToDisplay;
+            $this->_arrData['arrSearch']	        = $objSearch;
+
+            $this->_display($strPage = "resultSearch");
         }
 
     }

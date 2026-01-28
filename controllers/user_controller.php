@@ -1,5 +1,4 @@
 <?php
-    require'controllers/mother_controller.php';
     require'entities/user_entity.php';
     require'models/user_model.php';
     require'entities/movie_entity.php';
