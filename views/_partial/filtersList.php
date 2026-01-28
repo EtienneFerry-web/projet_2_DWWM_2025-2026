@@ -5,8 +5,8 @@
          <label for="filmTitle" class="form-label">Réalisateur</label>
          <select class="form-select" name="realisator" >
              <option value="">Tous</option>
-             <?php foreach($objReal as $real){ ?>
-                 <option value="<?= $real->getId() ?>" <?= ($real->getId() === (int)$arrPost['realisator'])? "selected" : "" ?>><?= $real->getFullName() ?></option>
+             <?php foreach($arrRealToDisplay as $objReal){ ?>
+                 <option value="<?= $objReal->getId() ?>" <?= ($objReal->getId() === (int)$arrPost['realisator'])? "selected" : "" ?>><?= $objReal->getFullName() ?></option>
             <?php } ?>
          </select>
          </div>
@@ -16,8 +16,8 @@
          <label for="actor" class="form-label">Acteur</label>
          <select class="form-select"  name="actor" >
              <option value="">Tous</option>
-             <?php foreach($objActor as $actor){ ?>
-                 <option value="<?= $actor->getId() ?>" <?= ($actor->getId() === (int)$arrPost['actor'])? "selected" : "" ?>><?= $actor->getFullName() ?></option>
+             <?php foreach($arrActorToDisplay as $objActor){ ?>
+                 <option value="<?= $objActor->getId() ?>" <?= ($objActor->getId() === (int)$arrPost['actor'])? "selected" : "" ?>><?= $objActor->getFullName() ?></option>
             <?php } ?>
          </select>
          </div>
@@ -27,8 +27,8 @@
          <label for="actor" class="form-label">Genre</label>
          <select class="form-select" id="categories" name="categories">
              <option value="">Tous</option>
-             <?php foreach($objCategories as $categories){ ?>
-                 <option value="<?= $categories->getId() ?>" <?= ($categories->getId() === (int)$arrPost['categories'])? "selected" : "" ?>><?= $categories->getCategories() ?></option>
+             <?php foreach($arrCategoriesToDisplay as $objCategories){ ?>
+                 <option value="<?= $objCategories->getId() ?>" <?= ($objCategories->getId() === (int)$arrPost['categories'])? "selected" : "" ?>><?= $objCategories->getCategories() ?></option>
             <?php } ?>
          </select>
          </div>
@@ -38,8 +38,8 @@
          <label for="producer" class="form-label">Producteur</label>
          <select class="form-select" id="producer" name="producer">
              <option value="">Tous</option>
-             <?php foreach($objProducer as $producer){ ?>
-                 <option value="<?= $producer->getId() ?>" <?= ($producer->getId() === (int)$arrPost['producer'])? "selected" : "" ?>><?= $producer->getFullName() ?></option>
+             <?php foreach($arrProducerToDisplay as $objProducer){ ?>
+                 <option value="<?= $objProducer->getId() ?>" <?= ($objProducer->getId() === (int)$arrPost['producer'])? "selected" : "" ?>><?= $objProducer->getFullName() ?></option>
             <?php } ?>
          </select>
          </div>
@@ -49,8 +49,8 @@
              <label for="country" class="form-label">Pays</label>
              <select class="form-select" id="country" name="country">
                  <option value="">Tous</option>
-                 <?php foreach($objCountry as $country){ ?>
-                     <option value="<?= $country->getId() ?>" <?= ($country->getId() === (int)$arrPost['country'])? "selected" : "" ?>><?= $country->getCountry() ?></option>
+                 <?php foreach($arrCountryToDisplay as $objCountry){ ?>
+                     <option value="<?= $objCountry->getId() ?>" <?= ($objCountry->getId() === (int)$arrPost['country'])? "selected" : "" ?>><?= $objCountry->getCountry() ?></option>
                 <?php } ?>
              </select>
              </div>

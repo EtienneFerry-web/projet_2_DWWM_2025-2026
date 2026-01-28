@@ -14,41 +14,49 @@
 <section class="container row mx-auto" id="movie">
 
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
-        <h1 class="d-block d-md-none"><?= $objContent->getTitle() ?></h1>
-        <img src="<?= $objContent->getUrl() ?>" alt="" class="img-fluid w-75 w-md-50">
+        <h1 class="d-block d-md-none"><?= $objMovie->getTitle() ?></h1>
+        <img src="<?= $objMovie->getUrl() ?>" alt="" class="img-fluid w-75 w-md-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
-            <span class="pageMovieNote spanMovie" data-note="<?= $objContent->getRating() ?>">
+            <span class="pageMovieNote spanMovie" data-note="<?= $objMovie->getRating() ?>">
                 <span class="stars d-inline-block"></span>
-                <span class="note d-inline-block"><?= $objContent->getRating() ?></span>
+                <span class="note d-inline-block"><?= $objMovie->getRating() ?></span>
             </span>
 
             <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center">
-                <i class="bi bi-heart-fill"></i><span><?= $objContent->getLike() ?></span>
+                <i class="bi bi-heart-fill"></i><span><?= $objMovie->getLike() ?></span>
             </span>
         </div>
 
     </div>
     <div class="col-12 col-md-8 py-1 py-md-5 text-center text-md-start">
-        <h1 class="d-md-block d-none"><?= $objContent->getTitle() ?></h1>
-        <span class=" spanMovie d-block py-2"> Durée : <?= $objContent->getLength() ?></span>
-        <span class=" spanMovie d-block py-2"> Date de sortie : <?= $objContent->getDateFormat() ?> </span>
-        <p><?= $objContent->getDescription() ?></p>
+        <h1 class="d-md-block d-none"><?= $objMovie->getTitle() ?></h1>
+        <span class=" spanMovie d-block py-2"> Durée : <?= $objMovie->getLength() ?></span>
+        <span class=" spanMovie d-block py-2"> Date de sortie : <?= $objMovie->getDateFormat() ?> </span>
+        <p><?= $objMovie->getDescription() ?></p>
         <div class="col-12 col-md-8 py-2 row" >
 
-            <span class=" spanMovie d-block py-2"> Film : <?= $objContent->getCountry() ?></span>
+            <span class=" spanMovie d-block py-2"> Film : <?= $objMovie->getCountry() ?></span>
 
 
             <div class="row col-12 py-4 text-center text-md-start">
                 <h3>Casting</h3>
-                <?php foreach($objAllPerson as $objPerson){?>
+                <?php foreach($arrPersToDisplay as $objPerson){?>
                     <a class="spanMovie d-block col-4" href="index.php?ctrl=person&action=person&id=<?= $objPerson->getId() ?>"><?= $objPerson->getFullName() ?></a>
                 <?php } ?>
             </div>
-            <a href="<?= $objContent->getTrailer() ?>" target="blank" class="py-2 spanMovie d-block link"> Voir le trailer &#8599;</a>
+            <a href="<?= $objMovie->getTrailer() ?>" target="blank" class="py-2 spanMovie d-block link"> Voir le trailer &#8599;</a>
             <a id="shareMovie" class="py-2 spanMovie d-block link">Partager &#8599;</a>
         </div>
     </div>
 </section>
+<?php 
+
+    $today = new DateTime();
+    $movieDate = new DateTime($objMovie->getCreatedate());
+
+    if ($today >= $movieDate) {
+
+?>
 <section id="addComment" class="container text-center py-5">
     <h2>Avis</h2>
     <div class="text-start py-2">
@@ -90,10 +98,10 @@
     <div class="allComment">
 
         <?php
-            if(count($objComment) === 0){
+            if(count($arrCommentToDisplay) === 0){
                 echo  "<h3 class='text-center py-3'>aucun commantaire</h3>";
             } else {
-                foreach($objComment as $comment){
+                foreach($arrCommentToDisplay as $comment){
                 include("views/_partial/commentMovie.php");
                 }
             }
@@ -101,3 +109,10 @@
 
     </div>
 </section>
+<?php } else { ?>
+
+    <section class="container text-center py-2 py-md-4">
+        <h2>Les commantaire sont indisponible</h2>
+        <p class="mx-auto">Les commentaires seront disponibles lorsque le film sera sorti !</p>
+    </section>
+<?php } ?>

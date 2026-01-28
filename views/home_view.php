@@ -26,7 +26,7 @@
         <div class="splide__track">
           <ul class="splide__list">
             <?php
-                foreach($objContent as $objMovie){
+                foreach($arrMovieToDisplay as $objMovie){
                 include("views/_partial/newMovie.php");
                 }
             ?>

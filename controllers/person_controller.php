@@ -54,7 +54,7 @@
 
 
 
-            $this->getContent($strPage = "person", objPerson:  $objPerson, objContent:  $arrMovieToDisplay, objJobs: $arrJobToDisplay, arrPost: $arrPost );
+            $this->_display($strPage = "person", objPerson:  $objPerson, objContent:  $arrMovieToDisplay, objJobs: $arrJobToDisplay, arrPost: $arrPost );
         }
 
     }

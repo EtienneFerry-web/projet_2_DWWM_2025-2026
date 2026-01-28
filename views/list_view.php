@@ -26,10 +26,10 @@
 
 	<div class="col-12 col-lg-9 p-3 scrollList">
     	<?php
-            if(count($objContent) === 0){
+            if(count($arrMovieToDisplay) === 0){
                echo "<h2 class='text-center'>Aucun Résultat !</h2>";
             } else {
-                foreach($objContent as $objMovie){
+                foreach($arrMovieToDisplay as $objMovie){
                     require'views/_partial/movieList.php';
                 }
             }

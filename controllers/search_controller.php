@@ -36,7 +36,7 @@
                 header("Location: index.php");
                 exit();
             }
-            $this->getContent($strPage = "resultSearch", objContent: $arrResultToDisplay, objSearch: $objSearch);
+            $this->_display($strPage = "resultSearch", objContent: $arrResultToDisplay, objSearch: $objSearch);
         }
 
     }

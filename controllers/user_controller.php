@@ -57,7 +57,7 @@
                     }
                 }
             }
-			$this->getContent($strPage = "login", objUser: $objUser, arrError: $arrError);
+			$this->_display($strPage = "login", objUser: $objUser, arrError: $arrError);
         }
 
         public function logout(){
@@ -147,11 +147,17 @@
             }
 
             //Display variable
-            $this->getContent($strPage = "createAccount", objUser: $objUser, arrError: $arrError);
+            $this->_display($strPage = "createAccount", objUser: $objUser, arrError: $arrError);
         }
 
         public function settingsUser(){
-            $this->getContent($strPage = "settingsUser");
+
+            if(!isset($_SESSION['user'])){
+				header("Location:index.php?Ctrl=error&action=err403");
+				exit;
+			}
+
+            $this->_display($strPage = "settingsUser");
         }
 
 
@@ -161,6 +167,12 @@
 
             $objUserModel = new UserModel;
 			$arrUser		= $objUserModel->userPage($intId);
+
+            if(!isset($arrUser['user_id'])){
+				header("Location:index.php?Ctrl=error&action=err404");
+				exit;
+			}
+
 			$objUser       = new UserEntity('mov_');
 			$objUser->hydrate($arrUser);
 
@@ -190,7 +202,7 @@
 
 
 
-            $this->getContent($strPage = "user", objUser: $objUser, objContent: $arrMovieToDisplay, objComment: $arrCommentToDisplay );
+            $this->_display($strPage = "user", objUser: $objUser, objContent: $arrMovieToDisplay, objComment: $arrCommentToDisplay );
         }
 
     }
