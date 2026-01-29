@@ -13,13 +13,13 @@
         public function err404(){
             //Page d'erreur pas not found
 
-            $this->_display($strPage = "404");
+            $this->_display("404");
         }
 
         public function err403(){
             //Page Pour les accés 
 
-            $this->_display($strPage = "403");
+            $this->_display("403");
         }
 
     }

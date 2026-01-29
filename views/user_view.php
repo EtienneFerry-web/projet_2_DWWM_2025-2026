@@ -20,7 +20,7 @@
               <div class="splide__track">
                 <ul class="splide__list">
                     <?php
-                        foreach($objContent as $objLike){
+                        foreach($arrMovieToDisplay as $objLike){
                             include("views/_partial/likeUser.php");
                         }
                     ?>
@@ -34,7 +34,7 @@
     <h2>Vos review / pseudo</h2>
     <div class="col-12 col-md-10 mx-auto py-1 scrollList">
         <?php
-            foreach($objComment as $review){
+            foreach($arrCommentToDisplay as $review){
                 include("views/_partial/reviewMovie.php");
             }
         ?>

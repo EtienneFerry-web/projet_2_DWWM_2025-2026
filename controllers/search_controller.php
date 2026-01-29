@@ -41,7 +41,7 @@
             $this->_arrData['arrResultToDisplay']	= $arrResultToDisplay;
             $this->_arrData['arrSearch']	        = $objSearch;
 
-            $this->_display($strPage = "resultSearch");
+            $this->_display("resultSearch");
         }
 
     }

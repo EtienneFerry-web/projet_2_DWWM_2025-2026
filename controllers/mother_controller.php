@@ -12,7 +12,7 @@ class MotherCtrl{
 
     protected array $_arrData = [];
 
-    protected function _display($strPage="", $objUser=[], $arrError=[]){
+    protected function _display($strPage=""){
 
         foreach($this->_arrData as $key=>$value){
             $$key = $value;

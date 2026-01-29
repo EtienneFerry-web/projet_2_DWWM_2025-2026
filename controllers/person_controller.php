@@ -59,7 +59,7 @@
             $this->_arrData['job']   = $objMovieModel->job;
 
 
-            $this->_display($strPage = "person");
+            $this->_display("person");
         }
 
     }

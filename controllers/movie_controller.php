@@ -30,7 +30,7 @@
 
 			$this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
 
-            $this->_display($strPage = "home");
+            $this->_display("home");
         }
 
         public function list(){
@@ -115,12 +115,12 @@
 
 			$this->_arrData['producer'] 	= $objContentModel->producer;
 			$this->_arrData['actor'] 		= $objContentModel->actor;
-			$this->_arrData['realisator'] = $objContentModel->realisator;
-			$this->_arrData['categories'] = $objContentModel->categories;
-			$this->_arrData['country'] 	= $objContentModel->country;
+			$this->_arrData['realisator']   = $objContentModel->realisator;
+			$this->_arrData['categories']   = $objContentModel->categories;
+			$this->_arrData['country'] 	    = $objContentModel->country;
 			$this->_arrData['date'] 		= $objContentModel->date;
 			$this->_arrData['startDate'] 	= $objContentModel->startdate;
-			$this->_arrData['endDate'] 	= $objContentModel->enddate;
+			$this->_arrData['endDate'] 	    = $objContentModel->enddate;
 
 			$this->_arrData['arrActorToDisplay'] 		= $arrActorToDisplay;
 			$this->_arrData['arrRealToDisplay'] 		= $arrRealToDisplay;
@@ -130,7 +130,7 @@
 			$this->_arrData['arrMovieToDisplay'] 		= $arrMovieToDisplay;
 
 
-            $this->_display($strPage = "list");
+            $this->_display("list");
         }
 
 		
@@ -217,11 +217,11 @@
 			$this->_arrData['objMovie'] = $objMovie;
 			
 
-            $this->_display($strPage = "movie");
+            $this->_display("movie");
         }
 
         public function addMovie(){
-            $this->_display($strPage = "addMovie");
+            $this->_display("addMovie");
         }
 
     }

@@ -15,7 +15,7 @@
             if(empty($searchBy) || $searchBy == 5){
                 $strRq .=" SELECT mov_id AS sear_id, mov_title AS sear_name, mov_description AS sear_content, pho_url AS sear_photo,
                                     COALESCE(AVG(ratings.rat_score), 0) AS sear_rating,
-                                    COALESCE(COUNT(DISTINCT lik_user_id, lik_item_id, lik_type), 0) AS sear_like, 'movie' AS sear_type,
+                                    COALESCE(COUNT(DISTINCT lik_user_id), 0) AS sear_like, 'movie' AS sear_type,
                                     CASE WHEN mov_title LIKE :startSearch THEN 1 ELSE 2 END AS score
                             FROM movies
                             LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id

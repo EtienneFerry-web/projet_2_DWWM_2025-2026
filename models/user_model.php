@@ -3,7 +3,7 @@
 	
 
     class UserModel extends Connect{
-
+		
         // Methods
 		public function __construct(){
 				parent::__construct();
@@ -35,12 +35,18 @@
 			// Recover user information
 			// Request exxecution and recovering reluts 
 			$arrUser 	= $this->_db->query($strRq)->fetch();
+
+
 			// Hached password verification 
-			if (password_verify($strPwd, $arrUser['user_pwd'])){
+			if($arrUser != null){
+				if (password_verify($strPwd, $arrUser['user_pwd'])){
 				// User return
 				unset($arrUser['user_pwd']); // removing pwd
 				return $arrUser;
-			}else{
+				}else{
+					return false;
+				}
+			} else{
 				return false;
 			}
 		}
