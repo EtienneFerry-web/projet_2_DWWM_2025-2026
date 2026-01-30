@@ -1,10 +1,13 @@
-
+{extends file="views/layout_view.tpl"}
+{block name="title" prepend}Ajouter un film{/block}
+{block name="description"}Ici vous pouvez ajouter un film !{/block}
+{block name="content"}
 <section id="search" class="container row flex-lg-row-reverse py-5 mx-auto text-center text-lg-start">
     <h1>Resultat</h1>
-    <p>Résultat a la recherche "<?= $arrSearch->getSearch() ?>".</p>
+    <p>Résultat a la recherche "{$arrSearch->getSearch()}".</p>
     <div class="py-2 col-12 col-lg-4">
         <form method="post" action="index.php?ctrl=search&action=searchPage">
-            <input type="hidden" name="search" value="<?= $arrSearch->getSearch() ?>">
+            <input type="hidden" name="search" value="{$arrSearch->getSearch()}">
             <label class="form-label w-100 border-bottom border-dark">Résultat Par :</label>
 
             <div class="d-block text-start p-2">
@@ -39,16 +42,18 @@
 
     </div>
     <div class="py-2 col-12 col-lg-8 scrollSearch">
-    <?php
-    if(empty($arrResultToDisplay) || $arrResultToDisplay === 0){
-       echo "<h2 class='text-center'>Aucun Résultat !</h2>";
-    } else {
-        foreach($arrResultToDisplay as $objContent){
-            require'views/_partial/movieSearch.php';
-        }
-    }
-     ?>
-
+    
+    {if empty($arrResultToDisplay) || $arrResultToDisplay === 0}
+       <h2 class='text-center'>Aucun Résultat !</h2>
+    {else}
+        {foreach from=$arrResultToDisplay item=objContent}
+            {include file="views/_partial/movieSearch.tpl"}
+        {/foreach}
+    {/if}
     </div>
 
 </section>
+{/block}
+{block name="js"}
+    <script src="/Projet2/assets/js/search.js"> </script>
+{/block}

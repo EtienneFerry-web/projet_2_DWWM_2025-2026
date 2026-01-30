@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dashboard</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-	<link rel="stylesheet" href="/Projet2/assets/css/style.css">
-</head>
-<body>
+{extends file="views/layout_view.tpl"}
+{block name="title" prepend}Ajouter un film{/block}
+{block name="description"}Ici vous pouvez ajouter un film !{/block}
+
+{block name="css_variation"}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/Projet2/assets/css/style.css">
+{/block}
+
+{block name="content"}
 <section id="dashboard" class="container py-5">
     <h1>DashBoard</h1>
     <div class="py-2 container row col-12 col-lg-auto">
@@ -602,7 +602,9 @@
 
     </div>
 </section>
-<script src="assets/js/dasboard.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{/block}
+
+{block name="js"}
+  <script src="assets/js/dasboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{/block}

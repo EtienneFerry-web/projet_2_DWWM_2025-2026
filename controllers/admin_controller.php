@@ -11,6 +11,6 @@
     class AdminCtrl extends MotherCtrl{
 
         public function dashboard(){
-            require'views/dashboard_view.php';
+            $this->_display("dashboard");
         }
     }

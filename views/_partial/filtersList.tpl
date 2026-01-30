@@ -5,9 +5,9 @@
          <label for="filmTitle" class="form-label">Réalisateur</label>
          <select class="form-select" name="realisator" >
              <option value="">Tous</option>
-             <?php foreach($arrRealToDisplay as $objReal){ ?>
-                 <option value="<?= $objReal->getId() ?>" <?= ($objReal->getId() === (int)$realisator)? "selected" : "" ?>><?= $objReal->getFullName() ?></option>
-            <?php } ?>
+             {foreach from=$arrRealToDisplay item=objReal}
+                 <option value="{$objReal->getId()}" {($objReal->getId() === (int)$realisator)? "selected" : ""}>{$objReal->getFullName()}</option>
+            {/foreach}
          </select>
          </div>
 
@@ -16,9 +16,9 @@
          <label for="actor" class="form-label">Acteur</label>
          <select class="form-select"  name="actor" >
              <option value="">Tous</option>
-             <?php foreach($arrActorToDisplay as $objActor){ ?>
-                 <option value="<?= $objActor->getId() ?>" <?= ($objActor->getId() === (int)$actor)? "selected" : "" ?>><?= $objActor->getFullName() ?></option>
-            <?php } ?>
+            {foreach from=$arrActorToDisplay item=objActor}
+                 <option value="{$objActor->getId()}" {($objActor->getId() === (int)$actor)? "selected" : ""}>{ $objActor->getFullName()}</option>
+            {/foreach}
          </select>
          </div>
 
@@ -27,9 +27,9 @@
          <label for="actor" class="form-label">Genre</label>
          <select class="form-select" id="categories" name="categories">
              <option value="">Tous</option>
-             <?php foreach($arrCategoriesToDisplay as $objCategories){ ?>
-                 <option value="<?= $objCategories->getId() ?>" <?= ($objCategories->getId() === (int)$categories)? "selected" : "" ?>><?= $objCategories->getCategories() ?></option>
-            <?php } ?>
+             {foreach from=$arrCategoriesToDisplay item=objCategories}
+                 <option value="{$objCategories->getId()}" {($objCategories->getId() === (int)$categories)? "selected" : ""}>{$objCategories->getCategories()}</option>
+            {/foreach}
          </select>
          </div>
 
@@ -38,9 +38,9 @@
          <label for="producer" class="form-label">Producteur</label>
          <select class="form-select" id="producer" name="producer">
              <option value="">Tous</option>
-             <?php foreach($arrProducerToDisplay as $objProducer){ ?>
-                 <option value="<?= $objProducer->getId() ?>" <?= ($objProducer->getId() === (int)$producer)? "selected" : "" ?>><?= $objProducer->getFullName() ?></option>
-            <?php } ?>
+              {foreach from=$arrProducerToDisplay item=objProducer}
+                 <option value="{$objProducer->getId()}" {($objProducer->getId() === (int)$producer)? "selected" : ""}>{$objProducer->getFullName()}</option>
+             {/foreach}
          </select>
          </div>
 
@@ -49,9 +49,9 @@
              <label for="country" class="form-label">Pays</label>
              <select class="form-select" id="country" name="country">
                  <option value="">Tous</option>
-                 <?php foreach($arrCountryToDisplay as $objCountry){ ?>
-                     <option value="<?= $objCountry->getId() ?>" <?= ($objCountry->getId() === (int)$country)? "selected" : "" ?>><?= $objCountry->getCountry() ?></option>
-                <?php } ?>
+                {foreach from=$arrCountryToDisplay item=objCountry}
+                     <option value="{$objCountry->getId()}" {($objCountry->getId() === (int)$country)? "selected" : ""}> {$objCountry->getCountry()}</option>
+                {/foreach}
              </select>
              </div>
 
@@ -63,7 +63,7 @@
      				id="date"
      				name="date"
      				aria-describedby="date-help"
-     				value="<?= $date ?>" >
+     				value="{$date}" >
   			<small id="date-help" class="form-text text-muted">
      				Format: JJ/MM/AAAA
   			</small>
@@ -77,7 +77,7 @@
     				class="form-control"
     				id="startdate"
     				name="startdate"
-    				value="<?= $startDate ?>" >
+    				value="{$startDate}" >
 				</div>
 				<div class="col-md-6">
     				<label for="enddate" class="form-label">Date de fin</label>
@@ -86,7 +86,7 @@
     				class="form-control"
     				id="enddate"
     				name="enddate"
-    				value="<?= $endDate ?>" >
+    				value="{$endDate}" >
 				</div>
   			</div>
    		</div>
