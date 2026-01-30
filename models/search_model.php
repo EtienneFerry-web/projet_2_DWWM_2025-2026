@@ -15,7 +15,7 @@
             if(empty($searchBy) || $searchBy == 5){
                 $strRq .=" SELECT mov_id AS sear_id, mov_title AS sear_name, mov_description AS sear_content, pho_url AS sear_photo,
                                     COALESCE(AVG(ratings.rat_score), 0) AS sear_rating,
-                                    COALESCE(COUNT(DISTINCT lik_user_id, lik_item_id, lik_type), 0) AS sear_like, 'movie' AS sear_type,
+                                    COALESCE(COUNT(DISTINCT lik_user_id), 0) AS sear_like, 'movie' AS sear_type,
                                     CASE WHEN mov_title LIKE :startSearch THEN 1 ELSE 2 END AS score
                             FROM movies
                             LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
@@ -34,10 +34,10 @@
                                  CASE WHEN pers_name LIKE :startSearch OR pers_firstname LIKE :startSearch THEN 1 ELSE 2 END AS score
                           FROM persons
                           WHERE pers_name LIKE :fullSearch OR pers_firstname LIKE :fullSearch";
-                if(!empty($searchBy)){
+                if($searchBy != 0){
                     $strRq .=" AND pers_id IN ( SELECT part_pers_id
                                                 FROM participates
-                                                WHERE part_job_id = $searchBy
+                                                WHERE part_job_id = :job
                             )";
                 }
             }
@@ -47,9 +47,9 @@
 
              if(empty($searchBy) || $searchBy == 4){
                   $strRq .="        SELECT user_id AS sear_id, user_pseudo AS sear_name, user_bio AS sear_content, user_photo AS sear_photo, NULL AS sear_rating,  NULL AS sear_like, 'user' AS sear_type,
-                                 CASE WHEN user_pseudo LIKE :startSearch THEN 1 ELSE 2 END AS score
-                          FROM users
-                          WHERE user_pseudo LIKE :fullSearch";
+                                    CASE WHEN user_pseudo LIKE :startSearch THEN 1 ELSE 2 END AS score
+                                    FROM users
+                                    WHERE user_pseudo LIKE :fullSearch";
              }
 
             $strRq .=" ) AS search_results
@@ -59,7 +59,10 @@
 
             $rqPrep->bindValue(":fullSearch", $fullSearch, PDO::PARAM_STR);
             $rqPrep->bindValue(":startSearch", $startSearch, PDO::PARAM_STR);
-
+            //Si les condition ajoute le :job on rentre dans le if sinon pas 
+            if (strpos($strRq, ':job') !== false) {
+                $rqPrep->bindValue(":job", $searchBy, PDO::PARAM_INT);
+            }
             $rqPrep->execute();
 
             return $rqPrep->fetchAll(PDO::FETCH_ASSOC);

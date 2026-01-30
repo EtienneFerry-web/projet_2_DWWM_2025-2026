@@ -1,4 +1,7 @@
 <?php
+	session_start();
+	require'vendor/autoload.php';
+	require'controllers/mother_controller.php';
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'movie'; // quel contrôleur ?
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?
@@ -16,7 +19,6 @@
 			// si la classe existe, on l'instancie
 			$objController 	= new $strClassName();
 			if (method_exists($objController, $strMethod)){
-			    session_start();
 				// Si la méthode existe, on l'appelle
 				$objController->$strMethod();
 			}else{

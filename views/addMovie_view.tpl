@@ -1,3 +1,7 @@
+{extends file="views/layout_view.tpl"}
+{block name="title" prepend}Ajouter un film{/block}
+{block name="description"}Ici vous pouvez ajouter un film !{/block}
+{block name="content"}
 <section id="addMovie" class="container py-5 my-auto">
     <h1 class="text-center">Demande d'ajout de film</h1>
     <p class="mx-auto text-center py-2">
@@ -108,3 +112,4 @@
         <input class="w-100 btnCustom" type="submit">
     </form>
 </section>
+{/block}

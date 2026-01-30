@@ -1,5 +1,4 @@
 <?php
-    require'controllers/mother_controller.php';
     require'entities/movie_entity.php';
     require'entities/comment_entity.php';
     require'entities/person_entity.php';
@@ -29,26 +28,30 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "home", objContent: $arrMovieToDisplay);
+			$this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
+
+            $this->_display("home");
         }
 
         public function list(){
+            $objContentModel 	= new MovieModel;
 
-            $arrPost['producer']    = $_POST['producer']??"";
-            $arrPost['actor'] 	    = $_POST['actor']??"";
-            $arrPost['realisator'] 	= $_POST['realisator']??"";
-            $arrPost['categories'] 	= $_POST['categories']??"";
-            $arrPost['country']     = $_POST['country']??"";
-            $arrPost['date'] 		= $_POST['date']??"";
-            $arrPost['startDate'] 	= $_POST['startdate']??"";
-            $arrPost['endDate']	    = $_POST['enddate']??"";
+        
+            $objContentModel->producer  	= $_POST['producer']??"";
+            $objContentModel->actor 	    = $_POST['actor']??"";
+            $objContentModel->realisator 	= $_POST['realisator']??"";
+            $objContentModel->categories  	= $_POST['categories']??"";
+            $objContentModel->country     	= $_POST['country']??"";
+            $objContentModel->date 			= $_POST['date']??"";
+            $objContentModel->startdate  	= $_POST['startdate']??"";
+            $objContentModel->enddate 	    = $_POST['enddate']??"";
 
             $objPersonModel 	   = new PersonModel;
             $arrActor              = $objPersonModel->findActor();
             $arrReal               = $objPersonModel->findReal();
             $arrProducer           = $objPersonModel->findProducer();
 
-            $arrActorToDisplay	= array();
+            $arrActorToDisplay = array();
 
             foreach($arrActor as $arrDetActor){
 				$objContent = new PersonEntity('pers_');
@@ -56,6 +59,7 @@
 
 				$arrActorToDisplay[]	= $objContent;
 			}
+
 
 			$arrRealToDisplay	= array();
 
@@ -75,12 +79,13 @@
 				$arrProducerToDisplay[]	= $objContent;
 			}
 
-            $objContentModel 	= new MovieModel;
-			$arrMovie		    = $objContentModel->allMovie($arrPost);
+
+			$arrMovie		    = $objContentModel->allMovie();
 			$arrCountry         = $objContentModel->allCountry();
 			$arrCategories      = $objContentModel->allCategories();
 
-			$arrCategoriesToDisplay	= array();
+
+			$arrCategoriesToDisplay = array();
 
 			foreach($arrCategories as $arrDetCategories){
 				$objContent = new MovieEntity('mov_');
@@ -89,7 +94,7 @@
 				$arrCategoriesToDisplay[]	= $objContent;
 			}
 
-			$arrCountryToDisplay	= array();
+			$arrCountryToDisplay = array();
 
 			foreach($arrCountry as $arrDetCountry){
 				$objContent = new MovieEntity('mov_');
@@ -99,8 +104,7 @@
 			}
 
 
-
-			$arrMovieToDisplay	= array();
+			$arrMovieToDisplay = array();
 
 			foreach($arrMovie as $arrDetMovie){
 				$objContent = new MovieEntity('mov_');
@@ -109,21 +113,36 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "list", objContent: $arrMovieToDisplay, objActor: $arrActorToDisplay, arrPost: $arrPost,
-            objReal: $arrRealToDisplay, objProducer: $arrProducerToDisplay, objCountry: $arrCountryToDisplay, objCategories: $arrCategoriesToDisplay );
+			$this->_arrData['producer'] 	= $objContentModel->producer;
+			$this->_arrData['actor'] 		= $objContentModel->actor;
+			$this->_arrData['realisator']   = $objContentModel->realisator;
+			$this->_arrData['categories']   = $objContentModel->categories;
+			$this->_arrData['country'] 	    = $objContentModel->country;
+			$this->_arrData['date'] 		= $objContentModel->date;
+			$this->_arrData['startDate'] 	= $objContentModel->startdate;
+			$this->_arrData['endDate'] 	    = $objContentModel->enddate;
+
+			$this->_arrData['arrActorToDisplay'] 		= $arrActorToDisplay;
+			$this->_arrData['arrRealToDisplay'] 		= $arrRealToDisplay;
+			$this->_arrData['arrProducerToDisplay'] 	= $arrProducerToDisplay;
+			$this->_arrData['arrCategoriesToDisplay'] 	= $arrCategoriesToDisplay;
+			$this->_arrData['arrCountryToDisplay'] 		= $arrCountryToDisplay;
+			$this->_arrData['arrMovieToDisplay'] 		= $arrMovieToDisplay;
+
+
+            $this->_display("list");
         }
+
+		
 
         public function movie(){
 			$arrError = [];
-            $intId = $_GET['id']; //<-- ID of Movie
+            
 			$objCommentModel	= new CommentModel;
 			/**
 			 * @author Etienne
 			 *
 			 */
-
-
-
 				// 1. Check if the form has been submitted
 				if(!empty($_POST)) {
 
@@ -145,22 +164,32 @@
 							$objComment->setComment($_POST['com_comment']);
 							$objComment->setUser_id($_SESSION['user']['user_id']);
 							$objComment->setRating($_POST['noteRating']);
-							$objComment->setmovieId($intId);
+							$objComment->setmovieId($_GET['id']);
 				// Insert into DB and set success notification
 							$objCommentModel->commentInsert($objComment);
 							$_SESSION['success'] 	= "Votre commentaire à bien etait publié";
 						}
+					} else{
+						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
 				}
 
             $objMovieModel 	= new MovieModel;
-			$arrMovie 		= $objMovieModel->findMovie($intId);
-			$objMovie       = new MovieEntity('mov_');
-			$objMovie->hydrate($arrMovie);
-			$objPersonModel = new PersonModel;
-			$arrPerson      = $objPersonModel->findAllPerson($intId);
+			$arrMovie 		= $objMovieModel->findMovie($_GET['id']);
 
-			$arrPersToDisplay	= array();
+			if(!$arrMovie['mov_id']){
+				header("Location:index.php?Ctrl=error&action=err404");
+				exit;
+			}
+
+			$objMovie  = new MovieEntity('mov_');
+			$objMovie->hydrate($arrMovie);
+
+			$objPersonModel = new PersonModel;
+			$arrPerson      = $objPersonModel->findAllPerson($_GET['id']);
+
+
+			$arrPersToDisplay = array();
 
 			foreach($arrPerson as $arrDetPerson){
 				$objPerson = new PersonEntity('pers_');
@@ -169,9 +198,10 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$arrComment     = $objCommentModel->commentOfMovie($intId);
+			$arrComment = $objCommentModel->commentOfMovie($_GET['id']);
 
-			$arrCommentToDisplay	= array();
+
+			$arrCommentToDisplay = array();
 
 			foreach($arrComment as $arrDetComment){
 				$objComment = new CommentEntity('com_');
@@ -180,12 +210,18 @@
 				$arrCommentToDisplay[]	= $objComment;
 			}
 
+			$this->_arrData['arrError'] = $arrError;
 
-            $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay, arrError: $arrError);
+			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
+			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
+			$this->_arrData['objMovie'] = $objMovie;
+			
+
+            $this->_display("movie");
         }
 
         public function addMovie(){
-            $this->getContent($strPage = "addMovie");
+            $this->_display("addMovie");
         }
 
     }
