@@ -1,14 +1,17 @@
 
 
     <section class="container py-5 my-auto">
-    <?php 
-    if (count($arrError) > 0) {?>
-		<div class="alert alert-danger">
-		<?php foreach ($arrError as $strError){ ?>
-			<p><?php echo $strError; ?></p>
-		<?php }	?>
-		</div>
-	<?php } ?>
+        <?php if (isset($arrError) && count($arrError) > 0){ ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Oups !</h5>
+                <ul class="mb-0">
+                    <?php foreach($arrError as $errorMsg){ ?>
+                        <li><?= $errorMsg ?></li>
+                    <?php } ?>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
 	    <h1 class="text-center">Inscription</h1>
 		<p class="mx-auto text-center py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quae pariatur sint, atque sed soluta numquam! Doloremque voluptatem odit temporibus.</p>
 		<form method="post">

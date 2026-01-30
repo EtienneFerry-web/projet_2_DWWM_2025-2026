@@ -1,6 +1,18 @@
-
-
+<section class="container py-5 my-auto"></section>
+        <?php if (isset($arrError) && count($arrError) > 0){ ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Oups !</h5>
+                <ul class="mb-0">
+                    <?php foreach($arrError as $errorMsg){ ?>
+                        <li><?= $errorMsg ?></li>
+                    <?php } ?>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+</section>
 <section class="container row mx-auto" id="movie">
+
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
         <h1 class="d-block d-md-none"><?= $objContent->getTitle() ?></h1>
         <img src="<?= $objContent->getUrl() ?>" alt="" class="img-fluid w-75 w-md-50">
@@ -18,9 +30,8 @@
     </div>
     <div class="col-12 col-md-8 py-1 py-md-5 text-center text-md-start">
         <h1 class="d-md-block d-none"><?= $objContent->getTitle() ?></h1>
-
+        <span class=" spanMovie d-block py-2"> Durée : <?= $objContent->getLength() ?></span>
         <span class=" spanMovie d-block py-2"> Date de sortie : <?= $objContent->getDateFormat() ?> </span>
-
         <p><?= $objContent->getDescription() ?></p>
         <div class="col-12 col-md-8 py-2 row" >
 
@@ -38,45 +49,6 @@
         </div>
     </div>
 </section>
-<!--
-<section  id="imgMovie" class="container py-5">
-    <div class="splide">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/300x400/000/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/500x400/555/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/300x400/000/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/500x400/555/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-        </ul>
-      </div>
-    </div>
-    </section>-->
 <section id="addComment" class="container text-center py-5">
     <h2>Avis</h2>
     <div class="text-start py-2">
@@ -85,7 +57,8 @@
                 <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
                 <textarea
                     id="comment"
-                    class="form-control"
+                    name="com_comment"
+                    class="form-control <?php if (isset($arrError['com_comment'])) { echo 'is-invalid'; } ?>"
                     rows="4"
                     placeholder="Écrivez votre commentaire..."
                 ></textarea>
@@ -93,16 +66,19 @@
             <div class="row align-items-center">
                 <div class="col-md-8 rating user-select-none text-center text-md-start py-2">
                     <span class="spanMovie">Votre Note :
+                    <!--Data value for ,5 with double click-->
                     <i class="bi bi-star" data-value="1"></i>
                     <i class="bi bi-star" data-value="2"></i>
                     <i class="bi bi-star" data-value="3"></i>
                     <i class="bi bi-star" data-value="4"></i>
                     <i class="bi bi-star" data-value="5"></i>
                     </span>
-                    <input type="hidden" name="note" id="note" value="0">
+                    <!--input value for rating score-->
+                    <input type="hidden" name="noteRating" id="note" value="0" class="form-control <?php if (isset($arrError['noteRating'])) { echo 'is-invalid'; } ?>">
 
                 </div>
                 <div class="col-md-4 mw-100 " >
+                    <!--On click verify if ratings value > NULL & comment can be empty-->
                     <input type="submit" value="Envoyer" class="btnCustom w-100">
                 </div>
             </div>

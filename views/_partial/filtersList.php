@@ -3,55 +3,55 @@
          <!-- Filtre Réalisateur -->
          <div class="col-md-3 w-100">
          <label for="filmTitle" class="form-label">Réalisateur</label>
-         <select class="form-select">
+         <select class="form-select" name="realisator" >
              <option value="">Tous</option>
-             <option value="inception">Inception</option>
-             <option value="interstellar">Interstellar</option>
-             <option value="matrix">Matrix</option>
+             <?php foreach($objReal as $real){ ?>
+                 <option value="<?= $real->getId() ?>" <?= ($real->getId() === (int)$arrPost['realisator'])? "selected" : "" ?>><?= $real->getFullName() ?></option>
+            <?php } ?>
          </select>
          </div>
 
          <!-- Filtre  acteur -->
          <div class="col-md-3 w-100">
          <label for="actor" class="form-label">Acteur</label>
-         <select class="form-select" id="actor">
+         <select class="form-select"  name="actor" >
              <option value="">Tous</option>
-             <option value="leo">Leonardo DiCaprio</option>
-             <option value="keanu">Keanu Reeves</option>
-             <option value="matt">Matt Damon</option>
+             <?php foreach($objActor as $actor){ ?>
+                 <option value="<?= $actor->getId() ?>" <?= ($actor->getId() === (int)$arrPost['actor'])? "selected" : "" ?>><?= $actor->getFullName() ?></option>
+            <?php } ?>
          </select>
          </div>
 
          <!-- Filtre  Genre -->
          <div class="col-md-3 w-100">
          <label for="actor" class="form-label">Genre</label>
-         <select class="form-select" id="actor">
+         <select class="form-select" id="categories" name="categories">
              <option value="">Tous</option>
-             <option value="leo">Leonardo DiCaprio</option>
-             <option value="keanu">Keanu Reeves</option>
-             <option value="matt">Matt Damon</option>
+             <?php foreach($objCategories as $categories){ ?>
+                 <option value="<?= $categories->getId() ?>" <?= ($categories->getId() === (int)$arrPost['categories'])? "selected" : "" ?>><?= $categories->getCategories() ?></option>
+            <?php } ?>
          </select>
          </div>
 
          <!-- Filtre producteur -->
          <div class="col-md-3 w-100">
          <label for="producer" class="form-label">Producteur</label>
-         <select class="form-select" id="producer">
+         <select class="form-select" id="producer" name="producer">
              <option value="">Tous</option>
-             <option value="christopher">Christopher Nolan</option>
-             <option value="wachowski">Wachowski</option>
-             <option value="steven">Steven Spielberg</option>
+             <?php foreach($objProducer as $producer){ ?>
+                 <option value="<?= $producer->getId() ?>" <?= ($producer->getId() === (int)$arrPost['producer'])? "selected" : "" ?>><?= $producer->getFullName() ?></option>
+            <?php } ?>
          </select>
          </div>
 
          <!-- Filtre pays -->
          <div class="col-md-3 w-100">
              <label for="country" class="form-label">Pays</label>
-             <select class="form-select" id="country">
+             <select class="form-select" id="country" name="country">
                  <option value="">Tous</option>
-                 <option value="usa">USA</option>
-                 <option value="france">France</option>
-                 <option value="uk">UK</option>
+                 <?php foreach($objCountry as $country){ ?>
+                     <option value="<?= $country->getId() ?>" <?= ($country->getId() === (int)$arrPost['country'])? "selected" : "" ?>><?= $country->getCountry() ?></option>
+                <?php } ?>
              </select>
              </div>
 
@@ -63,7 +63,7 @@
      				id="date"
      				name="date"
      				aria-describedby="date-help"
-     				value="" >
+     				value="<?= $arrPost['date'] ?>" >
   			<small id="date-help" class="form-text text-muted">
      				Format: JJ/MM/AAAA
   			</small>
@@ -77,7 +77,7 @@
     				class="form-control"
     				id="startdate"
     				name="startdate"
-    				value="" >
+    				value="<?= $arrPost['startDate'] ?>" >
 				</div>
 				<div class="col-md-6">
     				<label for="enddate" class="form-label">Date de fin</label>
@@ -86,7 +86,7 @@
     				class="form-control"
     				id="enddate"
     				name="enddate"
-    				value="" >
+    				value="<?= $arrPost['endDate'] ?>" >
 				</div>
   			</div>
    		</div>
@@ -94,6 +94,6 @@
 
      <div class="py-3 text-center">
          <button type="submit" class="btnCustom">Filtrer</button>
-         <button type="reset" class="btnCustom">Réinitialiser</button>
+         <a href="/Projet2/index.php?ctrl=movie&action=list" class="btnCustom">Réinitialiser</button></a>
      </div>
 </form>

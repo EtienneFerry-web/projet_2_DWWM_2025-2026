@@ -19,14 +19,29 @@
 
             $intId = $_GET['id'];
 
+            $arrPost['order'] = $_POST['order']??"";
+            $arrPost['job']  = $_POST['job']??"";
+
             $objPersonModel = new PersonModel;
 			$arrPerson 		= $objPersonModel->findPerson($intId);
+			$arrJobs        = $objPersonModel->findJobsOfPerson($intId);
+
+			$arrJobToDisplay	= array();
+
+			foreach($arrJobs as $arrDetJob){
+                $objContent = new PersonEntity('job_');
+                $objContent->hydrate($arrDetJob);
+
+                $arrJobToDisplay[]	= $objContent;
+            }
+
+
 			$objPerson      = new PersonEntity('pers_');
 			$objPerson->hydrate($arrPerson);
 
 
 			$objMovieModel 	    = new MovieModel;
-            $arrMovie		    = $objMovieModel->movieOfPerson($intId);
+            $arrMovie		    = $objMovieModel->movieOfPerson($intId, $arrPost);
 
             $arrMovieToDisplay	= array();
 
@@ -39,7 +54,7 @@
 
 
 
-            $this->getContent($strPage = "person", objPerson:  $objPerson, objContent:  $arrMovieToDisplay);
+            $this->getContent($strPage = "person", objPerson:  $objPerson, objContent:  $arrMovieToDisplay, objJobs: $arrJobToDisplay, arrPost: $arrPost );
         }
 
     }
