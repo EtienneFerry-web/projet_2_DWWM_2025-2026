@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-01-30 14:58:51
+/* Smarty version 5.7.0, created on 2026-01-31 10:31:42
   from 'file:views/_partial/header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_697cc72b6d11d6_62860897',
+  'unifunc' => 'content_697dda0ecd7165_08626713',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '62e78cb1dc677bc652606b1b3ae5617b4199b349' => 
     array (
       0 => 'views/_partial/header.tpl',
-      1 => 1769781225,
+      1 => 1769802594,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/message.tpl' => 1,
   ),
 ))) {
-function content_697cc72b6d11d6_62860897 (\Smarty\Template $_smarty_tpl) {
+function content_697dda0ecd7165_08626713 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -33,15 +33,15 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1776182281697cc72b6a3b54_90312414', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_898002427697dda0eccdef3_06061788', "description");
 ?>
 ">
 	<title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_610816210697cc72b6ad2a1_65977039', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_136839416697dda0ecd1505_64123400', "title");
 ?>
 </title>
-	    <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1993449964697cc72b6b71b3_28839635', "css_variation");
+    <?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_410950973697dda0ecd2588_98912679', "css_variation");
 ?>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -72,7 +72,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1993449964697
 
 <?php }
 /* {block "description"} */
-class Block_1776182281697cc72b6a3b54_90312414 extends \Smarty\Runtime\Block
+class Block_898002427697dda0eccdef3_06061788 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
@@ -80,7 +80,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 }
 /* {/block "description"} */
 /* {block "title"} */
-class Block_610816210697cc72b6ad2a1_65977039 extends \Smarty\Runtime\Block
+class Block_136839416697dda0ecd1505_64123400 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
@@ -90,7 +90,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 }
 /* {/block "title"} */
 /* {block "css_variation"} */
-class Block_1993449964697cc72b6b71b3_28839635 extends \Smarty\Runtime\Block
+class Block_410950973697dda0ecd2588_98912679 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';

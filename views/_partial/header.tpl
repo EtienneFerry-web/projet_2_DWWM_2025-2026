@@ -6,12 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{block name="description"}{/block}">
 	<title>{block name="title"} - Give Me Five{/block}</title>
-	{* if($strPage ==="home" || $strPage ==="movie" || $strPage ==="actor" || $strPage ==="user"){ ?>
-	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
-		<?php if($strPage ==="movie" || $strPage ==="user" )
-		<link rel="stylesheet" href="/Projet2/assets/css/slideMovie.css">
-		
-	 *}
     {block name="css_variation"}{/block}
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">

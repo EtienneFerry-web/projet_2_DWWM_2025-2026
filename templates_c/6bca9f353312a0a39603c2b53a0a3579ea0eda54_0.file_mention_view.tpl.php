@@ -1,8 +1,73 @@
-{extends file="views/layout_view.tpl"}
-{block name="title" prepend}Accueil{/block}
-{block name="description"}bienvenue sur notre accueil !!!!{/block}
+<?php
+/* Smarty version 5.7.0, created on 2026-02-01 16:16:27
+  from 'file:views/mention_view.tpl' */
 
-{block name="content"}
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.7.0',
+  'unifunc' => 'content_697f7c5b0d2438_07711067',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '6bca9f353312a0a39603c2b53a0a3579ea0eda54' => 
+    array (
+      0 => 'views/mention_view.tpl',
+      1 => 1769962586,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_697f7c5b0d2438_07711067 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+$_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
+?>
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_403562792697f7c5b0ce630_54985432', "title");
+?>
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1543105656697f7c5b0d0a24_42899019', "description");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2081415055697f7c5b0d1922_63958435', "content");
+?>
+
+<?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
+}
+/* {block "title"} */
+class Block_403562792697f7c5b0ce630_54985432 extends \Smarty\Runtime\Block
+{
+public $prepend = 'true';
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+?>
+Accueil<?php
+}
+}
+/* {/block "title"} */
+/* {block "description"} */
+class Block_1543105656697f7c5b0d0a24_42899019 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+?>
+bienvenue sur notre accueil !!!!<?php
+}
+}
+/* {/block "description"} */
+/* {block "content"} */
+class Block_2081415055697f7c5b0d1922_63958435 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+?>
+
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -99,4 +164,8 @@
         </div>
     </div>
 </div>
-{/block}
+<?php
+}
+}
+/* {/block "content"} */
+}

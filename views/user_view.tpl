@@ -16,13 +16,9 @@
         <div class="col-12 col-md-9 col-lg-10 ">
             <h1>{$objUser->getPseudo()}</h1>
             <p>{$objUser->getBio()}</p>
-            
-            {* Vérification session et ID utilisateur pour la gestion du compte *}
             {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
                 <a href="index.php?ctrl=user&action=settingsUser">Gestion du Compte</a>
             {/if}
-
-            {* Vérification pour le Dashboard Admin *}
             {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id && $objUser->getFunction() === "Administrator"}
                 <a class="ms-2" href="index.php?ctrl=admin&action=dashboard">Dashboard</a>
             {/if}
@@ -61,5 +57,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="/Projet2/assets/js/slideMovie.js"></script>
+    <script src="/Projet2/assets/js/comment.js"></script>
     <script src="/Projet2/assets/js/star.js"> </script>
 {/block}

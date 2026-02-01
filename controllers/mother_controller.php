@@ -20,14 +20,18 @@ class MotherCtrl{
 
         // Récupérer les variables
         foreach($this->_arrData as $key=>$value){
-            //$$key = $value;
             $objSmarty->assign($key, $value);
         }
+
+        $date = new DateTime();
+        $objSmarty->assign('curDate', $date);
+
+
         $objSmarty->assign("pseudo", $_SESSION['user']['user_pseudo']??NULL);
-        // Message de succès
+
         $objSmarty->assign("success_message", $_SESSION['success']??NULL);
         unset($_SESSION['success']);
-        
+
         $objSmarty->display("views/".$strView."_view.tpl");
 
     }

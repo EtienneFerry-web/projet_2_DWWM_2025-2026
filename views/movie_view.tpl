@@ -40,59 +40,67 @@
                     <a class="spanMovie d-block col-4" href="index.php?ctrl=person&action=person&id={$objPerson->getId()}"> {$objPerson->getFullName()}</a>
                 {/foreach}
             </div>
-            <a href="<?= $objMovie->getTrailer() ?>" target="blank" class="py-2 spanMovie d-block link"> Voir le trailer &#8599;</a>
+            <a href="{$objMovie->getTrailer()}" target="blank" class="py-2 spanMovie d-block link"> Voir le trailer &#8599;</a>
             <a id="shareMovie" class="py-2 spanMovie d-block link">Partager &#8599;</a>
         </div>
     </div>
 </section>
-<section id="addComment" class="container text-center py-5">
-    <h2>Avis</h2>
-    <div class="text-start py-2">
-        <form method="post" class="">
-            <div class="py-2">
-                <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
-                <textarea
-                    id="comment"
-                    name="com_comment"
-                    class="form-control {if isset($arrError['com_comment'])} is-invalid {/if}"
-                    rows="4"
-                    placeholder="Écrivez votre commentaire..."
-                ></textarea>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-8 rating user-select-none text-center text-md-start py-2">
-                    <span class="spanMovie">Votre Note :
-                    <!--Data value for ,5 with double click-->
-                    <i class="bi bi-star" data-value="1"></i>
-                    <i class="bi bi-star" data-value="2"></i>
-                    <i class="bi bi-star" data-value="3"></i>
-                    <i class="bi bi-star" data-value="4"></i>
-                    <i class="bi bi-star" data-value="5"></i>
-                    </span>
-                    <!--input value for rating score-->
-                    <input type="hidden" name="noteRating" id="note" value="0" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
+{if $curDate->format('Y-m-d') >= $objMovie->getCreatedate()}
+    <section id="addComment" class="container text-center py-5">
+        <h2>Avis</h2>
+        <div class="text-start py-2">
+            <form method="post" class="">
+                <div class="py-2">
+                    <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
+                    <textarea
+                        id="comment"
+                        name="com_comment"
+                        class="form-control {if isset($arrError['com_comment'])} is-invalid {/if}"
+                        rows="4"
+                        placeholder="Écrivez votre commentaire..."
+                    ></textarea>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-8 rating user-select-none text-center text-md-start py-2">
+                        <span class="spanMovie">Votre Note :
+                        <!--Data value for ,5 with double click-->
+                        <i class="bi bi-star" data-value="1"></i>
+                        <i class="bi bi-star" data-value="2"></i>
+                        <i class="bi bi-star" data-value="3"></i>
+                        <i class="bi bi-star" data-value="4"></i>
+                        <i class="bi bi-star" data-value="5"></i>
+                        </span>
+                        <!--input value for rating score-->
+                        <input type="hidden" name="noteRating" id="note" value="0" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
 
+                    </div>
+                    <div class="col-md-4 mw-100 " >
+                        <!--On click verify if ratings value > NULL & comment can be empty-->
+                        <input type="submit" value="Envoyer" class="btnCustom w-100">
+                    </div>
                 </div>
-                <div class="col-md-4 mw-100 " >
-                    <!--On click verify if ratings value > NULL & comment can be empty-->
-                    <input type="submit" value="Envoyer" class="btnCustom w-100">
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-<section id="userComment" class="container py-5">
-    <h3 class="py-3">Avis utilisateur</h3>
-    <div class="allComment">
-            {if count($arrCommentToDisplay) === 0}
-                <h3 class='text-center py-3'>aucun commentaire</h3>
-            {else} 
-                {foreach from=$arrCommentToDisplay item=comment}
-                    {include file="views/_partial/commentMovie.tpl"}
-                {/foreach}
-            {/if}
-    </div>
-</section>
+            </form>
+        </div>
+    </section>
+    <section id="userComment" class="container py-5">
+        <h3 class="py-3">Avis utilisateur</h3>
+        <div class="allComment">
+                {if count($arrCommentToDisplay) === 0}
+                    <h3 class='text-center py-3'>aucun commentaire</h3>
+                {else}
+                    {foreach from=$arrCommentToDisplay item=comment}
+                        {include file="views/_partial/commentMovie.tpl"}
+                    {/foreach}
+                {/if}
+        </div>
+    </section>
+{else}
+    <section class="container text-center py-3">
+        <h2>Les commentaire ne sont pas disponible</h2>
+        <p class="mx-auto">Les commentaire seront disponible lorsque le film sera sortie!</p>
+    </section>
+
+{/if}
 {/block}
 
 {block name="js"}

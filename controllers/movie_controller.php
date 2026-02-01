@@ -36,7 +36,7 @@
         public function list(){
             $objContentModel 	= new MovieModel;
 
-        
+
             $objContentModel->producer  	= $_POST['producer']??"";
             $objContentModel->actor 	    = $_POST['actor']??"";
             $objContentModel->realisator 	= $_POST['realisator']??"";
@@ -129,15 +129,14 @@
 			$this->_arrData['arrCountryToDisplay'] 		= $arrCountryToDisplay;
 			$this->_arrData['arrMovieToDisplay'] 		= $arrMovieToDisplay;
 
-
             $this->_display("list");
         }
 
-		
+
 
         public function movie(){
 			$arrError = [];
-            
+
 			$objCommentModel	= new CommentModel;
 			/**
 			 * @author Etienne
@@ -166,8 +165,17 @@
 							$objComment->setRating($_POST['noteRating']);
 							$objComment->setmovieId($_GET['id']);
 				// Insert into DB and set success notification
-							$objCommentModel->commentInsert($objComment);
-							$_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+							$comment = $objCommentModel->commentInsert($objComment);
+
+							if(!$comment){
+							    $arrError[] 	= "Echec de l'ajout du commentaire !";
+							} elseif(isset($comment['error'])){
+							    $arrError[] 	= $comment['error'];
+							}else{
+			                    $_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+							}
+
+
 						}
 					} else{
 						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
@@ -215,7 +223,7 @@
 			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
 			$this->_arrData['objMovie'] = $objMovie;
-			
+
 
             $this->_display("movie");
         }
