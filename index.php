@@ -1,4 +1,7 @@
 <?php
+	session_start();
+	require'vendor/autoload.php';
+	require'controllers/mother_controller.php';
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'movie'; // quel contrôleur ?
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?

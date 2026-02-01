@@ -1,0 +1,13 @@
+{
+    "name": "marco/projet2",
+    "description": "Projet 2",
+    "authors": [
+        {
+            "name": "Marco0622",
+            "email": "slendsher48@gmail.com"
+        }
+    ],
+    "require": {
+        "smarty/smarty": "^5.7"
+    }
+}

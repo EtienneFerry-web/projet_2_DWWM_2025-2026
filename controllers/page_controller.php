@@ -1,5 +1,4 @@
 <?php
-    require'controllers/mother_controller.php';
 
     /**
      * @author Marco Schmitt
@@ -11,11 +10,11 @@
     class PageCtrl extends MotherCtrl{
 
         public function mention(){
-            $this->getContent($strPage = "mention");
+            $this->_display("mention");
         }
 
         public function policy(){
-            $this->getContent($strPage = "policy");
+            $this->_display("policy");
         }
 
     }

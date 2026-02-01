@@ -1,12 +1,10 @@
 <?php
-    require'controllers/mother_controller.php';
     require'entities/movie_entity.php';
     require'entities/comment_entity.php';
     require'entities/person_entity.php';
     require'models/movie_model.php';
     require'models/comment_model.php';
     require'models/person_model.php';
-	
 
     /**
      * @author Marco Schmitt
@@ -30,15 +28,83 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "home", objContent: $arrMovieToDisplay);
+			$this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
+
+            $this->_display("home");
         }
 
         public function list(){
-
             $objContentModel 	= new MovieModel;
-			$arrMovie		    = $objContentModel->allMovie(0);
 
-			$arrMovieToDisplay	= array();
+        
+            $objContentModel->producer  	= $_POST['producer']??"";
+            $objContentModel->actor 	    = $_POST['actor']??"";
+            $objContentModel->realisator 	= $_POST['realisator']??"";
+            $objContentModel->categories  	= $_POST['categories']??"";
+            $objContentModel->country     	= $_POST['country']??"";
+            $objContentModel->date 			= $_POST['date']??"";
+            $objContentModel->startdate  	= $_POST['startdate']??"";
+            $objContentModel->enddate 	    = $_POST['enddate']??"";
+
+            $objPersonModel 	   = new PersonModel;
+            $arrActor              = $objPersonModel->findActor();
+            $arrReal               = $objPersonModel->findReal();
+            $arrProducer           = $objPersonModel->findProducer();
+
+            $arrActorToDisplay = array();
+
+            foreach($arrActor as $arrDetActor){
+				$objContent = new PersonEntity('pers_');
+				$objContent->hydrate($arrDetActor);
+
+				$arrActorToDisplay[]	= $objContent;
+			}
+
+
+			$arrRealToDisplay	= array();
+
+			foreach($arrReal as $arrDetReal){
+				$objContent = new PersonEntity('pers_');
+				$objContent->hydrate($arrDetReal);
+
+				$arrRealToDisplay[]	= $objContent;
+			}
+
+			$arrProducerToDisplay	= array();
+
+			foreach($arrProducer as $arrDetProducer){
+				$objContent = new PersonEntity('pers_');
+				$objContent->hydrate($arrDetProducer);
+
+				$arrProducerToDisplay[]	= $objContent;
+			}
+
+
+			$arrMovie		    = $objContentModel->allMovie();
+			$arrCountry         = $objContentModel->allCountry();
+			$arrCategories      = $objContentModel->allCategories();
+
+
+			$arrCategoriesToDisplay = array();
+
+			foreach($arrCategories as $arrDetCategories){
+				$objContent = new MovieEntity('mov_');
+				$objContent->hydrate($arrDetCategories);
+
+				$arrCategoriesToDisplay[]	= $objContent;
+			}
+
+			$arrCountryToDisplay = array();
+
+			foreach($arrCountry as $arrDetCountry){
+				$objContent = new MovieEntity('mov_');
+				$objContent->hydrate($arrDetCountry);
+
+				$arrCountryToDisplay[]	= $objContent;
+			}
+
+
+			$arrMovieToDisplay = array();
 
 			foreach($arrMovie as $arrDetMovie){
 				$objContent = new MovieEntity('mov_');
@@ -47,22 +113,83 @@
 				$arrMovieToDisplay[]	= $objContent;
 			}
 
-            $this->getContent($strPage = "list", objContent: $arrMovieToDisplay);
+			$this->_arrData['producer'] 	= $objContentModel->producer;
+			$this->_arrData['actor'] 		= $objContentModel->actor;
+			$this->_arrData['realisator']   = $objContentModel->realisator;
+			$this->_arrData['categories']   = $objContentModel->categories;
+			$this->_arrData['country'] 	    = $objContentModel->country;
+			$this->_arrData['date'] 		= $objContentModel->date;
+			$this->_arrData['startDate'] 	= $objContentModel->startdate;
+			$this->_arrData['endDate'] 	    = $objContentModel->enddate;
+
+			$this->_arrData['arrActorToDisplay'] 		= $arrActorToDisplay;
+			$this->_arrData['arrRealToDisplay'] 		= $arrRealToDisplay;
+			$this->_arrData['arrProducerToDisplay'] 	= $arrProducerToDisplay;
+			$this->_arrData['arrCategoriesToDisplay'] 	= $arrCategoriesToDisplay;
+			$this->_arrData['arrCountryToDisplay'] 		= $arrCountryToDisplay;
+			$this->_arrData['arrMovieToDisplay'] 		= $arrMovieToDisplay;
+
+
+            $this->_display("list");
         }
 
-        public function movie(){
+		
 
-            $intId = $_GET['id'];
+        public function movie(){
+			$arrError = [];
+            
+			$objCommentModel	= new CommentModel;
+			/**
+			 * @author Etienne
+			 *
+			 */
+				// 1. Check if the form has been submitted
+				if(!empty($_POST)) {
+
+				// 2. Ensure the user is logged in
+					if(isset($_SESSION['user'])) {
+
+				// 3. Validation: Check if the comment is empty (after trimming whitespace)
+						if ((trim($_POST['com_comment'])== "")){
+							$arrError['com_comment'] = "Vous devez remplir le champ commentaire pour laisser un avis";
+						}
+				// 4. Validation: Check if a rating has been selected
+						if (empty($_POST['noteRating'])){
+							$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
+						}
+				/// 5. Final Verdict: If no errors were found, proceed with insertion
+						if(count($arrError)===0) {
+				// Instantiate and hydrate the CommentEntity
+							$objComment = new CommentEntity;
+							$objComment->setComment($_POST['com_comment']);
+							$objComment->setUser_id($_SESSION['user']['user_id']);
+							$objComment->setRating($_POST['noteRating']);
+							$objComment->setmovieId($_GET['id']);
+				// Insert into DB and set success notification
+							$objCommentModel->commentInsert($objComment);
+							$_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+						}
+					} else{
+						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
+					}
+				}
 
             $objMovieModel 	= new MovieModel;
-			$arrMovie 		= $objMovieModel->findMovie($intId);
-			$objMovie       = new MovieEntity('mov_');
+			$arrMovie 		= $objMovieModel->findMovie($_GET['id']);
+
+			if(!$arrMovie['mov_id']){
+				header("Location:index.php?Ctrl=error&action=err404");
+				exit;
+			}
+
+			$objMovie  = new MovieEntity('mov_');
 			$objMovie->hydrate($arrMovie);
 
 			$objPersonModel = new PersonModel;
-			$arrPerson      = $objPersonModel->findAllPerson($intId);
+			$arrPerson      = $objPersonModel->findAllPerson($_GET['id']);
 
-			$arrPersToDisplay	= array();
+
+			$arrPersToDisplay = array();
 
 			foreach($arrPerson as $arrDetPerson){
 				$objPerson = new PersonEntity('pers_');
@@ -71,10 +198,10 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$objCommentModel = new CommentModel;
-			$arrComment     = $objCommentModel->commentOfMovie($intId);
+			$arrComment = $objCommentModel->commentOfMovie($_GET['id']);
 
-			$arrCommentToDisplay	= array();
+
+			$arrCommentToDisplay = array();
 
 			foreach($arrComment as $arrDetComment){
 				$objComment = new CommentEntity('com_');
@@ -83,71 +210,38 @@
 				$arrCommentToDisplay[]	= $objComment;
 			}
 
+			$this->_arrData['arrError'] = $arrError;
 
-            $this->getContent($strPage = "movie",objContent: $objMovie, objAllPerson: $arrPersToDisplay, objComment: $arrCommentToDisplay );
-        }
+			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
+			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
+			$this->_arrData['objMovie'] = $objMovie;
+			
 
-        public function resultSearch(){
-
-            $objContentModel 	= new MovieModel;
-			$arrMovie		    = $objContentModel->allMovie(0);
-
-
-
-			$arrMovieToDisplay	= array();
-
-			foreach($arrMovie as $arrDetMovie){
-				$objContent = new MovieEntity('mov_');
-				$objContent->hydrate($arrDetMovie);
-
-				$arrMovieToDisplay[]	= $objContent;
-			}
-
-            $this->getContent($strPage = "resultSearch",objContent: $arrMovieToDisplay);
-        }
-
-        public function person(){
-            $this->getContent($strPage = "person");
+            $this->_display("movie");
         }
 
         public function addMovie(){
-			$objMovie = new MovieEntity(); // On crée l'objet
-			$arrError = [];
-            $this->getContent(
-			strPage:"addMovie",
-			objContent: $objMovie, // On passe l'objet film dans le paramètre "objContent"
-			arrError: $arrError);
-        }
-		
-		/**
-	* @todo select sur les producteur realisateur et acteurs(ajout auto si n'existepas)
-	*/
-	//Récupérer les informations du Formulaire
-		public function createMovie() {
-			var_dump($_POST);
-			
-			$strTitle 				= $_POST['title']??'';
-			$intCategory			= $_POST['category']??0;
-			$strOriginalTitle		= $_POST['original_title']??'';
-			$strLength				= $_POST['length']??'';
-			$strDescription			= $_POST['description']??'';
-			$strReleaseDate			= $_POST['release_date']??'';
-			$strCharacterName		= $_POST['characterName']??'';
-			$strUrl					= $_POST['url']??'';
-			$strActorName			= $_POST['actorName']??'';
-			$strActorFirstname		= $_POST['actorFirstame']??'';
-			$strCharacterName		= $_POST['characterName']??'';
-			
-
 			// 1. Initialisation des objets et variables
 			$objMovie = new MovieEntity();
 			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
 			$objMovieModel = new MovieModel();
 
-
-
 			$arrCategory = $objMovieModel->findAllCategories();
-			$arrcatToDisplay	= array();
+				$arrcatToDisplay	= array();
+		
+			$this->_arrData['strTitle']				= $objMovie->strTitle;
+			$this->_arrData['intCategory']			= $objMovie->intCategory;
+			$this->_arrData['strOriginalTitle']		= $objMovie->strOriginalTitle;
+			$this->_arrData['strLength']			= $objMovie->strLength;
+			$this->_arrData['strDescription']		= $objMovie->strDescription;
+			$this->_arrData['strReleaseDate']		= $objMovie->strReleaseDate;
+			$this->_arrData['strCharacterName'] 	= $objMovie->strCharacterName;
+			$this->_arrData['strUrl']				= $objMovie->strUrl;
+			$this->_arrData['strActorName']			= $objMovie->strActorName;
+			$this->_arrData['strActorFirstname']	= $objMovie->strActorFirstname;
+			$this->_arrData['strCharacterName']		= $objMovie->strCharacterName;
+			
+						
 
 			foreach($arrCategory as $arrDetCat){
 				$objContent = new MovieEntity('mov_');
@@ -173,6 +267,7 @@
 
 			// 3. Logique d'insertion
 			if (count($arrError) == 0) {
+				
 				// Si aucune erreur, on tente l'insertion
 				if ($objModel->insert($objMovie)) {
 					$_SESSION['success'] = "Le film a été soumis avec succès !";
@@ -182,6 +277,7 @@
 					$arrError['global'] = "Erreur lors de l'enregistrement en base de données.";
 				}
 			}
+			
 
 			// 4. Si on arrive ici (erreur de saisie ou échec SQL), on réaffiche le formulaire
 			// On passe $objMovie pour que les champs restent remplis (UX)
@@ -190,5 +286,7 @@
 			var_dump($intCategory);
 			var_dump($objMovieModel);
 			var_dump($objPerson);
-		}
-	}
+            $this->_display("addMovie");
+        }
+
+    }

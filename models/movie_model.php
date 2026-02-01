@@ -1,163 +1,236 @@
-
 <?php
     require_once'models/mother_model.php';
 
     class MovieModel extends Connect{
 
+        public string $producer     = '';
+        public string $actor        = '';
+        public string $realisator   = '';
+        public string $categories   = '';
+        public string $country      = '';
+        public string $date         = '';
+        public string $startdate    = '';
+        public string $enddate      = '';
+        public string $order        = '';
+        public string $job          = 'ASC';
+        
+
+
         public function newMovie(){
           $strRq	= "
-                        SELECT mov_id, pho_url AS 'mov_url', AVG(ratings.rat_score) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
+                        SELECT mov_id, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN follows ON movies.mov_id = follows.follo_mov_id
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
                         WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
                         GROUP BY movies.mov_id
-                          ";
+                        ";
 
-
-		    return $this->_db->query($strRq)->fetchAll();
+            return $this->_db->query($strRq)->fetchAll();
         }
 
 
-        public function allMovie(int $intLimit=0, string $strKeywords='', int $intAuthor=0,
-						 int $intPeriod=0, string $strDate='', string $strStartDate='',
-						 string $strEndDate=''):array{
+        public function allMovie(): array {
+            $strWhere = " WHERE ";
+            $strRq = " SELECT mov_id, mov_title, mov_description, pho_url AS 'mov_url', 
+                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', 
+                            COUNT(DISTINCT lik_user_id) AS 'mov_like'
+                    FROM movies
+                    LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
+                    LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
+                    LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                    ";
 
-			// Ecrire la requête
-			$strRq	= " SELECT mov_id, mov_title, mov_description , pho_url AS 'mov_url', AVG(ratings.rat_score) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
-                        FROM movies
-                        LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
-                        LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN follows ON movies.mov_id = follows.follo_mov_id
-                        ";
-			// Pour le where (un seul)
-			//$boolWhere	= false; // flag
-			/*$strWhere	= " WHERE ";
-			// Recherche par mot clé
-			if ($strKeywords != '') {
-				$strRq .= " WHERE (article_title LIKE '%".$strKeywords."%'
-								OR article_content LIKE '%".$strKeywords."%') ";
-				//$boolWhere	= true;
-				$strWhere	= " AND ";
-			}
+            $conditions = [];
 
-			// Recherche par auteur
-			if ($intAuthor > 0){
-				/*if ($boolWhere){
-					$strRq .= " AND ";
-				}else{
-					$strRq .= " WHERE ";
-				}
-				$strRq .= $strWhere." article_creator = ".$intAuthor;
-				$strWhere	= " AND ";
-			}
+            if (!empty($this->actor)) {
+                $conditions[] = "participates.part_job_id = 3 AND participates.part_pers_id = :actor";
+            }
 
-			// Recherche par dates
-			if ($intPeriod == 0){
-				// Par date exacte
-				if ($strDate != ''){
-					$strRq .= $strWhere." article_createdate = '".$strDate."'";
-				}
-			}else{
-				// Par période de dates
-				if ($strStartDate != '' && $strEndDate != ''){
-				//if ( ($strStartDate != '') && ($strEndDate != '') ){ Parethèses selon le développeur - pas de changement si que des && - Attention ||
-					$strRq .= $strWhere." article_createdate BETWEEN '".$strStartDate."' AND '".$strEndDate."'";
-				}else{
-					if ($strStartDate != ''){
-						// A partir de
-						$strRq .= $strWhere." article_createdate >= '".$strStartDate."'";
-					}else if ($strEndDate != ''){
-						// Avant le
-						$strRq .= $strWhere." article_createdate <= '".$strEndDate."'";
-					}
-				}
-			}*/
+            if (!empty($this->producer)) {
+                $conditions[] = "participates.part_job_id = 2 AND participates.part_pers_id = :producer";
+            }
 
-			$strRq .= " GROUP BY movies.mov_id
-			            ORDER BY mov_release_date DESC
-			            ";
+            if (!empty($this->realisator)) {
+                $conditions[] = "participates.part_job_id = 1 AND participates.part_pers_id = :realisator";
+            }
 
-			if ($intLimit > 0){
-				$strRq  .= " LIMIT ".$intLimit;
-			}
+            if (!empty($conditions)) {
+                $strRq .= " $strWhere mov_id IN (
+                                SELECT part_mov_id
+                                FROM participates
+                                WHERE " . implode(" OR ", $conditions) . "
+                            )";
+                $strWhere = " AND ";
+            }
 
-			// Lancer la requête et récupérer les résultats
-			return $this->_db->query($strRq)->fetchAll();
-		}
+            if (!empty($this->categories)) {
+                $strRq .= " $strWhere mov_id IN (
+                                SELECT belong_mov_id
+                                FROM belongs
+                                WHERE belong_cat_id = :category
+                            )";
+                $strWhere = " AND ";
+            }
+
+            if (!empty($this->country)) {
+                $strRq .= " $strWhere mov_nat_id = :country";
+                $strWhere = " AND ";
+            }
+
+            if (!empty($this->date)) {
+                $strRq .= " $strWhere mov_release_date = :date";
+            } elseif (!empty($this->startdate) && !empty($this->enddate)) {
+                $strRq .= " $strWhere mov_release_date BETWEEN :startDate AND :endDate";
+            } elseif (!empty($this->startdate)) {
+                $strRq .= " $strWhere mov_release_date > :startDate";
+            } elseif (!empty($this->enddate)) {
+                $strRq .= " $strWhere mov_release_date < :endDate";
+            }
+
+            $strRq .= " GROUP BY movies.mov_id
+                        ORDER BY mov_release_date DESC";
+
+            
+            $stmt = $this->_db->prepare($strRq);
+
+            
+            if (!empty($this->actor)) {
+                $stmt->bindValue(':actor', $this->actor, PDO::PARAM_INT);
+            }
+            if (!empty($this->producer)) {
+                $stmt->bindValue(':producer', $this->producer, PDO::PARAM_INT);
+            }
+            if (!empty($this->realisator)) {
+                $stmt->bindValue(':realisator', $this->realisator, PDO::PARAM_INT);
+            }
+            if (!empty($this->categories)) {
+                $stmt->bindValue(':category', $this->categories, PDO::PARAM_INT);
+            }
+            if (!empty($this->country)) {
+                $stmt->bindValue(':country', $this->country, PDO::PARAM_INT);
+            }
+            if (!empty($this->date)) {
+                $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
+            }
+            if (!empty($this->startdate)) {
+                $stmt->bindValue(':startDate', $this->startdate, PDO::PARAM_STR);
+            }
+            if (!empty($this->enddate)) {
+                $stmt->bindValue(':endDate', $this->enddate, PDO::PARAM_STR);
+            }
+
+            // 4. Exécution
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
 
 		public function findMovie(int $idMovie=0){
 
- 	        $strRq	= "
-                        SELECT movies.*, pho_url AS 'mov_url', AVG(ratings.rat_score) AS 'mov_rating', COUNT(DISTINCT follows.follo_user_id) AS 'mov_like', nat_country AS 'mov_country'
+ 	        $strRq	= " SELECT movies.*,
+                            pho_url AS 'mov_url',
+                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
+                            COUNT(DISTINCT lik_user_id ) AS 'mov_like',
+                            nat_country AS 'mov_country'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN follows ON movies.mov_id = follows.follo_mov_id
-                        WHERE mov_id = $idMovie";
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                        WHERE mov_id = :id ";
 
+            $stmt = $this->_db->prepare($strRq);
 
-		    return $this->_db->query($strRq)->fetch();
-		}
+            $stmt->bindValue(':id', $idMovie, PDO::PARAM_INT);
 
-		public function movieOfPerson(int $idPerson=0){
+            $stmt->execute();
+
+            return $stmt->fetch();
+        }
+
+		public function movieOfPerson(int $idPerson=0):array{
+
+            $direction = (strtoupper($this->order) === 'ASC') ? 'ASC' : 'DESC';    
 
           	$strRq	= " SELECT
-                        movies.mov_id,
-                        photos.pho_url AS 'mov_url',
-                        AVG(DISTINCT ratings.rat_score) AS 'mov_rating',
-                        COUNT(DISTINCT follows.follo_user_id) AS 'mov_like'
+                            movies.mov_id,
+                            photos.pho_url AS 'mov_url',
+                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
+                            COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM persons
                         LEFT JOIN participates ON persons.pers_id = participates.part_pers_id
                         LEFT JOIN movies ON participates.part_mov_id = movies.mov_id
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN follows ON movies.mov_id = follows.follo_mov_id
-                        WHERE persons.pers_id = $idPerson
-                        GROUP BY movies.mov_id";
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                        WHERE persons.pers_id = :id";
 
-            return $this->_db->query($strRq)->fetchAll();
-		}
+            if(!empty($this->job)){
+                $strRq	.=" AND mov_id IN ( SELECT part_mov_id
+                                           	FROM participates
+                                           	WHERE part_pers_id = :id AND part_job_id = :job )";
+            }
 
 
-		public function userLike(int $idUser=0){
 
-		    $strRq	= " SELECT mov_id, pho_url AS 'mov_url'
+            $strRq	.=" GROUP BY movies.mov_id";
+
+            if(!empty($this->order)){
+                $strRq	.=" ORDER BY mov_release_date $direction ";
+            }
+
+            $stmt = $this->_db->prepare($strRq);
+
+            if(!empty($this->job)){
+                $stmt->bindValue(':job', $this->job, PDO::PARAM_INT);
+            }
+
+            $stmt->bindValue(':id', $idPerson, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(); 
+        }
+
+
+        public function userLike(int $idUser=0){
+            // FIX: Added MIN() around pho_url and added GROUP BY to avoid duplicates
+            $strRq  = " SELECT
+                            movies.mov_id,
+                            photos.pho_url AS 'mov_url'
                         FROM users
-                        INNER JOIN follows ON users.user_id = follows.follo_user_id
-                        INNER JOIN movies ON follows.follo_mov_id = movies.mov_id
+                        LEFT JOIN liked ON users.user_id = liked.lik_user_id AND liked.lik_type = 'movies'
+                        INNER JOIN movies ON liked.lik_item_id = movies.mov_id
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
-                        WHERE user_id = $idUser";
+                        WHERE user_id = $idUser
+                        GROUP BY movies.mov_id
+                        ORDER BY lik_created_at";
 
             return $this->_db->query($strRq)->fetchAll();
 
 		}
-		
-		/**
-		* @author Audrey
-		* 17/01/2026
-		* @version: v0.1
-		* @todo comparer si le film proposer est déjà dans la base de données
-		*/
-		
-		/**
-		* Recherche de toutes les categories de film
-		* @return array Liste de résultat
-		*/
-		public function findAllCategories():array{
-			$strRq = " SELECT cat_id AS 'mov_id', cat_name AS 'mov_categories'
-					  FROM categories";	
-			// Lancer la requête et récupérer les résultats
-			return $this->_db->query($strRq)->fetchAll();
-		
+
+
+		public function allCountry(){
+
+		    $strRq	= " SELECT nat_id AS 'mov_id', nat_country AS 'mov_country'
+						FROM nationalities";
+
+            return $this->_db->query($strRq)->fetchAll();
+
 		}
-		/**
-		* Insertion d'un film dans la base données
-		* 
-		*/
-		public function insert(object $objNewMovie):bool{
+
+		public function allCategories(){
+
+		    $strRq	= " SELECT cat_id AS 'mov_id', cat_name AS 'mov_categories'
+						FROM categories";
+
+            return $this->_db->query($strRq)->fetchAll();
+
+        }
+        public function insert(object $objNewMovie):bool{
                 
 		// Request construction
 			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_lenght, mov_descritpion, mov_release_date)
@@ -173,4 +246,6 @@
 			// Request execution
 			return $rqPrep->execute();
 		}
+
     }
+?>

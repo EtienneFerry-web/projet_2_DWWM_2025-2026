@@ -4,36 +4,32 @@
 
 	/**
 	* Classe d'un objet Article
-	* @author Marco Audrey
-	* @todo Audrey > fonction ajout de film avec condition "connecter"
+	* @author Christel
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
-		private string $_title='';
-		private string $_url='';
-		private string $_description='';
-		private string $_release_date='';
-		private string $_trailer_url='';
-		private string $_country='';
-		private string $_func='';
-		private int    $_like=0;
-		private float  $_rating=0.0;
-		private string $_originalTitle='';
-		private string $_length='';
+		private string $_title;
+		private string $_url;
+		private string $_description;
+		private string $_release_date;
+		private string $_trailer_url;
+		private string $_country;
 		private string $_categories;
-		
-	
+		private string $_length;
+		private string $_func;
+		private int    $_like;
+		private float  $_rating;
 
 		/**
 		* Constructeur
 		*/
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
-			$this->_prefixe='mov_';
+			$this->_prefixe = $prefixe;
 		}
 
 		// Méthodes - getters et setters
-		
+
 		/**
 		* Récupération du titre
 		* @return string le titre de l'objet
@@ -48,6 +44,7 @@
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
 		}
+
 		/**
 		* Récupération de l'image
 		* @return string l'image de l'objet
@@ -71,6 +68,14 @@
 			return $this->_description;
 		}
 		/**
+		* Mise à jour du contenu
+		* @param string le nouveau contenu
+		*/
+		public function setDescription(string $strContent){
+			$this->_description = $this->clean($strContent);
+		}
+
+		/**
 		* Récupérer le résumé du contenu
 		* @return string le résumé du contenu
 		*/
@@ -85,7 +90,14 @@
 		public function getCreatedate():string{
 			return $this->_release_date;
 		}
-		
+		/**
+		* Mise à jour de la date de création
+		* @param string la nouvelle date de création
+		*/
+		public function setRelease_date(string $strCreatedate){
+			$this->_release_date = $strCreatedate;
+		}
+
 		/**
 		* Récupérer la date selon un format
 		*/
@@ -140,32 +152,39 @@
 		public function setTrailer_url(string $strTrailer){
 			$this->_trailer_url = $strTrailer;
 		}
-				
-		/**
-		* Récupération du titre original
-		* @return string le titre original de l'objet
-		*/
-		public function getOriginalTitle():string{
-			return $this->_originalTitle;
+
+
+		public function getCountry():string{
+			return $this->_country;
 		}
-		
 		/**
-		* Récupération de la durée
-		* @return string la durée de l'objet
+		* Mise à jour de l'identifiant du créateur
+		* @param int le nouvel identifiant du créateur
 		*/
-		public function getLength():string{
-			return $this->_length;
+		public function setCountry(string $strCountry){
+			$this->_country = $strCountry;
 		}
-		
+
+		public function getCategories():string{
+			return $this->_categories;
+		}
 		/**
-		* Mise à jour de 
-		* @param int le 
+		* Mise à jour de l'identifiant du créateur
+		* @param int le nouvel identifiant du créateur
 		*/
 		public function setCategories(string $strCategories){
 			$this->_categories = $strCategories;
 		}
-		public function getCategories():string{
-			return $this->_categories;
+
+		public function getLength():string{
+			return $this->_length;
 		}
-		
+		/**
+		* Mise à jour de l'identifiant du créateur
+		* @param int le nouvel identifiant du créateur
+		*/
+		public function setLength(string $strLength){
+			$this->_length = $strLength;
+		}
+
 	}

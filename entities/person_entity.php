@@ -15,6 +15,8 @@
 		private ?string $_bio="";
 		private string $_country;
 		private string $_photo;
+		private string $_NameJob;
+
 
 		/**
 		* Constructeur
@@ -58,7 +60,6 @@
 			return $strDate;
 		}
 
-		//Méthodes getters et se
 		public function setDeathDate(?string $strDeathDate){
 		    $this->_deathdate = $strDeathDate;
 		}
@@ -68,21 +69,15 @@
 		}
 
 		public function getFullName():string{
-			return $this->_name ." ".$this->_firstname;
-		}
-		public function getName():string{
-			return $this->_name;
+			return $this->_name ." ".$this->_firstname ;
 		}
 
 		public function setName(string $strName){
-			$this->_name = $this->clean($strName);
-		}
-		public function getFirstame():string{
-			return $this->_firstname;
+			$this->_name = $strName;
 		}
 
 		public function setFirstname(string $strFirstname){
-			$this->_firstname = $this->clean($strFirstname);
+			$this->_firstname = $strFirstname;
 		}
 
 		public function getCountry():string{
@@ -90,7 +85,7 @@
 		}
 
 		public function setCountry(string $strCountry){
-			$this->_country = $this->clean($strCountry);
+			$this->_country = $strCountry;
 		}
 
 		public function getBio():string{
@@ -101,6 +96,7 @@
 			$this->_bio = $strBio;
 		}
 
+
 		public function getPhoto():string{
 			return $this->_photo;
 		}
@@ -108,4 +104,15 @@
 		public function setPhoto(string $strPhoto){
 			$this->_photo = $strPhoto;
 		}
-}
+
+		public function getNameJob():string{
+			return $this->_NameJob;
+		}
+
+		public function setNameJob(string $strJob){
+			$this->_NameJob = $strJob;
+		}
+
+
+
+	}

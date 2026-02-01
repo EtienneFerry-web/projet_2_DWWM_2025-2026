@@ -57,6 +57,7 @@ nav a{
     font-size: clamp(1rem ,3vw, 1.25rem);
     color: #000000;
     transition: all 0.3s ease-out;
+    cursor: pointer;
 }
 
 .nav-link:hover{
