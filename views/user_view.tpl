@@ -51,6 +51,8 @@
         {/foreach}
     </div>
 </section>
+
+
 {/block}
 
 {block name="js"}

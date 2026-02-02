@@ -1,15 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-const stars = document.querySelectorAll(' .rating i');
+const stars = document.querySelectorAll('.rating i');
 const inputNote = document.getElementById('note');
 let antiSpam = false
 
@@ -53,7 +42,7 @@ stars.forEach(star => {
   });
 });
 
-document.getElementById('shareMovie').addEventListener('click', (e) => {
+/*document.getElementById('shareMovie').addEventListener('click', (e) => {
 
   navigator.clipboard.writeText(window.location.href);
   e.target.textContent = "URL copiée !";
@@ -62,4 +51,4 @@ document.getElementById('shareMovie').addEventListener('click', (e) => {
   setTimeout(() => {
     e.target.innerHTML = "PARTAGER &#8599;";
   }, 1500);
-});
+});*/

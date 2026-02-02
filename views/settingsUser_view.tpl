@@ -44,13 +44,12 @@
          </div>
 
          <div class="col-auto">
-             <form action="index.php?ctrl=user&action=deleteAccount" method="POST" onsubmit="return confirm('Êtes-vous sûr ? C\'est irréversible !');" class="nav-link col-auto">
-                 <input type="radio"
-                        class="btn-check"
-                        id="filter-report"
-                        onchange="if(confirm('Êtes-vous sûr ? C\'est irréversible !')) this.form.submit();">
-                 <label class="form-label" for="filter-report">Supprimer mon compte</label>
-             </form>
+             <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
+      onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
+    <button type="submit" class="btn btn-link p-0 text-danger">
+        Supprimer mon compte
+    </button>
+</form>
          </div>
      </div>
 </div>
