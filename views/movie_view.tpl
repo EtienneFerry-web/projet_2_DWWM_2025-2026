@@ -71,7 +71,7 @@
                         <i class="bi bi-star" data-value="5"></i>
                         </span>
                         <!--input value for rating score-->
-                        <input type="hidden" name="noteRating" id="note" value="0" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
+                        <input type="hidden" name="rating" id="note" value="0" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
 
                     </div>
                     <div class="col-md-4 mw-100 " >

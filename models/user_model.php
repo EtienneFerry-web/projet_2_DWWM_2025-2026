@@ -85,8 +85,6 @@
 
             return $this->_db->query($strRq)->fetch();
 
-
-
         }
 
 		/**

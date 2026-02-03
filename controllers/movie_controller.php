@@ -153,7 +153,7 @@
 							$arrError['com_comment'] = "Vous devez remplir le champ commentaire pour laisser un avis";
 						}
 				// 4. Validation: Check if a rating has been selected
-						if (empty($_POST['noteRating'])){
+						if (empty($_POST['rating'])){
 							$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
 						}
 				/// 5. Final Verdict: If no errors were found, proceed with insertion
@@ -162,7 +162,7 @@
 							$objComment = new CommentEntity;
 							$objComment->setComment($_POST['com_comment']);
 							$objComment->setUser_id($_SESSION['user']['user_id']);
-							$objComment->setRating($_POST['noteRating']);
+							$objComment->setRating($_POST['rating']);
 							$objComment->setmovieId($_GET['id']);
 				// Insert into DB and set success notification
 							$comment = $objCommentModel->commentInsert($objComment);

@@ -1,6 +1,6 @@
 <div class="row py-3 border-bottom border-dark">
     <div class="col-3 my-auto">
-        <a href="index.php?ctrl=movie&action=movie&id={$review->getId()}">
+        <a id="movie" data-movie="{$review->getMovieId()}" href="index.php?ctrl=movie&action=movie&id={$review->getMovieId()}">
             <img src="{$review->getUrl()}" alt="couverture de film" class="img-fluid">
         </a>
     </div>
@@ -38,7 +38,7 @@
                     <label class="form-label m-0" for="filter-delete-{$review->getId()}">Supprimer</label>
                 </form>
                     <div class="d-block text-end col-auto">
-                        <button type="button" class="spanMovie border-0 edit-comment" onclick="enableEdit('{$review->getId()}')">
+                        <button type="button" class="spanMovie border-0 edit-comment bg-transparent" onclick="enableEdit('{$review->getId()}')">
                             Modifier
                         </button>
                     </div>

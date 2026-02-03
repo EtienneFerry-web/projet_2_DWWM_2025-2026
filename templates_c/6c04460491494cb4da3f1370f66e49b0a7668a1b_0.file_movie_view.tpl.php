@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-01 08:34:17
+/* Smarty version 5.7.0, created on 2026-02-03 08:30:54
   from 'file:views/movie_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_697f100904e8e1_38886854',
+  'unifunc' => 'content_6981b23eefb019_94559527',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6c04460491494cb4da3f1370f66e49b0a7668a1b' => 
     array (
       0 => 'views/movie_view.tpl',
-      1 => 1769934855,
+      1 => 1770107448,
       2 => 'file',
     ),
   ),
@@ -21,38 +21,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/commentMovie.tpl' => 1,
   ),
 ))) {
-function content_697f100904e8e1_38886854 (\Smarty\Template $_smarty_tpl) {
+function content_6981b23eefb019_94559527 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_586342381697f1009034ac9_11914948', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8878672046981b23edb93d0_45367830', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_173700430697f10090378d1_06538606', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_243523665697f10090389c2_24050808', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19463314186981b23edd4201_72991260', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1935092813697f1009039750_39005825', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_21330029176981b23eddebc8_89796141', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1399545565697f100904dd25_08655935', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9500701946981b23edeb429_61461206', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20201331506981b23eef3841_95837054', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_586342381697f1009034ac9_11914948 extends \Smarty\Runtime\Block
+class Block_8878672046981b23edb93d0_45367830 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -62,7 +62,7 @@ echo $_smarty_tpl->getValue('objMovie')->getTitle();
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_173700430697f10090378d1_06538606 extends \Smarty\Runtime\Block
+class Block_19463314186981b23edd4201_72991260 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -72,7 +72,7 @@ bienvenue sur notre accueil !!!!<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_243523665697f10090389c2_24050808 extends \Smarty\Runtime\Block
+class Block_21330029176981b23eddebc8_89796141 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -85,7 +85,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_1935092813697f1009039750_39005825 extends \Smarty\Runtime\Block
+class Block_9500701946981b23edeb429_61461206 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -174,7 +174,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         <i class="bi bi-star" data-value="5"></i>
                         </span>
                         <!--input value for rating score-->
-                        <input type="hidden" name="noteRating" id="note" value="0" class="form-control <?php if ((true && (true && null !== ($_smarty_tpl->getValue('arrError')['noteRating'] ?? null)))) {?> is-invalid <?php }?>">
+                        <input type="hidden" name="rating" id="note" value="0" class="form-control <?php if ((true && (true && null !== ($_smarty_tpl->getValue('arrError')['noteRating'] ?? null)))) {?> is-invalid <?php }?>">
 
                     </div>
                     <div class="col-md-4 mw-100 " >
@@ -216,7 +216,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_1399545565697f100904dd25_08655935 extends \Smarty\Runtime\Block
+class Block_20201331506981b23eef3841_95837054 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

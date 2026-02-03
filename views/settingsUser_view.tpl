@@ -46,9 +46,9 @@
          <div class="col-auto">
              <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
       onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
-    <button type="submit" class="btn btn-link p-0 text-danger">
-        Supprimer mon compte
-    </button>
+        <button type="submit" class="border-0 bg-transparent">
+            Supprimer mon compte
+        </button>
 </form>
          </div>
      </div>

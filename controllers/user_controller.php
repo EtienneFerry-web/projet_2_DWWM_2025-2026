@@ -174,6 +174,7 @@
         public function user(){
 
             $intId = $_GET['id'];
+            
 
             $objUserModel = new UserModel;
 			$arrUser		= $objUserModel->userPage($intId);
@@ -183,15 +184,31 @@
 				exit;
 			} else{
 			    $objCommentModel = new CommentModel;
-
+				$objComment = new CommentEntity;
+							
 			    if( isset($_POST['deleteComment'])){
+							
+					$objComment->setId((int)$_POST['deleteComment']);
+					$objComment->setUser_id($_SESSION['user']['user_id']);
 
-					$result = $objCommentModel->deleteComment((int)$_POST['deleteComment'], $_SESSION['user']['user_id']);
+					$result = $objCommentModel->deleteComment($objComment);
 
 					if($result){
 					    $_SESSION['success'] ="Le commentaire à bien était supprimer !";
 					} else{
 					    $this->_arrData['arrError'] = "erreur lors de la suppression veulliez réssayer !";
+					}
+					
+				} elseif(isset($_POST['comment']) && isset($_POST['rating'])) {
+				    
+                    $objComment->hydrate($_POST);
+				    
+				    $result = $objCommentModel->commentModify($objComment, $_SESSION['user']['user_id']);
+								
+					if($result){
+					    $_SESSION['success'] ="Le commentaire à bien était modifier !";
+					} else{
+					    $this->_arrData['arrError'] = "erreur lors de la modification";
 					}
 				}
 
