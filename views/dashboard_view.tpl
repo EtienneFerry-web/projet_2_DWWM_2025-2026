@@ -29,7 +29,7 @@
                   class="form-control" 
                   id="title" 
                   placeholder="Titre" 
-                  value="{$objContent->getTitle()}"
+                  value=""
                   required>
 				</div>
 				<div class="col-md-6">
@@ -37,10 +37,10 @@
 					<select class="form-control" id="categorie" name="categorie">
 					<option value="0">Toutes les catégories</option>
 					{foreach from=$arrResult item=arrDetCategory}
-						<option class="form-control" value="{$arrDetCategory['cat_id']}" 
-							{if isset($objCategories) && $objCategories->getID() == $arrDetCategory['cat_id']}selected{/if} 
+						<option class="form-control" value="" 
+							selected
 						> 
-							{$arrDetCategory['cat_name']}
+						
 						</option>
 					{/foreach}        
 					</select>
@@ -54,7 +54,7 @@
                         type="date" 
                         class="form-control" 
                         id="release_date"  
-                        value="{$objContent->getCreatedate()}
+                        value=""
                         placeholder="Quelle est la date de sortie du film?" 
                         required>
             </div>
@@ -65,7 +65,7 @@
                         type="text" 
                         class="form-control" 
                         id="original_title"
-                        value="{$objContent->getOriginalTitle()}"
+                        value=""
                         placeholder="">
             </div>
             <div class="form-group py-2">
@@ -74,7 +74,7 @@
                         type="time" 
                         class="form-control" 
                         id="length"  
-                        value="{$objContent->getLength()}"
+                        value=""
                         placeholder="Email" 
                         required>
             </div>
@@ -84,7 +84,7 @@
                             class="form-control textarea" 
                             id="description" 
                             placeholder="Synopsis" 
-                            required>{$objContent->getDescription()}</textarea>
+                            required></textarea>
             </div>            
 			
 			<hr>
@@ -96,9 +96,9 @@
 					<label class="form-label">Nom</label>
 					<input 	name="actorName" 
 							type="text" 
-							class="form-control {if isset($arrError['actorName'])}is-invalid{/if}" 
+							class="form-control" 
 							id="actorName" 
-							value="{$strActorName}"
+							value=""
 							placeholder="Nom de l'acteur principal"
 							required>
 				</div>
@@ -106,10 +106,10 @@
 					<label for="actorFirstname" class="form-label">Prénom</label>
 					<input 	name="actorFirstname" 
 							type="text" 
-							class="form-control {if isset($arrError['actorFirstname'])}is-invalid{/if}" 
+							class="form-control" 
 							id="actorFirstname" 
-							value="{$strActorFirstname}"
-							placeholder="Nom de l'acteur principal"
+							value=""
+							placeholder="Prénom de l'acteur principal"
 							required>
 				</div>
 				<div class="form-group col-4 py-2">
@@ -118,7 +118,7 @@
 							type="text" 
 							class="form-control" 
 							id="characterName" 
-							value="{$strCharacterName}"
+							value=""
 							placeholder="nom du personnage de l'acteur principal">
 				</div>
 			</div>
@@ -135,7 +135,7 @@
         </form>
     </div>
     <div id="listUser" class="d-block">
-        <h2>Tous Les Utilisateur</h2>
+        <h2>Tous Les Utilisateurs</h2>
             <form class="row g-1 align-items-center py-3 ">
                 <div class="col-12 col-md-5 p-0">
                     <input class="form-control " type="search" placeholder="Rechercher..." name="search" value="">
@@ -143,7 +143,7 @@
 
                 <div class="col-12 col-md-5 p-0">
                     <select class="form-select">
-                        <option value="">Tous Les Grade</option>
+                        <option value="">Tous Les Grades</option>
                         <option value="usa">Croissant</option>
                         <option value="france">Decroissant</option>
                     </select>
@@ -152,13 +152,15 @@
                     Recherche
                 </button>
             </form>
-            <div class="allUser">
+            
+            {foreach from=$arrUserToDisplay item=objUser}
+            <div class="allUser">              
                 <form class="row g-2 align-items-center justify-content-center py-2">
                     <div class="col-2 col-md-auto">
                         <span class="spanMovie">1</span>
                     </div>
                     <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
+                        <span class="spanMovie">{$objUser->getPseudo()}</span>
                     </div>
                     <!-- Grade -->
                     <div class="col-12 col-md-4">
@@ -190,421 +192,12 @@
                         </div>
                       </div>
                     </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
+                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send_{$objUser->getId()}"">
                         Valider
                     </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
+                </form>               
             </div>
+            {/foreach}
         <div>
     </div>
     </div>

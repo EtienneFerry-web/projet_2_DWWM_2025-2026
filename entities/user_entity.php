@@ -4,6 +4,7 @@
 
     class UserEntity extends Entity{
 
+        private string $_id = '';
         private string $_name = '';
 		private string $_firstname = '';
 		private string $_pseudo = '';
@@ -38,7 +39,9 @@
 		* @return string Object name
 		*/
 
-
+		public function getId():string{
+			return $this->_id;
+		}
 
 		public function getName():string{
 			return $this->_name;

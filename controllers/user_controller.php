@@ -214,4 +214,33 @@
             $this->_display("user");
         }
 
+        /**
+		* Page de gestion des utilisateurs
+		*/
+		public function user_list(){
+			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=error_403");
+				exit;
+			}
+			
+			// Récupération des articles 
+			$objUserModel 	= new UserModel;
+			$arrUsers 		= $objUserModel->findAllUsers();
+
+			// Initialisation d'un tableau => objets
+			$arrUserToDisplay	= array(); 
+
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrUsers as $arrDetUser){
+				$objUser = new UserEntity;
+				$objUser->hydrate($arrDetUser);
+				
+				$arrUserToDisplay[]	= $objUser;
+			}
+			// Donner arrUsersToDisplay à maman pour l'affichage
+			$this->_arrData['arrUserToDisplay']	= $arrUserToDisplay;
+			
+			$this->_display("dashboard");
+		}
+
     }

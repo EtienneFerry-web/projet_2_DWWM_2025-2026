@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-01-31 09:15:24
+/* Smarty version 5.7.0, created on 2026-02-04 17:26:39
   from 'file:views/dashboard_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_697dc82cc624c6_06067598',
+  'unifunc' => 'content_6983814f1d2509_24708121',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'a41bfa6ad9ef5f3cc44fab8d0aba63facde696c0' => 
     array (
       0 => 'views/dashboard_view.tpl',
-      1 => 1769850923,
+      1 => 1770225997,
       2 => 'file',
     ),
   ),
@@ -20,36 +20,36 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_697dc82cc624c6_06067598 (\Smarty\Template $_smarty_tpl) {
+function content_6983814f1d2509_24708121 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1532341279697dc82cc48e23_84412980', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_13853674116983814f1c8493_34735248', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_854611814697dc82cc4aa64_29510562', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1298068830697dc82cc4b914_57408844', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_16033979566983814f1ca2f4_81925608', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1995003699697dc82cc4c6c8_81506982', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4064423896983814f1cb2b2_69378205', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1060503929697dc82cc61562_15496188', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10756517086983814f1cc298_52372130', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_17290214666983814f1d19d7_24676744', "js");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1532341279697dc82cc48e23_84412980 extends \Smarty\Runtime\Block
+class Block_13853674116983814f1c8493_34735248 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -60,7 +60,7 @@ Dashboard<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_854611814697dc82cc4aa64_29510562 extends \Smarty\Runtime\Block
+class Block_16033979566983814f1ca2f4_81925608 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -68,7 +68,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_1298068830697dc82cc4b914_57408844 extends \Smarty\Runtime\Block
+class Block_4064423896983814f1cb2b2_69378205 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -82,7 +82,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_1995003699697dc82cc4c6c8_81506982 extends \Smarty\Runtime\Block
+class Block_10756517086983814f1cc298_52372130 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -104,13 +104,12 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 				<div class="col-6 form-group py-2">
 					<label class="form-label">Titre du film*</label>
 					<input 	name="title" 
-							type="text" 
-							class="form-control" 
-							id="title" 
-							placeholder="Titre" 
-							value="<?php echo $_smarty_tpl->getValue('objContent')->getTitle();?>
-"
-							required>
+                  type="text" 
+                  class="form-control" 
+                  id="title" 
+                  placeholder="Titre" 
+                  value=""
+                  required>
 				</div>
 				<div class="col-md-6">
 					<label for="categorie" class="form-label">Genre</label>
@@ -122,12 +121,10 @@ $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('arrDetCategory')->value) {
 $foreach0DoElse = false;
 ?>
-						<option class="form-control" value="<?php echo $_smarty_tpl->getValue('arrDetCategory')['cat_id'];?>
-" 
-							<?php if ((true && ($_smarty_tpl->hasVariable('objCategories') && null !== ($_smarty_tpl->getValue('objCategories') ?? null))) && $_smarty_tpl->getValue('objCategories')->getID() == $_smarty_tpl->getValue('arrDetCategory')['cat_id']) {?>selected<?php }?> 
+						<option class="form-control" value="" 
+							selected
 						> 
-							<?php echo $_smarty_tpl->getValue('arrDetCategory')['cat_name'];?>
-
+						
 						</option>
 					<?php
 }
@@ -140,44 +137,40 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 			<div class="form-group py-2">
                 <label class="form-label">Date de sortie*</label>
                 <input 	name="release_date" 
-						type="date" 
-						class="form-control" 
-						id="release_date"  
-						value="<?php echo $_smarty_tpl->getValue('objContent')->getCreatedate();?>
-
-						placeholder="Quelle est la date de sortie du film?" 
-						required>
+                        type="date" 
+                        class="form-control" 
+                        id="release_date"  
+                        value=""
+                        placeholder="Quelle est la date de sortie du film?" 
+                        required>
             </div>
 			
             <div class="form-group py-2">
                 <label class="form-label">Titre original</label>
                 <input 	name="original_title" 						
-						type="text" 
-						class="form-control" 
-						id="original_title"
-						value="<?php echo $_smarty_tpl->getValue('objContent')->getOriginalTitle();?>
-"
-						placeholder="">
+                        type="text" 
+                        class="form-control" 
+                        id="original_title"
+                        value=""
+                        placeholder="">
             </div>
             <div class="form-group py-2">
                 <label class="form-label">Durée*</label>
                 <input 	name="length" 
-						type="time" 
-						class="form-control" 
-						id="length"  
-						value="<?php echo $_smarty_tpl->getValue('objContent')->getLength();?>
-"
-						placeholder="Email" 
-						required>
+                        type="time" 
+                        class="form-control" 
+                        id="length"  
+                        value=""
+                        placeholder="Email" 
+                        required>
             </div>
             <div class="form-group py-2">
-                <label class="form-label" >Synopsis*</label>
+                <label class="form-label">Synopsis*</label>
                 <textarea 	name="description" 	 
-							class="form-control textarea" 
-							id="description" 
-							placeholder="Synopsis" 
-							required><?php echo $_smarty_tpl->getValue('objContent')->getDescription();?>
-</textarea>
+                            class="form-control textarea" 
+                            id="description" 
+                            placeholder="Synopsis" 
+                            required></textarea>
             </div>            
 			
 			<hr>
@@ -189,10 +182,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 					<label class="form-label">Nom</label>
 					<input 	name="actorName" 
 							type="text" 
-							class="form-control <?php if ((true && (true && null !== ($_smarty_tpl->getValue('arrError')['actorName'] ?? null)))) {?>is-invalid<?php }?>" 
+							class="form-control" 
 							id="actorName" 
-							value="<?php echo $_smarty_tpl->getValue('strActorName');?>
-"
+							value=""
 							placeholder="Nom de l'acteur principal"
 							required>
 				</div>
@@ -200,11 +192,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 					<label for="actorFirstname" class="form-label">Prénom</label>
 					<input 	name="actorFirstname" 
 							type="text" 
-							class="form-control <?php if ((true && (true && null !== ($_smarty_tpl->getValue('arrError')['actorFirstname'] ?? null)))) {?>is-invalid<?php }?>" 
+							class="form-control" 
 							id="actorFirstname" 
-							value="<?php echo $_smarty_tpl->getValue('strActorFirstname');?>
-"
-							placeholder="Nom de l'acteur principal"
+							value=""
+							placeholder="Prénom de l'acteur principal"
 							required>
 				</div>
 				<div class="form-group col-4 py-2">
@@ -213,8 +204,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 							type="text" 
 							class="form-control" 
 							id="characterName" 
-							value="<?php echo $_smarty_tpl->getValue('strCharacterName');?>
-"
+							value=""
 							placeholder="nom du personnage de l'acteur principal">
 				</div>
 			</div>
@@ -231,7 +221,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </form>
     </div>
     <div id="listUser" class="d-block">
-        <h2>Tous Les Utilisateur</h2>
+        <h2>Tous Les Utilisateurs</h2>
             <form class="row g-1 align-items-center py-3 ">
                 <div class="col-12 col-md-5 p-0">
                     <input class="form-control " type="search" placeholder="Rechercher..." name="search" value="">
@@ -239,7 +229,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
                 <div class="col-12 col-md-5 p-0">
                     <select class="form-select">
-                        <option value="">Tous Les Grade</option>
+                        <option value="">Tous Les Grades</option>
                         <option value="usa">Croissant</option>
                         <option value="france">Decroissant</option>
                     </select>
@@ -248,13 +238,21 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     Recherche
                 </button>
             </form>
-            <div class="allUser">
+            
+            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrUserToDisplay'), 'objUser');
+$foreach1DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('objUser')->value) {
+$foreach1DoElse = false;
+?>
+            <div class="allUser">              
                 <form class="row g-2 align-items-center justify-content-center py-2">
                     <div class="col-2 col-md-auto">
                         <span class="spanMovie">1</span>
                     </div>
                     <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
+                        <span class="spanMovie"><?php echo $_smarty_tpl->getValue('objUser')->getPseudo();?>
+</span>
                     </div>
                     <!-- Grade -->
                     <div class="col-12 col-md-4">
@@ -286,421 +284,15 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         </div>
                       </div>
                     </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
+                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send_<?php echo $_smarty_tpl->getValue('objUser')->getId();?>
+"">
                         Valider
                     </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
-                <form class="row g-2 align-items-center justify-content-center py-2">
-                    <div class="col-2 col-md-auto">
-                        <span class="spanMovie">1</span>
-                    </div>
-                    <div class="col-3 col-md-1">
-                        <span class="spanMovie">Pseudo</span>
-                    </div>
-                    <!-- Grade -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Restriction</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Restriction -->
-                    <div class="col-12 col-md-4">
-                      <div class="row g-2 align-items-center">
-                        <!-- Label prend juste sa largeur -->
-                        <label class="col-auto col-form-label spanMovie">Grade</label>
-                        <!-- Select prend le reste -->
-                        <div class="col">
-                          <select class="form-select">
-                            <option value="tous">Tous</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send">
-                        Valider
-                    </button>
-                </form>
+                </form>               
             </div>
+            <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <div>
     </div>
     </div>
@@ -714,7 +306,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_1060503929697dc82cc61562_15496188 extends \Smarty\Runtime\Block
+class Block_17290214666983814f1d19d7_24676744 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
