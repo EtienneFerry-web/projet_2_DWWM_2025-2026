@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 25 jan. 2026 à 18:50
+-- Généré le : mer. 04 fév. 2026 à 21:02
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -94,48 +94,50 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `com_user_id` int UNSIGNED DEFAULT NULL,
   `com_movie_id` int UNSIGNED DEFAULT NULL,
   `com_mod_id` int UNSIGNED DEFAULT NULL,
+  `com_spoiler` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`com_id`),
+  UNIQUE KEY `id_user_movie` (`com_user_id`,`com_movie_id`),
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
-INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, `com_movie_id`, `com_mod_id`) VALUES
-(1, 'Un chef-d\'œuvre absolu. La fin reste un mystère total.', '2024-01-15 14:30:00', 1, 11, NULL),
-(2, 'Visuellement époustouflant, mais le rythme est lent.', '2024-02-02 20:15:00', 6, 11, 1),
-(3, 'HAL 9000 est le meilleur personnage du film.', '2024-12-01 10:00:00', 3, 11, NULL),
-(4, 'Jack Nicholson est terrifiant dans ce rôle !', '2024-03-10 22:00:00', 8, 12, NULL),
-(5, 'Je préfère le livre de Stephen King, désolé.', '2024-01-20 18:45:00', 2, 12, NULL),
-(6, 'La scène de la salle de bain me hante encore.', '2024-11-20 23:00:00', 7, 12, NULL),
-(7, 'Un film qui questionne la morale avec violence.', '2024-04-05 16:20:00', 3, 13, NULL),
-(8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL),
-(9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL),
-(10, 'La première partie est un chef-d\'œuvre de tension.', '2024-06-25 19:30:00', 9, 14, NULL),
-(11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL),
-(12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2),
-(13, 'Une atmosphère onirique et envoûtante.', '2024-08-14 23:45:00', 10, 15, NULL),
-(14, 'Je n\'ai pas tout compris, c\'est bizarre.', '2024-09-01 10:30:00', 5, 15, 3),
-(15, 'Le dernier film de Kubrick est son plus mystérieux.', '2024-08-05 18:45:00', 1, 15, NULL),
-(16, 'Le puzzle cinématographique ultime. Lynch est un génie.', '2024-10-12 21:00:00', 1, 16, NULL),
-(17, 'Je suis complètement perdu. Qui est qui ?', '2024-11-05 14:20:00', 6, 16, NULL),
-(18, 'Naomi Watts est incroyable dans ce film.', '2024-07-30 21:15:00', 9, 16, NULL),
-(19, 'Dennis Hopper est absolument effrayant.', '2024-02-28 20:10:00', 2, 17, NULL),
-(20, 'L\'ambiance est malsaine au possible.', '2024-03-15 09:55:00', 8, 17, NULL),
-(21, 'Une vision cauchemardesque de l\'Amérique.', '2024-06-12 11:20:00', 5, 17, NULL),
-(22, 'L\'expérience la plus sonore et visuelle de ma vie.', '2024-04-01 02:00:00', 3, 18, NULL),
-(23, 'Trop bizarre pour moi, j\'ai arrêté.', '2024-04-10 16:40:00', 9, 18, NULL),
-(24, 'Ce bébé mutant va me donner des cauchemars.', '2024-05-01 03:00:00', 8, 18, NULL),
-(25, 'Le film le plus humain et touchant de Lynch.', '2024-12-20 20:30:00', 7, 19, NULL),
-(26, 'Photographie en noir et blanc sublime.', '2024-01-05 17:15:00', 4, 19, NULL),
-(27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL),
-(28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL),
-(29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL),
-(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL),
-(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL);
+INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, `com_movie_id`, `com_mod_id`, `com_spoiler`) VALUES
+(1, 'Un chef-d\'œuvre absolu. La fin reste un mystère total.', '2024-01-15 14:30:00', 1, 11, NULL, 0),
+(2, 'Visuellement époustouflant, mais le rythme est lent.', '2024-02-02 20:15:00', 6, 11, 1, 0),
+(3, 'HAL 9000 est le meilleur personnage du film.', '2024-12-01 10:00:00', 3, 11, NULL, 1),
+(4, 'Jack Nicholson est terrifiant dans ce rôle !', '2024-03-10 22:00:00', 8, 12, NULL, 0),
+(5, 'Je préfère le livre de Stephen King, désolé.', '2024-01-20 18:45:00', 2, 12, NULL, 0),
+(6, 'La scène de la salle de bain me hante encore.', '2024-11-20 23:00:00', 7, 12, NULL, 0),
+(7, 'Un film qui questionne la morale avec violence.', '2024-04-05 16:20:00', 3, 13, NULL, 0),
+(8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL, 0),
+(9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 0),
+(10, 'La première partie est un chef-d\'œuvre de tension.', '2024-06-25 19:30:00', 9, 14, NULL, 0),
+(11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 0),
+(12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 0),
+(13, 'Une atmosphère onirique et envoûtante.', '2024-08-14 23:45:00', 10, 15, NULL, 0),
+(14, 'Je n\'ai pas tout compris, c\'est bizarre.', '2024-09-01 10:30:00', 5, 15, 3, 0),
+(15, 'Le dernier film de Kubrick est son plus mystérieux.', '2024-08-05 18:45:00', 1, 15, NULL, 0),
+(16, 'Le puzzle cinématographique ultime. Lynch est un génie.', '2024-10-12 21:00:00', 1, 16, NULL, 0),
+(17, 'Je suis complètement perdu. Qui est qui ?', '2024-11-05 14:20:00', 6, 16, NULL, 0),
+(18, 'Naomi Watts est incroyable dans ce film.', '2024-07-30 21:15:00', 9, 16, NULL, 0),
+(19, 'Dennis Hopper est absolument effrayant.', '2024-02-28 20:10:00', 2, 17, NULL, 0),
+(20, 'L\'ambiance est malsaine au possible.', '2024-03-15 09:55:00', 8, 17, NULL, 0),
+(21, 'Une vision cauchemardesque de l\'Amérique.', '2024-06-12 11:20:00', 5, 17, NULL, 0),
+(22, 'L\'expérience la plus sonore et visuelle de ma vie.', '2024-04-01 02:00:00', 3, 18, NULL, 0),
+(23, 'Trop bizarre pour moi, j\'ai arrêté.', '2024-04-10 16:40:00', 9, 18, NULL, 0),
+(24, 'Ce bébé mutant va me donner des cauchemars.', '2024-05-01 03:00:00', 8, 18, NULL, 0),
+(25, 'Le film le plus humain et touchant de Lynch.', '2024-12-20 20:30:00', 7, 19, NULL, 0),
+(26, 'Photographie en noir et blanc sublime.', '2024-01-05 17:15:00', 4, 19, NULL, 0),
+(27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL, 0),
+(28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0),
+(29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0),
+(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0),
+(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -544,64 +546,69 @@ CREATE TABLE IF NOT EXISTS `ratings` (
 --
 
 INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
+(1, 11, 4.3),
+(1, 15, 4.3),
+(1, 16, 5.0),
 (1, 22, 4.5),
 (1, 23, 4.0),
-(2, 23, 3.0),
-(4, 24, 3.0),
-(6, 25, 3.0),
-(7, 22, 3.0),
-(2, 21, 2.0),
-(1, 11, 4.3),
-(8, 12, 4.3),
-(4, 13, 4.3),
+(2, 12, 2.5),
+(2, 13, 4.0),
 (2, 14, 4.3),
-(1, 15, 4.3),
 (2, 16, 4.3),
 (2, 17, 4.3),
-(8, 18, 4.3),
-(7, 19, 4.3),
 (2, 20, 4.3),
-(6, 11, 4.0),
+(2, 21, 2.0),
+(2, 23, 3.0),
 (3, 11, 3.5),
-(2, 12, 2.5),
-(7, 12, 4.5),
-(5, 13, 3.0),
-(10, 13, 3.0),
-(5, 14, 5.0),
-(10, 14, 4.0),
-(5, 15, 3.5),
-(10, 15, 2.0),
-(5, 16, 4.5),
-(10, 16, 4.5),
-(5, 17, 1.5),
-(8, 17, 3.5),
-(3, 18, 4.0),
-(9, 18, 5.0),
-(5, 19, 3.0),
-(10, 19, 2.5),
-(5, 20, 4.5),
-(10, 20, 4.0),
-(5, 21, 2.0),
-(10, 21, 3.0),
-(5, 22, 5.0),
-(10, 22, 4.5),
-(5, 23, 3.5),
-(10, 23, 3.5),
-(5, 24, 4.0),
-(10, 24, 2.0),
-(5, 25, 3.0),
-(10, 25, 4.5),
 (3, 13, 5.0),
-(7, 13, 2.0),
-(2, 13, 4.0),
-(9, 14, 5.0),
+(3, 18, 4.0),
+(4, 13, 4.3),
 (4, 14, 4.0),
-(1, 16, 5.0),
-(6, 16, 3.0),
-(9, 16, 5.0),
 (4, 19, 5.0),
 (4, 20, 4.0),
-(8, 19, 5.0);
+(4, 24, 3.0),
+(5, 13, 3.0),
+(5, 14, 5.0),
+(5, 15, 3.5),
+(5, 16, 4.5),
+(5, 17, 1.5),
+(5, 19, 3.0),
+(5, 20, 4.5),
+(5, 21, 2.0),
+(5, 22, 5.0),
+(5, 23, 3.5),
+(5, 24, 4.0),
+(5, 25, 3.0),
+(6, 11, 4.0),
+(6, 16, 3.0),
+(6, 25, 3.0),
+(7, 12, 4.5),
+(7, 13, 2.0),
+(7, 19, 4.3),
+(7, 22, 3.0),
+(8, 12, 4.3),
+(8, 17, 3.5),
+(8, 18, 4.3),
+(8, 19, 5.0),
+(9, 14, 5.0),
+(9, 16, 5.0),
+(9, 18, 5.0),
+(10, 13, 3.0),
+(10, 14, 4.0),
+(10, 15, 2.0),
+(10, 16, 4.5),
+(10, 19, 2.5),
+(10, 20, 4.0),
+(10, 21, 3.0),
+(10, 22, 4.5),
+(10, 23, 3.5),
+(10, 24, 2.0),
+(10, 25, 4.5),
+(15, 11, 3.0),
+(15, 21, 4.5),
+(15, 23, 1.0),
+(15, 24, 4.0),
+(15, 25, 5.0);
 
 -- --------------------------------------------------------
 
@@ -628,7 +635,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `fk_user_funct_id` (`user_funct_id`),
   KEY `fk_users_nationalities` (`user_nat_id`),
   KEY `fk_users_roles` (`user_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -645,7 +652,7 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, ''),
 (9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, ''),
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, ''),
-(12, 'Marco', 'sssssss', 'THEGREATEST', 'marco06.marco06@gmail.com', '2006-03-22', '2026-01-20 20:04:34', NULL, NULL, 3, NULL, NULL, '$2y$10$nSQGuYTP1DksLUo9.1uOruGREQeXoBn0D/Bo0RPHwhSfPqANt0fcC');
+(15, 'SCHMITT', 'MARCO', 'marcoooo', 'marco06.marco06@gmail.com', '2006-03-22', '2026-02-01 11:29:19', NULL, NULL, 3, NULL, NULL, '$2y$10$B6QzhFqRSJ92ws2cSGAfiO4JMGc7QHYZw7JcE2AQGZhE7HXp.RYP6');
 
 --
 -- Contraintes pour les tables déchargées
@@ -677,7 +684,8 @@ ALTER TABLE `follows`
 -- Contraintes pour la table `liked`
 --
 ALTER TABLE `liked`
-  ADD CONSTRAINT `fk_lik_user_id` FOREIGN KEY (`lik_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_lik_user_id` FOREIGN KEY (`lik_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_liked_user` FOREIGN KEY (`lik_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `moderations`
@@ -711,6 +719,13 @@ ALTER TABLE `persons`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `fk_pho_mov_id` FOREIGN KEY (`pho_mov_id`) REFERENCES `movies` (`mov_id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD CONSTRAINT `fk_rat_user` FOREIGN KEY (`rat_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ratings_user_id` FOREIGN KEY (`rat_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `users`

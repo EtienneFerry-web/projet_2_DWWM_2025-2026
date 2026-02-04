@@ -143,7 +143,7 @@
 			 *
 			 */
 				// 1. Check if the form has been submitted
-				if(!empty($_POST)) {
+				if(!empty($_POST['com_comment'])) {
 
 				// 2. Ensure the user is logged in
 					if(isset($_SESSION['user'])) {
@@ -181,6 +181,12 @@
 						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
 				}
+			if(isset($_POST['spoiler'])){
+
+			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
+					$_SESSION['success'] = "Spoiler Update !";
+				}
+			}
 
             $objMovieModel 	= new MovieModel;
 			$arrMovie 		= $objMovieModel->findMovie($_GET['id']);
@@ -208,7 +214,6 @@
 
 			$arrComment = $objCommentModel->commentOfMovie($_GET['id']);
 
-
 			$arrCommentToDisplay = array();
 
 			foreach($arrComment as $arrDetComment){
@@ -217,6 +222,8 @@
 
 				$arrCommentToDisplay[]	= $objComment;
 			}
+
+
 
 			$this->_arrData['arrError'] = $arrError;
 

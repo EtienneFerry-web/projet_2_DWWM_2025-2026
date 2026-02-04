@@ -8,15 +8,16 @@
 	*/
 	class CommentEntity extends Entity{
 		// Attributs
-		private int    $_user_id;
-		private string $_pseudo;
-		private float  $_rating = 0;
-		private string $_datetime;
-		private string $_comment;
-		private string $_title;
-		private string $_url;
-		private int    $_like;
-		private int $_movieId;
+		private int     $_user_id;
+		private string  $_pseudo;
+		private float   $_rating = 0;
+		private string  $_datetime;
+		private string  $_comment;
+		private string  $_title;
+		private string  $_url;
+		private int     $_like;
+		private int     $_movieId;
+		private int     $_spoiler;
 
 
 		/**
@@ -102,6 +103,14 @@
 
 		public function setLike(int $intLike){
 			$this->_like = $intLike;
+		}
+
+		public function getSpoiler():int{
+			return $this->_spoiler ;
+		}
+
+		public function setSpoiler(int $intSpoiler){
+			$this->_spoiler = $intSpoiler;
 		}
 
 		public function getMovieId(){

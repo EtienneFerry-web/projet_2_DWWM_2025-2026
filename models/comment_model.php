@@ -9,6 +9,7 @@
             $strRq	= " SELECT
                             comments.com_id,
                             comments.com_user_id,
+                            comments.com_spoiler,
                             users.user_pseudo AS com_pseudo,
                             comments.com_comment,
                             ratings.rat_score AS com_rating,
@@ -119,14 +120,14 @@
             $rq1->bindValue(":id", $objComment->getId(), PDO::PARAM_INT);
 
             $success1 = $rq1->execute();
-            
+
             if ($rq1->rowCount() === 0) {
                 return [
                     'success' => false,
                     'error' => 'Vous avez déjà commenté ce film, vous pouvez le modifier dans votre profil !'
                 ];
             }
-            
+
             $sql2 = "   UPDATE ratings
                         SET rat_score = :rating
                         WHERE rat_user_id = :userId AND rat_mov_id = :movieId";
@@ -138,7 +139,7 @@
             $rq2->bindValue(":rating",  $objComment->getRating(),  PDO::PARAM_STR);
 
             $success2 = $rq2->execute();
-            
+
             $sql3 = " DELETE FROM liked WHERE lik_item_id = :id AND lik_type = 'comment'";
 
 
@@ -148,8 +149,8 @@
             $success3 = $rq3->execute();
 
             return ($success1 && $success2 && $success3);
-            
-            
+
+
         }
 
         public function deleteComment(object $objComment):bool{
@@ -165,5 +166,15 @@
 
         }
 
+        public function addSpoiler(int $idComment):bool{
+            $strRq = "  UPDATE comments
+                        SET com_spoiler = NOT com_spoiler
+                        WHERE com_id = :id";
 
+            $rq = $this->_db->prepare($strRq);
+
+            $rq->bindValue(':id', $idComment, PDO::PARAM_INT);
+
+            return $rq->execute();
+        }
     }
