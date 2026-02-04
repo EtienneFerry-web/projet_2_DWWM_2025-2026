@@ -137,7 +137,7 @@
             //Database add
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
-
+                    
                     if ($boolInsert == true){
                             session_start();
                             $_SESSION['user']       = $arrResult;

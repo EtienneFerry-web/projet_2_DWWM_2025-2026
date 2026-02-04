@@ -1,30 +1,27 @@
 <?php
+class Connect {
+    protected $_db;
 
-    /**
-    * @author All
-    * 16/01/2026
-    * Version 0.1
-    */
+    public function __construct(){
+        try {
+            // Configuration spécifique à MAMP Mac :
+            // Host: localhost, Port: 8889, User: root, Pass: root
+            $this->_db = new PDO(
+                "mysql:host=localhost;dbname=GiveMeFive;port=8889", 
+                "root", 
+                "root", 
+                array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC)
+            );
 
-    class Connect {
+            // Résolution de l'erreur SQLSTATE[42000] (ONLY_FULL_GROUP_BY)
+            $this->_db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+            
+            $this->_db->exec("SET CHARACTER SET utf8");
+            $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		protected $_db;
-
-		public function __construct(){
-			try{
-				// Connexion à la base de données
-				$this->_db	= new PDO(
-								"mysql:host=localhost;dbname=GiveMeFive", // Serveur et BDD
-								"root", //Nom d'utilisateur de la base de données
-								"",// Mot de passe de la base de données
-								array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC) // Mode de renvoi
-				);
-				// Pour résoudre les problèmes d’encodage
-				$this->_db->exec("SET CHARACTER SET utf8");
-				// Configuration des exceptions
-				$this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			} catch(PDOException$e) {
-				echo "Échec : " . $e->getMessage();
-			}
-		}
-	}
+        } catch(PDOException $e) {
+            // On utilise die() pour arrêter le script proprement en cas d'erreur
+            die("Échec de connexion à la base de données : " . $e->getMessage());
+        }
+    }
+}
