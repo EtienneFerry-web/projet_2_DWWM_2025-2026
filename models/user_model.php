@@ -56,22 +56,44 @@
 		* @param object $objUser User object
 		* @return bool If request ok (true) else (false)
 		*/
-		public function insert(object $objUser):bool{
+		public function insert(object $objUser){
 
 		// Request construction
-			$strRq 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
-						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
-			// Prepared request
-			$rqPrep	= $this->_db->prepare($strRq);
-			// Sending information
-			$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
-			// Request execution
-			return $rqPrep->execute();
+		    $strRq1 = "  SELECT user_email, user_pseudo
+                        FROM users
+                        WHERE user_email = :email OR user_pseudo = :pseudo ";
+		
+            $rqPrep1	= $this->_db->prepare($strRq1);     
+            
+            $rqPrep1->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
+			$rqPrep1->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
+			
+			$rqPrep1->execute();
+			
+			 $arrInsertRequest = $rqPrep1->fetch();
+			
+			
+			if(isset($arrInsertRequest['user_email'])){
+			    
+			   return $arrInsertRequest;
+				exit;
+			
+			} else{ 
+                                
+    			$strRq2 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
+    						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
+    			// Prepared request
+    			$rqPrep2	= $this->_db->prepare($strRq2);
+    			// Sending information
+    			$rqPrep2->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
+    			$rqPrep2->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
+    			$rqPrep2->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
+    			$rqPrep2->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
+    			$rqPrep2->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
+    			$rqPrep2->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
+    			// Request execution
+    			return $rqPrep2->execute();
+			}
 		}
 
         public function userPage(int $idUser=0){

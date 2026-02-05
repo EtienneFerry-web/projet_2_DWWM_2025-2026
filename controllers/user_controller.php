@@ -137,14 +137,23 @@
             //Database add
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
-
-                    if ($boolInsert == true){
-                            session_start();
+                    var_dump($boolInsert);
+                    
+                    if($boolInsert['user_email'] == $objUser->getEmail()){
+                        $arrError[] = 'email probleme change';
+                    }
+                    if($boolInsert['user_pseudo'] == $objUser->getPseudo()){
+                       $arrError[] = 'pseudo probleme change';
+                    }
+                    
+                    if ($boolInsert != false && !is_array($boolInsert)){
+                            
                             $_SESSION['success']    = "Le compte compte a bien été crée";
-                            header("Location:index.php?ctrl=user&action=login");
-                            exit;
+                            var_dump($boolInsert);
+                           /* header("Location:index.php?ctrl=user&action=login");
+                            exit;*/
                     }else{
-                        $arrError[] = "Erreur lors de l'ajout";
+                        $arrError[] = '';
                     }
                 }
             }

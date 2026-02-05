@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-01-30 18:32:48
+/* Smarty version 5.7.0, created on 2026-02-05 15:13:44
   from 'file:views/createAccount_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_697cf9508c93f0_80751101',
+  'unifunc' => 'content_6984b3a886a1c9_20340745',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '77b6a9592b5e5c59f243eb6beae2e9eceeafe5fc' => 
     array (
       0 => 'views/createAccount_view.tpl',
-      1 => 1769797403,
+      1 => 1770304420,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,25 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_697cf9508c93f0_80751101 (\Smarty\Template $_smarty_tpl) {
+function content_6984b3a886a1c9_20340745 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_504485858697cf9508b8746_37249933', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4266545956984b3a87d4456_86012181', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1547270987697cf9508ba999_16174209', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10956189846984b3a87e1340_49304709', "description");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_306795645697cf9508bb7c0_38581507', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14706542246984b3a87ea2a4_11084130', "content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_504485858697cf9508b8746_37249933 extends \Smarty\Runtime\Block
+class Block_4266545956984b3a87d4456_86012181 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -49,7 +49,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1547270987697cf9508ba999_16174209 extends \Smarty\Runtime\Block
+class Block_10956189846984b3a87e1340_49304709 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -59,32 +59,13 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_306795645697cf9508bb7c0_38581507 extends \Smarty\Runtime\Block
+class Block_14706542246984b3a87ea2a4_11084130 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 ?>
 
     <section class="container py-5 my-auto">
-        <?php if (((true && ($_smarty_tpl->hasVariable('arrError') && null !== ($_smarty_tpl->getValue('arrError') ?? null))) && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('arrError')) > 0)) {?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Oups !</h5>
-                <ul class="mb-0">
-                    <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrError'), 'errorMsg');
-$foreach0DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('errorMsg')->value) {
-$foreach0DoElse = false;
-?>
-                        <li><?php echo $_smarty_tpl->getValue('errorMsg');?>
-</li>
-                    <?php
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php }?>
 	    <h1 class="text-center">Inscription</h1>
 		<p class="mx-auto text-center py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quae pariatur sint, atque sed soluta numquam! Doloremque voluptatem odit temporibus.</p>
 		<form method="post">

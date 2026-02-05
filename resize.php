@@ -3,7 +3,7 @@
 $url = $_GET['img'] ?? '';
 
 header('Content-Type: image/jpeg');
-// 2. Récupération des dimensions d'origine
+
 list($width_orig, $height_orig) = getimagesize($url);
 $width = 280;
 $height = 400;
@@ -27,7 +27,7 @@ imagecopyresampled(
     $width_orig, $height_orig
 );
 
-// Content type
+
 
 
 //Envoi de l'image
