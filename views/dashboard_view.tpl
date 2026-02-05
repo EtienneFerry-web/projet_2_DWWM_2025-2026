@@ -192,7 +192,7 @@
                         </div>
                       </div>
                     </div>
-                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send_{$objUser->getId()}"">
+                    <button type="submit" class="col-12 col-md-2 p-1 btnCustom" id="send_{$objUser->getId()}">
                         Valider
                     </button>
                 </form>               
