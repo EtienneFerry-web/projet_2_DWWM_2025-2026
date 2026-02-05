@@ -3,7 +3,7 @@
             <div class="comment-spoiler" id="spoiler">
                 <h3 class="border-0">Anti-Spoiler</h3>
                 <p>Attention ce commentaire contient un spoiler !</p>
-                <h4>Clicker pour voir le commentaire !</h4>
+                <h4>Cliquez pour voir le commentaire !</h4>
             </div>
         {/if}
         <div class="row align-items-center">
@@ -27,7 +27,7 @@
                 <input type="radio" class="btn-check" name="searchBy" value="{$comment->getId()}" id="filter-report" onchange="this.form.submit()">
                 <label class="form-label" for="filter-report"><i class="bi bi-flag fs-3"></i></label>
             </form>
-            {if $smarty.session.user.user_funct_id == 2 || $smarty.session.user.user_funct_id == 3}
+            {if isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1}
                 <form method="post" class="d-block text-end col-auto">
                     <input type="radio" class="btn-check" name="spoiler" value="{$comment->getId()}" id="filter-spoiler-{$comment->getId()}" onchange="this.form.submit()">
                     <label class="form-label" for="filter-spoiler-{$comment->getId()}"><i class="bi bi-eye{if $comment->getSpoiler() == 1}-slash{/if} fs-2"></i></label>

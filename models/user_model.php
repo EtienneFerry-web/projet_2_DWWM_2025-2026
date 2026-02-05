@@ -99,6 +99,6 @@
 			$rqPrep = $this->_db->prepare($strRq);
 			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
 
-			return $rqPrep->execute(['id' => $intId]);
+			return $rqPrep->execute();
         }
     }
