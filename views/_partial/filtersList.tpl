@@ -17,7 +17,11 @@
          <select class="form-select"  name="actor" >
              <option value="">Tous</option>
             {foreach from=$arrActorToDisplay item=objActor}
+<<<<<<< HEAD
                  <option value="{$objActor->getId()}" {($objActor->getId() === (int)$actor)? "selected" : ""}>{ $objActor->getFullName()}</option>
+=======
+                 <option value="{$objActor->getId()}" {($objActor->getId() === (int)$actor)? "selected" : ""}>{$objActor->getFullName()}</option>
+>>>>>>> origin/main
             {/foreach}
          </select>
          </div>

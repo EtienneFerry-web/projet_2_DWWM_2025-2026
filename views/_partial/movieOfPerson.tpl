@@ -1,6 +1,10 @@
 <div class="col-6 col-md-3 p-1 hoverMovie">
     <a href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}">
+<<<<<<< HEAD
         <img src="{$objMovie->getUrl()}" loading="eager" alt="Couverture de film" class="img-fluid"/>
+=======
+        <img src="{$objMovie->getThumbnailUrl()}" loading="eager" alt="Couverture de film" class="img-fluid"/>
+>>>>>>> origin/main
 
         <span class="movieNote moviePerson spanMovie" data-note="{$objMovie->getRating()}">
             <span class="stars"></span>

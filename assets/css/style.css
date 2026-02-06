@@ -313,6 +313,30 @@ nav a{
     border-radius: 10px 40px 40px 40px;
     text-align: start;
     padding: 1rem;
+<<<<<<< HEAD
+=======
+    position: relative;
+}
+
+#userComment .comment :is(form, input, label){
+    cursor: pointer;
+}
+
+
+
+.comment-spoiler{
+    position: absolute;
+    inset: 0; /* top:0; right:0; bottom:0; left:0 */
+    border-radius: 10px 40px 40px 40px;
+    background-color: white;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+
+>>>>>>> origin/main
 }
 
 
@@ -375,6 +399,11 @@ footer div a.nav-link {
     display: inline-block;
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/main
 .splide__slide {
   height: 450px;
   display: flex;
@@ -393,4 +422,8 @@ footer div a.nav-link {
   height: 100%;
   width: 100%;
 
+<<<<<<< HEAD
 }
+=======
+  }
+>>>>>>> origin/main

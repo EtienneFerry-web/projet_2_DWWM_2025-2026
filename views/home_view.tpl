@@ -43,11 +43,14 @@
         </div>
       </div>
     </section>
+<<<<<<< HEAD
     <section id="addMovie" class="container text-center py-5">
         <h2>Ajoutez un film</h2>
         <p class="mx-auto py-3">Vous vous pouvez ajouter un nouveau film a condition qui soit sourcer etc etc bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, possimus cupiditate esse ducimus soluta earum?</p>
         <a href="index.php?ctrl=movie&action=addMovie" class="btnCustom ">Ajoutez un film</a>
     </section>
+=======
+>>>>>>> origin/main
 {/block}
 
 {block name="js"}

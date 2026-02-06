@@ -3,6 +3,7 @@
 {block name="description"}Ici vous pouvez ajouter un film !{/block}
 {block name="content"}
     <section class="container py-5 my-auto">
+<<<<<<< HEAD
         {if (isset($arrError) && count($arrError) > 0)}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Oups !</h5>
@@ -14,6 +15,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {/if}
+=======
+>>>>>>> origin/main
 	    <h1 class="text-center">Inscription</h1>
 		<p class="mx-auto text-center py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quae pariatur sint, atque sed soluta numquam! Doloremque voluptatem odit temporibus.</p>
 		<form method="post">

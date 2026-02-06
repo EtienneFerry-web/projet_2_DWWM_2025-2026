@@ -59,6 +59,11 @@
 		public function setUrl(string $strImg){
 			$this->_url = $strImg;
 		}
+<<<<<<< HEAD
+=======
+		
+		
+>>>>>>> origin/main
 
 		/**
 		* Récupération du contenu

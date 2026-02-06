@@ -76,7 +76,11 @@
 		}
 
 		public function setBio(?string $strBio){
+<<<<<<< HEAD
 			$this->_bio = $strBio??"Cette Utilisateur na pas de bio!" ;
+=======
+			$this->_bio = $strBio??"" ;
+>>>>>>> origin/main
 		}
 		public function getBio():string{
 			return $this->_bio;
