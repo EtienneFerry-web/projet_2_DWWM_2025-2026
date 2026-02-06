@@ -167,70 +167,6 @@
             $this->_display("createAccount");
         }
 
-        /**
-         *@author Etienne
-         * Edit Account
-         * 
-         * Check if findUser exist
-         *  
-         */
-
-        public function settingsUser(){
-            if(!isset($_SESSION['user'])){
-                header("Location:index.php?ctrl=error&action=err403");
-                exit;
-            }
-
-            //Recover user data from findUser fonction in user_model
-
-            $objUserModel   = new UserModel;
-            $arrUser        = $objUserModel->findUser($_GET['id']??$_SESSION['user']['user_id']);
-
-            //Object instanciation, Hydrate for BDD
-
-            $objUser    = new User;
-            $objUser->hydrate($arrUser);
-
-            $arrError = [];
-            if (count($_POST) > 0) {
-                $objUser->hydrate($_POST); // Mise à jour en fonction du formulaire
-                // Fonction commune de vérification des infos utilisateur
-                $arrError   = $this->_verifInfos($objUser);
-                // Traitement du mot de passe, si renseigné
-                if ($objUser->getPwd() != ""){
-                    $strPwdConfirm  = $_POST['pwd_confirm'];
-                    $arrError       = array_merge($arrError, $this->_verifPwd($objUser, $strPwdConfirm));
-                }
-
-                // Si le formulaire est rempli correctement
-                if (count($arrError) == 0){
-                    // Mise à jour des infos de l'utilisateur
-                    $boolUpdate     = $objUserModel->update($objUser);
-                    // Si mise à jour ok et pwd => Mise à jour du mot de passe
-                    if ($boolUpdate === true && $objUser->getPwd() != ""){
-                        $boolUpdate     = $objUserModel->updatePwd($objUser);
-                    }
-                    
-                        $_SESSION['success']    = "Le compte a bien été modifié";
-                        if (!isset($_GET['id'])){
-                            header("Location:index.php");
-                        }else{
-                            header("Location:index.php?ctrl=user&action=user_list");
-                        }
-                        exit;
-                    }else{
-                        $arrError[] = "Erreur lors de l'ajout";
-                    }
-                }
-            
-            
-            //Display
-            $this->_arrData['arrError'] = $arrError;
-            $this->_arrData['objUser']  = $objUser;
-
-            $this->_display("settingsUser");
-        }
-
         public function user(){
 
             $intId = $_GET['id'];
@@ -330,9 +266,53 @@
             }
         }
 
-        public function settingsUser( ) {
+        private function verifInfos(object $objUser):array {
+            $arrError =[];
+
+            if($objUser->getName()==""){
+                $arrError["name"] = "Le nom est obligatoire.";
+            }
+            if($objUser->getFirstname()==""){
+                $arrError["firstname"] = "Le prénom est obligatoire.";
+            }
+            if($objUser->getPseudo()==""){
+                $arrError["pseudo"] = "Le pseudo est obligatoire.";
+            }
+            if($objUser->getEmail()==""){
+                $arrError["email"] = "Le pseudo est obligatoire.";
+            }elseif (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                $arrError['email'] = "Le format de l'email n'est pas valide.";
+            }
+
+            return $arrError;
+        }
+
+        public function settingsUser() {
+
+            if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+            header("Location:index.php?ctrl=error&action=error_403");
+            exit;
+            }
+
+            $objUserModel	= new UserModel;
+            $arrUser		= $objUserModel->findUser($_GET['id']??$_SESSION['user']['user_id']);
+            
+            $objUser	= new UserEntity;
+            $objUser->hydrate($arrUser);
+
+            $arrError = [];
+            var_dump($arrUser);
+
+            if (count($_POST) > 0) {
+                $objUser->hydrate($_POST);
+                $arrError	= $this->verifInfos($objUser);
+            }
+          var_dump($arrUser);
 
 
+        
+		$this->_arrData['arrError'] = $arrError;
+		$this->_arrData['objUser'] 	= $objUser;
         $this->_display("settingsUser");
         }
     }

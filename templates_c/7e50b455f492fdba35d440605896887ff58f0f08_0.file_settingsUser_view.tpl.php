@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-06 06:14:59
+/* Smarty version 5.7.0, created on 2026-02-06 22:25:01
   from 'file:views/settingsUser_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698586e3230eb3_55470544',
+  'unifunc' => 'content_69866a3de70f07_24332068',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7e50b455f492fdba35d440605896887ff58f0f08' => 
     array (
       0 => 'views/settingsUser_view.tpl',
-      1 => 1770217654,
+      1 => 1770416685,
       2 => 'file',
     ),
   ),
@@ -20,27 +20,27 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698586e3230eb3_55470544 (\Smarty\Template $_smarty_tpl) {
+function content_69866a3de70f07_24332068 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1847763917698586e3222861_43063979', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_194508064469866a3de4b534_58454918', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_574207753698586e3228910_11039262', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_212995180069866a3de51db5_87820745', "description");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2060566279698586e322afa7_71007871', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_34368828169866a3de543e5_62163757', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1847763917698586e3222861_43063979 extends \Smarty\Runtime\Block
+class Block_194508064469866a3de4b534_58454918 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -51,7 +51,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_574207753698586e3228910_11039262 extends \Smarty\Runtime\Block
+class Block_212995180069866a3de51db5_87820745 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -61,7 +61,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_2060566279698586e322afa7_71007871 extends \Smarty\Runtime\Block
+class Block_34368828169866a3de543e5_62163757 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -74,31 +74,60 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
-     <form method="post" class="row">
-         <div class="col-12 col-sm-6 p-2">
+     <form method="post" enctype="multipart/form-data" class="row">
+        <div class="form-group py-2">
+            <label  class="form-label">Changez le prenom :</label>
+            <input  type="text"
+                    name="firstname"
+                    class="form-control <?php if (((true && (true && null !== ($_smarty_tpl->getValue('arrError')['firstname'] ?? null))))) {?> is-invalid <?php }?>"  
+                    value="<?php echo $_smarty_tpl->getValue('objUser')->getFirstname();?>
+"
+                    placeholder="Prenom">
+        </div>
+        <div class="form-group py-2">
+            <label  class="form-label">Changez le nom :</label>
+            <input  type="text"
+                    name="name"
+                    class="form-control <?php if (((true && (true && null !== ($_smarty_tpl->getValue('arrError')['name'] ?? null))))) {?> is-invalid <?php }?>"  
+                    value="<?php echo $_smarty_tpl->getValue('objUser')->getName();?>
+"
+                    placeholder="Nom">
+        </div>
+          <div class="form-group py-2">
              <label for="" class="form-label">Changez de pseudo</label>
-             <input type="text" name="" value="" class="form-control">
+             <input type="text" 
+                    name="pseudo"  
+                    value="<?php echo $_smarty_tpl->getValue('objUser')->getPseudo();?>
+" 
+                    class="form-control <?php if (((true && (true && null !== ($_smarty_tpl->getValue('arrError')['pseudo'] ?? null))))) {?> is-invalid <?php }?>">
          </div>
-         <div class="col-12 col-sm-6 p-2">
+          <div class="form-group py-2">
              <label for="" class="form-label">Changez de Bio</label>
-             <textarea name="" id="" placeholder="Bio Utilisateur" class="form-control"></textarea>
+             <textarea  name="bio" 
+                        placeholder="Bio Utilisateur"
+                        class="form-control <?php if (((true && (true && null !== ($_smarty_tpl->getValue('arrError')['bio'] ?? null))))) {?> is-invalid <?php }?>"><?php echo $_smarty_tpl->getValue('objUser')->getBio();?>
+</textarea>
          </div>
          <div class="col-12 p-2">
              <label class="form-label">Photo de profil</label>
 
-             <input type="file" class="form-control" accept="image/*">
+             <input     name="photo"
+                        type="text" 
+                        class="form-control <?php if (((true && (true && null !== ($_smarty_tpl->getValue('arrError')['photo'] ?? null))))) {?> is-invalid <?php }?>" 
+                        value="<?php echo $_smarty_tpl->getValue('objUser')->getPhoto();?>
+" 
+                        >
          </div>
 
 
      <h2 class="py-2">Sécurité</h2>
-
-         <div class="col-12 col-sm-6 p-2">
-             <label for="" class="form-label">Mots de Passe</label>
-             <input type="text" name="" value="" class="form-control">
-         </div>
-         <div class="col-12 col-sm-6 p-2">
+        <div class="form-group py-2">
              <label for="" class="form-label">Adresse Email</label>
              <input name="" id="" placeholder="Email" class="form-control">
+         </div>
+         <div class="form-group py-2">
+             <label for="" class="form-label">Mots de Passe</label>
+             <input type="text" name="" value="" class="form-control">
          </div>
          <button type="submit" class="btnCustom py-3">Enregistrer</button>
      </form>

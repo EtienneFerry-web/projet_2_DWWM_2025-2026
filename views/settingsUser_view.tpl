@@ -4,49 +4,59 @@
 {block name="content"}
 <section id="settingsUser" class="container py-5">
 <h1>Gestion de compte</h1>
-<<<<<<< HEAD
-<div class="py-3"><a href="index.php?ctrl=user&action=user&id={$pseudo}" class="spanMovie">Votre Profil</a></div>
-=======
 <div class="py-3"><a href="index.php?ctrl=user&action=user&id={$smarty.session.user.user_id}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>
->>>>>>> origin/main
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
      <form method="post" enctype="multipart/form-data" class="row">
-         <div class="col-12 col-sm-6 p-2">
+        <div class="form-group py-2">
+            <label  class="form-label">Changez le prenom :</label>
+            <input  type="text"
+                    name="firstname"
+                    class="form-control {if (isset($arrError['firstname']))} is-invalid {/if}"  
+                    value="{$objUser->getFirstname()}"
+                    placeholder="Prenom">
+        </div>
+        <div class="form-group py-2">
+            <label  class="form-label">Changez le nom :</label>
+            <input  type="text"
+                    name="name"
+                    class="form-control {if (isset($arrError['name']))} is-invalid {/if}"  
+                    value="{$objUser->getName()}"
+                    placeholder="Nom">
+        </div>
+          <div class="form-group py-2">
              <label for="" class="form-label">Changez de pseudo</label>
-             <input type="text" name="pseudo" value="" class="form-control">
+             <input type="text" 
+                    name="pseudo"  
+                    value="{$objUser->getPseudo()}" 
+                    class="form-control {if (isset($arrError['pseudo']))} is-invalid {/if}">
          </div>
-         <div class="col-12 col-sm-6 p-2">
+          <div class="form-group py-2">
              <label for="" class="form-label">Changez de Bio</label>
-             <textarea name="bio" id="" placeholder="Bio Utilisateur" class="form-control"></textarea>
+             <textarea  name="bio" 
+                        placeholder="Bio Utilisateur"
+                        class="form-control {if (isset($arrError['bio']))} is-invalid {/if}">{$objUser->getBio()}</textarea>
          </div>
          <div class="col-12 p-2">
              <label class="form-label">Photo de profil</label>
 
-             <input name="profile-picture"type="file" class="form-control {if (isset($arrError['img'])) } is-invalid {/if}" type="file" accept="image/*">
+             <input     name="photo"
+                        type="text" 
+                        class="form-control {if (isset($arrError['photo'])) } is-invalid {/if}" 
+                        value="{$objUser->getPhoto()}" 
+                        >
          </div>
-<<<<<<< HEAD
-         <button type="submit" class="btnCustom py-3">Enregistrer</button>
-     </form>
-</div>
-<!--Contenue mail mots de passe -->
-<div class="py-5">
-     <h2>Sécurité</h2>
-     <form method="post" class="row">
-=======
 
 
      <h2 class="py-2">Sécurité</h2>
-
->>>>>>> origin/main
-         <div class="col-12 col-sm-6 p-2">
-             <label for="" class="form-label">Mots de Passe</label>
-             <input type="text" name="" value="" class="form-control">
-         </div>
-         <div class="col-12 col-sm-6 p-2">
+        <div class="form-group py-2">
              <label for="" class="form-label">Adresse Email</label>
              <input name="" id="" placeholder="Email" class="form-control">
+         </div>
+         <div class="form-group py-2">
+             <label for="" class="form-label">Mots de Passe</label>
+             <input type="text" name="" value="" class="form-control">
          </div>
          <button type="submit" class="btnCustom py-3">Enregistrer</button>
      </form>
@@ -58,25 +68,15 @@
          </div>
 
          <div class="col-auto">
-<<<<<<< HEAD
-             <a href="index.php?ctrl=user&action=delete" class="nav-link">
-                 Supprimer votre compte
-             </a>
-=======
              <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
       onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
         <button type="submit" class="border-0 bg-transparent">
             Supprimer mon compte
         </button>
 </form>
->>>>>>> origin/main
          </div>
      </div>
 </div>
 
 </section>
-<<<<<<< HEAD
 {/block}
-=======
-{/block}
->>>>>>> origin/main

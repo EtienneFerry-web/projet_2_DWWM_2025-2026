@@ -153,34 +153,37 @@
 		$strRq = "SELECT user_id, user_name, user_firstname, user_pseudo, user_birthdate, user_photo, user_email, user_bio
 					FROM users
 					WHERE user_id =".$intId."
-						AND user_deleted_at IS NULL";
+						AND user_delete_at IS NULL";
 
 		return $this->_db->query($strRq)->fetch();
 		}
 
-		public function update(object $objUser):bool{
+		public function settingsUser(object $objUser):bool{
 
-		$strRq = "UPDATE users
-					SET user_name 			= :name,
-						user_firstname		= :firstname,
-						user_pseudo 		= :pseudo,
-						user_birthdate		= :birthdate,
-						user_photo			= :photo,
-						user_email			= :email,
-						user_bio			= :bio
-						user_updated_at		= NOW()
-					WHERE user_id			= :id";
+			$strRq = "UPDATE users
+						SET user_name 			= :name,
+							user_firstname		= :firstname,
+							user_pseudo 		= :pseudo,
+							user_birthdate		= :birthdate,
+							user_photo			= :photo,
+							user_email			= :email,
+							user_bio			= :bio,
+							user_updated_at		= NOW()
+						WHERE user_id			= :id";
 
-		$rqPrep	= $this->_db->prepare($strRq);
-			// Donne les informations
-			$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":mail", $objUser->getMail(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+			$rqPrep	= $this->_db->prepare($strRq);
+				// Donne les informations
+				$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":mail", $objUser->getMail(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			// Executer la requête
+			return $rqPrep->execute();
 		}
 		
     }
