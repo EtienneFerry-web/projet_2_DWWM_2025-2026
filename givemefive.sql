@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 04 fév. 2026 à 21:02
+-- Généré le : ven. 06 fév. 2026 à 10:03
 -- Version du serveur : 8.4.7
--- Version de PHP : 8.3.28
+-- Version de PHP : 8.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
@@ -109,13 +109,13 @@ CREATE TABLE IF NOT EXISTS `comments` (
 INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, `com_movie_id`, `com_mod_id`, `com_spoiler`) VALUES
 (1, 'Un chef-d\'œuvre absolu. La fin reste un mystère total.', '2024-01-15 14:30:00', 1, 11, NULL, 0),
 (2, 'Visuellement époustouflant, mais le rythme est lent.', '2024-02-02 20:15:00', 6, 11, 1, 0),
-(3, 'HAL 9000 est le meilleur personnage du film.', '2024-12-01 10:00:00', 3, 11, NULL, 1),
+(3, 'HAL 9000 est le meilleur personnage du film.', '2024-12-01 10:00:00', 3, 11, NULL, 0),
 (4, 'Jack Nicholson est terrifiant dans ce rôle !', '2024-03-10 22:00:00', 8, 12, NULL, 0),
 (5, 'Je préfère le livre de Stephen King, désolé.', '2024-01-20 18:45:00', 2, 12, NULL, 0),
 (6, 'La scène de la salle de bain me hante encore.', '2024-11-20 23:00:00', 7, 12, NULL, 0),
 (7, 'Un film qui questionne la morale avec violence.', '2024-04-05 16:20:00', 3, 13, NULL, 0),
 (8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL, 0),
-(9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 0),
+(9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 1),
 (10, 'La première partie est un chef-d\'œuvre de tension.', '2024-06-25 19:30:00', 9, 14, NULL, 0),
 (11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 0),
 (12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 0),
@@ -137,7 +137,8 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0),
 (29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0),
 (30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0),
-(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0);
+(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0),
+(76, 'azdzdkldddqdzqdzdqz', '2026-02-06 10:46:35', 17, 15, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -539,7 +540,7 @@ CREATE TABLE IF NOT EXISTS `ratings` (
   `rat_score` decimal(2,1) NOT NULL,
   PRIMARY KEY (`rat_user_id`,`rat_mov_id`),
   KEY `fk_ratings_movies` (`rat_mov_id`)
-) ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `ratings`
@@ -608,7 +609,41 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (15, 21, 4.5),
 (15, 23, 1.0),
 (15, 24, 4.0),
-(15, 25, 5.0);
+(15, 25, 5.0),
+(16, 24, 0.5),
+(17, 15, 1.0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reported_comments`
+--
+
+DROP TABLE IF EXISTS `reported_comments`;
+CREATE TABLE IF NOT EXISTS `reported_comments` (
+  `rep_com_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `rep_com_content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rep_com_com_id` int UNSIGNED NOT NULL,
+  `rep_com_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`rep_com_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reported_users`
+--
+
+DROP TABLE IF EXISTS `reported_users`;
+CREATE TABLE IF NOT EXISTS `reported_users` (
+  `rep_user_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `rep_user_bio` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_user_pseudo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_user_img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_user_user_id` int UNSIGNED NOT NULL,
+  `rep_user_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`rep_user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -631,28 +666,33 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_bio` varchar(255) DEFAULT NULL COMMENT 'User biography',
   `user_photo` varchar(255) DEFAULT NULL COMMENT 'User profile photo URL',
   `user_pwd` varchar(255) NOT NULL,
+  `user_delete_at` datetime DEFAULT NULL,
+  `user_update_at` datetime DEFAULT NULL,
+  `user_ban_at` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`),
+  UNIQUE KEY `unique_email` (`user_email`),
+  UNIQUE KEY `unique_pseudo` (`user_pseudo`),
   KEY `fk_user_funct_id` (`user_funct_id`),
   KEY `fk_users_nationalities` (`user_nat_id`),
   KEY `fk_users_roles` (`user_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `user_email`, `user_birthdate`, `user_creadate`, `user_com_id`, `user_nat_id`, `user_funct_id`, `user_bio`, `user_photo`, `user_pwd`) VALUES
-(1, 'Dubois', 'Thomas', 'tom_dubois', 'thomas.dubois@exemple.com', '1990-05-15', '2024-01-10 09:00:00', NULL, NULL, 3, NULL, NULL, ''),
-(2, 'Leroy', 'Marie', 'mary_l', 'marie.leroy@exemple.com', '1985-11-20', '2024-01-12 10:30:00', NULL, NULL, 2, NULL, NULL, ''),
-(3, 'Martin', 'Lucas', 'luke_sky', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, ''),
-(4, 'Bernard', 'Sophie', 'sophie_b', 'sophie.bernard@exemple.com', '1992-07-22', '2024-02-01 11:00:00', NULL, NULL, 2, NULL, NULL, ''),
-(5, 'Petit', 'Kevin', 'keke_99', 'kevin.petit@exemple.com', '1999-12-01', '2024-02-10 16:45:00', NULL, NULL, 2, NULL, NULL, ''),
-(6, 'Robert', 'Camille', 'cam_rob', 'camille.robert@exemple.com', '1995-09-14', '2024-02-20 08:20:00', NULL, NULL, 1, NULL, NULL, ''),
-(7, 'Richard', 'Antoine', 'tony_ric', 'antoine.richard@exemple.com', '1988-02-28', '2024-03-05 13:10:00', NULL, NULL, 1, NULL, NULL, ''),
-(8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, ''),
-(9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, ''),
-(10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, ''),
-(15, 'SCHMITT', 'MARCO', 'marcoooo', 'marco06.marco06@gmail.com', '2006-03-22', '2026-02-01 11:29:19', NULL, NULL, 3, NULL, NULL, '$2y$10$B6QzhFqRSJ92ws2cSGAfiO4JMGc7QHYZw7JcE2AQGZhE7HXp.RYP6');
+INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `user_email`, `user_birthdate`, `user_creadate`, `user_com_id`, `user_nat_id`, `user_funct_id`, `user_bio`, `user_photo`, `user_pwd`, `user_delete_at`, `user_update_at`, `user_ban_at`) VALUES
+(1, 'Dubois', 'Thomas', 'tom_dubois', 'thomas.dubois@exemple.com', '1990-05-15', '2024-01-10 09:00:00', NULL, NULL, 3, NULL, NULL, '', NULL, NULL, NULL),
+(2, 'Leroy', 'Marie', 'mary_l', 'marie.leroy@exemple.com', '1985-11-20', '2024-01-12 10:30:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
+(3, 'Martin', 'Lucas', 'luke_sky', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
+(4, 'Bernard', 'Sophie', 'sophie_b', 'sophie.bernard@exemple.com', '1992-07-22', '2024-02-01 11:00:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
+(5, 'Petit', 'Kevin', 'keke_99', 'kevin.petit@exemple.com', '1999-12-01', '2024-02-10 16:45:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
+(6, 'Robert', 'Camille', 'cam_rob', 'camille.robert@exemple.com', '1995-09-14', '2024-02-20 08:20:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
+(7, 'Richard', 'Antoine', 'tony_ric', 'antoine.richard@exemple.com', '1988-02-28', '2024-03-05 13:10:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
+(8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
+(9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
+(10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
+(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 1, NULL, NULL, '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, NULL, NULL);
 
 --
 -- Contraintes pour les tables déchargées
@@ -719,13 +759,6 @@ ALTER TABLE `persons`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `fk_pho_mov_id` FOREIGN KEY (`pho_mov_id`) REFERENCES `movies` (`mov_id`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `ratings`
---
-ALTER TABLE `ratings`
-  ADD CONSTRAINT `fk_rat_user` FOREIGN KEY (`rat_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_ratings_user_id` FOREIGN KEY (`rat_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `users`

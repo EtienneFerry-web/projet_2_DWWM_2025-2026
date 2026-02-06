@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-01 08:32:08
+/* Smarty version 5.7.0, created on 2026-02-06 10:01:36
   from 'file:views/_partial/filtersList.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_697f0f884949d2_63508959',
+  'unifunc' => 'content_6985bc003988c8_77639060',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '36c199f8013013676136b3fc5cfa34f10687361b' => 
     array (
       0 => 'views/_partial/filtersList.tpl',
-      1 => 1769797403,
+      1 => 1770372094,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_697f0f884949d2_63508959 (\Smarty\Template $_smarty_tpl) {
+function content_6985bc003988c8_77639060 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?> <form method="post">
      <div class="row flex-sm-column g-2 text-start">
@@ -31,9 +31,9 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
              <option value="">Tous</option>
              <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrRealToDisplay'), 'objReal');
-$foreach1DoElse = true;
+$foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('objReal')->value) {
-$foreach1DoElse = false;
+$foreach0DoElse = false;
 ?>
                  <option value="<?php echo $_smarty_tpl->getValue('objReal')->getId();?>
 " <?php echo ($_smarty_tpl->getValue('objReal')->getId() === (int)$_smarty_tpl->getValue('realisator')) ? "selected" : '';?>
@@ -52,13 +52,14 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
              <option value="">Tous</option>
             <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrActorToDisplay'), 'objActor');
-$foreach2DoElse = true;
+$foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('objActor')->value) {
-$foreach2DoElse = false;
+$foreach1DoElse = false;
 ?>
                  <option value="<?php echo $_smarty_tpl->getValue('objActor')->getId();?>
 " <?php echo ($_smarty_tpl->getValue('objActor')->getId() === (int)$_smarty_tpl->getValue('actor')) ? "selected" : '';?>
->{ $objActor->getFullName()}</option>
+><?php echo $_smarty_tpl->getValue('objActor')->getFullName();?>
+</option>
             <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
@@ -72,9 +73,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
              <option value="">Tous</option>
              <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrCategoriesToDisplay'), 'objCategories');
-$foreach3DoElse = true;
+$foreach2DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('objCategories')->value) {
-$foreach3DoElse = false;
+$foreach2DoElse = false;
 ?>
                  <option value="<?php echo $_smarty_tpl->getValue('objCategories')->getId();?>
 " <?php echo ($_smarty_tpl->getValue('objCategories')->getId() === (int)$_smarty_tpl->getValue('categories')) ? "selected" : '';?>
@@ -93,9 +94,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
              <option value="">Tous</option>
               <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrProducerToDisplay'), 'objProducer');
-$foreach4DoElse = true;
+$foreach3DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('objProducer')->value) {
-$foreach4DoElse = false;
+$foreach3DoElse = false;
 ?>
                  <option value="<?php echo $_smarty_tpl->getValue('objProducer')->getId();?>
 " <?php echo ($_smarty_tpl->getValue('objProducer')->getId() === (int)$_smarty_tpl->getValue('producer')) ? "selected" : '';?>
@@ -114,9 +115,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                  <option value="">Tous</option>
                 <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrCountryToDisplay'), 'objCountry');
-$foreach5DoElse = true;
+$foreach4DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('objCountry')->value) {
-$foreach5DoElse = false;
+$foreach4DoElse = false;
 ?>
                      <option value="<?php echo $_smarty_tpl->getValue('objCountry')->getId();?>
 " <?php echo ($_smarty_tpl->getValue('objCountry')->getId() === (int)$_smarty_tpl->getValue('country')) ? "selected" : '';?>

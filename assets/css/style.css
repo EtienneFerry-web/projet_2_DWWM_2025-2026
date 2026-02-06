@@ -396,13 +396,9 @@ footer div a.nav-link {
     display: inline-block;
 }
 
-.splide__slide a {
-    display: inline-block;
-    width: fit-content;
-    height: fit-content;
-}
 
-/*.splide__slide {
+
+.splide__slide {
   height: 450px;
   display: flex;
 
@@ -420,4 +416,4 @@ footer div a.nav-link {
   height: 100%;
   width: 100%;
 
-  }*/
+  }

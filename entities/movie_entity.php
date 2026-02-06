@@ -60,10 +60,7 @@
 			$this->_url = $strImg;
 		}
 		
-		public function getThumbnailUrl(): string
-        {
-            return 'resize.php?img=' . urlencode($this->_url);
-        }
+		
 
 		/**
 		* Récupération du contenu

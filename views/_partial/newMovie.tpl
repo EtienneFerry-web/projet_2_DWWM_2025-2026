@@ -1,6 +1,6 @@
 <li class="splide__slide hoverMovie">
     <a href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}">
-        <img src="{$objMovie->getThumbnailUrl()}" loading="eager" alt="Couverture de film"/>
+        <img src="{$objMovie->getUrl()}" loading="eager" alt="Couverture de film"/>
 
         <span class="movieNote spanMovie" data-note="{$objMovie->getRating()}">
             <span class="stars"></span>
