@@ -5,15 +5,9 @@
     require'models/movie_model.php';
     require'entities/comment_entity.php';
     require'models/comment_model.php';
-<<<<<<< HEAD
- 
-    /**
-    * Log in  
-=======
 
     /**
     * Log in
->>>>>>> origin/main
     * @author Etienne
     *
     * 1. Collect information from the form
@@ -24,37 +18,20 @@
     *
     *
     */
-<<<<<<< HEAD
- 
-    class UserCtrl extends MotherCtrl{
- 
-=======
 
     class UserCtrl extends MotherCtrl{
 
->>>>>>> origin/main
         public function login(){
             // Treating login form
             $strEmail       = $_POST['email']??"";
             $strPwd         = $_POST['pwd']??"";
-<<<<<<< HEAD
-            
-            $this->_arrData['strPage']  = "login";
- 
-=======
 
             $this->_arrData['strPage']  = "login";
 
->>>>>>> origin/main
             // Preparing hydrate
             $objUser            = new UserEntity;
             $objUserModel       = new UserModel;
             $objUser->hydrate($_POST);
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> origin/main
             // Testing form
             $arrError = [];
             if (count($_POST) > 0) {
@@ -62,11 +39,7 @@
                 // Verify form
                 if ($strEmail == ""){
                     $arrError['email'] = "Le mail est obligatoire";
-<<<<<<< HEAD
-                }   
-=======
                 }
->>>>>>> origin/main
                 if ($strPwd == ""){
                     $arrError['pwd'] = "Le mot de passe est obligatoire";
                 }
@@ -82,16 +55,6 @@
                             exit;
                     }
                 }
-<<<<<<< HEAD
-            }   
-            $this->_arrData['objUser'] = $objUser;
-            $this->_arrData['arrError'] = $arrError;
-            $this->_arrData['strEmail'] = $strEmail;
- 
-            $this->_display("login");
-        }
-        
-=======
             }
             $this->_arrData['objUser'] = $objUser;
             $this->_arrData['arrError'] = $arrError;
@@ -100,7 +63,6 @@
             $this->_display("login");
         }
 
->>>>>>> origin/main
         public function logout(){
             session_start();
             // Cleaning session from User
@@ -121,15 +83,9 @@
         *
         *
         */
-<<<<<<< HEAD
- 
-        public function createAccount(){
-            
-=======
 
         public function createAccount(){
 
->>>>>>> origin/main
             //Treating createAccount Form
             $strName        = $_POST['name']??"";
             $strFirstname   = $_POST['firstname']??"";
@@ -138,33 +94,16 @@
             $strEmail       = $_POST['email']??"";
             $strPwd         = $_POST['pwd']??"";
             $strPwdConfirm  = $_POST['pwd_confirm']??"";
-<<<<<<< HEAD
-            
-            //Preparing hydrate
-            $objUser    = new UserEntity;
-            $objUser->hydrate($_POST);
-    
-=======
 
             //Preparing hydrate
             $objUser    = new UserEntity;
             $objUser->hydrate($_POST);
 
->>>>>>> origin/main
             //Testing Form
             $arrError = [];
             if (count($_POST) > 0) {
                 if ($objUser->getName() == ""){
                     $arrError['name'] = "Le nom est obligatoire";
-<<<<<<< HEAD
-                }   
-                if ($objUser->getFirstname() == ""){
-                    $arrError['firstname'] = "Le prénom est obligatoire";
-                }   
-                if ($objUser->getPseudo() == ""){
-                    $arrError['pseudo'] = "Le pseudo est obligatoire";
-                }   
-=======
                 }
                 if ($objUser->getFirstname() == ""){
                     $arrError['firstname'] = "Le prénom est obligatoire";
@@ -172,7 +111,6 @@
                 if ($objUser->getPseudo() == ""){
                     $arrError['pseudo'] = "Le pseudo est obligatoire";
                 }
->>>>>>> origin/main
                 if ($objUser->getBirthdate() == ""){
                     $arrError['birthdate'] = "La date de naissance est obligatoire";
                 }
@@ -181,11 +119,6 @@
                 }else if (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)){
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> origin/main
             // Adding regex to verify password
                 $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
                 if ($objUser->getPwd() == ""){
@@ -195,33 +128,13 @@
                 }else if($objUser->getPwd() != $strPwdConfirm){
                     $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
                 }
-<<<<<<< HEAD
-                
-                
-=======
 
 
->>>>>>> origin/main
             //If form is correctly filled
                 if (count($arrError) == 0){
             //Database add
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
-<<<<<<< HEAD
- 
-                    if ($boolInsert == true){
-                            session_start();
-                            $_SESSION['user']       = $arrResult;
-                            $_SESSION['success']    = "Le compte compte a bien été crée";
-                            header("Location:index.php?ctrl=user&action=login");
-                            exit;
-                    }else{
-                        $arrError[] = "Erreur lors de l'ajout";
-                    }
-                }
-            }   
- 
-=======
                     var_dump($boolInsert);
                     
                     if($boolInsert['user_email'] == $objUser->getEmail()){
@@ -243,27 +156,16 @@
                 }
             }
 
->>>>>>> origin/main
             $this->_arrData['name'] = $strName;
             $this->_arrData['firstname'] = $strFirstname;
             $this->_arrData['pseudo'] = $strPseudo;
             $this->_arrData['birthdate'] = $strBirthdate;
             $this->_arrData['strEmail'] = $strEmail;
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> origin/main
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser']  = $objUser;
             // Afficher
             $this->_display("createAccount");
         }
-<<<<<<< HEAD
- 
-        public function settingsUser(){
-            $this->getContent("settingsUser");
-=======
 
         public function settingsUser(){
             if(!isset($_SESSION['user'])){
@@ -272,60 +174,12 @@
             }
 
             $this->_display("settingsUser");
->>>>>>> origin/main
         }
 
         public function user(){
 
             $intId = $_GET['id'];
 
-<<<<<<< HEAD
-            $objUserModel = new UserModel;
-			$arrUser		= $objUserModel->userPage($intId);
-
-            if(!isset($arrUser['user_id'])){
-				header("Location:index.php?Ctrl=error&action=err404");
-				exit;
-			}
-
-			$objUser       = new UserEntity('mov_');
-			$objUser->hydrate($arrUser);
-
-			$objLikeModel = new MovieModel;
-			$arrLike      = $objLikeModel->userLike($intId);
-
-			$arrMovieToDisplay	= array();
-
-			foreach($arrLike as $arrDetMovie){
-				$objMovie = new MovieEntity('mov_');
-				$objMovie->hydrate($arrDetMovie);
-
-				$arrMovieToDisplay[] = $objMovie;
-			}
-
-			$objCommentModel = new CommentModel;
-			$arrComment     = $objCommentModel->reviewUser($intId);
-
-			$arrCommentToDisplay	= array();
-
-			foreach($arrComment as $arrDetComment){
-				$objComment = new CommentEntity('com_');
-				$objComment->hydrate($arrDetComment);
-
-				$arrCommentToDisplay[]	= $objComment;
-			}
-
-            $this->_arrData['objUser'] = $objUser;
-            $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
-            $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
-
-
-
-            $this->_display("user");
-        }
-
-    }
-=======
 
             $objUserModel = new UserModel;
 			$arrUser		= $objUserModel->userPage($intId);
@@ -421,4 +275,3 @@
         }
     }
 }
->>>>>>> origin/main
