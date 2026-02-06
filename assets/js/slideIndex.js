@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     autoWidth: true,
     autoHeight: false,
     preloadPages: 3,
-    clones: 8,
+    clones: 10,
     lazyLoad: false,
     updateOnMove: true,
     breakpoints: {

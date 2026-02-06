@@ -59,6 +59,8 @@
 		public function setUrl(string $strImg){
 			$this->_url = $strImg;
 		}
+		
+		
 
 		/**
 		* Récupération du contenu

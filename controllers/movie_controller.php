@@ -36,7 +36,7 @@
         public function list(){
             $objContentModel 	= new MovieModel;
 
-        
+
             $objContentModel->producer  	= $_POST['producer']??"";
             $objContentModel->actor 	    = $_POST['actor']??"";
             $objContentModel->realisator 	= $_POST['realisator']??"";
@@ -129,22 +129,21 @@
 			$this->_arrData['arrCountryToDisplay'] 		= $arrCountryToDisplay;
 			$this->_arrData['arrMovieToDisplay'] 		= $arrMovieToDisplay;
 
-
             $this->_display("list");
         }
 
-		
+
 
         public function movie(){
 			$arrError = [];
-            
+
 			$objCommentModel	= new CommentModel;
 			/**
 			 * @author Etienne
 			 *
 			 */
 				// 1. Check if the form has been submitted
-				if(!empty($_POST)) {
+				if(!empty($_POST['com_comment'])) {
 
 				// 2. Ensure the user is logged in
 					if(isset($_SESSION['user'])) {
@@ -154,7 +153,7 @@
 							$arrError['com_comment'] = "Vous devez remplir le champ commentaire pour laisser un avis";
 						}
 				// 4. Validation: Check if a rating has been selected
-						if (empty($_POST['noteRating'])){
+						if (empty($_POST['rating'])){
 							$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
 						}
 				/// 5. Final Verdict: If no errors were found, proceed with insertion
@@ -163,16 +162,31 @@
 							$objComment = new CommentEntity;
 							$objComment->setComment($_POST['com_comment']);
 							$objComment->setUser_id($_SESSION['user']['user_id']);
-							$objComment->setRating($_POST['noteRating']);
+							$objComment->setRating($_POST['rating']);
 							$objComment->setmovieId($_GET['id']);
 				// Insert into DB and set success notification
-							$objCommentModel->commentInsert($objComment);
-							$_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+							$comment = $objCommentModel->commentInsert($objComment);
+
+							if(!$comment){
+							    $arrError[] 	= "Echec de l'ajout du commentaire !";
+							} elseif(isset($comment['error'])){
+							    $arrError[] 	= $comment['error'];
+							}else{
+			                    $_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+							}
+
+
 						}
 					} else{
 						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
 				}
+			if(isset($_POST['spoiler'])){
+
+			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
+					$_SESSION['success'] = "Spoiler Update !";
+				}
+			}
 
             $objMovieModel 	= new MovieModel;
 			$arrMovie 		= $objMovieModel->findMovie($_GET['id']);
@@ -200,7 +214,6 @@
 
 			$arrComment = $objCommentModel->commentOfMovie($_GET['id']);
 
-
 			$arrCommentToDisplay = array();
 
 			foreach($arrComment as $arrDetComment){
@@ -210,12 +223,14 @@
 				$arrCommentToDisplay[]	= $objComment;
 			}
 
+
+
 			$this->_arrData['arrError'] = $arrError;
 
 			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
 			$this->_arrData['objMovie'] = $objMovie;
-			
+
 
             $this->_display("movie");
         }

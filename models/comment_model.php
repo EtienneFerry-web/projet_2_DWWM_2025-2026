@@ -9,6 +9,7 @@
             $strRq	= " SELECT
                             comments.com_id,
                             comments.com_user_id,
+                            comments.com_spoiler,
                             users.user_pseudo AS com_pseudo,
                             comments.com_comment,
                             ratings.rat_score AS com_rating,
@@ -36,7 +37,8 @@
         public function reviewUser(int $idUser=0){
 
             $strRq	="  SELECT
-                            movies.mov_id AS 'com_id',
+                            com_id,
+                            movies.mov_id AS 'com_movieId',
                             photos.pho_url AS 'com_url',
                             movies.mov_title  AS 'com_title',
                             comments.com_comment,
@@ -68,38 +70,111 @@
          * @author Etienne
          * Function insert Comment & rating in database
          * @param object $objComment Comment object
-         * 
+         *
          */
-        
-public function commentInsert(object $objComment): bool {
-    // 1. Insertion du commentaire (Cela fonctionne car on peut commenter plusieurs fois)
-    $sql1 = "INSERT INTO comments (com_comment, com_user_id, com_movie_id, com_datetime) 
-            VALUES (:comment, :userId, :movieId, NOW())
-            ON DUPLICATE KEY UPDATE com_comment = :comment, com_datetime = NOW() ";
-    
-    $rq1 = $this->_db->prepare($sql1);
-    $rq1->bindValue(":comment", $objComment->getComment(), PDO::PARAM_STR);
-    $rq1->bindValue(":userId",  $objComment->getUser_id(), PDO::PARAM_INT);
-    $rq1->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
-    
-    $success1 = $rq1->execute();
 
-    // 2. CORRECTION ICI : Gestion de la note (INSERT ou UPDATE)
-    // On utilise "ON DUPLICATE KEY UPDATE"
-    $sql2 = "INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score) 
-            VALUES (:userId, :movieId, :rating)
-            ON DUPLICATE KEY UPDATE rat_score = :rating";
+        public function commentInsert(object $objComment) {
 
-    $rq2 = $this->_db->prepare($sql2);
-    $rq2->bindValue(":userId",  $objComment->getUser_id(), PDO::PARAM_INT);
-    $rq2->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
-    
-    // ATTENTION : Si tes notes sont à virgule (ex: 4.5), utilise PARAM_STR
-    $rq2->bindValue(":rating",  $objComment->getRating(),  PDO::PARAM_STR); 
-    
-    $success2 = $rq2->execute();
+            $sql1 = "INSERT IGNORE INTO comments (com_comment, com_user_id, com_movie_id, com_datetime)
+                    VALUES (:comment, :userId, :movieId, NOW())";
 
-    return ($success1 && $success2);
-}
+            $rq1 = $this->_db->prepare($sql1);
+            $rq1->bindValue(":comment", $objComment->getComment(), PDO::PARAM_STR);
+            $rq1->bindValue(":userId",  $objComment->getUser_id(), PDO::PARAM_INT);
+            $rq1->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
 
+            $success1 = $rq1->execute();
+
+            if ($rq1->rowCount() === 0) {
+                return [
+                    'success' => false,
+                    'error' => 'Vous avez déjà commenté ce film, vous pouvez le modifier dans votre profil !'
+                ];
+            }
+
+
+            $sql2 = "INSERT IGNORE INTO ratings (rat_user_id, rat_mov_id, rat_score)
+                    VALUES (:userId, :movieId, :rating)";
+
+
+            $rq2 = $this->_db->prepare($sql2);
+            $rq2->bindValue(":userId",  $objComment->getUser_id(), PDO::PARAM_INT);
+            $rq2->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
+            $rq2->bindValue(":rating",  $objComment->getRating(),  PDO::PARAM_STR);
+
+            $success2 = $rq2->execute();
+
+            return ($success1 && $success2);
+        }
+
+        public function commentModify(object $objComment, int $comId): bool {
+            // 1. Insertion du commentaire (Cela fonctionne car on peut commenter plusieurs fois)
+            $sql1 = "   UPDATE comments
+                        SET com_comment = :comment,
+                        com_datetime = NOW()
+                        WHERE com_id = :id AND com_user_id = :userId";
+
+            $rq1 = $this->_db->prepare($sql1);
+            $rq1->bindValue(":comment", $objComment->getComment(), PDO::PARAM_STR);
+            $rq1->bindValue(":userId",  $comId, PDO::PARAM_INT);
+            $rq1->bindValue(":id", $objComment->getId(), PDO::PARAM_INT);
+
+            $success1 = $rq1->execute();
+
+            if ($rq1->rowCount() === 0) {
+                return [
+                    'success' => false,
+                    'error' => 'Vous avez déjà commenté ce film, vous pouvez le modifier dans votre profil !'
+                ];
+            }
+
+            $sql2 = "   UPDATE ratings
+                        SET rat_score = :rating
+                        WHERE rat_user_id = :userId AND rat_mov_id = :movieId";
+
+
+            $rq2 = $this->_db->prepare($sql2);
+            $rq2->bindValue(":userId",  $comId, PDO::PARAM_INT);
+            $rq2->bindValue(":movieId", $objComment->getMovieId(), PDO::PARAM_INT);
+            $rq2->bindValue(":rating",  $objComment->getRating(),  PDO::PARAM_STR);
+
+            $success2 = $rq2->execute();
+
+            $sql3 = " DELETE FROM liked WHERE lik_item_id = :id AND lik_type = 'comment'";
+
+
+            $rq3 = $this->_db->prepare($sql3);
+            $rq3->bindValue(":id", $objComment->getId(), PDO::PARAM_INT);
+
+            $success3 = $rq3->execute();
+
+            return ($success1 && $success2 && $success3);
+
+
+        }
+
+        public function deleteComment(object $objComment):bool{
+
+            $strRq = "DELETE FROM comments WHERE com_id = :comId AND com_user_id = :userId ";
+
+            $rq = $this->_db->prepare($strRq);
+
+            $rq->bindValue(":comId",  $objComment->getId(), PDO::PARAM_INT);
+            $rq->bindValue(":userId", $objComment->getUser_id(), PDO::PARAM_INT);
+
+            return $rq->execute();
+
+        }
+
+        public function addSpoiler(int $idComment):bool{
+            $strRq = "  UPDATE comments
+                        SET com_spoiler = NOT com_spoiler
+                        WHERE com_id = :id";
+
+            $rq = $this->_db->prepare($strRq);
+
+            $rq->bindValue(':id', $idComment, PDO::PARAM_INT);
+
+            return $rq->execute();
+        }
     }
