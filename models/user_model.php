@@ -12,10 +12,12 @@
         /**
         * @return array
         */
-		public function findAllUsers():array{
+        public function findAllUsers():array{
 			// Writing request
-			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo
-						FROM users ";
+			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email
+						FROM users 
+						WHERE user_delete_at IS NULL";
+						
 			// Launching request and collecting results
 			return $this->_db->query($strRq)->fetchAll();
 		}
@@ -115,12 +117,13 @@
          * @param $intId = $_GET['id'];
          * return boolean
          */
-		public function deleteUser(int $intId){
-			$strRq = "DELETE FROM users WHERE user_id = :id";
-
+        public function deleteUser(int $intId){
+			$strRq = "UPDATE users SET user_delete_at = NOW() 
+					  WHERE user_id = :id";
+        
 			$rqPrep = $this->_db->prepare($strRq);
 			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
-
+        
 			return $rqPrep->execute();
         }
     }

@@ -17,17 +17,25 @@
 
 		    return $this->_db->query($strRq)->fetchAll();
 		}
+		
+		public function listPerson(){
 
-	public function findPerson(int $idPerson=0){
+        $strRq	= " SELECT pers_id, pers_name, pers_firstname
+                    FROM persons";
 
-        $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
-                    FROM persons
-                    INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
-                    WHERE pers_id = $idPerson";
+        return $this->_db->query($strRq)->fetchAll();
+        }
 
-
-
-        return $this->_db->query($strRq)->fetch();
+    	public function findPerson(int $idPerson=0){
+    
+            $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
+                        FROM persons
+                        INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
+                        WHERE pers_id = $idPerson";
+    
+    
+    
+            return $this->_db->query($strRq)->fetch();
         }
     //Search of Actor
     public function findActor(){
@@ -80,6 +88,16 @@
                                	) ";
 
         return $this->_db->query($strRq)->fetchAll();
+    }
+        
+    public function deletePerson(int $intId){
+		$strRq = "DELETE FROM persons
+				  WHERE pers_id = :id";
+
+		$rqPrep = $this->_db->prepare($strRq);
+		$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+
+		return $rqPrep->execute();
     }
 
     }

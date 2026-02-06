@@ -259,22 +259,33 @@
 
 
         public function deleteAccount(){
-
-        if(!isset($_SESSION['user']['user_id'])){
-            header("Location:index.php?ctrl=user&action=login");
-            exit;
-        } else{
-
+        
+            if(!isset($_SESSION['user']['user_id'])){
+                header("Location:index.php?ctrl=user&action=login");
+                exit;
+            } 
+            if (isset($_GET['id']) && ((int)$_GET['id']) == ($_SESSION['user']['user_id'])){
+                $_SESSION['success'] = "Vous ne pouvez pas supprimer votre compte";
+                header("Location:index.php?ctrl=admin&action=dashboard");
+                exit;
+            }
+            if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
             $objUserModel = new UserModel();
-            $success = $objUserModel->deleteUser($_SESSION['user']['user_id']);
+            $success = $objUserModel->deleteUser($_GET['id'] ?? $_SESSION['user']['user_id']);
 
             // Si on a supprimé, on nettoie tout
-            if($success){
+            if($success && !isset($_GET['id'])){
             unset($_SESSION['user']);
             $_SESSION['success'] = "Votre compte à bien été supprimé";
             header("Location:index.php");
             exit;
+            }else{
+                $_SESSION['success'] = "Le compte à bien été supprimé";
+                header("Location:index.php?ctrl=admin&action=dashboard");
+                exit;
             }
         }
-    }
 }

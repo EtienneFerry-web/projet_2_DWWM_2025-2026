@@ -23,7 +23,7 @@
 		*/
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
-			$this->_prefixe = $prefixe;
+			$this->_prefixe = "pers_";
 		}
 
 
