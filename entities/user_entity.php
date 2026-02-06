@@ -83,7 +83,7 @@
 		}
 
 		public function setPhoto(?string $strBio){
-			$this->_photo = $strBio??"/Projet2/assets/img/defaultImgUser.jpg" ;
+			$this->_photo = $strPhoto??"/Projet2/assets/img/defaultImgUser.jpg" ;
 		}
 		public function getPhoto():string{
 			return $this->_photo;

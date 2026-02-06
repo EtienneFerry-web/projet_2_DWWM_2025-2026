@@ -168,7 +168,7 @@
 							user_photo			= :photo,
 							user_email			= :email,
 							user_bio			= :bio,
-							user_updated_at		= NOW()
+							user_update_at		= NOW()
 						WHERE user_id			= :id";
 
 			$rqPrep	= $this->_db->prepare($strRq);
@@ -178,8 +178,8 @@
 				$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":photo", $objUser->getPhoto(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
-				$rqPrep->bindValue(":mail", $objUser->getMail(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
 
 			// Executer la requête

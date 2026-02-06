@@ -266,6 +266,14 @@
             }
         }
 
+
+        /**
+         * VerifInfos
+         * @author Etienne
+         * @param $objUser
+         * return array
+         */
+
         private function verifInfos(object $objUser):array {
             $arrError =[];
 
@@ -306,6 +314,11 @@
             if (count($_POST) > 0) {
                 $objUser->hydrate($_POST);
                 $arrError	= $this->verifInfos($objUser);
+            }
+
+            if (count($arrError) == 0){
+                $objUserModel->settingsUser($objUser);
+                $_SESSION['success'] = "Profil mis à jour !";
             }
           var_dump($arrUser);
 
