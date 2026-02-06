@@ -41,7 +41,7 @@
                         <a href="">Modifier</a>
                     </div>
                     <div class="col-3">
-                        <a href="">Supprimer</a>
+                        <a href="index.php?ctrl=movie&action=deleteMovie&id={$objMovie->getId()}">Supprimer</a>
                     </div>                     
                 </div>                   
                 {/foreach}              
@@ -83,10 +83,8 @@
                     </div>
                     <div class="col-2">
                         <a href="index.php?ctrl=user&action=deleteAccount&id={$objUser->getId()}">Supprimer</a>
-                    </div> 
-                    
-                </div>
-                   
+                    </div>                     
+                </div>                   
                 {/foreach}              
             </div>
           
@@ -108,7 +106,7 @@
                         <a href="">Modifier</a>
                     </div>
                     <div class="col-2">
-                        <a href="">Supprimer</a>
+                        <a href="index.php?ctrl=person&action=deletePerson&id={$objPerson->getId()}">Supprimer</a>
                     </div>                     
                 </div>
                    

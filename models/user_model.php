@@ -83,8 +83,6 @@
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
                         WHERE user_id = $idUser";
 
-
-
             return $this->_db->query($strRq)->fetch();
         }
 		/**
@@ -94,7 +92,8 @@
          * return boolean
          */
 		public function deleteUser(int $intId){
-			$strRq = "DELETE FROM users WHERE user_id = :id";
+			$strRq = "UPDATE users SET user_delete_at = NOW() 
+					  WHERE user_id = :id";
 
 			$rqPrep = $this->_db->prepare($strRq);
 			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);

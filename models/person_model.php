@@ -91,4 +91,20 @@
         return $this->_db->query($strRq)->fetchAll();
     }
 
-    }
+    /**
+         * Delete Person
+         * @author Audrey
+         * @param $intId = $_GET['id'];
+         * return boolean
+         */
+		public function deletePerson(int $intId){
+			$strRq = "DELETE FROM persons
+					  WHERE pers_id = :id";
+
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+
+			return $rqPrep->execute();
+        }
+
+}

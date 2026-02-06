@@ -5,7 +5,7 @@
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'movie'; // quel contrôleur ?
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?
-	
+	var_dump($_SESSION);
 	// Flag pour afficher le 404 si besoin
 	$boolError		= false;
 	// Construciton du nom du fichier du controller

@@ -209,8 +209,6 @@
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 
-
-
             $this->_display("user");
         }
 
@@ -225,6 +223,10 @@
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;
             }
+           if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
             $objUserModel = new UserModel();
             $success = $objUserModel->deleteUser($_GET['id'] ?? $_SESSION['user']['user_id']);
 
@@ -240,5 +242,4 @@
                 exit;
             }
         }
-
     }

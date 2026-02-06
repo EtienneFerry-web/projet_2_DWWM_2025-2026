@@ -252,5 +252,21 @@
 			return $rqPrep->execute();
 		}
 
+        /**
+         * Delete Movie
+         * @author Audrey
+         * @param $intId = $_GET['id'];
+         * return boolean
+         */
+		public function deleteMovie(int $intId){
+			$strRq = "DELETE FROM movies  
+					  WHERE mov_id = :id";
+
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+
+			return $rqPrep->execute();
+        }
+
     }
 ?>
