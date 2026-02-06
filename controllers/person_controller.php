@@ -80,6 +80,46 @@
             }
 		}
 
-        public function modifyPerson() {
+        public function settingsPerson() {
+            if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
+            $objPersonModel = new PersonModel();
+            $arrPerson      = $objPersonModel->findPerson($_GET['id']);
+             
+             //Preparing hydrate
+            $objPerson = new PersonEntity();
+			$objPerson->hydrate($arrPerson);
+            var_dump($objPerson);
+            $arrError =[];
 
+            //Testing Form
+            $arrError = [];
+            if (count($_POST) > 0) {
+                if ($objPerson->getName() == ""){
+                    $arrError['name'] = "Le nom est obligatoire";
+                }   
+                if ($objPerson->getFirstname() == ""){
+                    $arrError['firstname'] = "Le prénom est obligatoire";
+                }   
+                if ($objPerson->getBirthdate() == ""){
+                    $arrError['birthdate'] = "La date de naissance est obligatoire";
+                }   
+                if ($objPerson->getCountry() == ""){
+                    $arrError['country'] = "La nationalité est obligatoire";
+                }   
+                if ($objPerson->getBio() == ""){
+                    $arrError['bio'] = "La biographie est obligatoire";
+                }
+                if ($objPerson->getPhoto() == ""){
+                    $arrError['photo'] = "La photo est obligatoire";
+                }
+              
+            }  
+            
+            $this->_arrData['objPerson'] = $objPerson;
+            $this->_display("settingsPerson");
+        
+        }
     }

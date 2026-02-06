@@ -26,8 +26,11 @@
 			$this->_prefixe = "pers_";
 		}
 
+		public function getBirthDate(){
+			return $this->_birthdate;
+		}
 
-		public function getBirthDate(string $strFormat = "fr_FR"){
+		public function getBirthDateFormat(string $strFormat = "fr_FR"){
 			// Traiter l'affichage de la date
 			$objDate	= new DateTime($this->_birthdate);
 			//$strDate	= $objDate->format("d/m/Y"); // en anglais
@@ -72,8 +75,16 @@
 			return $this->_name ." ".$this->_firstname ;
 		}
 
+		public function getName():string{
+			return $this->_name;
+		}
+
 		public function setName(string $strName){
 			$this->_name = $strName;
+		}
+
+		public function getFirstname():string{
+			return $this->_firstname;
 		}
 
 		public function setFirstname(string $strFirstname){

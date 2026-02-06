@@ -103,7 +103,7 @@
                         <span class="spanMovie">{$objPerson->getFullName()}</span>
                     </div>                    
                     <div class="col-2">
-                        <a href="">Modifier</a>
+                        <a href="index.php?ctrl=person&action=settingsPerson&id={$objPerson->getId()}">Modifier</a>
                     </div>
                     <div class="col-2">
                         <a href="index.php?ctrl=person&action=deletePerson&id={$objPerson->getId()}">Supprimer</a>

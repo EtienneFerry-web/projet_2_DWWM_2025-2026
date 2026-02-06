@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-06 14:15:18
+/* Smarty version 5.7.0, created on 2026-02-06 15:08:33
   from 'file:views/dashboard_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6985f776b39546_88592145',
+  'unifunc' => 'content_698603f1bed5e8_94188847',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'a41bfa6ad9ef5f3cc44fab8d0aba63facde696c0' => 
     array (
       0 => 'views/dashboard_view.tpl',
-      1 => 1770387317,
+      1 => 1770390241,
       2 => 'file',
     ),
   ),
@@ -20,36 +20,36 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6985f776b39546_88592145 (\Smarty\Template $_smarty_tpl) {
+function content_698603f1bed5e8_94188847 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5498670356985f776a86a17_02989689', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1168236226698603f1b3b896_13059042', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1896788196985f776a91471_75765630', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_3324421666985f776a99fc2_37220327', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1267428741698603f1b47597_86634334', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15267159696985f776aa50d6_24090676', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1218848536698603f1b50036_54162376', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6784414036985f776b33657_19446746', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_335660687698603f1b58f45_63055601', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_804387592698603f1be7d28_07721825', "js");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_5498670356985f776a86a17_02989689 extends \Smarty\Runtime\Block
+class Block_1168236226698603f1b3b896_13059042 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -60,7 +60,7 @@ Dashboard<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1896788196985f776a91471_75765630 extends \Smarty\Runtime\Block
+class Block_1267428741698603f1b47597_86634334 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -68,7 +68,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_3324421666985f776a99fc2_37220327 extends \Smarty\Runtime\Block
+class Block_1218848536698603f1b50036_54162376 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -82,7 +82,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_15267159696985f776aa50d6_24090676 extends \Smarty\Runtime\Block
+class Block_335660687698603f1b58f45_63055601 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -210,7 +210,8 @@ $foreach2DoElse = false;
 </span>
                     </div>                    
                     <div class="col-2">
-                        <a href="">Modifier</a>
+                        <a href="index.php?ctrl=person&action=settingsPerson&id=<?php echo $_smarty_tpl->getValue('objPerson')->getId();?>
+">Modifier</a>
                     </div>
                     <div class="col-2">
                         <a href="index.php?ctrl=person&action=deletePerson&id=<?php echo $_smarty_tpl->getValue('objPerson')->getId();?>
@@ -228,7 +229,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_6784414036985f776b33657_19446746 extends \Smarty\Runtime\Block
+class Block_804387592698603f1be7d28_07721825 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
