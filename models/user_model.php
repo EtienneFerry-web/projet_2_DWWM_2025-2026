@@ -1,25 +1,13 @@
 <?php
     require_once'models/mother_model.php';
-<<<<<<< HEAD
-	
-
-    class UserModel extends Connect{
-		
-=======
 
 
     class UserModel extends Connect{
 
->>>>>>> origin/main
         // Methods
 		public function __construct(){
 				parent::__construct();
 		}
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> origin/main
         /**
         * @return array
         */
@@ -30,34 +18,15 @@
 			// Launching request and collecting results
 			return $this->_db->query($strRq)->fetchAll();
 		}
-<<<<<<< HEAD
-        
-        /**
-		 * User login request
-		 * 
-=======
 
         /**
 		 * User login request
 		 *
->>>>>>> origin/main
                  * @param string $stEmail
                  * @param string $strPwd
                  * @return array|bool
                  */
 		public function verifUser(string $strEmail, string $strPwd):array|bool{
-<<<<<<< HEAD
-			// verify user request 
-			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd
-						FROM users
-						WHERE user_email = '".$strEmail."'";
-			// Recover user information
-			// Request exxecution and recovering reluts 
-			$arrUser 	= $this->_db->query($strRq)->fetch();
-
-
-			// Hached password verification 
-=======
 			// verify user request
 			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd, user_funct_id
 						FROM users
@@ -68,7 +37,6 @@
 
 
 			// Hached password verification
->>>>>>> origin/main
 			if($arrUser != null){
 				if (password_verify($strPwd, $arrUser['user_pwd'])){
 				// User return
@@ -87,43 +55,6 @@
 		* @param object $objUser User object
 		* @return bool If request ok (true) else (false)
 		*/
-<<<<<<< HEAD
-		public function insert(object $objUser):bool{
-                
-		// Request construction
-			$strRq 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
-						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
-			// Prepared request
-			$rqPrep	= $this->_db->prepare($strRq);
-			// Sending information
-			$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
-			// Request execution
-			return $rqPrep->execute();
-		}
-
-		/**
-		 * Fonction qui permet de récupérer un utilisateur en fonction de son identifiant
-		 * @param int intId L'identifiant de l'utilisateur à chercher
-         * @return array
-         */
-		public function findUser(int $intId):array{
-			// Ecrire la requête
-			$strRq	= "SELECT user_id, user_firstname, user_name, user_mail
-						FROM users 
-						WHERE user_id = ".$intId."
-							AND user_deleted_at IS NULL";
-			// Lancer la requête et récupérer les résultats
-			return $this->_db->query($strRq)->fetch();
-		}
-        
-        public function userPage(int $idUser=0){
-            
-=======
 		public function insert(object $objUser){
 
 		// Request construction
@@ -166,7 +97,6 @@
 
         public function userPage(int $idUser=0){
 
->>>>>>> origin/main
             $strRq	= " SELECT users.*, functions.funct_name AS 'user_function'
                         FROM users
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
@@ -176,10 +106,6 @@
 
             return $this->_db->query($strRq)->fetch();
 
-<<<<<<< HEAD
-
-
-=======
         }
 
         		/**
@@ -220,6 +146,5 @@
 			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
 
 			return $rqPrep->execute();
->>>>>>> origin/main
         }
     }

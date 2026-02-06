@@ -32,11 +32,6 @@
 	}
 
 	if($boolError){
-<<<<<<< HEAD
-		echo "error 404 - page introuvable";
-		// remplacer par redirection vers controller error -> 404
-=======
 	        header("Location:index.php?ctrl=error&action=err404");
             exit;
->>>>>>> origin/main
 	}

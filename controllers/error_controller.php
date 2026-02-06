@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-<?php 
-    require'controllers/mother_controller.php';
-=======
 <?php
->>>>>>> origin/main
 
     /**
      * @author Marco Schmitt
@@ -21,11 +16,7 @@
         }
 
         public function err403(){
-<<<<<<< HEAD
-            //Page Pour les accés 
-=======
             //Page Pour les accés
->>>>>>> origin/main
 
             $this->_display("403");
         }
