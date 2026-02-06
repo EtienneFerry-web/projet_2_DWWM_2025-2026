@@ -24,12 +24,23 @@
 */
 var NAVTREE =
 [
-  [ "My Project", "index.html", ]
+  [ "projet 2", "index.html", [
+    [ "Todo List", "todo.html", null ],
+    [ "Data Structures", "annotated.html", [
+      [ "Data Structures", "annotated.html", "annotated_dup" ],
+      [ "Data Structure Index", "classes.html", null ],
+      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
+      [ "Data Fields", "functions.html", [
+        [ "All", "functions.html", null ],
+        [ "Functions", "functions_func.html", null ]
+      ] ]
+    ] ]
+  ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"index.html"
+"annotated.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

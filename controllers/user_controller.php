@@ -329,4 +329,10 @@
                 }
             }
         }
+
+        public function settingsUser( ) {
+
+
+        $this->_display("settingsUser");
+        }
     }

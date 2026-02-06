@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['ignore_0',['ignore',['../class_smarty_1_1_debug.html#ad4937a1a271b69bbe417a853a87db62d',1,'Smarty::Debug']]],
+  ['init_1',['init',['../class_smarty_1_1_runtime_1_1_foreach_runtime.html#aed33966917d7ee72ef0009657841e772',1,'Smarty\\Runtime\\ForeachRuntime\\init()'],['../class_smarty_1_1_runtime_1_1_inheritance_runtime.html#a40584e1633baa9ea54a22606cde47874',1,'Smarty\\Runtime\\InheritanceRuntime\\init(Template $tpl, $initChild, $blockNames=[])']]],
+  ['instanceblock_2',['instanceBlock',['../class_smarty_1_1_runtime_1_1_inheritance_runtime.html#af6adfc87cca13f5aa132fc4f29ecf846',1,'Smarty::Runtime::InheritanceRuntime']]],
+  ['invalidate_3',['invalidate',['../class_smarty_1_1_cacheresource_1_1_key_value_store.html#aeab538c7d2fe9163391588bbe4cd798b',1,'Smarty::Cacheresource::KeyValueStore']]],
+  ['isautoliteral_4',['isAutoLiteral',['../class_smarty_1_1_lexer_1_1_template_lexer.html#af24974ccda8c58efaa28b0d126e7969e',1,'Smarty::Lexer::TemplateLexer']]],
+  ['iscacheable_5',['isCacheable',['../class_smarty_1_1_function_handler_1_1_attribute_base.html#a8dc10087cfbf077529664dd5a920b7c7',1,'Smarty::FunctionHandler::AttributeBase']]],
+  ['iscached_6',['isCached',['../class_smarty_1_1_smarty.html#a5f3c654e5d486cd21f916ea1d6e2fc66',1,'Smarty\\Smarty\\isCached()'],['../class_smarty_1_1_template.html#afac82e816d0fc5049c3295f0d356acdb',1,'Smarty\\Template\\isCached()']]],
+  ['isclassmapauthoritative_7',['isClassMapAuthoritative',['../class_composer_1_1_autoload_1_1_class_loader.html#a5187f29c880def2863b3592d2cce5844',1,'Composer::Autoload::ClassLoader']]],
+  ['isfresh_8',['isFresh',['../class_smarty_1_1_template_1_1_compiled.html#a3e8cbbff68b9f8075fbd8f54a7471e8e',1,'Smarty::Template::Compiled']]],
+  ['isinstalled_9',['isInstalled',['../class_composer_1_1_installed_versions.html#ac9863ed3d65259cb0a9a5bcc5afffa7e',1,'Composer::InstalledVersions']]],
+  ['ismutingundefinedornullwarnings_10',['isMutingUndefinedOrNullWarnings',['../class_smarty_1_1_smarty.html#a60113c7e917ed2693453754488cbcfa3',1,'Smarty::Smarty']]],
+  ['isnocache_11',['isNocache',['../class_smarty_1_1_variable.html#a53382a4859566d62ef09cfb5afeab8fe',1,'Smarty::Variable']]],
+  ['istobestripped_12',['isToBeStripped',['../class_smarty_1_1_parse_tree_1_1_text.html#a14a99bc0c5ec8f09db798f9ccb88415e',1,'Smarty::ParseTree::Text']]],
+  ['istrustedconstant_13',['isTrustedConstant',['../class_smarty_1_1_security.html#a003e5b6b736acebb6b3c60ea4aa9adb2',1,'Smarty::Security']]],
+  ['istrustedmodifier_14',['isTrustedModifier',['../class_smarty_1_1_security.html#a503165596f59f6496cd9ea55ad8b36e1',1,'Smarty::Security']]],
+  ['istrustedresourcedir_15',['isTrustedResourceDir',['../class_smarty_1_1_security.html#a13ba9cce3dfe943157da678137794e7c',1,'Smarty::Security']]],
+  ['istrustedspecialsmartyvar_16',['isTrustedSpecialSmartyVar',['../class_smarty_1_1_security.html#a1131ef19a5b62dd3f1a00d3c59bd1aa6',1,'Smarty::Security']]],
+  ['istrustedstaticclass_17',['isTrustedStaticClass',['../class_smarty_1_1_security.html#a9a4cceec7287368a9e015502b1e91887',1,'Smarty::Security']]],
+  ['istrustedstaticclassaccess_18',['isTrustedStaticClassAccess',['../class_smarty_1_1_security.html#a3ac9d95acbc07880d3ea6b6d5cfe7312',1,'Smarty::Security']]],
+  ['istrustedstream_19',['isTrustedStream',['../class_smarty_1_1_security.html#a078d58aafa3e3322ebc8dca910a1a36d',1,'Smarty::Security']]],
+  ['istrustedtag_20',['isTrustedTag',['../class_smarty_1_1_security.html#ad9ce0943f892bf751358992b0db54375',1,'Smarty::Security']]],
+  ['istrusteduri_21',['isTrustedUri',['../class_smarty_1_1_security.html#a5b20c21ee6e41e8ff29e5f7a6671f095',1,'Smarty::Security']]]
+];
