@@ -38,7 +38,6 @@
 		* Name recover
 		* @return string Object name
 		*/
-
 		public function getName():string{
 			return $this->_name;
 		}

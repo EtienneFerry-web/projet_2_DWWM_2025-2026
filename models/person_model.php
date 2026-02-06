@@ -4,19 +4,19 @@
 
     class PersonModel extends Connect{
 
-		public function findAllPerson(int $idMovie=0){
+    public function findAllPerson(int $idMovie=0){
 
- 	        $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
-                        FROM persons
-                        LEFT JOIN participates ON persons.pers_id = participates.part_pers_id
-                        LEFT JOIN movies ON participates.part_mov_id = movies.mov_id
-                        LEFT JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
-                        WHERE mov_id = $idMovie
-                        GROUP BY pers_id";
+        $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
+                    FROM persons
+                    LEFT JOIN participates ON persons.pers_id = participates.part_pers_id
+                    LEFT JOIN movies ON participates.part_mov_id = movies.mov_id
+                    LEFT JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
+                    WHERE mov_id = $idMovie
+                    GROUP BY pers_id";
 
 
-		    return $this->_db->query($strRq)->fetchAll();
-		}
+        return $this->_db->query($strRq)->fetchAll();
+    }
 
 	public function findPerson(int $idPerson=0){
 
@@ -29,6 +29,15 @@
 
         return $this->_db->query($strRq)->fetch();
         }
+    public function listPerson(){
+
+        $strRq	= " SELECT pers_id, pers_name, pers_firstname
+                    FROM persons";
+
+        return $this->_db->query($strRq)->fetchAll();
+        }
+
+    
     //Search of Actor
     public function findActor(){
 

@@ -30,6 +30,11 @@
             return $this->_db->query($strRq)->fetchAll();
         }
 
+        public function findAllMovies() : array {
+            $strRq = "SELECT mov_id, mov_title
+                        FROM movies";
+            return $this->_db->query($strRq)->fetchAll();
+        }
 
         public function allMovie(): array {
             $strWhere = " WHERE ";

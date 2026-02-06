@@ -214,33 +214,31 @@
             $this->_display("user");
         }
 
-        /**
-		* Page de gestion des utilisateurs
-		*/
-		public function user_list(){
-			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
-				header("Location:index.php?ctrl=error&action=error_403");
-				exit;
-			}
-			
-			// Récupération des articles 
-			$objUserModel 	= new UserModel;
-			$arrUsers 		= $objUserModel->findAllUsers();
+        public function deleteAccount(){
 
-			// Initialisation d'un tableau => objets
-			$arrUserToDisplay	= array(); 
+            if(!isset($_SESSION['user']['user_id'])){
+                header("Location:index.php?ctrl=user&action=login");
+                exit;
+            } 
+            if (isset($_GET['id']) && ((int)$_GET['id']) == ($_SESSION['user']['user_id'])){
+                $_SESSION['success'] = "Vous ne pouvez pas supprimer votre compte";
+                header("Location:index.php?ctrl=admin&action=dashboard");
+                exit;
+            }
+            $objUserModel = new UserModel();
+            $success = $objUserModel->deleteUser($_GET['id'] ?? $_SESSION['user']['user_id']);
 
-			// Boucle de transformation du tableau de tableau en tableau d'objets
-			foreach($arrUsers as $arrDetUser){
-				$objUser = new UserEntity;
-				$objUser->hydrate($arrDetUser);
-				
-				$arrUserToDisplay[]	= $objUser;
-			}
-			// Donner arrUsersToDisplay à maman pour l'affichage
-			$this->_arrData['arrUserToDisplay']	= $arrUserToDisplay;
-			
-			$this->_display("dashboard");
-		}
+            // Si on a supprimé, on nettoie tout
+            if($success && !isset($_GET['id'])){
+            unset($_SESSION['user']);
+            $_SESSION['success'] = "Votre compte à bien été supprimé";
+            header("Location:index.php");
+            exit;
+            }else{
+                $_SESSION['success'] = "Le compte à bien été supprimé";
+                header("Location:index.php?ctrl=admin&action=dashboard");
+                exit;
+            }
+        }
 
     }

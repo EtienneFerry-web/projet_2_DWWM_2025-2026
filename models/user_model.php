@@ -14,8 +14,10 @@
         */
 		public function findAllUsers():array{
 			// Writing request
-			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo
-						FROM users ";
+			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email
+						FROM users 
+						WHERE user_delete_at IS NULL";
+						
 			// Launching request and collecting results
 			return $this->_db->query($strRq)->fetchAll();
 		}
@@ -29,7 +31,7 @@
                  */
 		public function verifUser(string $strEmail, string $strPwd):array|bool{
 			// verify user request 
-			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd
+			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd,user_funct_id
 						FROM users
 						WHERE user_email = '".$strEmail."'";
 			// Recover user information
@@ -84,8 +86,19 @@
 
 
             return $this->_db->query($strRq)->fetch();
+        }
+		/**
+         * Delete account
+         * @author Etienne
+         * @param $intId = $_GET['id'];
+         * return boolean
+         */
+		public function deleteUser(int $intId){
+			$strRq = "DELETE FROM users WHERE user_id = :id";
 
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
 
-
+			return $rqPrep->execute();
         }
     }
