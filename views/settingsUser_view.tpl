@@ -8,19 +8,19 @@
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
-     <form method="post" class="row">
+     <form method="post" enctype="multipart/form-data" class="row">
          <div class="col-12 col-sm-6 p-2">
              <label for="" class="form-label">Changez de pseudo</label>
-             <input type="text" name="" value="" class="form-control">
+             <input type="text" name="pseudo" value="" class="form-control">
          </div>
          <div class="col-12 col-sm-6 p-2">
              <label for="" class="form-label">Changez de Bio</label>
-             <textarea name="" id="" placeholder="Bio Utilisateur" class="form-control"></textarea>
+             <textarea name="bio" id="" placeholder="Bio Utilisateur" class="form-control"></textarea>
          </div>
          <div class="col-12 p-2">
              <label class="form-label">Photo de profil</label>
 
-             <input type="file" class="form-control" accept="image/*">
+             <input name="profile-picture"type="file" class="form-control {if (isset($arrError['img'])) } is-invalid {/if}" type="file" accept="image/*">
          </div>
 
 
