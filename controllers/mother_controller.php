@@ -20,20 +20,6 @@ class MotherCtrl{
 
         // Récupérer les variables
         foreach($this->_arrData as $key=>$value){
-<<<<<<< HEAD
-            //$$key = $value;
-            $objSmarty->assign($key, $value);
-        }
-        $objSmarty->assign("pseudo", $_SESSION['user']['user_pseudo']??NULL);
-        // Message de succès
-        $objSmarty->assign("success_message", $_SESSION['success']??NULL);
-        unset($_SESSION['success']);
-        
-        $objSmarty->display("views/".$strView."_view.tpl");
-
-    }
-}
-=======
             $objSmarty->assign($key, $value);
         }
 
@@ -50,4 +36,3 @@ class MotherCtrl{
 
     }
 }
->>>>>>> origin/main

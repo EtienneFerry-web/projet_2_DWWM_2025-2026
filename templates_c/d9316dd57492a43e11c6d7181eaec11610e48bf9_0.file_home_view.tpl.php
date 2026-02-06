@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-04 11:46:01
+/* Smarty version 5.7.0, created on 2026-02-04 15:19:15
   from 'file:views/home_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6983317999ac65_32145858',
+  'unifunc' => 'content_69836373af4bf7_83945072',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd9316dd57492a43e11c6d7181eaec11610e48bf9' => 
     array (
       0 => 'views/home_view.tpl',
-      1 => 1769785504,
+      1 => 1770217654,
       2 => 'file',
     ),
   ),
@@ -21,36 +21,36 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/newMovie.tpl' => 1,
   ),
 ))) {
-function content_6983317999ac65_32145858 (\Smarty\Template $_smarty_tpl) {
+function content_69836373af4bf7_83945072 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_85875676969833179975999_95573732', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_36679961169836373acb234_14463800', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4945139906983317997c1b9_77977891', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20412911206983317997e8a1_47163686', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_110764413169836373ad1a03_95461476', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_136023453469833179980fe5_42969580', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_175050656269836373ad4185_84367322', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_37638350969833179998e52_73325448', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_98143935269836373ad6748_73780753', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4100827969836373af2e64_24965257', "js");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_85875676969833179975999_95573732 extends \Smarty\Runtime\Block
+class Block_36679961169836373acb234_14463800 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -61,7 +61,7 @@ Accueil<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_4945139906983317997c1b9_77977891 extends \Smarty\Runtime\Block
+class Block_110764413169836373ad1a03_95461476 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -71,7 +71,7 @@ bienvenue sur notre accueil !!!!<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_20412911206983317997e8a1_47163686 extends \Smarty\Runtime\Block
+class Block_175050656269836373ad4185_84367322 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -83,7 +83,7 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_136023453469833179980fe5_42969580 extends \Smarty\Runtime\Block
+class Block_98143935269836373ad6748_73780753 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -134,17 +134,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
       </div>
     </section>
-    <section id="addMovie" class="container text-center py-5">
-        <h2>Ajoutez un film</h2>
-        <p class="mx-auto py-3">Vous vous pouvez ajouter un nouveau film a condition qui soit sourcer etc etc bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, possimus cupiditate esse ducimus soluta earum?</p>
-        <a href="index.php?ctrl=movie&action=addMovie" class="btnCustom ">Ajoutez un film</a>
-    </section>
 <?php
 }
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_37638350969833179998e52_73325448 extends \Smarty\Runtime\Block
+class Block_4100827969836373af2e64_24965257 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';

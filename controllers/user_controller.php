@@ -167,11 +167,66 @@
             $this->_display("createAccount");
         }
 
+        /**
+         *@author Etienne
+         * Edit Account
+         * 
+         * Check if findUser exist
+         *  
+         */
+
         public function settingsUser(){
             if(!isset($_SESSION['user'])){
                 header("Location:index.php?ctrl=error&action=err403");
                 exit;
             }
+
+            //Recover user data from findUser fonction in user_model
+
+            $objUserModel   = new UserModel;
+            $arrUser        = $objUserModel->findUser($_GET['id']??$_SESSION['user']['user_id']);
+
+            //Object instanciation, Hydrate for BDD
+
+            $objUser    = new User;
+            $objUser->hydrate($arrUser);
+
+            $arrError = [];
+            if (count($_POST) > 0) {
+                $objUser->hydrate($_POST); // Mise à jour en fonction du formulaire
+                // Fonction commune de vérification des infos utilisateur
+                $arrError   = $this->_verifInfos($objUser);
+                // Traitement du mot de passe, si renseigné
+                if ($objUser->getPwd() != ""){
+                    $strPwdConfirm  = $_POST['pwd_confirm'];
+                    $arrError       = array_merge($arrError, $this->_verifPwd($objUser, $strPwdConfirm));
+                }
+
+                // Si le formulaire est rempli correctement
+                if (count($arrError) == 0){
+                    // Mise à jour des infos de l'utilisateur
+                    $boolUpdate     = $objUserModel->update($objUser);
+                    // Si mise à jour ok et pwd => Mise à jour du mot de passe
+                    if ($boolUpdate === true && $objUser->getPwd() != ""){
+                        $boolUpdate     = $objUserModel->updatePwd($objUser);
+                    }
+                    
+                        $_SESSION['success']    = "Le compte a bien été modifié";
+                        if (!isset($_GET['id'])){
+                            header("Location:index.php");
+                        }else{
+                            header("Location:index.php?ctrl=user&action=user_list");
+                        }
+                        exit;
+                    }else{
+                        $arrError[] = "Erreur lors de l'ajout";
+                    }
+                }
+            
+            
+            //Display
+            $this->_arrData['arrError'] = $arrError;
+            $this->_arrData['objUser']  = $objUser;
 
             $this->_display("settingsUser");
         }
@@ -260,18 +315,18 @@
         if(!isset($_SESSION['user']['user_id'])){
             header("Location:index.php?ctrl=user&action=login");
             exit;
-        } else{
+            } else{
 
-            $objUserModel = new UserModel();
-            $success = $objUserModel->deleteUser($_SESSION['user']['user_id']);
+                $objUserModel = new UserModel();
+                $success = $objUserModel->deleteUser($_SESSION['user']['user_id']);
 
-            // Si on a supprimé, on nettoie tout
-            if($success){
-            unset($_SESSION['user']);
-            $_SESSION['success'] = "Votre compte à bien été supprimé";
-            header("Location:index.php");
-            exit;
+                // Si on a supprimé, on nettoie tout
+                if($success){
+                unset($_SESSION['user']);
+                $_SESSION['success'] = "Votre compte à bien été supprimé";
+                header("Location:index.php");
+                exit;
+                }
             }
         }
     }
-}

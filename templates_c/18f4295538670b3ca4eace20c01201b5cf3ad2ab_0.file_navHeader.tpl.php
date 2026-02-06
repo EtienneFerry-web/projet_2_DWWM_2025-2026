@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-04 11:46:01
+/* Smarty version 5.7.0, created on 2026-02-04 15:19:15
   from 'file:views/_partial/navHeader.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698331799e2505_84998958',
+  'unifunc' => 'content_69836373b3a195_87756660',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698331799e2505_84998958 (\Smarty\Template $_smarty_tpl) {
+function content_69836373b3a195_87756660 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?><ul class="navbar-nav ms-auto mb-2 mb-lg-0">
     <?php if (!(true && (true && null !== ($_SESSION['user'] ?? null)))) {?>
