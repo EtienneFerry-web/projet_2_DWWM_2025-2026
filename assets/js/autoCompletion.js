@@ -97,12 +97,12 @@ function clickContent() {
 function saveSearch(keyword) {
 
   console.log(historique);
-  if (!historique.includes(keyword)) {
-      historique.unshift({ label: keyword });
+
+  if (!historique.some(item => item.label === keyword)) {
+    historique.unshift({ label: keyword });
   }
 
   localStorage.setItem('allSearch', JSON.stringify(historique.slice(0, 5)));
-
 
 }
 
