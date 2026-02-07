@@ -1,5 +1,5 @@
 <?php
-    
+
     require'dto/search_dto.php';
     require'models/search_model.php';
 
@@ -11,17 +11,52 @@
 
     class SearchCtrl extends MotherCtrl{
 
+        public function autoComplete(){
+
+            header('Content-Type: application/json');
+
+            $objSearch = new SearchDto();
+            $objSearch->setSearch($_GET['keywords']);
+
+            $objSearchModel 	= new SearchModel;
+			$arrResult		    = $objSearchModel->searchContent($objSearch, 0, 10);
+
+            $arrResultToDisplay	= array();
+
+ 			foreach($arrResult as $arrDeResult){
+    				$objContent = new SearchDto('sear_');
+    				$objContent->hydrate($arrDeResult);
+
+    				$arrResultToDisplay[]	= $objContent;
+ 			}
+
+            $arrSearchResultToDisplay = [];
+
+            foreach($arrResultToDisplay as $arrDeResult){
+
+                $index = [
+                    'type' => $arrDeResult->getType(),
+                    'label' => $arrDeResult->getName(),
+                ];
+
+                $arrSearchResultToDisplay[] = $index;
+
+ 			}
+
+            echo json_encode($arrSearchResultToDisplay);
+        }
+
         public function searchPage(){
 
             if(isset($_POST['search']) && !empty(trim($_POST['search']))){
 
                 $objSearch = new SearchDto();
                 $objSearch->setSearch($_POST['search']);
-                
+
                 $searchBy = $_POST['searchBy']??0;
 
                 $objSearchModel 	= new SearchModel;
-    			$arrResult		    = $objSearchModel->searchContent($objSearch, $searchBy);
+    			$arrResult		    = $objSearchModel->searchContent($objSearch, $searchBy, 20);
 
 
 

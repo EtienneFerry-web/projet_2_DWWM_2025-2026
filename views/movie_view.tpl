@@ -45,6 +45,44 @@
         </div>
     </div>
 </section>
+<section  id="imgMovie" class="container py-5">
+    <div class="splide">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/300x400/000/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/500x400/555/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/350x400/999/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/350x400/999/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/350x400/999/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/300x400/000/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/500x400/555/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/350x400/999/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/350x400/999/fff" />
+          </li>
+          <li class="splide__slide">
+            <img src="https://dummyimage.com/350x400/999/fff" />
+          </li>
+        </ul>
+      </div>
+    </div>
+</section>
 {if $curDate->format('Y-m-d') >= $objMovie->getCreatedate()}
     <section id="addComment" class="container text-center py-5">
         <h2>Avis</h2>

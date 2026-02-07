@@ -26,8 +26,11 @@
 			$this->_prefixe = "pers_";
 		}
 
+		public function getBirthDate(){
+		    return $this->_birthdate;
+		}
 
-		public function getBirthDate(string $strFormat = "fr_FR"){
+		public function getBirthDateFormat(string $strFormat = "fr_FR"){
 			// Traiter l'affichage de la date
 			$objDate	= new DateTime($this->_birthdate);
 			//$strDate	= $objDate->format("d/m/Y"); // en anglais
@@ -42,8 +45,11 @@
 			return $strDate;
 		}
 
+		public function getDeathDate(){
+		    return $this->_deathdate;
+		}
 
-		public function getDeathDate(string $strFormat = "fr_FR"){
+		public function getDeathDateFormat(string $strFormat = "fr_FR"){
       		if (empty($this->_deathdate)) {
                 return "En vie";
             }

@@ -17,7 +17,7 @@
 
 		    return $this->_db->query($strRq)->fetchAll();
 		}
-		
+
 		public function listPerson(){
 
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
@@ -27,14 +27,14 @@
         }
 
     	public function findPerson(int $idPerson=0){
-    
+
             $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
                         FROM persons
                         INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
                         WHERE pers_id = $idPerson";
-    
-    
-    
+
+
+
             return $this->_db->query($strRq)->fetch();
         }
     //Search of Actor
@@ -80,7 +80,7 @@
         }
 
     public function findJobsOfPerson(int $idPerson=0):array{
-        $strRq	= " SELECT job_id ,  job_name AS 'job_NameJob'
+        $strRq	= " SELECT job_id AS 'pers_id',  job_name AS 'pers_NameJob'
                     FROM jobs
                     WHERE job_id IN (	SELECT part_job_id
                                    	FROM participates
@@ -89,7 +89,7 @@
 
         return $this->_db->query($strRq)->fetchAll();
     }
-        
+
     public function deletePerson(int $intId){
 		$strRq = "DELETE FROM persons
 				  WHERE pers_id = :id";

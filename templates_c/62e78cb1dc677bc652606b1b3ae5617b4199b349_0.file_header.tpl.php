@@ -1,28 +1,29 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-06 14:48:50
+/* Smarty version 5.7.0, created on 2026-02-07 15:28:58
   from 'file:views/_partial/header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6985ff525eddb5_54772674',
+  'unifunc' => 'content_69875a3a679dc7_20174648',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '62e78cb1dc677bc652606b1b3ae5617b4199b349' => 
     array (
       0 => 'views/_partial/header.tpl',
-      1 => 1770372450,
+      1 => 1770478137,
       2 => 'file',
     ),
   ),
   'includes' => 
   array (
     'file:views/_partial/navHeader.tpl' => 1,
+    'file:views/_partial/searchForm.tpl' => 1,
     'file:views/_partial/message.tpl' => 1,
   ),
 ))) {
-function content_6985ff525eddb5_54772674 (\Smarty\Template $_smarty_tpl) {
+function content_69875a3a679dc7_20174648 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -33,15 +34,15 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_13453930366985ff525b99b1_17632627', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_176678655469875a3a673a49_55349978', "description");
 ?>
 ">
 	<title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_3364892586985ff525c3568_04625499', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_51655683469875a3a676076_15549027', "title");
 ?>
 </title>
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14560367586985ff525cd5e5_02952864', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_174096114169875a3a676fb0_20662935', "css_variation");
 ?>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -58,21 +59,15 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1456036758698
             <div class="collapse navbar-collapse" id="navbarMain">
                 <?php $_smarty_tpl->renderSubTemplate("file:views/_partial/navHeader.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
-                <form action="index.php?ctrl=search&action=searchPage" class="d-flex ms-lg-3" role="search" method="post">
-                    <input class="form-control me-2" type="search" placeholder="Rechercher..." name="search" value="<?php if ((true && ($_smarty_tpl->hasVariable('objSearch') && null !== ($_smarty_tpl->getValue('objSearch') ?? null)))) {?> $objSearch->getSearch() <?php }?>" required>
-                    <button class="btn" type="submit">
-                        <img src="/Projet2/assets/img/iconBtnSearch.svg" height="32" width="32">
-                    </button>
-                </form>
+                <?php $_smarty_tpl->renderSubTemplate("file:views/_partial/searchForm.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('formClass'=>" d-flex ms-lg-3 col-12 col-sm-6"), (int) 0, $_smarty_current_dir);
+?>
             </div>
         </div>
     </nav>
     <?php $_smarty_tpl->renderSubTemplate("file:views/_partial/message.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
-?>
-
-<?php }
+}
 /* {block "description"} */
-class Block_13453930366985ff525b99b1_17632627 extends \Smarty\Runtime\Block
+class Block_176678655469875a3a673a49_55349978 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
@@ -80,7 +75,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 }
 /* {/block "description"} */
 /* {block "title"} */
-class Block_3364892586985ff525c3568_04625499 extends \Smarty\Runtime\Block
+class Block_51655683469875a3a676076_15549027 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
@@ -90,7 +85,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 }
 /* {/block "title"} */
 /* {block "css_variation"} */
-class Block_14560367586985ff525cd5e5_02952864 extends \Smarty\Runtime\Block
+class Block_174096114169875a3a676fb0_20662935 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';

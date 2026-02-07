@@ -35,6 +35,8 @@
                 <ul class="splide__list">
                     {foreach from=$arrMovieToDisplay item=objLike}
                         {include file="views/_partial/likeUser.tpl"}
+                    {foreachelse}
+                        <h3 class="mx-auto py-2">Cette utilisateur ne posséde aucun like !</h3>
                     {/foreach}
                 </ul>
               </div>
@@ -58,7 +60,7 @@
 {block name="js"}
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <script src="/Projet2/assets/js/slideMovie.js"></script>
+    <script src="/Projet2/assets/js/moviePage.js"></script>
     <script src="/Projet2/assets/js/comment.js"></script>
     <script src="/Projet2/assets/js/star.js"> </script>
 {/block}

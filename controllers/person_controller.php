@@ -25,21 +25,21 @@
 			$arrPerson 		= $objPersonModel->findPerson($_GET['id']);
 			$arrJobs        = $objPersonModel->findJobsOfPerson($_GET['id']);
 
+
 			$arrJobToDisplay	= array();
 
 			foreach($arrJobs as $arrDetJob){
-                $objContent = new PersonEntity('job_');
+                $objContent = new PersonEntity;
                 $objContent->hydrate($arrDetJob);
 
                 $arrJobToDisplay[]	= $objContent;
             }
 
-
 			$objPerson = new PersonEntity('pers_');
 			$objPerson->hydrate($arrPerson);
 
 
-			
+
             $arrMovie		    = $objMovieModel->movieOfPerson($_GET['id']);
 
             $arrMovieToDisplay	= array();
@@ -61,9 +61,9 @@
 
             $this->_display("person");
         }
-        
+
         public function deletePerson() {
-			
+
             if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
@@ -73,7 +73,7 @@
 
             // Si on a supprimé, on nettoie tout
             if($success){
-            
+
                 $_SESSION['success'] = "La célébrité a bien été supprimée";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;

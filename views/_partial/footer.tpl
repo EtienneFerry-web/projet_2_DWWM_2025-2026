@@ -5,6 +5,7 @@
             <div>© 2026 GIVE MY FIVE. Tous droits réservés.</div>
         </div>
     </footer>
+    <script src="assets/js/autoCompletion.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {block name="js"}{/block}
 </body>
