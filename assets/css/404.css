@@ -1,0 +1,34 @@
+section {
+    margin: 0;
+    overflow: hidden;
+    height: 80vh;
+}
+
+.dvd-box {
+    position: absolute;
+    width: clamp(100px, 20vw, 320px);
+    height: clamp(60px, 20vw, 180px);
+    will-change: transform;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+.text-404 {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    font-size: 45px;
+}
+
+.text-notfound {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+}

@@ -29,7 +29,7 @@ document.addEventListener('click', () => {
 
 // 3. Gérer le focus (pour afficher l'historique)
 searchBar.addEventListener('focus', () => {
-  sugesContainer.style.display = 'flex';
+
     if (searchBar.value.trim() === '') {
 
         if (historique.length > 0) {
@@ -45,6 +45,7 @@ searchBar.addEventListener('focus', () => {
 
 
 searchBar.addEventListener('input', () => {
+
   searchBar.classList.remove('is-invalid');
   console.log('test');
   clearTimeout(timer);
@@ -65,6 +66,7 @@ searchBar.addEventListener('input', () => {
 
 function affichSuggestion(content) {
   sugesContainer.innerHTML = ''
+  sugesContainer.style.display = 'flex';
   searchBar.style.borderRadius = '24px 24px 0 0';
   if (content.length > 0) {
     content.forEach(index => {
@@ -72,7 +74,19 @@ function affichSuggestion(content) {
       const div = document.createElement('div');
       div.classList.add('suggestion-item');
       div.id = 'divSugesstion';
-      div.innerHTML = `${index['label']}`;
+
+      if (index['type'] === 'movie') {
+        div.innerHTML = `<i class="bi bi-film fs-4"></i>    ${index['label']}`;
+      } else if(index['type'] === 'person'){
+        div.innerHTML = `<i class="bi-star-fill fs-4"></i>    ${index['label']}`;
+      } else if(index['type'] === 'user'){
+        div.innerHTML = `<i class="bi bi-person fs-4"></i>    ${index['label']}`;
+      } else{
+        div.innerHTML = `<i class="bi bi-clock-history fs-4"></i>    ${index['label']}`;
+      }
+
+
+
       sugesContainer.appendChild(div);
 
     });

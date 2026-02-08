@@ -3,6 +3,7 @@
 {block name="description"}Connecte toi pour une experience personnalisée{/block}
 
 {block name="content"}
+{$smarty.session|vardump}
 <section id="login" class="container py-5 my-auto ">
 <!-- include messages  -->
     <h1 class="text-center">Connexion</h1>
@@ -10,17 +11,17 @@
     <form method="post">
         <div class="form-group py-3">
             <label class="form-label">Adresse Mail</label>
-            <input  type="email" 
+            <input  type="email"
                     name="email"
-                    class="form-control {if (isset($arrError['email']))} is-invalid{/if}" 
+                    class="form-control {if (isset($arrError['email']))} is-invalid{/if}"
                     value="{$objUser->getEmail()}"
                     placeholder="Email">
         </div>
         <div class="form-group py-3">
             <label class="form-label">Mots de passe</label>
-            <input  type="password" 
+            <input  type="password"
                     name="pwd"
-                    class="form-control {if (isset($arrError['pwd']))} is-invalid {/if}"  
+                    class="form-control {if (isset($arrError['pwd']))} is-invalid {/if}"
                     value=""
                     placeholder="Mot de Passe">
         </div>

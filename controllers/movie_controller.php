@@ -181,7 +181,7 @@
 						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
 				}
-			if(isset($_POST['spoiler'])){
+			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
 
 			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
 					$_SESSION['success'] = "Spoiler Update !";
@@ -238,24 +238,24 @@
         public function addMovie(){
             $this->_display("addMovie");
         }
-        
+
         public function deleteMovie() {
-			
+
             if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
       		header("Location:index.php?ctrl=error&action=err403");
       		exit;
     		}
             $objMovieModel = new MovieModel();
             $success = $objMovieModel->deleteMovie($_GET['id']);
-    
+
             // Si on a supprimé, on nettoie tout
             if($success){
-            
+
                 $_SESSION['success'] = "Le film a bien été supprimé";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;
             }
-        
+
 		}
 
 

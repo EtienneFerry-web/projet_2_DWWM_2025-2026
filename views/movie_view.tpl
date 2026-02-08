@@ -45,7 +45,14 @@
         </div>
     </div>
 </section>
-<section  id="imgMovie" class="container py-5">
+<section  id="imgMovie" class="container py-5 text-center">
+    <h2>Image du film</h2>
+    <form method="post" class="row text-center">
+        <div class="col-10 p-2 mx-auto">
+            <input type="file" class="form-control" accept="image/*">
+        </div>
+        <button type="submit" class="btnCustom py-2 col-10 mx-auto">Enregistrer</button>
+    </form>
     <div class="splide">
       <div class="splide__track">
         <ul class="splide__list">
@@ -87,7 +94,7 @@
     <section id="addComment" class="container text-center py-5">
         <h2>Avis</h2>
         <div class="text-start py-2">
-            <form method="post" class="">
+            <form method="post" >
                 <div class="py-2">
                     <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
                     <textarea

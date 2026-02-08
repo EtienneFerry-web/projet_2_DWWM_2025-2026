@@ -9,6 +9,14 @@
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
      <form method="post" class="row">
+        <div class="col-12 col-sm-6 p-2">
+             <label for="" class="form-label">Prenom</label>
+             <input type="text" name="" value="" class="form-control">
+         </div>
+        <div class="col-12 col-sm-6 p-2">
+             <label for="" class="form-label">Nom</label>
+             <input type="text" name="" value="" class="form-control">
+         </div>
          <div class="col-12 col-sm-6 p-2">
              <label for="" class="form-label">Changez de pseudo</label>
              <input type="text" name="" value="" class="form-control">
@@ -43,13 +51,13 @@
              </a>
          </div>
 
-         <div class="col-auto">
-             <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
-      onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
+    <div class="col-auto">
+    <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
+        onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
         <button type="submit" class="border-0 bg-transparent">
             Supprimer mon compte
         </button>
-</form>
+    </form>
          </div>
      </div>
 </div>

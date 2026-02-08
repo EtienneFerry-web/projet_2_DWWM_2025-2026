@@ -44,10 +44,17 @@
                 if ($strPwd == ""){
                     $arrError['pwd'] = "Le mot de passe est obligatoire";
                 }
-                if (count($arrError) == 0){
+
+                if (count($arrError) == 0 ){
                     $arrResult = $objUserModel->verifUser($strEmail, $strPwd);
                     if ($arrResult === false){//If database return nothing
                             $arrError[] = "Mail ou mot de passe invalide";
+
+                            $_SESSION['pwdError']['nbr'] += 1;
+
+                            if($_SESSION['pwdError']['nbr'] > 3){
+                                $_SESSION['pwdError']['restrict'] = new DateTime('+5 minutes');
+                            }
                         }else{
                             session_start();
                             $_SESSION['user']       = $arrResult;
@@ -138,16 +145,16 @@
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
                     var_dump($boolInsert);
-                    
+
                     if($boolInsert['user_email'] == $objUser->getEmail()){
                         $arrError[] = 'email probleme change';
                     }
                     if($boolInsert['user_pseudo'] == $objUser->getPseudo()){
                        $arrError[] = 'pseudo probleme change';
                     }
-                    
+
                     if ($boolInsert != false && !is_array($boolInsert)){
-                            
+
                             $_SESSION['success']    = "Le compte compte a bien été crée";
                             var_dump($boolInsert);
                            /* header("Location:index.php?ctrl=user&action=login");
@@ -197,9 +204,11 @@
 			    if( isset($_POST['deleteComment'])){
 
 					$objComment->setId((int)$_POST['deleteComment']);
-					$objComment->setUser_id($_SESSION['user']['user_id']);
+					$objComment->setUser_id($_GET['id']);
 
-					$result = $objCommentModel->deleteComment($objComment);
+					if($_GET['id'] == $_SESSION['user']['user_id'] || $_SESSION['user']['user_funct_id'] != 1){
+					    $result = $objCommentModel->deleteComment($objComment);
+					}
 
 					if($result){
 					    $_SESSION['success'] ="Le commentaire à bien était supprimer !";
@@ -217,6 +226,13 @@
 					    $_SESSION['success'] ="Le commentaire à bien était modifier !";
 					} else{
 					    $this->_arrData['arrError'] = "erreur lors de la modification";
+					}
+				}
+
+				if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
+
+				    if($objCommentModel->addSpoiler($_POST['spoiler'])){
+						$_SESSION['success'] = "Spoiler Update !";
 					}
 				}
 
@@ -259,11 +275,11 @@
 
 
         public function deleteAccount(){
-        
+
             if(!isset($_SESSION['user']['user_id'])){
                 header("Location:index.php?ctrl=user&action=login");
                 exit;
-            } 
+            }
             if (isset($_GET['id']) && ((int)$_GET['id']) == ($_SESSION['user']['user_id'])){
                 $_SESSION['success'] = "Vous ne pouvez pas supprimer votre compte";
                 header("Location:index.php?ctrl=admin&action=dashboard");

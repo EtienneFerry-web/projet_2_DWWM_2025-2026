@@ -23,14 +23,24 @@
 
         <div class="row align-items-center ">
             <span class="spanMovie d-block col-6 me-auto">{$comment->getDateFormat()}</span>
-            <form method="post" class="d-block text-end col-auto">
-                <input type="radio" class="btn-check" name="searchBy" value="{$comment->getId()}" id="filter-report" onchange="this.form.submit()">
-                <label class="form-label" for="filter-report"><i class="bi bi-flag fs-3"></i></label>
-            </form>
-            {if isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1}
-                <form method="post" class="d-block text-end col-auto">
+            {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 1}
+                <form method="post" class="d-block ms-auto col-auto">
+                    <button type="submit" name="searchBy" value="{$comment->getId()}"
+                            class="border-0 bg-transparent p-0">
+                        <i class="bi bi-flag fs-3"></i>
+                    </button>
+                </form>
+            {elseif isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1}
+                <form method="post" class="d-block ms-auto col-auto">
                     <input type="radio" class="btn-check" name="spoiler" value="{$comment->getId()}" id="filter-spoiler-{$comment->getId()}" onchange="this.form.submit()">
-                    <label class="form-label" for="filter-spoiler-{$comment->getId()}"><i class="bi bi-eye{if $comment->getSpoiler() == 1}-slash{/if} fs-2"></i></label>
+                    <label class="form-label m-0" for="filter-spoiler-{$comment->getId()}"><i class="bi bi-eye{if $comment->getSpoiler() == 1}-slash{/if} fs-2"></i></label>
+                </form>
+                <form method="post" class="d-block col-auto">
+                    <input type="radio" class="btn-check" name="deleteComment"
+                            value="{$comment->getId()}"
+                            id="filter-delete-{$comment->getId()}"
+                            onchange="if(confirm('Voulez-vous vraiment supprimer ce commentaire ?')) { this.form.submit(); } else { this.checked = false; }">
+                    <label class="form-label m-0" for="filter-delete-{$comment->getId()}"><i class="bi bi-trash3 fs-3"></i></label>
                 </form>
             {/if}
         </div>

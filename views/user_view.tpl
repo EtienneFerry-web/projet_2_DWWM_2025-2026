@@ -14,16 +14,44 @@
             <img src="{$objUser->getPhoto()}" alt="image de profil" class="img-fluid">
         </div>
         <div class="col-12 col-md-9 col-lg-10 ">
-            <h1>{$objUser->getPseudo()}</h1>
-            <p>{$objUser->getBio()}</p>
-            {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
-                <a href="index.php?ctrl=user&action=settingsUser">Gestion du Compte</a>
-            {/if}
-            {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id && $objUser->getFunction() === "Administrator"}
-                <a class="ms-2" href="index.php?ctrl=admin&action=dashboard">Dashboard</a>
-            {/if}
+            <div>
+                <h1>{$objUser->getPseudo()}</h1>
+                <p>{$objUser->getBio()}</p>
+            </div>
+            <div class="row align-items-center g-2">
+                <div class="col-auto">
+                    <span class="spanMovie border-0">
+                        {$objUser->getFunction()}
+                    </span>
+                </div>
 
-            <span class="spanMovie d-block py-1 border-0">{$objUser->getFunction()}</span>
+                {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
+                    <div class="col-auto ms-auto">
+                        <a href="index.php?ctrl=user&action=settingsUser" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
+                            <i class="bi bi-gear fs-5"></i><span>Gestion du compte</span>
+                        </a>
+                    </div>
+                {/if}
+
+                {if isset($smarty.session.user)
+                    && $smarty.session.user.user_id == $smarty.get.id
+                    && $objUser->getFunction() === "Administrator"}
+                    <div class="col-auto">
+                        <a href="index.php?ctrl=admin&action=dashboard" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-1">
+                            <i class="bi bi-speedometer2 fs-5"></i><span>Dashboard</span>
+                        </a>
+                    </div>
+                {elseif isset($smarty.session.user) && $smarty.session.user.user_id != $smarty.get.id}
+                <div class="col-auto ms-auto">
+                    <form method="post" class="d-block ms-auto col-auto">
+                        <button type="submit" name="searchBy" value=""
+                                class="border-0 bg-transparent p-0">
+                            <i class="bi bi-flag fs-3"></i>
+                        </button>
+                    </form>
+                </div>
+                {/if}
+            </div>
         </div>
     </div>
 

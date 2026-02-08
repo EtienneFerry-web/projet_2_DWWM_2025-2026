@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-03 10:31:35
+/* Smarty version 5.7.0, created on 2026-02-07 16:06:05
   from 'file:views/settingsUser_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6981ce87414805_77497744',
+  'unifunc' => 'content_698762ed13e1a7_47533924',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '354c702c81f25dbf839fff7bb38285d6f865d22f' => 
     array (
       0 => 'views/settingsUser_view.tpl',
-      1 => 1770114693,
+      1 => 1770480363,
       2 => 'file',
     ),
   ),
@@ -20,27 +20,27 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6981ce87414805_77497744 (\Smarty\Template $_smarty_tpl) {
+function content_698762ed13e1a7_47533924 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9145800716981ce874089c0_91631829', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_354817702698762ed138c87_82072182', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18699958606981ce8740e201_41857205', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_105485432698762ed13b021_62240698', "description");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_21258835266981ce8740ff84_90772584', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1896877207698762ed13bfc8_40989402', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_9145800716981ce874089c0_91631829 extends \Smarty\Runtime\Block
+class Block_354817702698762ed138c87_82072182 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -51,7 +51,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_18699958606981ce8740e201_41857205 extends \Smarty\Runtime\Block
+class Block_105485432698762ed13b021_62240698 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -61,7 +61,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_21258835266981ce8740ff84_90772584 extends \Smarty\Runtime\Block
+class Block_1896877207698762ed13bfc8_40989402 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -75,6 +75,14 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
      <form method="post" class="row">
+        <div class="col-12 col-sm-6 p-2">
+             <label for="" class="form-label">Prenom</label>
+             <input type="text" name="" value="" class="form-control">
+         </div>
+        <div class="col-12 col-sm-6 p-2">
+             <label for="" class="form-label">Nom</label>
+             <input type="text" name="" value="" class="form-control">
+         </div>
          <div class="col-12 col-sm-6 p-2">
              <label for="" class="form-label">Changez de pseudo</label>
              <input type="text" name="" value="" class="form-control">
@@ -109,13 +117,13 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
              </a>
          </div>
 
-         <div class="col-auto">
-             <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
-      onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
+    <div class="col-auto">
+    <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
+        onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
         <button type="submit" class="border-0 bg-transparent">
             Supprimer mon compte
         </button>
-</form>
+    </form>
          </div>
      </div>
 </div>

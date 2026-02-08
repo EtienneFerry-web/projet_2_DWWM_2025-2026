@@ -38,6 +38,7 @@
 
             $strRq	="  SELECT
                             com_id,
+                            comments.com_spoiler,
                             movies.mov_id AS 'com_movieId',
                             photos.pho_url AS 'com_url',
                             movies.mov_title  AS 'com_title',

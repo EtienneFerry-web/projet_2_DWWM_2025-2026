@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-03 09:45:06
+/* Smarty version 5.7.0, created on 2026-02-07 21:44:58
   from 'file:views/_partial/reviewMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6981c3a2beab65_05568444',
+  'unifunc' => 'content_6987b25a40bf61_76202384',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9d6cdd84c4c70f84790c40800e8c190218f7c0e6' => 
     array (
       0 => 'views/_partial/reviewMovie.tpl',
-      1 => 1770111903,
+      1 => 1770500683,
       2 => 'file',
     ),
   ),
@@ -20,9 +20,17 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6981c3a2beab65_05568444 (\Smarty\Template $_smarty_tpl) {
+function content_6987b25a40bf61_76202384 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
-?><div class="row py-3 border-bottom border-dark">
+?><div class="row py-3 border-bottom border-dark position-relative">
+    <?php if ($_smarty_tpl->getValue('review')->getSpoiler() == 1) {?>
+        <div class="comment-spoiler" id="spoiler">
+            <h3 class="border-0">Anti-Spoiler</h3>
+            <p>Attention ce commentaire contient un spoiler !</p>
+            <h4>Cliquez pour voir le commentaire !</h4>
+        </div>
+    <?php }?>
+
     <div class="col-3 my-auto">
         <a id="movie" data-movie="<?php echo $_smarty_tpl->getValue('review')->getMovieId();?>
 " href="index.php?ctrl=movie&action=movie&id=<?php echo $_smarty_tpl->getValue('review')->getMovieId();?>
@@ -65,32 +73,47 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
             <div class="row align-items-center pt-3">
                 <span class="spanMovie d-block col-6"><?php echo $_smarty_tpl->getValue('review')->getDateFormat();?>
 </span>
-
-                <?php if ((true && (true && null !== ($_SESSION['user'] ?? null))) && $_SESSION['user']['user_id'] == $_GET['id']) {?>
-                <form method="post" class="d-block ms-auto col-auto">
-                    <input type="radio" class="btn-check" name="deleteComment"
-                           value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
+                <?php if ((true && (true && null !== ($_SESSION['user'] ?? null))) && $_SESSION['user']['user_funct_id'] != 1 && $_SESSION['user']['user_id'] != $_GET['id']) {?>
+                    <form method="post" class="d-block ms-auto col-auto">
+                        <input type="radio" class="btn-check" name="spoiler" value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
+" id="filter-spoiler-<?php echo $_smarty_tpl->getValue('review')->getId();?>
+" onchange="this.form.submit()">
+                        <label class="form-label m-0" for="filter-spoiler-<?php echo $_smarty_tpl->getValue('review')->getId();?>
+"><i class="bi bi-eye<?php if ($_smarty_tpl->getValue('review')->getSpoiler() == 1) {?>-slash<?php }?> fs-2"></i></label>
+                    </form>
+                    <form method="post" class="d-block col-auto">
+                        <input type="radio" class="btn-check" name="deleteComment"
+                               value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
 "
-                           id="filter-delete-<?php echo $_smarty_tpl->getValue('review')->getId();?>
+                               id="filter-delete-<?php echo $_smarty_tpl->getValue('review')->getId();?>
 "
-                           onchange="if(confirm('Voulez-vous vraiment supprimer ce commentaire ?')) { this.form.submit(); } else { this.checked = false; }">
-                    <label class="form-label m-0" for="filter-delete-<?php echo $_smarty_tpl->getValue('review')->getId();?>
-">Supprimer</label>
-                </form>
+                               onchange="if(confirm('Voulez-vous vraiment supprimer ce commentaire ?')) { this.form.submit(); } else { this.checked = false; }">
+                        <label class="form-label m-0" for="filter-delete-<?php echo $_smarty_tpl->getValue('review')->getId();?>
+"><i class="bi bi-trash3 fs-3"></i></label>
+                    </form>
+                <?php } elseif ((true && (true && null !== ($_SESSION['user'] ?? null))) && $_SESSION['user']['user_id'] == $_GET['id']) {?>
+                    <form method="post" class="d-block ms-auto col-auto"
+                            onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?')">
+                        <button type="submit" name="deleteComment" value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
+"
+                                class="border-0 bg-transparent p-0">
+                            <i class="bi bi-trash3 fs-3"></i>
+                        </button>
+                    </form>
                     <div class="d-block text-end col-auto">
                         <button type="button" class="spanMovie border-0 edit-comment bg-transparent" onclick="enableEdit('<?php echo $_smarty_tpl->getValue('review')->getId();?>
 ')">
-                            Modifier
+                            <i class="bi bi-pencil-square fs-3"></i>
                         </button>
                     </div>
                 <?php } else { ?>
-                    <form method="post" class="d-block ms-auto col-auto">
-                        <input type="radio" class="btn-check" name="searchBy" value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
-" id="filter-report-<?php echo $_smarty_tpl->getValue('review')->getId();?>
-" onchange="this.form.submit()">
-                        <label class="form-label m-0" for="filter-report-<?php echo $_smarty_tpl->getValue('review')->getId();?>
-">Signaler</label>
-                    </form>
+                <form method="post" class="d-block ms-auto col-auto">
+                    <button type="submit" name="searchBy" value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
+"
+                            class="border-0 bg-transparent p-0">
+                        <i class="bi bi-flag fs-3"></i>
+                    </button>
+                </form>
                 <?php }?>
             </div>
         </div>
