@@ -44,9 +44,11 @@
 			$strDate	= $objDateFormatter->format($objDate);
 			return $strDate;
 		}
+		public function getDeathDate(){
+			return $this->_deathdate;
+		}
 
-
-		public function getDeathDate(string $strFormat = "fr_FR"){
+		public function getDeathDateFormat(string $strFormat = "fr_FR"){
       		if (empty($this->_deathdate)) {
                 return "En vie";
             }
@@ -107,7 +109,6 @@
 			$this->_bio = $strBio;
 		}
 
-
 		public function getPhoto():string{
 			return $this->_photo;
 		}
@@ -115,7 +116,6 @@
 		public function setPhoto(string $strPhoto){
 			$this->_photo = $strPhoto;
 		}
-
 		public function getNameJob():string{
 			return $this->_NameJob;
 		}

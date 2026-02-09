@@ -80,6 +80,13 @@
             }
 		}
 
+
+        /**
+        * @author Audrey Sonntag
+         * 06/02/2026
+         * Version 0.1
+        */
+        
         public function settingsPerson() {
             if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
@@ -87,11 +94,20 @@
 			}
             $objPersonModel = new PersonModel();
             $arrPerson      = $objPersonModel->findPerson($_GET['id']);
-             
-             //Preparing hydrate
-            $objPerson = new PersonEntity();
-			$objPerson->hydrate($arrPerson);
-            var_dump($objPerson);
+            $arrJobs        = $objPersonModel->findAllJobs();
+
+            $arrJobToDisplay    = array();
+            var_dump($arrPerson);
+
+            foreach($arrJobs as $arrDetJob){
+                $objPerson = new PersonEntity;
+                $objPerson ->hydrate($arrDetJob); 
+                $arrJobToDisplay[]  = $objPerson;
+            }
+
+            //Preparing hydrate
+            $objPerson = new PersonEntity;
+			$objPerson->hydrate($arrPerson);           
             $arrError =[];
 
             //Testing Form
@@ -114,11 +130,19 @@
                 }
                 if ($objPerson->getPhoto() == ""){
                     $arrError['photo'] = "La photo est obligatoire";
-                }
-              
-            }  
-            
-            $this->_arrData['objPerson'] = $objPerson;
+                }              
+            } 
+
+            //If the form is correct, we update the user's info
+				/*if (count($arrError) == 0){
+					// update of the person info
+					$boolUpdate 	= $objPersonModel->updatePerson($objPerson);
+                }*/
+				
+            $this->_arrData['objPerson']        = $objPerson;
+            $this->_arrData['arrJobs']          = $arrJobs;
+            $this->_arrData['arrJobToDisplay']  = $arrJobToDisplay;
+            $this->_arrData['arrError']         = $arrError;    
             $this->_display("settingsPerson");
         
         }

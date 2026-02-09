@@ -25,10 +25,23 @@
                     INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
                     WHERE pers_id = $idPerson";
 
+        return $this->_db->query($strRq)->fetch();
+        }
+
+    public function findPersonWithJob(int $idPerson=0){
+
+        $strRq	= " SELECT persons.*, nat_country AS 'pers_country', job_name AS 'pers_NameJob'
+                    FROM persons
+                    INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
+                    LEFT JOIN participates ON persons.pers_id = participates.part_pers_id
+                    LEFT JOIN jobs ON participates.part_job_id = jobs.job_id
+                    WHERE pers_id = $idPerson";
+
 
 
         return $this->_db->query($strRq)->fetch();
-        }
+    }
+
     public function listPerson(){
 
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
@@ -91,20 +104,71 @@
         return $this->_db->query($strRq)->fetchAll();
     }
 
+    public function findAllJobs():array{
+        $strRq	= " SELECT job_id AS 'pers_id',  job_name AS 'pers_NameJob'
+                    FROM jobs";
+
+        return $this->_db->query($strRq)->fetchAll();
+    }
+
     /**
-         * Delete Person
-         * @author Audrey
-         * @param $intId = $_GET['id'];
-         * return boolean
-         */
-		public function deletePerson(int $intId){
-			$strRq = "DELETE FROM persons
-					  WHERE pers_id = :id";
+     * Insert Person
+     * @author Audrey
+     * @param object $objPerson l'objet Person
+     * return boolean
+     */
 
-			$rqPrep = $this->_db->prepare($strRq);
-			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+    public function insertPerson(object $objPerson){
+        $strRq = "INSERT INTO persons (pers_name, pers_firstname, pers_birthdate, pers_deathdate, pers_nat_id) 
+                   VALUES (:name, :firstname, :birthdate, :deathdate, :nat_id)";
 
-			return $rqPrep->execute();
-        }
+        $rqPrep = $this->_db->prepare($strRq);
+        $rqPrep->bindValue(':id', $objPerson->getId(), PDO::PARAM_INT);
+        $rqPrep->bindValue(':name', $objPerson->getName(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':firstname', $objPerson->getFirstname(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':birthdate', $objPerson->getBirthdate(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':deathdate', $objPerson->getDeathdate(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':nat_id', $objPerson->getNationalityId(), PDO::PARAM_INT);
+
+        return $rqPrep->execute();
+    }
+
+     /**
+     * Update Person
+     * @author Audrey
+     * @param object $objPerson l'objet Person
+     * return boolean
+     */
+    public function updatePerson(object $objPerson){
+        $strRq = "UPDATE persons
+                   SET pers_name = :name, pers_firstname = :firstname, pers_birthdate = :birthdate, pers_deathdate = :deathdate, pers_nat_id = :nat_id 
+                   WHERE pers_id = :id";
+
+        $rqPrep = $this->_db->prepare($strRq);
+        $rqPrep->bindValue(':id', $objPerson->getId(), PDO::PARAM_INT);
+        $rqPrep->bindValue(':name', $objPerson->getName(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':firstname', $objPerson->getFirstname(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':birthdate', $objPerson->getBirthdate(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':deathdate', $objPerson->getDeathdate(), PDO::PARAM_STR);
+
+        return $rqPrep->execute();
+    }
+
+    /**
+     * Delete Person
+     * @author Audrey
+     * @param $intId = $_GET['id'];
+     * return boolean
+     */
+    public function deletePerson(int $intId){
+        $strRq = "DELETE FROM persons
+                    WHERE pers_id = :id";
+
+        $rqPrep = $this->_db->prepare($strRq);
+        $rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+
+        return $rqPrep->execute();
+    }
+   
 
 }
