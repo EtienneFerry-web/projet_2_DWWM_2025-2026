@@ -19,7 +19,9 @@
             </span>
 
             <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center">
-                <i class="bi bi-heart-fill"></i><span>{$objMovie->getLike()}</span>
+                <a href="index.php?ctrl=movie&action=likeMovie&id={$objMovie->getId()}?>">
+                    <i class="bi bi-heart-fill"></i><span>{$objMovie->getLike()}</span>
+                </a>
             </span>
         </div>
 

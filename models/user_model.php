@@ -176,4 +176,25 @@
 			// Executer la requête
 			return $rqPrep->execute();
 		}
+
+		public function LikeComment($intUserId, $intCommentId){
+			$strRq = "INSERT INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
+						VALUES (:user_id, :item_id, 'comment', NOW())";
+			
+			$rqPrep	= $this->_db->prepare($strRq);
+
+				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
+				$rqPrep->bindValue(":item_id", $intCommentId, PDO::PARAM_INT);
+		}
+
+		public function LikeMovie($intUserId, $intMovieId){
+			$strRq = "INSERT INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
+						VALUES (:user_id, :item_id, 'movies', NOW())";
+			
+			$rqPrep	= $this->_db->prepare($strRq);
+
+				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
+				$rqPrep->bindValue(":item_id", $intMovieId, PDO::PARAM_INT);
+		}
+		
     }

@@ -5,6 +5,7 @@
     require'models/movie_model.php';
     require'models/comment_model.php';
     require'models/person_model.php';
+	require'models/user_model.php';
 
     /**
      * @author Marco Schmitt
@@ -206,7 +207,8 @@
 			}
 
             $objMovieModel 	= new MovieModel;
-			$arrMovie 		= $objMovieModel->findMovie($_GET['id']);
+			$movieId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+			$arrMovie 		= $objMovieModel->findMovie($movieId);
 
 			if(!$arrMovie['mov_id']){
 				header("Location:index.php?Ctrl=error&action=err404");
@@ -273,6 +275,22 @@
                 exit;
             }
 
+		}
+
+		public function likeMovie(){
+			if(!isset($_SESSION['user'])){
+				header("Location:index.php?ctrl=user&action=login");
+				exit;
+			}
+
+			$intUserId = $_SESSION['user']['user_id'];
+			$intItemId = (int)$_GET['id'];
+
+			$objUserModel = new UserModel; 
+    		$objUserModel->LikeMovie($intUserId, $intMovieId);
+
+			header("Location:index.php?ctrl=movie&action=movie&id=" . $intMovieId);
+			exit;
 		}
 
 
