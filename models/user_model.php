@@ -98,12 +98,12 @@
 			}
 		}
 
-        public function userPage(int $idUser=0){
+        public function findUser(int $idUser=0){
 
             $strRq	= " SELECT users.*, functions.funct_name AS 'user_function'
                         FROM users
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
-                        WHERE user_id = $idUser";
+                        WHERE user_id = $idUser AND user_delete_at IS NULL";
 
 
 
@@ -148,4 +148,32 @@
 
 			return $count = $rqPrep->rowCount();
         }
+
+		public function settingsUser(object $objUser):bool{
+
+			$strRq = "UPDATE users
+						SET user_name 			= :name,
+							user_firstname		= :firstname,
+							user_pseudo 		= :pseudo,
+							user_birthdate		= :birthdate,
+							user_photo			= :photo,
+							user_email			= :email,
+							user_bio			= :bio,
+							user_update_at		= NOW()
+						WHERE user_id			= :id";
+
+			$rqPrep	= $this->_db->prepare($strRq);
+				// Donne les informations
+				$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":photo", $objUser->getPhoto(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}
     }

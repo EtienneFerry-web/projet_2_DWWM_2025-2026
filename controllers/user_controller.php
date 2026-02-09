@@ -177,13 +177,100 @@
             $this->_display("createAccount");
         }
 
-        public function settingsUser(){
-            if(!isset($_SESSION['user'])){
-                header("Location:index.php?ctrl=error&action=err403");
-                exit;
+        /**
+         * VerifInfos
+         * @author Etienne
+         * @param $objUser
+         * return array
+         */
+
+        private function verifInfos(object $objUser):array {
+            $arrError =[];
+
+            if($objUser->getName()==""){
+                $arrError["name"] = "Le nom est obligatoire.";
+            }
+            if($objUser->getFirstname()==""){
+                $arrError["firstname"] = "Le prénom est obligatoire.";
+            }
+            if($objUser->getPseudo()==""){
+                $arrError["pseudo"] = "Le pseudo est obligatoire.";
+            }
+            if($objUser->getEmail()==""){
+                $arrError["email"] = "Le pseudo est obligatoire.";
+            }elseif (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                $arrError['email'] = "Le format de l'email n'est pas valide.";
             }
 
+            return $arrError;
+        }
+
+        public function settingsUser() {
+
+            if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+            header("Location:index.php?ctrl=error&action=error_403");
+            exit;
+            }
+
+            $objUserModel	= new UserModel;
+            $arrUser		= $objUserModel->findUser($_GET['id']??$_SESSION['user']['user_id']);
+            
+            $objUser	= new UserEntity;
+            $objUser->hydrate($arrUser);
+
+            $arrError = [];
+            var_dump($objUser);
+            var_dump($_FILES);
+            
+            if (count($_POST) > 0) {
+                $objUser->hydrate($_POST);
+                $arrError	= $this->verifInfos($objUser);
+
+                if($_FILES['photo']['error'] != 4) {
+
+                $arrTypeFile = array('image/jpeg', 'image/png');
+
+                if(!in_array($_FILES['photo']['type'], $arrTypeFile)){
+                    $arrError['photo'] = "Le type de fichier n'est pas autorisé (veuillez utiliser un fichier JPEG ou PNG).";
+                }
+
+                if(!isset($arrError['photo'])){
+                    $strImageName = uniqid();
+
+                    switch($_FILES['photo']['type']){
+                        case 'image/jpeg' : $strImageName .= '.jpg'; break;
+                        case 'image/png' : $strImageName .= '.png'; break;
+                    }
+
+                    $strDest = 'assets/img/users/' . $strImageName;
+
+                    if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
+                        $objUser->setPhoto($strImageName);
+                    } else {
+                        $arrError['photo'] = "Erreur lors du téléchargement";
+                    }
+                }
+            }
+
+            if(count($arrError) == 0){
+                $boolUpdate = $objUserModel->settingsUser($objUser);
+
+                if($boolUpdate){
+                    $_SESSION['user']['user_pseudo'] = $objUser->getPseudo();
+
+                    $_SESSION['success'] = "Le profil à bien été mis à jour";
+                    header("Location:index.php?ctrl=user&action=settingsUser");
+                    exit;
+                }else{
+                    $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
+                }
+            }
+        }
+
+            $this->_arrData['arrError'] = $arrError;
+            $this->_arrData['objUser']  = $objUser;
             $this->_display("settingsUser");
+            
         }
 
         public function user(){
@@ -192,7 +279,7 @@
 
 
             $objUserModel = new UserModel;
-			$arrUser		= $objUserModel->userPage($intId);
+			$arrUser		= $objUserModel->findUser($intId);
 
             if(!$arrUser){
 				header("Location:index.php?Ctrl=error&action=err404");

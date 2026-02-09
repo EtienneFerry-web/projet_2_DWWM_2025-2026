@@ -12,7 +12,7 @@
 <section id="user" class="container py-2">
     <div class="col-12 row text-center align-items-center text-md-start py-2 mx-auto">
         <div class="col-6 col-md-3 col-lg-2 mx-auto ">
-            <img src="{$objUser->getPhoto()}" alt="image de profil" class="img-fluid">
+            <img src="assets/img/users/{$objUser->getPhoto()}" alt="image de profil" class="img-fluid">
         </div>
         <div class="col-12 col-md-9 col-lg-10 ">
             <div>

@@ -8,39 +8,56 @@
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
-     <form method="post" class="row">
-        <div class="col-12 col-sm-6 p-2">
-             <label for="" class="form-label">Prenom</label>
-             <input type="text" name="" value="" class="form-control">
-         </div>
-        <div class="col-12 col-sm-6 p-2">
-             <label for="" class="form-label">Nom</label>
-             <input type="text" name="" value="" class="form-control">
-         </div>
-         <div class="col-12 col-sm-6 p-2">
+     <form method="post" enctype="multipart/form-data" class="row">
+        <div class="form-group py-2">
+            <label  class="form-label">Changez le prenom :</label>
+            <input  type="text"
+                    name="firstname"
+                    class="form-control {if (isset($arrError['firstname']))} is-invalid {/if}"  
+                    value="{$objUser->getFirstname()}"
+                    placeholder="Prenom">
+        </div>
+        <div class="form-group py-2">
+            <label  class="form-label">Changez le nom :</label>
+            <input  type="text"
+                    name="name"
+                    class="form-control {if (isset($arrError['name']))} is-invalid {/if}"  
+                    value="{$objUser->getName()}"
+                    placeholder="Nom">
+        </div>
+          <div class="form-group py-2">
              <label for="" class="form-label">Changez de pseudo</label>
-             <input type="text" name="" value="" class="form-control">
+             <input type="text" 
+                    name="pseudo"  
+                    value="{$objUser->getPseudo()}" 
+                    class="form-control {if (isset($arrError['pseudo']))} is-invalid {/if}">
          </div>
-         <div class="col-12 col-sm-6 p-2">
+          <div class="form-group py-2">
              <label for="" class="form-label">Changez de Bio</label>
-             <textarea name="" id="" placeholder="Bio Utilisateur" class="form-control"></textarea>
+             <textarea  name="bio" 
+                        placeholder="Bio Utilisateur"
+                        class="form-control {if (isset($arrError['bio']))} is-invalid {/if}">{$objUser->getBio()}</textarea>
          </div>
          <div class="col-12 p-2">
              <label class="form-label">Photo de profil</label>
-
-             <input type="file" class="form-control" accept="image/*">
+            <div class="mb-2">
+                <img src="assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
+            </div>
+             <input     name="photo"
+                        type="file" 
+                        class="form-control {if (isset($arrError['photo'])) } is-invalid {/if}" 
+                        >
          </div>
 
 
      <h2 class="py-2">Sécurité</h2>
-
-         <div class="col-12 col-sm-6 p-2">
-             <label for="" class="form-label">Mots de Passe</label>
-             <input type="text" name="" value="" class="form-control">
-         </div>
-         <div class="col-12 col-sm-6 p-2">
+        <div class="form-group py-2">
              <label for="" class="form-label">Adresse Email</label>
              <input name="" id="" placeholder="Email" class="form-control">
+         </div>
+         <div class="form-group py-2">
+             <label for="" class="form-label">Mots de Passe</label>
+             <input type="text" name="" value="" class="form-control">
          </div>
          <button type="submit" class="btnCustom py-3">Enregistrer</button>
      </form>
@@ -51,13 +68,13 @@
              </a>
          </div>
 
-    <div class="col-auto">
-    <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
-        onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
+         <div class="col-auto">
+             <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
+      onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
         <button type="submit" class="border-0 bg-transparent">
             Supprimer mon compte
         </button>
-    </form>
+</form>
          </div>
      </div>
 </div>
