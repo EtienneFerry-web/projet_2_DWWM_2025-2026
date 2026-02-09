@@ -288,7 +288,14 @@
 			var_dump($objPerson);
             $this->_display("addMovie");
         }
-
+		public function deleteMovie() {
+			
+           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
+			
+		}
 		public function deleteMovie() {
 			
            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo

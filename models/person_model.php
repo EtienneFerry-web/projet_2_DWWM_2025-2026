@@ -1,4 +1,3 @@
-
 <?php
     require_once'models/mother_model.php';
 
@@ -26,21 +25,7 @@
                     WHERE pers_id = $idPerson";
 
         return $this->_db->query($strRq)->fetch();
-        }
-
-    public function findPersonWithJob(int $idPerson=0){
-
-        $strRq	= " SELECT persons.*, nat_country AS 'pers_country', job_name AS 'pers_NameJob'
-                    FROM persons
-                    INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
-                    LEFT JOIN participates ON persons.pers_id = participates.part_pers_id
-                    LEFT JOIN jobs ON participates.part_job_id = jobs.job_id
-                    WHERE pers_id = $idPerson";
-
-
-
-        return $this->_db->query($strRq)->fetch();
-    }
+    }    
 
     public function listPerson(){
 
@@ -48,7 +33,7 @@
                     FROM persons";
 
         return $this->_db->query($strRq)->fetchAll();
-        }
+    }
 
     
     //Search of Actor
@@ -78,7 +63,7 @@
                         GROUP BY pers_id;";
 
             return $this->_db->query($strRq)->fetchAll();
-        }
+    }
     //Search of Producer
     public function findProducer(){
             $strRq	= " SELECT pers_id, pers_name, pers_firstname
@@ -111,6 +96,14 @@
         return $this->_db->query($strRq)->fetchAll();
     }
 
+   public function allCountry(){
+
+        $strRq	= " SELECT nat_id AS 'pers_id', nat_country AS 'pers_country'
+                    FROM nationalities";
+
+        return $this->_db->query($strRq)->fetchAll();
+	}
+
     /**
      * Insert Person
      * @author Audrey
@@ -141,7 +134,7 @@
      */
     public function updatePerson(object $objPerson){
         $strRq = "UPDATE persons
-                   SET pers_name = :name, pers_firstname = :firstname, pers_birthdate = :birthdate, pers_deathdate = :deathdate, pers_nat_id = :nat_id 
+                   SET pers_name = :name, pers_firstname = :firstname, pers_birthdate = :birthdate, pers_deathdate = :deathdate, pers_nat_id = :nat_id, pers_photo = :photo
                    WHERE pers_id = :id";
 
         $rqPrep = $this->_db->prepare($strRq);
@@ -150,6 +143,8 @@
         $rqPrep->bindValue(':firstname', $objPerson->getFirstname(), PDO::PARAM_STR);
         $rqPrep->bindValue(':birthdate', $objPerson->getBirthdate(), PDO::PARAM_STR);
         $rqPrep->bindValue(':deathdate', $objPerson->getDeathdate(), PDO::PARAM_STR);
+        $rqPrep->bindValue(':nat_id', $objPerson->getCountry(), PDO::PARAM_INT);
+        $rqPrep->bindValue(':photo', $objPerson->getPhoto(), PDO::PARAM_STR);
 
         return $rqPrep->execute();
     }

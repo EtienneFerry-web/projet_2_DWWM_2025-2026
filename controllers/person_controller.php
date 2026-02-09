@@ -93,23 +93,10 @@
 				exit;
 			}
             $objPersonModel = new PersonModel();
-            $arrPerson      = $objPersonModel->findPerson($_GET['id']);
-            $arrJobs        = $objPersonModel->findAllJobs();
-
-            $arrJobToDisplay    = array();
-            var_dump($arrPerson);
-
-            foreach($arrJobs as $arrDetJob){
-                $objPerson = new PersonEntity;
-                $objPerson ->hydrate($arrDetJob); 
-                $arrJobToDisplay[]  = $objPerson;
-            }
-
-            //Preparing hydrate
-            $objPerson = new PersonEntity;
-			$objPerson->hydrate($arrPerson);           
-            $arrError =[];
-
+            var_dump($_POST);
+            $objPerson = new PersonEntity();            
+                $objPerson->hydrate($_POST);
+      
             //Testing Form
             $arrError = [];
             if (count($_POST) > 0) {
@@ -128,20 +115,57 @@
                 if ($objPerson->getBio() == ""){
                     $arrError['bio'] = "La biographie est obligatoire";
                 }
-                if ($objPerson->getPhoto() == ""){
-                    $arrError['photo'] = "La photo est obligatoire";
-                }              
-            } 
+                
+                if (count($arrError) == 0){
+                    $objPerson->setId($_GET['id']);
 
-            //If the form is correct, we update the user's info
-				/*if (count($arrError) == 0){
+                    $strImageName	= uniqid();
+					switch ($_FILES['photo']['type']){
+						case 'image/jpeg' :
+							$strImageName .= '.jpg';
+							break;
+						case 'image/png' :
+							$strImageName .= '.png';
+							break;
+					}
+                     $strDest = 'assets/img/person/' . $strImageName;
+
+                    if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
+                        $objPerson->setPhoto($strImageName);
+                    } else {
+                        $arrError['photo'] = "Erreur lors du téléchargement";
+                    }
+
 					// update of the person info
 					$boolUpdate 	= $objPersonModel->updatePerson($objPerson);
-                }*/
+                }
+
+            }
+
+            $arrPerson      = $objPersonModel->findPerson($_GET['id']);
+            $arrCountry     = $objPersonModel->allCountry();
+                 
+
+            $arrCountryToDisplay    = array();
+
+            foreach($arrCountry as $arrDetCountry){
+                $objPerson = new PersonEntity('pers_');
+                $objPerson->hydrate($arrDetCountry);
+
+                $arrCountryToDisplay[]  = $objPerson;
+            }
+          
+            //Preparing hydrate
+           
+			$objPerson->hydrate($arrPerson);           
+            var_dump($objPerson);
+
+
+            //If the form is correct, we update the user's info
+				
 				
             $this->_arrData['objPerson']        = $objPerson;
-            $this->_arrData['arrJobs']          = $arrJobs;
-            $this->_arrData['arrJobToDisplay']  = $arrJobToDisplay;
+            $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;
             $this->_arrData['arrError']         = $arrError;    
             $this->_display("settingsPerson");
         
