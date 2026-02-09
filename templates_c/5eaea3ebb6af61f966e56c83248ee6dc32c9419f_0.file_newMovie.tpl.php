@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 10:45:31
-  from 'file:views/_partial/movieOfPerson.tpl' */
+/* Smarty version 5.7.0, created on 2026-02-09 12:02:55
+  from 'file:views/_partial/newMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6989bacb69ad44_31885607',
+  'unifunc' => 'content_6989ccefe32687_54584958',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    'f5dd41456d5b8bcfc7025816746249933a048ffa' => 
+    '5eaea3ebb6af61f966e56c83248ee6dc32c9419f' => 
     array (
-      0 => 'views/_partial/movieOfPerson.tpl',
-      1 => 1770633470,
+      0 => 'views/_partial/newMovie.tpl',
+      1 => 1769785504,
       2 => 'file',
     ),
   ),
@@ -20,15 +20,15 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6989bacb69ad44_31885607 (\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
-?><div class="col-6 col-md-3 p-1 hoverMovie">
+function content_6989ccefe32687_54584958 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
+?><li class="splide__slide hoverMovie">
     <a href="index.php?ctrl=movie&action=movie&id=<?php echo $_smarty_tpl->getValue('objMovie')->getId();?>
 ">
         <img src="<?php echo $_smarty_tpl->getValue('objMovie')->getUrl();?>
-" loading="eager" alt="Couverture de film" class="img-fluid"/>
+" loading="eager" alt="Couverture de film"/>
 
-        <span class="movieNote moviePerson spanMovie" data-note="<?php echo $_smarty_tpl->getValue('objMovie')->getRating();?>
+        <span class="movieNote spanMovie" data-note="<?php echo $_smarty_tpl->getValue('objMovie')->getRating();?>
 ">
             <span class="stars"></span>
         </span>
@@ -38,6 +38,6 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 
         </span>
     </a>
-</div>
+</li>
 <?php }
 }
