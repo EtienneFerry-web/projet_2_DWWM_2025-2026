@@ -263,11 +263,46 @@
     				$arrCommentToDisplay[]	= $objComment;
     			}
 
+                $arrError = [];
+
+                if (isset($_POST['userReport']) && $_POST['userReport'] == 1) {
+                    $repResult = $objUserModel->reportUser($objUser, $_SESSION['user']['user_id']);
+
+                    if ($repResult === 1) {
+                        $_SESSION['success'] = "Le signalement a bien été envoyé !";
+                    } else {
+                        
+                        $arrError[] = "Vous avez déjà signalé cet utilisateur !";
+                    }
+
+                    
+                    // header('Location: ' . $_SERVER['REQUEST_URI']);
+                    // exit;
+                }
+
+                if (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
+                    
+                    $objComment = new CommentEntity;
+    				$objComment->hydrate($_POST);
+
+                    $repResult = $objCommentModel->reportComment($objComment, $_SESSION['user']['user_id']);
+
+                    if ($repResult === 1) {
+                        $_SESSION['success'] = "Le signalement a bien été envoyé !";
+                    } else {
+                        
+                        $arrError[] = "Vous avez déjà signalé cet utilisateur !";
+                    }
+
+                    
+                    // header('Location: ' . $_SERVER['REQUEST_URI']);
+                    // exit;
+                }
+                
+                $this->_arrData['arrError'] = $arrError;
                 $this->_arrData['objUser'] = $objUser;
                 $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
                 $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
-
-
 
                 $this->_display("user");
 			}
@@ -280,15 +315,18 @@
                 header("Location:index.php?ctrl=user&action=login");
                 exit;
             }
+
             if (isset($_GET['id']) && ((int)$_GET['id']) == ($_SESSION['user']['user_id'])){
                 $_SESSION['success'] = "Vous ne pouvez pas supprimer votre compte";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;
             }
+
             if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
+
             $objUserModel = new UserModel();
             $success = $objUserModel->deleteUser($_GET['id'] ?? $_SESSION['user']['user_id']);
 
@@ -303,5 +341,6 @@
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;
             }
+            
         }
 }

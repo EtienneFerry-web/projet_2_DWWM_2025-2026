@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-07 21:44:58
+/* Smarty version 5.7.0, created on 2026-02-09 09:42:08
   from 'file:views/_partial/reviewMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6987b25a40bf61_76202384',
+  'unifunc' => 'content_6989abf0cf2191_12417098',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9d6cdd84c4c70f84790c40800e8c190218f7c0e6' => 
     array (
       0 => 'views/_partial/reviewMovie.tpl',
-      1 => 1770500683,
+      1 => 1770630122,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6987b25a40bf61_76202384 (\Smarty\Template $_smarty_tpl) {
+function content_6989abf0cf2191_12417098 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?><div class="row py-3 border-bottom border-dark position-relative">
     <?php if ($_smarty_tpl->getValue('review')->getSpoiler() == 1) {?>
@@ -108,8 +108,11 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
                     </div>
                 <?php } else { ?>
                 <form method="post" class="d-block ms-auto col-auto">
-                    <button type="submit" name="searchBy" value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
-"
+                    <input type="hidden" name="comment" value="<?php echo $_smarty_tpl->getValue('review')->getComment();?>
+">
+                    <input type="hidden" name="id" value="<?php echo $_smarty_tpl->getValue('review')->getId();?>
+">
+                    <button type="submit" name="commentReport" value="1"
                             class="border-0 bg-transparent p-0">
                         <i class="bi bi-flag fs-3"></i>
                     </button>

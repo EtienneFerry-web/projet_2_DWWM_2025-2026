@@ -51,7 +51,6 @@ function update() {
     requestAnimationFrame(update);
 }
 
-
 box.style.color = colors[0];
 update();
 
@@ -60,9 +59,6 @@ box.addEventListener('click', () => {
   movY *= -2;
 
 });
-
-
-
 
 window.addEventListener('resize', () => {
     zoneWidth = zone.clientWidth;

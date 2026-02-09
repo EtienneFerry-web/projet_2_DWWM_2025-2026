@@ -8,6 +8,7 @@
 {/block}
 
 {block name="content"}
+
 <section id="user" class="container py-2">
     <div class="col-12 row text-center align-items-center text-md-start py-2 mx-auto">
         <div class="col-6 col-md-3 col-lg-2 mx-auto ">
@@ -44,7 +45,7 @@
                 {elseif isset($smarty.session.user) && $smarty.session.user.user_id != $smarty.get.id}
                 <div class="col-auto ms-auto">
                     <form method="post" class="d-block ms-auto col-auto">
-                        <button type="submit" name="searchBy" value=""
+                        <button type="submit" name="userReport" value="1"
                                 class="border-0 bg-transparent p-0">
                             <i class="bi bi-flag fs-3"></i>
                         </button>

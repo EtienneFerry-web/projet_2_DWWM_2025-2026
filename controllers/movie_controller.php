@@ -181,11 +181,28 @@
 						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
 				}
+			
 			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
 
 			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
 					$_SESSION['success'] = "Spoiler Update !";
 				}
+			}
+
+			if (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
+                    
+				$objComment = new CommentEntity;
+				$objComment->hydrate($_POST);
+
+				$repResult = $objCommentModel->reportComment($objComment, $_SESSION['user']['user_id']);
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Le signalement a bien été envoyé !";
+				} else {
+					
+					$arrError[] = "Vous avez déjà signalé cet utilisateur !";
+				}
+
 			}
 
             $objMovieModel 	= new MovieModel;

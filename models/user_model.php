@@ -117,6 +117,7 @@
          * @param $intId = $_GET['id'];
          * return boolean
          */
+
         public function deleteUser(int $intId){
 			$strRq = "UPDATE users SET user_delete_at = NOW() 
 					  WHERE user_id = :id";
@@ -125,5 +126,26 @@
 			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
         
 			return $rqPrep->execute();
+        }
+
+
+		public function reportUser(object $objUser, int $reporter):int{
+
+			$strRq = "  INSERT IGNORE INTO reported_users (rep_user_bio, rep_user_pseudo, rep_user_img, rep_user_user_id, rep_reporter_id ,rep_user_date)
+						VALUES (:bio, :pseudo, :img, :reported, :reporter,NOW())";
+        
+			$rqPrep = $this->_db->prepare($strRq);
+
+			$rqPrep->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
+			$rqPrep->bindValue(':bio', $objUser->getBio(), PDO::PARAM_STR);
+			$rqPrep->bindValue(':pseudo', $objUser->getPseudo(), PDO::PARAM_STR);
+			$rqPrep->bindValue(':img', $objUser->getPhoto(), PDO::PARAM_STR);
+			$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
+			
+
+        
+			$rqPrep->execute();
+
+			return $count = $rqPrep->rowCount();
         }
     }

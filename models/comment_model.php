@@ -178,4 +178,19 @@
 
             return $rq->execute();
         }
+
+        public function reportComment(object $objComment, $reporterId):int{
+            $strRq = "  INSERT IGNORE INTO reported_comments (rep_com_content, rep_com_reported_id, rep_com_reporter_id, rep_com_date)
+                        VALUES (:content, :comId, :reporterId, NOW())";
+
+            $rq = $this->_db->prepare($strRq);
+
+            $rq->bindValue(':comId', $objComment->getId(), PDO::PARAM_INT);
+            $rq->bindValue(':content', $objComment->getComment(), PDO::PARAM_STR);
+            $rq->bindValue(':reporterId', $reporterId, PDO::PARAM_INT);
+
+            $rq->execute();
+
+			return $count = $rq->rowCount();
+        }
     }

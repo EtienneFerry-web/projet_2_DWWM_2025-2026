@@ -63,7 +63,9 @@
                     </div>
                 {else}
                 <form method="post" class="d-block ms-auto col-auto">
-                    <button type="submit" name="searchBy" value="{$review->getId()}"
+                    <input type="hidden" name="comment" value="{$review->getComment()}">
+                    <input type="hidden" name="id" value="{$review->getId()}">
+                    <button type="submit" name="commentReport" value="1"
                             class="border-0 bg-transparent p-0">
                         <i class="bi bi-flag fs-3"></i>
                     </button>
