@@ -67,7 +67,8 @@
                     <input type="hidden" name="id" value="{$review->getId()}">
                     <button type="submit" name="commentReport" value="1"
                             class="border-0 bg-transparent p-0">
-                        <i class="bi bi-flag fs-3"></i>
+
+                        {if $review->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
                     </button>
                 </form>
                 {/if}

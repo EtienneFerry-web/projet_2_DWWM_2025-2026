@@ -98,9 +98,14 @@
 			}
 		}
 
-        public function findUser(int $idUser=0){
+        public function findUser(int $idUser=0, $idConnectUser=0){
 
-            $strRq	= " SELECT users.*, functions.funct_name AS 'user_function'
+            $strRq	= " SELECT users.*, functions.funct_name AS 'user_function',
+						EXISTS(
+                            SELECT 1 FROM reported_users 
+                            WHERE rep_user_user_id = user_id
+                            AND rep_reporter_id = $idConnectUser
+                            ) AS 'user_reported'
                         FROM users
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
                         WHERE user_id = $idUser AND user_delete_at IS NULL";
@@ -146,7 +151,21 @@
         
 			$rqPrep->execute();
 
-			return $count = $rqPrep->rowCount();
+			if ($rqPrep->rowCount() > 0) {
+                return 1; 
+            } else {
+                
+                $deleteRq = "   DELETE FROM reported_users
+                                WHERE rep_user_user_id = :reported
+                                AND rep_reporter_id = :reporter"; 
+
+                $prepDelete = $this->_db->prepare($deleteRq);
+                $prepDelete->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
+                $prepDelete->bindValue(':reporter', $reporter, PDO::PARAM_INT);
+                $prepDelete->execute();
+
+                return 2; 
+            }
         }
 
 		public function settingsUser(object $objUser):bool{

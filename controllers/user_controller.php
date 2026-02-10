@@ -228,44 +228,44 @@
 
                 if($_FILES['photo']['error'] != 4) {
 
-                $arrTypeFile = array('image/jpeg', 'image/png');
+                    $arrTypeFile = array('image/jpeg', 'image/png');
 
-                if(!in_array($_FILES['photo']['type'], $arrTypeFile)){
-                    $arrError['photo'] = "Le type de fichier n'est pas autorisé (veuillez utiliser un fichier JPEG ou PNG).";
-                }
-
-                if(!isset($arrError['photo'])){
-                    $strImageName = uniqid();
-
-                    switch($_FILES['photo']['type']){
-                        case 'image/jpeg' : $strImageName .= '.jpg'; break;
-                        case 'image/png' : $strImageName .= '.png'; break;
+                    if(!in_array($_FILES['photo']['type'], $arrTypeFile)){
+                        $arrError['photo'] = "Le type de fichier n'est pas autorisé (veuillez utiliser un fichier JPEG ou PNG).";
                     }
 
-                    $strDest = 'assets/img/users/' . $strImageName;
+                    if(!isset($arrError['photo'])){
+                        $strImageName = uniqid();
 
-                    if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
-                        $objUser->setPhoto($strImageName);
-                    } else {
-                        $arrError['photo'] = "Erreur lors du téléchargement";
+                        switch($_FILES['photo']['type']){
+                            case 'image/jpeg' : $strImageName .= '.jpg'; break;
+                            case 'image/png' : $strImageName .= '.png'; break;
+                        }
+
+                        $strDest = 'assets/img/users/' . $strImageName;
+
+                        if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
+                            $objUser->setPhoto($strImageName);
+                        } else {
+                            $arrError['photo'] = "Erreur lors du téléchargement";
+                        }
+                    }
+                }
+
+                if(count($arrError) == 0){
+                    $boolUpdate = $objUserModel->settingsUser($objUser);
+
+                    if($boolUpdate){
+                        $_SESSION['user']['user_pseudo'] = $objUser->getPseudo();
+
+                        $_SESSION['success'] = "Le profil à bien été mis à jour";
+                        header("Location:index.php?ctrl=user&action=settingsUser");
+                        exit;
+                    }else{
+                        $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
                     }
                 }
             }
-
-            if(count($arrError) == 0){
-                $boolUpdate = $objUserModel->settingsUser($objUser);
-
-                if($boolUpdate){
-                    $_SESSION['user']['user_pseudo'] = $objUser->getPseudo();
-
-                    $_SESSION['success'] = "Le profil à bien été mis à jour";
-                    header("Location:index.php?ctrl=user&action=settingsUser");
-                    exit;
-                }else{
-                    $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
-                }
-            }
-        }
 
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser']  = $objUser;
@@ -273,126 +273,116 @@
             
         }
 
-        public function user(){
-
+        public function user() {
+            
             $intId = $_GET['id'];
-
-
             $objUserModel = new UserModel;
-			$arrUser		= $objUserModel->findUser($intId);
+            $arrUser = $objUserModel->findUser($intId, $_SESSION['user']['user_id']??0);
 
-            if(!$arrUser){
-				header("Location:index.php?Ctrl=error&action=err404");
-				exit;
-			} else{
-			    $objCommentModel = new CommentModel;
-				$objComment = new CommentEntity;
+            if (!$arrUser) {
+                header("Location:index.php?Ctrl=error&action=err404");
+                exit;
+            }
 
-			    if( isset($_POST['deleteComment'])){
+            $objCommentModel = new CommentModel;
+            $objComment = new CommentEntity;
+            $arrError = [];
 
-					$objComment->setId((int)$_POST['deleteComment']);
-					$objComment->setUser_id($_GET['id']);
+            if (isset($_POST['deleteComment'])) {
+                $objComment->setId((int)$_POST['deleteComment']);
+                $objComment->setUser_id($_GET['id']);
 
-					if($_GET['id'] == $_SESSION['user']['user_id'] || $_SESSION['user']['user_funct_id'] != 1){
-					    $result = $objCommentModel->deleteComment($objComment);
-					}
-
-					if($result){
-					    $_SESSION['success'] ="Le commentaire à bien était supprimer !";
-					} else{
-					    $this->_arrData['arrError'] = "erreur lors de la suppression veulliez réssayer !";
-					}
-
-				} elseif(isset($_POST['comment']) && isset($_POST['rating'])) {
-
-                    $objComment->hydrate($_POST);
-
-				    $result = $objCommentModel->commentModify($objComment, $_SESSION['user']['user_id']);
-
-					if($result){
-					    $_SESSION['success'] ="Le commentaire à bien était modifier !";
-					} else{
-					    $this->_arrData['arrError'] = "erreur lors de la modification";
-					}
-				}
-
-				if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
-
-				    if($objCommentModel->addSpoiler($_POST['spoiler'])){
-						$_SESSION['success'] = "Spoiler Update !";
-					}
-				}
-
-    			$objUser       = new UserEntity('mov_');
-    			$objUser->hydrate($arrUser);
-
-    			$objLikeModel = new MovieModel;
-    			$arrLike      = $objLikeModel->userLike($intId);
-
-    			$arrMovieToDisplay	= array();
-
-    			foreach($arrLike as $arrDetMovie){
-    				$objMovie = new MovieEntity('mov_');
-    				$objMovie->hydrate($arrDetMovie);
-
-    				$arrMovieToDisplay[] = $objMovie;
-    			}
-
-
-    			$arrComment     = $objCommentModel->reviewUser($intId);
-
-    			$arrCommentToDisplay	= array();
-
-    			foreach($arrComment as $arrDetComment){
-    				$objComment = new CommentEntity('com_');
-    				$objComment->hydrate($arrDetComment);
-
-    				$arrCommentToDisplay[]	= $objComment;
-    			}
-
-                $arrError = [];
-
-                if (isset($_POST['userReport']) && $_POST['userReport'] == 1) {
-                    $repResult = $objUserModel->reportUser($objUser, $_SESSION['user']['user_id']);
-
-                    if ($repResult === 1) {
-                        $_SESSION['success'] = "Le signalement a bien été envoyé !";
-                    } else {
-                        
-                        $arrError[] = "Vous avez déjà signalé cet utilisateur !";
-                    }
-
-                    
-                    // header('Location: ' . $_SERVER['REQUEST_URI']);
-                    // exit;
+                if ($_GET['id'] == $_SESSION['user']['user_id'] || $_SESSION['user']['user_funct_id'] != 1) {
+                    $result = $objCommentModel->deleteComment($objComment);
                 }
 
-                if (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
-                    
-                    $objComment = new CommentEntity;
-    				$objComment->hydrate($_POST);
-
-                    $repResult = $objCommentModel->reportComment($objComment, $_SESSION['user']['user_id']);
-
-                    if ($repResult === 1) {
-                        $_SESSION['success'] = "Le signalement a bien été envoyé !";
-                    } else {
-                        
-                        $arrError[] = "Vous avez déjà signalé cet utilisateur !";
-                    }
-
-                    
-                    // header('Location: ' . $_SERVER['REQUEST_URI']);
-                    // exit;
+                if ($result) {
+                    $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+                } else {
+                    $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
-                
-                $this->_arrData['arrError'] = $arrError;
-                $this->_arrData['objUser'] = $objUser;
-                $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
-                $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
+            } 
 
-                $this->_display("user");
-			}
+            elseif (isset($_POST['comment']) && isset($_POST['rating'])) {
+                $objComment->hydrate($_POST);
+                $result = $objCommentModel->commentModify($objComment, $_SESSION['user']['user_id']);
+
+                if ($result) {
+                    $_SESSION['success'] = "Le commentaire à bien était modifier !";
+                } else {
+                    $arrError[] = "erreur lors de la modification";
+                }
+            } 
+
+            elseif (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
+                $objComment = new CommentEntity;
+                $objComment->hydrate($_POST);
+                $repResult = $objCommentModel->reportComment($objComment, $_SESSION['user']['user_id']);
+
+                if ($repResult === 1) {
+                    $_SESSION['success'] = "Le signalement a bien été envoyé !";
+                } elseif ($repResult === 2) {
+                    $_SESSION['success'] = "Le signalement à bien était supprimer !";
+                } else {
+                    $arrError[] = "Vous avez déjà signalé cet utilisateur !";
+                }
+            }
+
+            if (isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1) {
+                if ($objCommentModel->addSpoiler($_POST['spoiler'])) {
+                    $_SESSION['success'] = "Spoiler Update !";
+                }
+            }
+            
+            
+
+            $objUser = new UserEntity;
+            $objUser->hydrate($arrUser);
+
+            if (isset($_POST['userReport']) && $_POST['userReport'] == 1) {
+
+                $repResult = $objUserModel->reportUser($objUser, $_SESSION['user']['user_id']);
+
+                if ($repResult === 1) {
+                    $_SESSION['success'] = "Le signalement a bien été envoyé !";
+
+                    $arrUser = $objUserModel->findUser($intId, $_SESSION['user']['user_id']);
+                    $objUser->hydrate($arrUser);
+                } elseif ($repResult === 2) {
+                    $_SESSION['success'] = "Le signalement a bien été supprimer !";
+
+                    $arrUser = $objUserModel->findUser($intId, $_SESSION['user']['user_id']);
+                    $objUser->hydrate($arrUser);
+                } else {
+                    $arrError[] = "Vous avez déjà signalé cet utilisateur !";
+                }
+            }
+
+            $objLikeModel = new MovieModel;
+            $arrLike = $objLikeModel->userLike($intId);
+            $arrMovieToDisplay = array();
+
+            foreach ($arrLike as $arrDetMovie) {
+                $objMovie = new MovieEntity('mov_');
+                $objMovie->hydrate($arrDetMovie);
+                $arrMovieToDisplay[] = $objMovie;
+            }
+
+            $arrComment = $objCommentModel->reviewUser($intId, $_SESSION['user']['user_id'] ?? 0);
+            $arrCommentToDisplay = array();
+
+            foreach ($arrComment as $arrDetComment) {
+                $objComment = new CommentEntity('com_');
+                $objComment->hydrate($arrDetComment);
+                $arrCommentToDisplay[] = $objComment;
+            }
+
+            $this->_arrData['arrError'] = $arrError;
+            $this->_arrData['objUser'] = $objUser;
+            $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
+            $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
+
+            $this->_display("user");
         }
 
 

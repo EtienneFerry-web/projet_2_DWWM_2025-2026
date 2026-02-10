@@ -47,7 +47,7 @@
                     <form method="post" class="d-block ms-auto col-auto">
                         <button type="submit" name="userReport" value="1"
                                 class="border-0 bg-transparent p-0">
-                            <i class="bi bi-flag fs-3"></i>
+                            {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
                         </button>
                     </form>
                 </div>

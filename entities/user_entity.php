@@ -13,6 +13,7 @@
 		private ?string $_photo = '';
 		private string $_function;
 		private string $_pwd;
+		private int 	$_reported = 0;
 
 
 
@@ -83,7 +84,7 @@
 		}
 
 		public function setPhoto(?string $strPhoto){
-			$this->_photo = $strPhoto??"/Projet2/assets/img/defaultImgUser.jpg" ;
+			$this->_photo = $strPhoto??"defaultImgUser.jpg" ;
 		}
 		
 		public function getPhoto():string{
@@ -97,6 +98,12 @@
 			return $this->_function;
 		}
 
+		public function setReported(int $intRep){
+			$this->_reported = $intRep;
+		}
+		public function getReported():int{
+			return $this->_reported;
+		}
 
 		public function getPwdHash():string{
 			return password_hash($this->_pwd, PASSWORD_DEFAULT);

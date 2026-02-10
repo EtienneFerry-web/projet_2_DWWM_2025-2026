@@ -7,7 +7,13 @@
             </div>
         {/if}
         <div class="row align-items-center">
-            <span class="spanMovie col-auto"><a href="index.php?ctrl=user&action=user&id={$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
+            <div class="rounded-circle col-auto"> 
+                <img src="assets/img/{$comment->getUrl()}" 
+                    class="rounded-circle border" 
+                    style="width: 40px; height: 40px; object-fit: cover;" 
+                    alt="Avatar">
+            </div>
+            <span class="spanMovie col-auto p-0"><a href="index.php?ctrl=user&action=user&id={$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
             <span class="pageMovieNote spanMovie col-auto ms-auto" data-note="{$comment->getRating()}">
                 <span class="stars d-block"></span>
             </span>
@@ -29,7 +35,7 @@
                     <input type="hidden" name="id" value="{$comment->getId()}">
                     <button type="submit" name="commentReport" value="1"
                             class="border-0 bg-transparent p-0">
-                        <i class="bi bi-flag fs-3"></i>
+                        {if $comment->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
                     </button>
                 </form>
             {elseif isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1}

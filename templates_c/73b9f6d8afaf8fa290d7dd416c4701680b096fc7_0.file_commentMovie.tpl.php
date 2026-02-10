@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 09:55:22
+/* Smarty version 5.7.0, created on 2026-02-09 19:09:36
   from 'file:views/_partial/commentMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6989af0a67c2a5_53013841',
+  'unifunc' => 'content_698a30f0294db0_61374746',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '73b9f6d8afaf8fa290d7dd416c4701680b096fc7' => 
     array (
       0 => 'views/_partial/commentMovie.tpl',
-      1 => 1770630919,
+      1 => 1770664174,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6989af0a67c2a5_53013841 (\Smarty\Template $_smarty_tpl) {
+function content_698a30f0294db0_61374746 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?><div class="comment my-5">
         <?php if ($_smarty_tpl->getValue('comment')->getSpoiler() == 1) {?>
@@ -31,7 +31,14 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
             </div>
         <?php }?>
         <div class="row align-items-center">
-            <span class="spanMovie col-auto"><a href="index.php?ctrl=user&action=user&id=<?php echo $_smarty_tpl->getValue('comment')->getUser_id();?>
+            <div class="rounded-circle col-auto"> 
+                <img src="assets/img/<?php echo $_smarty_tpl->getValue('comment')->getUrl();?>
+" 
+                    class="rounded-circle border" 
+                    style="width: 40px; height: 40px; object-fit: cover;" 
+                    alt="Avatar">
+            </div>
+            <span class="spanMovie col-auto p-0"><a href="index.php?ctrl=user&action=user&id=<?php echo $_smarty_tpl->getValue('comment')->getUser_id();?>
 "><?php echo $_smarty_tpl->getValue('comment')->getPseudo();?>
 </a></span>
             <span class="pageMovieNote spanMovie col-auto ms-auto" data-note="<?php echo $_smarty_tpl->getValue('comment')->getRating();?>
@@ -62,7 +69,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ">
                     <button type="submit" name="commentReport" value="1"
                             class="border-0 bg-transparent p-0">
-                        <i class="bi bi-flag fs-3"></i>
+                        <?php if ($_smarty_tpl->getValue('comment')->getReported() == 0) {?><i class="bi bi-flag fs-3"></i><?php } else { ?> <i class="bi bi-flag-fill fs-3"></i><?php }?>
                     </button>
                 </form>
             <?php } elseif ((true && (true && null !== ($_SESSION['user'] ?? null))) && $_SESSION['user']['user_funct_id'] != 1) {?>

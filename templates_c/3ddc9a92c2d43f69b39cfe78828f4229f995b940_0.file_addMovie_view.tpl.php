@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-01-31 13:53:59
+/* Smarty version 5.7.0, created on 2026-02-09 13:07:02
   from 'file:views/addMovie_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_697e09779c81f4_44493070',
+  'unifunc' => 'content_6989dbf65e9079_29527630',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3ddc9a92c2d43f69b39cfe78828f4229f995b940' => 
     array (
       0 => 'views/addMovie_view.tpl',
-      1 => 1769797403,
+      1 => 1770632078,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,25 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_697e09779c81f4_44493070 (\Smarty\Template $_smarty_tpl) {
+function content_6989dbf65e9079_29527630 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1877018934697e09779c4b52_75775026', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15520444486989dbf65e51e2_54553346', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_668689088697e09779c6924_32084193', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1726184716989dbf65e7638_53589537', "description");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_715994145697e09779c7782_63996012', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20277962736989dbf65e8542_76977462', "content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1877018934697e09779c4b52_75775026 extends \Smarty\Runtime\Block
+class Block_15520444486989dbf65e51e2_54553346 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -49,7 +49,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_668689088697e09779c6924_32084193 extends \Smarty\Runtime\Block
+class Block_1726184716989dbf65e7638_53589537 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -59,7 +59,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_715994145697e09779c7782_63996012 extends \Smarty\Runtime\Block
+class Block_20277962736989dbf65e8542_76977462 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

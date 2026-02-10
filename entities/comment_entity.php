@@ -14,10 +14,11 @@
 		private string  $_datetime;
 		private string  $_comment;
 		private string  $_title;
-		private string  $_url;
+		private ?string  $_url = 'defaultImgUser.jpg';
 		private int     $_like;
 		private int     $_movieId;
 		private int     $_spoiler;
+		private int     $_reported;
 
 
 		/**
@@ -81,11 +82,11 @@
 			$this->_title = $strComment;
 		}
 
-		public function getUrl():string{
-			return $this->_url ;
+		public function getUrl():?string{
+			return $this->_url??'defaultImgUser.jpg' ;
 		}
 
-		public function setUrl(string $strComment){
+		public function setUrl(?string $strComment){
 			$this->_url = $strComment;
 		}
 
@@ -119,6 +120,14 @@
 
 		public function setMovieId(int $intNote){
 			$this->_movieId = $intNote ;
+		}
+
+		public function getReported(){
+			return $this->_reported ;
+		}
+
+		public function setReported(int $intRep){
+			$this->_reported = $intRep ;
 		}
 
 

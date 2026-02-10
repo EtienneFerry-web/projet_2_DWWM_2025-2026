@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-08 19:43:13
+/* Smarty version 5.7.0, created on 2026-02-09 16:33:34
   from 'file:views/dashboard_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6988e751d80749_44948226',
+  'unifunc' => 'content_698a0c5e4d7ce3_22637848',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'a41bfa6ad9ef5f3cc44fab8d0aba63facde696c0' => 
     array (
       0 => 'views/dashboard_view.tpl',
-      1 => 1770579791,
+      1 => 1770654812,
       2 => 'file',
     ),
   ),
@@ -20,36 +20,36 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6988e751d80749_44948226 (\Smarty\Template $_smarty_tpl) {
+function content_698a0c5e4d7ce3_22637848 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_21134445966988e751d68c00_19360648', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_68170110698a0c5e4c1fd7_75576410', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_17575039166988e751d6ae62_75937821', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12523322856988e751d6be97_08349918', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_993510628698a0c5e4c3f40_67151766', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1462475226988e751d6cc39_01100220', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2053270020698a0c5e4c4d05_01683451', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2306109016988e751d7fb36_01473619', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2115146422698a0c5e4c5a37_80939058', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_123224716698a0c5e4d7276_02679232', "js");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_21134445966988e751d68c00_19360648 extends \Smarty\Runtime\Block
+class Block_68170110698a0c5e4c1fd7_75576410 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -60,7 +60,7 @@ Dashboard<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_17575039166988e751d6ae62_75937821 extends \Smarty\Runtime\Block
+class Block_993510628698a0c5e4c3f40_67151766 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -68,7 +68,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_12523322856988e751d6be97_08349918 extends \Smarty\Runtime\Block
+class Block_2053270020698a0c5e4c4d05_01683451 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -82,7 +82,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_1462475226988e751d6cc39_01100220 extends \Smarty\Runtime\Block
+class Block_2115146422698a0c5e4c5a37_80939058 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -290,15 +290,76 @@ if ($foreach3DoElse) {
             <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+            
+                <div class="container-fluid mt-4">
+                    <form method="post" class="row border-bottom py-3 align-items-center">
+                        <div class="col-md-1 fw-bold">#42</div>
+                            
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="rounded-circle bg-secondary me-2"> 
+                                    <img src="assets/img/mouse.png" 
+                                        class="rounded-circle border" 
+                                        style="width: 40px; height: 40px; object-fit: cover;" 
+                                        alt="Avatar">
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark">bad_user_99</div>
+                                    <div class="small text-muted">Inscrit le 12/01/24</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">"Spam répétitif dans les commentaires aaaaaaaaaaaaaaaaaaa"</div>
+                            <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+                                <div class="btn-group ms-auto">
+                                    <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">15 Jours</button>
+                                    <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">30 Jours</button>
+                                </div>
+                                <button type="button" class="btn btn-outline-danger btn-sm px-4 py-1">Bannir</button>
+                                <button type="button" class="btn btn-outline-success btn-sm px-4 py-1">Ignorer</button>
+                            </div>
+                    </form>
+                </div>
+           
+            <div class="container-fluid mt-4">
+    <form method="post" class="row border-bottom py-3 align-items-center bg-light-hover">
+        <div class="col-md-1 fw-bold">#42</div>
+        
+        <div class="col-md-3 d-flex align-items-center">
+            <div class="rounded-circle bg-secondary me-2"> 
+                <img src="assets/img/mouse.png" 
+                    class="rounded-circle border" 
+                    style="width: 40px; height: 40px; object-fit: cover;" 
+                    alt="Avatar">
+            </div>
+            <div>
+                <div class="fw-bold text-dark">bad_user_99</div>
+                <div class="small text-muted">Inscrit le 12/01/24</div>
+            </div>
         </div>
-    </div>
+
+        <div class="col-md-4">
+            
+            <div class="small text-muted fst-italic">"Photo de profil inappropriée et bio publicitaire."</div>
+        </div>
+
+        <div class="col-md-4 d-flex justify-content-end gap-2">
+            <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+                <div class="btn-group ms-auto">
+                    <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">15 Jours</button>
+                    <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">30 Jours</button>
+                </div>
+                <button type="button" class="btn btn-outline-danger btn-sm px-4 py-1">Bannir</button>
+                <button type="button" class="btn btn-outline-success btn-sm px-4 py-1">Ignorer</button>
+            </div>
+    </form>
+</div>
+        </div>
 </section>
 <?php
 }
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_2306109016988e751d7fb36_01473619 extends \Smarty\Runtime\Block
+class Block_123224716698a0c5e4d7276_02679232 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

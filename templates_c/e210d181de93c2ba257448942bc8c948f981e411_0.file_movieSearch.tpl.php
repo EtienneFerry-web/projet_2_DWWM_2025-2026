@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-01-30 18:39:13
+/* Smarty version 5.7.0, created on 2026-02-09 21:56:49
   from 'file:views/_partial/movieSearch.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_697cfad17382f3_20760737',
+  'unifunc' => 'content_698a5821ceb1a4_78327642',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e210d181de93c2ba257448942bc8c948f981e411' => 
     array (
       0 => 'views/_partial/movieSearch.tpl',
-      1 => 1769797403,
+      1 => 1770632078,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_697cfad17382f3_20760737 (\Smarty\Template $_smarty_tpl) {
+function content_698a5821ceb1a4_78327642 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 if ($_smarty_tpl->getValue('objContent')->getType() === "movie") {?>
     <div class="row py-2">

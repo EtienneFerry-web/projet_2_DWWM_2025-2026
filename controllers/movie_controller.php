@@ -198,8 +198,9 @@
 
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Le signalement a bien été envoyé !";
-				} else {
-					
+				} elseif ($repResult === 2) {
+					$_SESSION['success'] = "Le signalement à bien était supprimer !";
+				} else{
 					$arrError[] = "Vous avez déjà signalé cet utilisateur !";
 				}
 
@@ -229,7 +230,7 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$arrComment = $objCommentModel->commentOfMovie($_GET['id']);
+			$arrComment = $objCommentModel->commentOfMovie($_GET['id'], $_SESSION['user']['user_id']??0);
 
 			$arrCommentToDisplay = array();
 
@@ -239,8 +240,6 @@
 
 				$arrCommentToDisplay[]	= $objComment;
 			}
-
-
 
 			$this->_arrData['arrError'] = $arrError;
 

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 10:47:09
+/* Smarty version 5.7.0, created on 2026-02-09 13:49:16
   from 'file:views/user_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6989bb2d8f2258_69429762',
+  'unifunc' => 'content_6989e5dcae8cc2_21304134',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3e6204db2b3faf8be3c5c8ed5d2082aa044c08c2' => 
     array (
       0 => 'views/user_view.tpl',
-      1 => 1770634025,
+      1 => 1770644953,
       2 => 'file',
     ),
   ),
@@ -22,38 +22,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/reviewMovie.tpl' => 1,
   ),
 ))) {
-function content_6989bb2d8f2258_69429762 (\Smarty\Template $_smarty_tpl) {
+function content_6989e5dcae8cc2_21304134 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_16291860886989bb2d8dbd93_85729311', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_753937776989e5dcad08e8_55749374', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1534479816989bb2d8dde49_21333068', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_3428733936989bb2d8decf3_62610869', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_17254171686989e5dcad2978_18595475', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5859345706989bb2d8dfa05_05293950', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18897068016989e5dcad37f0_46134603', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4005745896989bb2d8f1636_71226690', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20153525166989e5dcad4554_06376356', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15374673676989e5dcae8119_08135179', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_16291860886989bb2d8dbd93_85729311 extends \Smarty\Runtime\Block
+class Block_753937776989e5dcad08e8_55749374 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -64,7 +64,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1534479816989bb2d8dde49_21333068 extends \Smarty\Runtime\Block
+class Block_17254171686989e5dcad2978_18595475 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -74,7 +74,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_3428733936989bb2d8decf3_62610869 extends \Smarty\Runtime\Block
+class Block_18897068016989e5dcad37f0_46134603 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -87,7 +87,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_5859345706989bb2d8dfa05_05293950 extends \Smarty\Runtime\Block
+class Block_20153525166989e5dcad4554_06376356 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -134,7 +134,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
                     <form method="post" class="d-block ms-auto col-auto">
                         <button type="submit" name="userReport" value="1"
                                 class="border-0 bg-transparent p-0">
-                            <i class="bi bi-flag fs-3"></i>
+                            <?php if ($_smarty_tpl->getValue('objUser')->getReported() == 0) {?><i class="bi bi-flag fs-3"></i><?php } else { ?> <i class="bi bi-flag-fill fs-3"></i><?php }?>
                         </button>
                     </form>
                 </div>
@@ -196,7 +196,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_4005745896989bb2d8f1636_71226690 extends \Smarty\Runtime\Block
+class Block_15374673676989e5dcae8119_08135179 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

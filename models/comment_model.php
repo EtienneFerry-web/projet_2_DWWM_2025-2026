@@ -4,17 +4,25 @@
 
     class CommentModel extends Connect{
 
-        public function commentOfMovie(int $idMovie=0){
+        public function commentOfMovie(int $idMovie=0, $idConnectUser=0){
 
             $strRq	= " SELECT
                             comments.com_id,
                             comments.com_user_id,
                             comments.com_spoiler,
                             users.user_pseudo AS com_pseudo,
+                            users.user_photo AS com_url,
                             comments.com_comment,
                             ratings.rat_score AS com_rating,
                             comments.com_datetime,
-                            COUNT(DISTINCT liked.lik_user_id) AS com_like
+                            COUNT(DISTINCT liked.lik_user_id) AS com_like,
+
+                            EXISTS(
+                            SELECT 1 FROM reported_comments 
+                            WHERE rep_com_reported_id = comments.com_id 
+                            AND rep_com_reporter_id = $idConnectUser
+                            ) AS 'com_reported'
+
                         FROM comments
                         INNER JOIN users ON comments.com_user_id = users.user_id
                         INNER JOIN movies ON comments.com_movie_id = movies.mov_id
@@ -34,32 +42,43 @@
 
         }
 
-        public function reviewUser(int $idUser=0){
+        public function reviewUser(int $idUser=0, int $idConnectUser=0){
 
             $strRq	="  SELECT
-                            com_id,
-                            comments.com_spoiler,
-                            movies.mov_id AS 'com_movieId',
-                            photos.pho_url AS 'com_url',
-                            movies.mov_title  AS 'com_title',
-                            comments.com_comment,
-                            ratings.rat_score AS 'com_rating',
-                            COUNT(DISTINCT lik_user_id) AS 'com_like',
-                            com_datetime
-                        FROM users
-                        INNER JOIN ratings ON users.user_id = ratings.rat_user_id
-                        INNER JOIN movies ON ratings.rat_mov_id = movies.mov_id
-                        INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
-                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
-                        LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
-                        WHERE users.user_id = $idUser
-                            GROUP BY
-                            comments.com_id,
-                            comments.com_user_id,
-                            users.user_pseudo,
-                            comments.com_comment,
-                            ratings.rat_score,
-                            comments.com_datetime";
+                        com_id,
+                        comments.com_spoiler,
+                        movies.mov_id AS 'com_movieId',
+                        photos.pho_url AS 'com_url',
+                        movies.mov_title AS 'com_title',
+                        comments.com_comment,
+                        ratings.rat_score AS 'com_rating',
+                        COUNT(DISTINCT liked.lik_user_id) AS 'com_like',
+                        com_datetime,
+                    
+                        EXISTS(
+                            SELECT 1 FROM reported_comments 
+                            WHERE rep_com_reported_id = comments.com_id 
+                            AND rep_com_reporter_id = $idConnectUser
+                        ) AS 'com_reported'
+
+                    FROM users
+                    INNER JOIN ratings ON users.user_id = ratings.rat_user_id
+                    INNER JOIN movies ON ratings.rat_mov_id = movies.mov_id
+                    INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
+                    INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
+                    LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
+                    WHERE users.user_id = $idUser
+
+                    GROUP BY
+                        comments.com_id,
+                        comments.com_user_id,
+                        users.user_pseudo,
+                        comments.com_comment,
+                        ratings.rat_score,
+                        comments.com_datetime,
+                        photos.pho_url,
+                        movies.mov_id,
+                        movies.mov_title";
 
 
 	        return $this->_db->query($strRq)->fetchAll();
@@ -179,18 +198,32 @@
             return $rq->execute();
         }
 
-        public function reportComment(object $objComment, $reporterId):int{
+        public function reportComment(object $objComment, int $reporterId): int {
+            
             $strRq = "  INSERT IGNORE INTO reported_comments (rep_com_content, rep_com_reported_id, rep_com_reporter_id, rep_com_date)
                         VALUES (:content, :comId, :reporterId, NOW())";
 
             $rq = $this->_db->prepare($strRq);
-
             $rq->bindValue(':comId', $objComment->getId(), PDO::PARAM_INT);
             $rq->bindValue(':content', $objComment->getComment(), PDO::PARAM_STR);
             $rq->bindValue(':reporterId', $reporterId, PDO::PARAM_INT);
-
             $rq->execute();
 
-			return $count = $rq->rowCount();
+            
+            if ($rq->rowCount() > 0) {
+                return 1; 
+            } else {
+                
+                $deleteRq = "   DELETE FROM reported_comments 
+                                WHERE rep_com_reported_id = :comId 
+                                AND rep_com_reporter_id = :reporterId"; 
+
+                $prepDelete = $this->_db->prepare($deleteRq);
+                $prepDelete->bindValue(':comId', $objComment->getId(), PDO::PARAM_INT);
+                $prepDelete->bindValue(':reporterId', $reporterId, PDO::PARAM_INT);
+                $prepDelete->execute();
+
+                return 2; 
+            }
         }
     }
