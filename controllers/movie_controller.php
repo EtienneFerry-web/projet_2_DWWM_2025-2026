@@ -237,8 +237,11 @@
 
             $objMovieModel 	= new MovieModel;
 			$movieId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-			$arrMovie 		= $objMovieModel->findMovie($movieId);
 
+			$userId = isset($_SESSION['user']['user_id']) ? $_SESSION['user']['user_id'] : 0;
+
+			$arrMovie = $objMovieModel->findMovie($movieId, $userId);
+			var_dump($arrMovie);
 			if(!$arrMovie['mov_id']){
 				header("Location:index.php?Ctrl=error&action=err404");
 				exit;

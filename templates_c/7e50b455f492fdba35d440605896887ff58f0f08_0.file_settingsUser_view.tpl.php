@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 12:05:24
+/* Smarty version 5.7.0, created on 2026-02-10 13:30:54
   from 'file:views/settingsUser_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6989cd84620222_54246495',
+  'unifunc' => 'content_698b330ea4b488_60451801',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7e50b455f492fdba35d440605896887ff58f0f08' => 
     array (
       0 => 'views/settingsUser_view.tpl',
-      1 => 1770634641,
+      1 => 1770648473,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,25 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6989cd84620222_54246495 (\Smarty\Template $_smarty_tpl) {
+function content_698b330ea4b488_60451801 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2556672976989cd845f7aa3_76251784', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2114587994698b330ea22d97_14227258', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_51098366989cd845fe1e4_76857266', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1909006461698b330ea2b087_12349400', "description");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12148219836989cd84600f24_73789856', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_70920135698b330ea2d7c2_11589841', "content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_2556672976989cd845f7aa3_76251784 extends \Smarty\Runtime\Block
+class Block_2114587994698b330ea22d97_14227258 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -49,7 +49,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_51098366989cd845fe1e4_76857266 extends \Smarty\Runtime\Block
+class Block_1909006461698b330ea2b087_12349400 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -59,7 +59,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_12148219836989cd84600f24_73789856 extends \Smarty\Runtime\Block
+class Block_70920135698b330ea2d7c2_11589841 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -107,7 +107,7 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 </textarea>
          </div>
          <div class="col-12 p-2">
-             <label class="form-label">Photo de profil</label>
+            <label class="form-label">Photo de profil</label>
             <div class="mb-2">
                 <img src="assets/img/users/<?php echo $_smarty_tpl->getValue('objUser')->getPhoto();?>
 " alt="Photo de profil" style="max-width: 150px;">

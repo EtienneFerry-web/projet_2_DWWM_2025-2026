@@ -19,6 +19,8 @@
 		private string $_func;
 		private int    $_like;
 		private float  $_rating;
+		private $_user_liked;
+
 
 		/**
 		* Constructeur
@@ -189,4 +191,11 @@
 			$this->_length = $strLength;
 		}
 
+		public function setUser_liked($bool){
+			$this->_user_liked = $bool;
+		}
+
+		public function getUserLiked(){
+			return $this->_user_liked;
+		}
 	}

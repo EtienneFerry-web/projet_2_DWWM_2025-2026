@@ -26,7 +26,11 @@
                     class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset" 
                     style="cursor: pointer;"
                     >
-            <i class="bi bi-heart-fill"></i>
+            {if $objMovie->getUserLiked()}
+                <i class="bi bi-heart-fill"></i>
+            {else}
+                <i class="bi bi-heart"></i>
+            {/if}
             <span>{$objMovie->getLike()}</span>
             </button>
         </form>

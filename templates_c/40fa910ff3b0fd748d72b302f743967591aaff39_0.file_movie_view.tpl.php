@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-10 12:28:15
+/* Smarty version 5.7.0, created on 2026-02-10 13:46:18
   from 'file:views/movie_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698b245f0000f1_79450398',
+  'unifunc' => 'content_698b36aaf1ae80_60518546',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '40fa910ff3b0fd748d72b302f743967591aaff39' => 
     array (
       0 => 'views/movie_view.tpl',
-      1 => 1770726492,
+      1 => 1770731175,
       2 => 'file',
     ),
   ),
@@ -21,36 +21,36 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/commentMovie.tpl' => 1,
   ),
 ))) {
-function content_698b245f0000f1_79450398 (\Smarty\Template $_smarty_tpl) {
+function content_698b36aaf1ae80_60518546 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_831261401698b245eef9635_86249764', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2064000196698b36aaeca099_24789549', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1466393141698b245ef026f1_30125458', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_913397455698b245ef04e91_32560778', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_373696025698b36aaed1e45_11522592', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_386313275698b245ef07397_91988693', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_50470432698b36aaed4c18_51825549', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_962268407698b245ef409c4_91767897', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1118125661698b36aaed7247_29304938', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1737605232698b36aaf192a5_94516054', "js");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_831261401698b245eef9635_86249764 extends \Smarty\Runtime\Block
+class Block_2064000196698b36aaeca099_24789549 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -60,7 +60,7 @@ echo $_smarty_tpl->getValue('objMovie')->getTitle();
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1466393141698b245ef026f1_30125458 extends \Smarty\Runtime\Block
+class Block_373696025698b36aaed1e45_11522592 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -70,7 +70,7 @@ bienvenue sur notre accueil !!!!<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_913397455698b245ef04e91_32560778 extends \Smarty\Runtime\Block
+class Block_50470432698b36aaed4c18_51825549 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -83,7 +83,7 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_386313275698b245ef07397_91988693 extends \Smarty\Runtime\Block
+class Block_1118125661698b36aaed7247_29304938 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -112,7 +112,11 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
                     class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset" 
                     style="cursor: pointer;"
                     >
-            <i class="bi bi-heart-fill"></i>
+            <?php if ($_smarty_tpl->getValue('objMovie')->getUserLiked()) {?>
+                <i class="bi bi-heart-fill"></i>
+            <?php } else { ?>
+                <i class="bi bi-heart"></i>
+            <?php }?>
             <span><?php echo $_smarty_tpl->getValue('objMovie')->getLike();?>
 </span>
             </button>
@@ -268,7 +272,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_962268407698b245ef409c4_91767897 extends \Smarty\Runtime\Block
+class Block_1737605232698b36aaf192a5_94516054 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';

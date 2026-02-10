@@ -129,26 +129,35 @@
             $stmt->execute();
 
             return $stmt->fetchAll();
-        }
+                }
 
-		public function findMovie(int $idMovie=0){
+        public function findMovie(int $idMovie, int $intUserId = 0){
 
- 	        $strRq	= " SELECT movies.*,
+            $strRq  = " SELECT movies.*,
                             pho_url AS 'mov_url',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
-                            COUNT(DISTINCT lik_user_id ) AS 'mov_like',
-                            nat_country AS 'mov_country'
+                          
+                            COUNT(DISTINCT liked.lik_user_id ) AS 'mov_like',
+                            nat_country AS 'mov_country',
+                      
+                            EXISTS(
+                                SELECT 1 FROM liked 
+                                WHERE lik_user_id = :user_id 
+                                AND lik_type = 'movies' 
+                                AND lik_item_id = movies.mov_id
+                            ) AS mov_user_liked
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
+                      
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE mov_id = :id ";
+                        WHERE mov_id = :id 
+                        GROUP BY movies.mov_id";
 
             $stmt = $this->_db->prepare($strRq);
-
             $stmt->bindValue(':id', $idMovie, PDO::PARAM_INT);
-
+            $stmt->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt->fetch();
