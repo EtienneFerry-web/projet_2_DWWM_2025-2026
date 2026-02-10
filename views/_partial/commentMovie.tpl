@@ -19,9 +19,11 @@
             </span>
 
         </div>
+        
         <p>
             {$comment->getComment()}
         </p>
+
         <form method="post" class="col-1">
             <input type="radio" class="btn-check" name="searchBy" value="{$comment->getId()}" id="filter-like" onchange="this.form.submit()">
             <label class="form-label" for="filter-like"><i class="bi bi-heart-fill"></i><span> {$comment->getLike()} </span></label>

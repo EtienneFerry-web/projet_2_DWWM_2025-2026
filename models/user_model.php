@@ -141,11 +141,11 @@
         
 			$rqPrep = $this->_db->prepare($strRq);
 
-			$rqPrep->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
-			$rqPrep->bindValue(':bio', $objUser->getBio(), PDO::PARAM_STR);
-			$rqPrep->bindValue(':pseudo', $objUser->getPseudo(), PDO::PARAM_STR);
-			$rqPrep->bindValue(':img', $objUser->getPhoto(), PDO::PARAM_STR);
-			$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
+			$rqPrep->bindValue(':reported', 	$objUser->getId(), PDO::PARAM_INT);
+			$rqPrep->bindValue(':bio', 			$objUser->getBio(), PDO::PARAM_STR);
+			$rqPrep->bindValue(':pseudo', 		$objUser->getPseudo(), PDO::PARAM_STR);
+			$rqPrep->bindValue(':img', 			$objUser->getPhoto(), PDO::PARAM_STR);
+			$rqPrep->bindValue(':reporter', 	$reporter, PDO::PARAM_INT);
 			
 
         
@@ -193,6 +193,14 @@
 				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
 
 			// Executer la requête
+			return $rqPrep->execute();
+		}
+
+		public function findAllUserReport(){
+			$strRq = " SELECT *
+						FROM reported_users";
+
+			$rqPrep	= $this->_db->prepare($strRq);
 			return $rqPrep->execute();
 		}
     }

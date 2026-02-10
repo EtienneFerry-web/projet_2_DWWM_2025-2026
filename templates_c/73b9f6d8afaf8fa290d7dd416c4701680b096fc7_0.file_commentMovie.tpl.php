@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 19:09:36
+/* Smarty version 5.7.0, created on 2026-02-10 10:54:14
   from 'file:views/_partial/commentMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698a30f0294db0_61374746',
+  'unifunc' => 'content_698b0e56437737_53034907',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '73b9f6d8afaf8fa290d7dd416c4701680b096fc7' => 
     array (
       0 => 'views/_partial/commentMovie.tpl',
-      1 => 1770664174,
+      1 => 1770719653,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698a30f0294db0_61374746 (\Smarty\Template $_smarty_tpl) {
+function content_698b0e56437737_53034907 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?><div class="comment my-5">
         <?php if ($_smarty_tpl->getValue('comment')->getSpoiler() == 1) {?>
@@ -47,10 +47,12 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
             </span>
 
         </div>
+        
         <p>
             <?php echo $_smarty_tpl->getValue('comment')->getComment();?>
 
         </p>
+
         <form method="post" class="col-1">
             <input type="radio" class="btn-check" name="searchBy" value="<?php echo $_smarty_tpl->getValue('comment')->getId();?>
 " id="filter-like" onchange="this.form.submit()">

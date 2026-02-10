@@ -73,15 +73,108 @@
 			}
             
 			// Donner arrUsersToDisplay à maman pour l'affichage
-			$this->_arrData['arrUserToDisplay']	    = $arrUserToDisplay;
-			$this->_arrData['arrMovieToDisplay']	= $arrMovieToDisplay;
+			
 			$this->_arrData['arrPersonToDisplay']	= $arrPersonToDisplay;
 
 
 			$this->_display("dashboard");
 		}
+		
+		public function allReport(){
 
+			// $objUserModel 	= new UserModel;
+			// $arrRepUser 		= $objUserModel->findAllUserReport();
+           
+			// // Initialisation d'un tableau => objets
+			// $arrUserRepToDisplay	= array(); 
 
+			// // Boucle de transformation du tableau de tableau en tableau d'objets
+			// foreach($arrRepUser as $arrDetUser){
+			// 	$objUser = new UserEntity;
+			// 	$objUser->hydrate($arrDetUser);
+				
+			// 	$arrUserRepToDisplay[]	= $objUser;
+			// }
+
+			// $this->_arrData['arrUserRepToDisplay'] = $arrUserRepToDisplay;
+
+			$this->_display("allReport");
+		}
+
+		public function allMovie(){
+			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
+
+			$objMovieModel 	= new MovieModel;
+			$arrMovie   	= $objMovieModel->findAllMovies();
+           
+			// Initialisation d'un tableau => objets
+			$arrMovieToDisplay	= array(); 
+
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrMovie as $arrDetMovie){
+				$objMovie = new MovieEntity("mov_");
+				$objMovie->hydrate($arrDetMovie);
+				
+				$arrMovieToDisplay[]	= $objMovie;
+			}
+			
+
+			$this->_arrData['arrMovieToDisplay']	    = $arrMovieToDisplay;
+
+			$this->_display("allMovie");
+		}
+
+		public function allPerson(){
+
+			$objPersonModel 	= new PersonModel;
+			$arrPerson   	= $objPersonModel->listPerson();
+           
+			// Initialisation d'un tableau => objets
+			$arrPersonToDisplay	= array(); 
+
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrPerson as $arrDetPerson){
+				$objPerson = new PersonEntity();
+				$objPerson->hydrate($arrDetPerson);
+				
+				$arrPersonToDisplay[]	= $objPerson;
+			}
+            
+			// Donner arrUsersToDisplay à maman pour l'affichage
+			
+			$this->_arrData['arrPersonToDisplay']	= $arrPersonToDisplay;
+			
+			$this->_display("allPerson");
+		}
+
+		public function allUser(){
+
+			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
+
+			$objUserModel 	= new UserModel;
+			$arrUsers 		= $objUserModel->findAllUsers();
+           
+			// Initialisation d'un tableau => objets
+			$arrUserToDisplay	= array(); 
+
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrUsers as $arrDetUser){
+				$objUser = new UserEntity;
+				$objUser->hydrate($arrDetUser);
+				
+				$arrUserToDisplay[]	= $objUser;
+			}
+
+			$this->_arrData['arrUserToDisplay']	    = $arrUserToDisplay;
+			
+			$this->_display("allUser");
+		}
 
 
     }

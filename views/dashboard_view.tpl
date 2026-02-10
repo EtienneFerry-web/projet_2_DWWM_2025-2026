@@ -13,13 +13,13 @@
     <h1>DashBoard</h1>
     
     <div class="py-2 container row col-12 col-lg-auto">
-        <button id="user" class="nav-link col-2">Utilisateurs</button>
-        <button id="addMovie" class="nav-link col-2">Films</button>
-        <button id="person" class="nav-link col-2">Célébrités</button>
-        <button id="report" class="nav-link col-2">Signalement</button>
+        <a id="user" href="index.php?ctrl=admin&action=allUser" class="nav-link col-2">Utilisateurs</a>
+        <a id="addMovie" href="index.php?ctrl=admin&action=allMovie" class="nav-link col-2">Films</a>
+        <a id="person" href="index.php?ctrl=admin&action=allPerson" class="nav-link col-2">Célébrités</a>
+        <a id="report" href="index.php?ctrl=admin&action=allReport" class="nav-link col-2">Signalement</a>
     </div>
 
-    <div id="ficheMovie" class="d-none">
+    <div id="ficheMovie" class="d-flex">
         <h2>Tous les films</h2>
         <form class="row g-1 align-items-center py-3">
             <div class="col-12 col-md-5 p-0">
@@ -189,39 +189,39 @@
                     </form>
                 </div>
            
-            <div class="container-fluid mt-4">
-    <form method="post" class="row border-bottom py-3 align-items-center bg-light-hover">
-        <div class="col-md-1 fw-bold">#42</div>
-        
-        <div class="col-md-3 d-flex align-items-center">
-            <div class="rounded-circle bg-secondary me-2"> 
-                <img src="assets/img/mouse.png" 
-                    class="rounded-circle border" 
-                    style="width: 40px; height: 40px; object-fit: cover;" 
-                    alt="Avatar">
-            </div>
-            <div>
-                <div class="fw-bold text-dark">bad_user_99</div>
-                <div class="small text-muted">Inscrit le 12/01/24</div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            
-            <div class="small text-muted fst-italic">"Photo de profil inappropriée et bio publicitaire."</div>
-        </div>
-
-        <div class="col-md-4 d-flex justify-content-end gap-2">
-            <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
-                <div class="btn-group ms-auto">
-                    <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">15 Jours</button>
-                    <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">30 Jours</button>
+        <div class="container-fluid mt-4">
+            <form method="post" class="row border-bottom py-3 align-items-center bg-light-hover">
+                <div class="col-md-1 fw-bold">#42</div>
+                
+                <div class="col-md-3 d-flex align-items-center">
+                    <div class="rounded-circle bg-secondary me-2"> 
+                        <img src="assets/img/mouse.png" 
+                            class="rounded-circle border" 
+                            style="width: 40px; height: 40px; object-fit: cover;" 
+                            alt="Avatar">
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark">bad_user_99</div>
+                        <div class="small text-muted">Inscrit le 12/01/24</div>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-outline-danger btn-sm px-4 py-1">Bannir</button>
-                <button type="button" class="btn btn-outline-success btn-sm px-4 py-1">Ignorer</button>
+
+                <div class="col-md-4">
+                    
+                    <div class="small text-muted fst-italic">"Photo de profil inappropriée et bio publicitaire."</div>
+                </div>
+
+                <div class="col-md-4 d-flex justify-content-end gap-2">
+                    <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+                        <div class="btn-group ms-auto">
+                            <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">15 Jours</button>
+                            <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">30 Jours</button>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger btn-sm px-4 py-1">Bannir</button>
+                        <button type="button" class="btn btn-outline-success btn-sm px-4 py-1">Ignorer</button>
+                    </div>
+                </form>
             </div>
-    </form>
-</div>
         </div>
 </section>
 {/block}
