@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 13:15:53
+/* Smarty version 5.7.0, created on 2026-02-10 08:23:30
   from 'file:views/_partial/commentMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6989de09f106a4_82370185',
+  'unifunc' => 'content_698aeb02ea4834_45237393',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c8cea22af4239486b7a8ba0d2ad5f213c68ae3cb' => 
     array (
       0 => 'views/_partial/commentMovie.tpl',
-      1 => 1770634641,
+      1 => 1770711809,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6989de09f106a4_82370185 (\Smarty\Template $_smarty_tpl) {
+function content_698aeb02ea4834_45237393 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?><div class="comment my-5">
         <?php if ($_smarty_tpl->getValue('comment')->getSpoiler() == 1) {?>
@@ -44,13 +44,22 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
             <?php echo $_smarty_tpl->getValue('comment')->getComment();?>
 
         </p>
-        <form method="post" class="col-1">
-            <input type="radio" class="btn-check" name="searchBy" value="<?php echo $_smarty_tpl->getValue('comment')->getId();?>
-" id="filter-like" onchange="this.form.submit()">
-            <label class="form-label" for="filter-like"><i class="bi bi-heart-fill"></i><span> <?php echo $_smarty_tpl->getValue('comment')->getLike();?>
- </span></label>
-        </form>
 
+        <div class="col-1">
+            <a href="index.php?ctrl=comment&action=likeComment&id=<?php echo $_smarty_tpl->getValue('comment')->getId();?>
+&movie_id=<?php echo $_GET['id'];?>
+" 
+            class="text-decoration-none">
+            
+                <label class="form-label" style="cursor:pointer;">
+                    <i class="bi bi-heart-fill"></i>
+                    <span> <?php echo $_smarty_tpl->getValue('comment')->getLike();?>
+ </span>
+                </label>
+                
+            </a>
+        </div>
+        
         <div class="row align-items-center ">
             <span class="spanMovie d-block col-6 me-auto"><?php echo $_smarty_tpl->getValue('comment')->getDateFormat();?>
 </span>

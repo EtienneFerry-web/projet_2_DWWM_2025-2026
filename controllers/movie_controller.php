@@ -283,13 +283,14 @@
 				exit;
 			}
 
-			$intUserId = $_SESSION['user']['user_id'];
 			$intItemId = (int)$_GET['id'];
 
+			$intUserId = $_SESSION['user']['user_id'];
+			
 			$objUserModel = new UserModel; 
-    		$objUserModel->LikeMovie($intUserId, $intMovieId);
+    		$objUserModel->LikeMovie($intUserId, $intItemId);
 
-			header("Location:index.php?ctrl=movie&action=movie&id=" . $intMovieId);
+			header("Location:index.php?ctrl=movie&action=movie&id=" . $intItemId);
 			exit;
 		}
 

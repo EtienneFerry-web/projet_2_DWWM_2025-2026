@@ -16,11 +16,19 @@
         <p>
             {$comment->getComment()}
         </p>
-        <form method="post" class="col-1">
-            <input type="radio" class="btn-check" name="searchBy" value="{$comment->getId()}" id="filter-like" onchange="this.form.submit()">
-            <label class="form-label" for="filter-like"><i class="bi bi-heart-fill"></i><span> {$comment->getLike()} </span></label>
-        </form>
 
+        <div class="col-1">
+            <a href="index.php?ctrl=comment&action=likeComment&id={$comment->getId()}&movie_id={$smarty.get.id}" 
+            class="text-decoration-none">
+            
+                <label class="form-label" style="cursor:pointer;">
+                    <i class="bi bi-heart-fill"></i>
+                    <span> {$comment->getLike()} </span>
+                </label>
+                
+            </a>
+        </div>
+        
         <div class="row align-items-center ">
             <span class="spanMovie d-block col-6 me-auto">{$comment->getDateFormat()}</span>
             {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 1}
