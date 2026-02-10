@@ -132,6 +132,26 @@
             return $stmt->fetchAll();
         }
 
+        public function findOneMovie(int $idMovie=0){
+            $strRq	= " SELECT movies.*,
+                            pho_url AS 'mov_url',                            
+                            nat_country AS 'mov_country'
+                            belong_mov_id AS 'mov_belong_id'
+                            cat_name AS 'mov_categorie'
+                            part_mov_id AS 'mov_part_id'
+                            job_name AS 'mov_job'
+                        FROM movies
+                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
+                        INNER JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
+                        INNER JOIN belongs ON movies.mov_id = belongs.belong_mov_id
+                        INNER JOIN categories ON belongs.belong_cat_id = categories.cat_id
+                        INNER JOIN participates ON movies.mov_id = participates.part_mov_id
+                        INNER JOIN jobs ON participates.part_job_id = jobs.job_id
+                        INNER JOIN persons ON participates.part_pers_id = persons.pers_id
+                        WHERE mov_id = :id ";
+        }
+
+
 		public function findMovie(int $idMovie=0){
 
  	        $strRq	= " SELECT movies.*,
@@ -235,21 +255,53 @@
             return $this->_db->query($strRq)->fetchAll();
 
         }
-        public function insert(object $objNewMovie):bool{
+
+        public function addMovie(object $objNewMovie):bool{
                 
 		// Request construction
-			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_lenght, mov_descritpion, mov_release_date)
-						            VALUES (:title, :originalTitle, :length, :description, :createDate)";
+			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_length, mov_description, mov_release_date, mov_nat_id, mov_trailer_url)
+						        VALUES (:title, :originalTitle, :length, :description, :createDate, :idNationality, :trailer)";
 			// Prepared request
 			$rqPrep	= $this->_db->prepare($strRq);
 			// Sending information
 			$rqPrep->bindValue(":title", $objNewMovie->getTitle(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginalTitle(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":length", $objNewMovie->getlenght(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":descritption", $objNewMovie->getDescritption(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":createDate", $objNewMovie->getCreateDate(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":length", $objNewMovie->getLength(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":description", $objNewMovie->getDescription(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":createDate", $objNewMovie->getRelease_date(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":idNationality", $objNewMovie->getCountryId(), PDO::PARAM_INT);
+			$rqPrep->bindValue(":trailer", $objNewMovie->getTrailer(), PDO::PARAM_STR);
+
 			// Request execution
-			return $rqPrep->execute();
+			$result = $rqPrep->execute();
+            
+            if ($result){
+            $lastId = $this->_db->lastInsertId();
+
+                $strRq2 =" INSERT INTO photos(pho_url, pho_type, pho_mov_id)
+                            VALUES (:photo, 'Affiche', :idMovie)";
+
+            $rqPrep2	= $this->_db->prepare($strRq2);
+            $rqPrep2->bindValue(":photo", $objNewMovie->getUrl(), PDO::PARAM_STR);         
+            $rqPrep2->bindValue(":idMovie", $lastId, PDO::PARAM_INT); 
+            
+             $resultPhoto = $rqPrep2->execute();
+             
+                if ($resultPhoto){
+
+                    $strRq3 =" INSERT INTO belongs (belong_cat_id, belong_mov_id)
+                                VALUES (:catId, :idMovie)";
+                    $rqPrep3	= $this->_db->prepare($strRq3);
+                    $rqPrep3->bindValue(":catId", $objNewMovie->getCategoriesId(), PDO::PARAM_STR);         
+                    $rqPrep3->bindValue(":idMovie", $lastId, PDO::PARAM_INT); 
+                
+                    return $rqPrep3->execute();
+                }
+
+            }
+            
+
+
 		}
 
         /**

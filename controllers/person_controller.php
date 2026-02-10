@@ -62,6 +62,12 @@
             $this->_display("person");
         }
 
+        /**
+        * @author Audrey Sonntag
+         * 06/02/2026
+         * Version 0.1
+        */
+
         public function deletePerson() {
 			
            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
@@ -95,7 +101,7 @@
             $objPersonModel = new PersonModel();
             var_dump($_POST);
             $objPerson = new PersonEntity();            
-                $objPerson->hydrate($_POST);
+            $objPerson->hydrate($_POST);
       
             //Testing Form
             $arrError = [];
@@ -116,6 +122,13 @@
                     $arrError['bio'] = "La biographie est obligatoire";
                 }
                 
+                $arrTypeAllowed	= array('image/jpeg', 'image/png');
+				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
+					$arrError['photo'] = "L'image est obligatoire";
+				}else if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
+					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
+				}
+
                 if (count($arrError) == 0){
                     $objPerson->setId($_GET['id']);
 
@@ -161,13 +174,13 @@
             var_dump($objPerson);
 
 
-            //If the form is correct, we update the user's info
+            //If the form is correct, we update the user's info				
 				
-				
-            $this->_arrData['objPerson']        = $objPerson;
+            $this->_arrData['objPerson']            = $objPerson;
             $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;
-            $this->_arrData['arrError']         = $arrError;    
+            $this->_arrData['arrError']             = $arrError;    
             $this->_display("settingsPerson");
+             
         
         }
     }

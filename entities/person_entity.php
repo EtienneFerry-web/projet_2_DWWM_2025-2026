@@ -123,7 +123,4 @@
 		public function setNameJob(string $strJob){
 			$this->_NameJob = $strJob;
 		}
-
-
-
 	}

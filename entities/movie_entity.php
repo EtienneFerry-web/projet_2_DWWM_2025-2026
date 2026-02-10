@@ -9,16 +9,20 @@
 	class MovieEntity extends Entity{
 		// Attributs
 		private string $_title;
+		private string $_original_title;
 		private string $_url;
 		private string $_description;
 		private string $_release_date;
 		private string $_trailer_url;
+		private int $_countryId;
 		private string $_country;
+		private int $_categoriesId;
 		private string $_categories;
 		private string $_length;
 		private string $_func;
 		private int    $_like;
 		private float  $_rating;
+		private string $_nationality;
 
 		/**
 		* Constructeur
@@ -44,7 +48,20 @@
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
 		}
-
+		/**
+		* Récupération du titre original
+		* @return string le titre original de l'objet
+		*/
+		public function getOriginalTitle():string{
+			return $this->_original_title;
+		}
+		/**
+		* Mise à jour du titre
+		* @param string le nouveau titre
+		*/
+		public function setOriginalTitle(string $strOriginalTitle){
+			$this->_original_title = $this->clean($strOriginalTitle);
+		}
 		/**
 		* Récupération de l'image
 		* @return string l'image de l'objet
@@ -87,7 +104,7 @@
 		* Récupération de la date de création
 		* @return string la date de création de l'objet
 		*/
-		public function getCreatedate():string{
+		public function getRelease_date():string{
 			return $this->_release_date;
 		}
 		/**
@@ -185,6 +202,28 @@
 		*/
 		public function setLength(string $strLength){
 			$this->_length = $strLength;
+		}
+		
+		public function getCountryId():string{
+			return $this->_countryId;
+		}
+		/**
+		* Mise à jour de l'identifiant du créateur
+		* @param int le nouvel identifiant du créateur
+		*/
+		public function setCountryId(string $strCountryId){
+			$this->_countryId = $strCountryId;
+		}
+
+		public function getCategoriesId():string{
+			return $this->_categoriesId;
+		}
+		/**
+		* Mise à jour de l'identifiant du créateur
+		* @param int le nouvel identifiant du créateur
+		*/
+		public function setCategoriesId(string $strCategoriesId){
+			$this->_categoriesId = $strCategoriesId;
 		}
 
 	}
