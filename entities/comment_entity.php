@@ -15,9 +15,10 @@
 		private string  $_comment;
 		private string  $_title;
 		private string  $_url;
-		private int     $_like;
+		private int     $_like = 0;
 		private int     $_movieId;
 		private int     $_spoiler;
+		private int		$_user_liked = 0;
 
 
 		/**
@@ -121,5 +122,11 @@
 			$this->_movieId = $intNote ;
 		}
 
+		public function setUser_liked(int $bool){
+			$this->_user_liked = $bool;
+		}
 
+		public function getUser_liked():int{
+			return $this->_user_liked;
+		}
 	}

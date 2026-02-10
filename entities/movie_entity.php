@@ -19,7 +19,7 @@
 		private string $_func;
 		private int    $_like;
 		private float  $_rating;
-		private $_user_liked;
+		private int		$_user_liked;
 
 
 		/**
@@ -195,7 +195,7 @@
 			$this->_user_liked = $bool;
 		}
 
-		public function getUserLiked(){
+		public function getUser_liked(){
 			return $this->_user_liked;
 		}
 	}

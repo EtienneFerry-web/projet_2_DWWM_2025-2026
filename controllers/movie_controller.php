@@ -241,7 +241,7 @@
 			$userId = isset($_SESSION['user']['user_id']) ? $_SESSION['user']['user_id'] : 0;
 
 			$arrMovie = $objMovieModel->findMovie($movieId, $userId);
-			var_dump($arrMovie);
+
 			if(!$arrMovie['mov_id']){
 				header("Location:index.php?Ctrl=error&action=err404");
 				exit;
@@ -263,7 +263,7 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$arrComment = $objCommentModel->commentOfMovie($_GET['id']);
+			$arrComment = $objCommentModel->commentOfMovie($_GET['id'],$_SESSION['user']['user_id']);
 
 			$arrCommentToDisplay = array();
 
@@ -273,7 +273,7 @@
 
 				$arrCommentToDisplay[]	= $objComment;
 			}
-
+			var_dump($arrCommentToDisplay);
 
 
 			$this->_arrData['arrError'] = $arrError;

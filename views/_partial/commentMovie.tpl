@@ -24,8 +24,12 @@
                 
                 <button type="submit" class="border-0 bg-transparent p-0 text-decoration-none" name="">
                     <label class="form-label" style="cursor:pointer;">
+                    {if $comment->getUser_liked()}
                         <i class="bi bi-heart-fill"></i>
-                        <span class="like-count"> {$comment->getLike()} </span>
+                    {else}
+                        <i class="bi bi-heart"></i>
+                    {/if}
+                        <span class="like-count"> {$comment->getLike()}</span>
                     </label>
                 </button>
             </form>

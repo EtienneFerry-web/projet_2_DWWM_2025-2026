@@ -4,7 +4,7 @@
 
     class CommentModel extends Connect{
 
-        public function commentOfMovie(int $idMovie=0){
+        public function commentOfMovie(int $idMovie=0, int $intUserId = 0){
 
             $strRq	= " SELECT
                             comments.com_id,
@@ -14,13 +14,19 @@
                             comments.com_comment,
                             ratings.rat_score AS com_rating,
                             comments.com_datetime,
-                            COUNT(DISTINCT liked.lik_user_id) AS com_like
+                            COUNT(DISTINCT liked.lik_user_id) AS com_like,
+                            EXISTS(
+                                SELECT 1 FROM liked 
+                                WHERE lik_user_id = :user_id 
+                                AND lik_type = 'comment' 
+                                AND lik_item_id = comments.com_id
+                            ) AS com_user_liked
                         FROM comments
                         INNER JOIN users ON comments.com_user_id = users.user_id
                         INNER JOIN movies ON comments.com_movie_id = movies.mov_id
                         LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
                         LEFT JOIN ratings ON ratings.rat_mov_id = movies.mov_id AND ratings.rat_user_id = users.user_id
-                        WHERE movies.mov_id = $idMovie
+                        WHERE movies.mov_id = :id
                         GROUP BY
                             comments.com_id,
                             comments.com_user_id,
@@ -30,7 +36,12 @@
                             comments.com_datetime";
 
 
-		    return $this->_db->query($strRq)->fetchAll();
+            $stmt = $this->_db->prepare($strRq);
+            $stmt->bindValue(':id', $idMovie, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
+            $stmt->execute();
+
+		    return $stmt->fetchAll();
 
         }
 

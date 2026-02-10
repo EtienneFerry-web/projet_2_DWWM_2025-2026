@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-10 10:44:21
+/* Smarty version 5.7.0, created on 2026-02-10 15:08:14
   from 'file:views/_partial/commentMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698b0c05342eb1_45813867',
+  'unifunc' => 'content_698b49dea6a5a9_12300677',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c8cea22af4239486b7a8ba0d2ad5f213c68ae3cb' => 
     array (
       0 => 'views/_partial/commentMovie.tpl',
-      1 => 1770720082,
+      1 => 1770736081,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698b0c05342eb1_45813867 (\Smarty\Template $_smarty_tpl) {
+function content_698b49dea6a5a9_12300677 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?><div class="comment my-5">
         <?php if ($_smarty_tpl->getValue('comment')->getSpoiler() == 1) {?>
@@ -53,9 +53,14 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
                 
                 <button type="submit" class="border-0 bg-transparent p-0 text-decoration-none" name="">
                     <label class="form-label" style="cursor:pointer;">
+                    <?php if ($_smarty_tpl->getValue('comment')->getUser_liked()) {?>
                         <i class="bi bi-heart-fill"></i>
+                    <?php } else { ?>
+                        <i class="bi bi-heart"></i>
+                    <?php }?>
                         <span class="like-count"> <?php echo $_smarty_tpl->getValue('comment')->getLike();?>
- </span>
+ <?php echo $_smarty_tpl->getValue('comment')->getUser_liked();?>
+</span>
                     </label>
                 </button>
             </form>
