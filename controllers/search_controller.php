@@ -1,5 +1,4 @@
 <?php
-
     require'dto/search_dto.php';
     require'models/search_model.php';
 

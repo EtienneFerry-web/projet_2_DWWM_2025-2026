@@ -42,6 +42,8 @@
 		}
 
 
+		
+
 		public function getDeathDateFormat(string $strFormat = "fr_FR"){
       		if (empty($this->_deathdate)) {
                 return '';
@@ -88,8 +90,16 @@
 			return $this->_name ." ".$this->_firstname ;
 		}
 
+		public function getName():string{
+			return $this->_name;
+		}
+
 		public function setName(string $strName){
 			$this->_name = $strName;
+		}
+
+		public function getFirstname():string{
+			return $this->_firstname;
 		}
 
 		public function setFirstname(string $strFirstname){
@@ -112,7 +122,6 @@
 			$this->_bio = $strBio;
 		}
 
-
 		public function getPhoto():string{
 			return $this->_photo;
 		}
@@ -120,7 +129,6 @@
 		public function setPhoto(string $strPhoto){
 			$this->_photo = $strPhoto;
 		}
-
 		public function getNameJob():string{
 			return $this->_NameJob;
 		}

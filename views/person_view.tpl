@@ -22,7 +22,6 @@
 
     <div class="col-12 col-md-9 py-1 py-md-5 text-center text-md-start ">
         <h1 class="d-md">{$objPerson->getFullName()}</h1>
-
         <form method="post" class="row filterActor align-items-center">
             <div class="col-5 col-md-4 ">
                 <select class="form-select" name="order">

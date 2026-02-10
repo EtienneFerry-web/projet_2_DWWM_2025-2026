@@ -39,7 +39,6 @@
 			$objPerson->hydrate($arrPerson);
 
 
-
             $arrMovie		    = $objMovieModel->movieOfPerson($_GET['id']);
 
             $arrMovieToDisplay	= array();
@@ -62,9 +61,15 @@
             $this->_display("person");
         }
 
-        public function deletePerson() {
+        /**
+        * @author Audrey Sonntag
+         * 06/02/2026
+         * Version 0.1
+        */
 
-            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+        public function deletePerson() {
+			
+           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
@@ -73,11 +78,107 @@
 
             // Si on a supprimé, on nettoie tout
             if($success){
-
                 $_SESSION['success'] = "La célébrité a bien été supprimée";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;
             }
 		}
 
+
+        /**
+        * @author Audrey Sonntag
+         * 06/02/2026
+         * Version 0.1
+        */
+        
+        public function settingsPerson() {
+            if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
+            $objPersonModel = new PersonModel();
+            var_dump($_POST);
+            $objPerson = new PersonEntity();            
+            $objPerson->hydrate($_POST);
+      
+            //Testing Form
+            $arrError = [];
+            if (count($_POST) > 0) {
+                if ($objPerson->getName() == ""){
+                    $arrError['name'] = "Le nom est obligatoire";
+                }   
+                if ($objPerson->getFirstname() == ""){
+                    $arrError['firstname'] = "Le prénom est obligatoire";
+                }   
+                if ($objPerson->getBirthdate() == ""){
+                    $arrError['birthdate'] = "La date de naissance est obligatoire";
+                }   
+                if ($objPerson->getCountry() == ""){
+                    $arrError['country'] = "La nationalité est obligatoire";
+                }   
+                if ($objPerson->getBio() == ""){
+                    $arrError['bio'] = "La biographie est obligatoire";
+                }
+                
+                $arrTypeAllowed	= array('image/jpeg', 'image/png');
+				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
+					$arrError['photo'] = "L'image est obligatoire";
+				}else if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
+					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
+				}
+
+                if (count($arrError) == 0){
+                    $objPerson->setId($_GET['id']);
+
+                    $strImageName	= uniqid();
+					switch ($_FILES['photo']['type']){
+						case 'image/jpeg' :
+							$strImageName .= '.jpg';
+							break;
+						case 'image/png' :
+							$strImageName .= '.png';
+							break;
+					}
+                     $strDest = 'assets/img/person/' . $strImageName;
+
+                    if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
+                        $objPerson->setPhoto($strImageName);
+                    } else {
+                        $arrError['photo'] = "Erreur lors du téléchargement";
+                    }
+
+					// update of the person info
+					$boolUpdate 	= $objPersonModel->updatePerson($objPerson);
+                }
+
+            }
+
+            $arrPerson      = $objPersonModel->findPerson($_GET['id']);
+            $arrCountry     = $objPersonModel->allCountry();
+                 
+
+            $arrCountryToDisplay    = array();
+
+            foreach($arrCountry as $arrDetCountry){
+                $objPerson = new PersonEntity('pers_');
+                $objPerson->hydrate($arrDetCountry);
+
+                $arrCountryToDisplay[]  = $objPerson;
+            }
+          
+            //Preparing hydrate
+           
+			$objPerson->hydrate($arrPerson);           
+            var_dump($objPerson);
+
+
+            //If the form is correct, we update the user's info				
+				
+            $this->_arrData['objPerson']            = $objPerson;
+            $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;
+            $this->_arrData['arrError']             = $arrError;    
+            $this->_display("settingsPerson");
+             
+        
+        }
     }

@@ -1,9 +1,10 @@
 <?php
     require_once'models/mother_model.php';
+	
 
 
     class UserModel extends Connect{
-
+		
         // Methods
 		public function __construct(){
 				parent::__construct();
@@ -39,7 +40,7 @@
 			$arrUser 	= $this->_db->query($strRq)->fetch();
 
 
-			// Hached password verification
+			// Hached password verification 
 			if($arrUser != null){
 				if (password_verify($strPwd, $arrUser['user_pwd'])){
 				// User return
@@ -98,7 +99,7 @@
 			}
 		}
 
-        public function findUser(int $idUser=0, $idConnectUser=0){
+        public function userPage(int $idUser=0, $idConnectUser=0){
 
             $strRq	= " SELECT users.*, functions.funct_name AS 'user_function',
 						EXISTS(
@@ -110,11 +111,15 @@
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
                         WHERE user_id = $idUser AND user_delete_at IS NULL";
 
-
-
             return $this->_db->query($strRq)->fetch();
-
         }
+		/**
+         * Delete account
+         * @author Etienne
+         * @param $intId = $_GET['id'];
+         * return boolean
+         */
+		
 
 		/**
          * Delete account

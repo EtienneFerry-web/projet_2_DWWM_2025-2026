@@ -4,6 +4,7 @@
 
     class UserEntity extends Entity{
 
+        // Attributs
         private string $_name = '';
 		private string $_firstname = '';
 		private string $_pseudo = '';

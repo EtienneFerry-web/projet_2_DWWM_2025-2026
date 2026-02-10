@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-07 17:47:44
+/* Smarty version 5.7.0, created on 2026-02-10 15:55:44
   from 'file:views/movie_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_69877ac085dcb6_73005301',
+  'unifunc' => 'content_698b5500e04c34_61579683',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6c04460491494cb4da3f1370f66e49b0a7668a1b' => 
     array (
       0 => 'views/movie_view.tpl',
-      1 => 1770486461,
+      1 => 1770738942,
       2 => 'file',
     ),
   ),
@@ -21,38 +21,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/commentMovie.tpl' => 1,
   ),
 ))) {
-function content_69877ac085dcb6_73005301 (\Smarty\Template $_smarty_tpl) {
+function content_698b5500e04c34_61579683 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_40405747469877ac083d877_68655110', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_744605172698b5500debe63_73881590', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_106870704169877ac0840479_71873036', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_65941137569877ac0841411_27827032', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1168833245698b5500deedf8_48119654', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_159272950369877ac0842177_07470836', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_162167890698b5500defd87_36061703', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_88628622769877ac085cf92_94031564', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1350095418698b5500df0b10_81552674', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1835073968698b5500e040b8_81615093', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_40405747469877ac083d877_68655110 extends \Smarty\Runtime\Block
+class Block_744605172698b5500debe63_73881590 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -62,7 +62,7 @@ echo $_smarty_tpl->getValue('objMovie')->getTitle();
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_106870704169877ac0840479_71873036 extends \Smarty\Runtime\Block
+class Block_1168833245698b5500deedf8_48119654 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -72,7 +72,7 @@ bienvenue sur notre accueil !!!!<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_65941137569877ac0841411_27827032 extends \Smarty\Runtime\Block
+class Block_162167890698b5500defd87_36061703 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -85,7 +85,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_159272950369877ac0842177_07470836 extends \Smarty\Runtime\Block
+class Block_1350095418698b5500df0b10_81552674 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -193,7 +193,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
       </div>
     </div>
 </section>
-<?php if ($_smarty_tpl->getValue('curDate')->format('Y-m-d') >= $_smarty_tpl->getValue('objMovie')->getCreatedate()) {?>
+<?php if ($_smarty_tpl->getValue('curDate')->format('Y-m-d') >= $_smarty_tpl->getValue('objMovie')->getRelease_date()) {?>
     <section id="addComment" class="container text-center py-5">
         <h2>Avis</h2>
         <div class="text-start py-2">
@@ -261,7 +261,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_88628622769877ac085cf92_94031564 extends \Smarty\Runtime\Block
+class Block_1835073968698b5500e040b8_81615093 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

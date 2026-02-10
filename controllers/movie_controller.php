@@ -36,7 +36,6 @@
         public function list(){
             $objContentModel 	= new MovieModel;
 
-
             $objContentModel->producer  	= $_POST['producer']??"";
             $objContentModel->actor 	    = $_POST['actor']??"";
             $objContentModel->realisator 	= $_POST['realisator']??"";
@@ -143,7 +142,7 @@
 			 *
 			 */
 				// 1. Check if the form has been submitted
-				if(!empty($_POST['com_comment'])) {
+				if(!empty($_POST)) {
 
 				// 2. Ensure the user is logged in
 					if(isset($_SESSION['user'])) {
@@ -247,32 +246,128 @@
 			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
 			$this->_arrData['objMovie'] = $objMovie;
 
-
             $this->_display("movie");
         }
 
         public function addMovie(){
+			// 1. Initialisation des objets et variables
+			var_dump($_POST);
+			$objMovie = new MovieEntity();
+			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
+			$objMovieModel = new MovieModel();
+			var_dump($objMovie);
+			$arrError = [];
+			
+			// 2. Validation des données
+			if (count($_POST)>0){
+				if (empty($objMovie->getTitle())) {
+					$arrError['title'] = "Le titre est obligatoire";
+				}
+				// if (empty($objMovie->getCategorieId())) {
+				// 	$arrError['categorie'] = "La catégorie est obligatoire";
+				// }				
+				if (empty($objMovie->getLength())) {
+					$arrError['length'] = "La durée est obligatoire";
+				}
+				if (empty($objMovie->getDescription())) {
+					$arrError['description'] = "Le synopsis est obligatoire";
+				}
+				// if (empty($objMovie->getUrl())) {
+				// 	$arrError['photo'] = "L'affiche du film est obligatoire";
+				// }
+	
+
+				$arrTypeAllowed	= array('image/jpeg', 'image/png');
+				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
+					$arrError['photo'] = "L'image est obligatoire";
+				}else if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
+					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
+				}
+
+				// 3. Logique d'insertion
+				if (count($arrError) == 0) {
+				$strImageName	= uniqid();
+					switch ($_FILES['photo']['type']){
+						case 'image/jpeg' :
+							$strImageName .= '.jpg';
+							break;
+						case 'image/png' :
+							$strImageName .= '.png';
+							break;
+					}
+                     $strDest = 'assets/img/movie/' . $strImageName;
+
+                    if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
+                        $objMovie->setUrl($strImageName);
+                    } else {
+                        $arrError['photo'] = "Erreur lors du téléchargement";
+                    }
+
+				$boolResultMovie = $objMovieModel->addMovie($objMovie);
+					// Si aucune erreur, on tente l'insertion
+					if ($boolResultMovie) {
+						$_SESSION['success'] = "Le film a été soumis avec succès !";
+						header("Location: index.php");
+						exit;
+					} else {
+						$arrError['global'] = "Erreur lors de l'enregistrement en base de données.";
+					}
+				}
+			}
+
+			$arrCategory = $objMovieModel->allCategories();		
+				$arrCatToDisplay	= array();			
+								
+			$arrCatToDisplay = array();
+			foreach($arrCategory as $arrDetCat){
+				$objContent = new MovieEntity('mov_');
+				$objContent->hydrate($arrDetCat);
+
+				$arrCatToDisplay[]	= $objContent;
+			}
+
+			$arrNationality = $objMovieModel->allCountry();		
+			$arrNatToDisplay	= array();
+			
+			$arrNatToDisplay = array();
+			foreach($arrNationality as $arrDetNat){
+				$objNat = new MovieEntity('mov_');
+				$objNat->hydrate($arrDetNat);
+
+				$arrNatToDisplay[]	= $objNat;
+			}
+
+
+			// 4. Si on arrive ici (erreur de saisie ou échec SQL), on réaffiche le formulaire
+			// On passe $objMovie pour que les champs restent remplis (UX)
+			$this->_arrData['objMovie']		   = $objMovie;
+			$this->_arrData['arrError']		   = $arrError;
+			$this->_arrData['arrCatToDisplay'] = $arrCatToDisplay;
+			$this->_arrData['arrNatToDisplay'] = $arrNatToDisplay;
+
+			
             $this->_display("addMovie");
         }
-
-        public function deleteMovie() {
-
-            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
-      		header("Location:index.php?ctrl=error&action=err403");
-      		exit;
-    		}
+		
+		public function deleteMovie() {
+			
+           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
             $objMovieModel = new MovieModel();
             $success = $objMovieModel->deleteMovie($_GET['id']);
 
             // Si on a supprimé, on nettoie tout
             if($success){
-
+            
                 $_SESSION['success'] = "Le film a bien été supprimé";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;
+
             }
 
-		}
 
+		}
 
     }

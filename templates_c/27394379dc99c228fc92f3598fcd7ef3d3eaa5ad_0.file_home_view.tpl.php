@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-07 21:17:57
+/* Smarty version 5.7.0, created on 2026-02-10 15:53:16
   from 'file:views/home_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6987ac05bbeef3_58432754',
+  'unifunc' => 'content_698b546ce21658_49397190',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '27394379dc99c228fc92f3598fcd7ef3d3eaa5ad' => 
     array (
       0 => 'views/home_view.tpl',
-      1 => 1770499043,
+      1 => 1770738328,
       2 => 'file',
     ),
   ),
@@ -21,38 +21,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/newMovie.tpl' => 1,
   ),
 ))) {
-function content_6987ac05bbeef3_58432754 (\Smarty\Template $_smarty_tpl) {
+function content_698b546ce21658_49397190 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6573426966987ac05bb1e95_28968249', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_307911029698b546ce14db7_34616906', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_17349062366987ac05bb4399_86304450', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14610778316987ac05bb5269_88818988', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9473604698b546ce170a7_89063881', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5188386576987ac05bb5f80_76700801', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_257700215698b546ce17ff2_19449717', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18921805896987ac05bbe013_73492246', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1372537328698b546ce18f09_09387124', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_401535994698b546ce208e1_93260090', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_6573426966987ac05bb1e95_28968249 extends \Smarty\Runtime\Block
+class Block_307911029698b546ce14db7_34616906 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -63,7 +63,7 @@ Accueil<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_17349062366987ac05bb4399_86304450 extends \Smarty\Runtime\Block
+class Block_9473604698b546ce170a7_89063881 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -73,7 +73,7 @@ bienvenue sur notre accueil !!!!<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_14610778316987ac05bb5269_88818988 extends \Smarty\Runtime\Block
+class Block_257700215698b546ce17ff2_19449717 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -85,7 +85,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_5188386576987ac05bb5f80_76700801 extends \Smarty\Runtime\Block
+class Block_1372537328698b546ce18f09_09387124 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -141,7 +141,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_18921805896987ac05bbe013_73492246 extends \Smarty\Runtime\Block
+class Block_401535994698b546ce208e1_93260090 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

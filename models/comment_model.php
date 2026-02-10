@@ -112,6 +112,11 @@
                 ];
             }
 
+    // 2. CORRECTION ICI : Gestion de la note (INSERT ou UPDATE)
+    // On utilise "ON DUPLICATE KEY UPDATE"
+    $sql2 = "INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score) 
+            VALUES (:userId, :movieId, :rating)
+            ON DUPLICATE KEY UPDATE rat_score = :rating";
 
             $sql2 = "INSERT IGNORE INTO ratings (rat_user_id, rat_mov_id, rat_score)
                     VALUES (:userId, :movieId, :rating)";

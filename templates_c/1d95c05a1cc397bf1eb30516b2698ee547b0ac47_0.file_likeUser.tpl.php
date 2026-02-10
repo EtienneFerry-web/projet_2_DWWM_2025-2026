@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 10:45:33
+/* Smarty version 5.7.0, created on 2026-02-10 16:05:16
   from 'file:views/_partial/likeUser.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6989bacdeca584_89714126',
+  'unifunc' => 'content_698b573c2cb8d9_72044609',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6989bacdeca584_89714126 (\Smarty\Template $_smarty_tpl) {
+function content_698b573c2cb8d9_72044609 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?><li class="splide__slide">
     <a href="index.php?ctrl=movie&action=movie&id=<?php echo $_smarty_tpl->getValue('objLike')->getId();?>

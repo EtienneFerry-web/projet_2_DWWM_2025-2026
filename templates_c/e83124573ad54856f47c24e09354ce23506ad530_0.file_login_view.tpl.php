@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-07 22:20:14
+/* Smarty version 5.7.0, created on 2026-02-10 16:04:59
   from 'file:views/login_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_6987ba9eb917d5_74653193',
+  'unifunc' => 'content_698b572b701fb3_70241645',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e83124573ad54856f47c24e09354ce23506ad530' => 
     array (
       0 => 'views/login_view.tpl',
-      1 => 1770502810,
+      1 => 1770738344,
       2 => 'file',
     ),
   ),
@@ -20,28 +20,28 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6987ba9eb917d5_74653193 (\Smarty\Template $_smarty_tpl) {
+function content_698b572b701fb3_70241645 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18451920196987ba9eb88a71_25518018', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1371753765698b572b6faed4_30625155', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15885805116987ba9eb8aad3_61282238', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_854830810698b572b6fce78_04906511', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15354884676987ba9eb8ba45_92372734', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1101020106698b572b6fdcc4_40321883', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_18451920196987ba9eb88a71_25518018 extends \Smarty\Runtime\Block
+class Block_1371753765698b572b6faed4_30625155 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -52,7 +52,7 @@ Connexion<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_15885805116987ba9eb8aad3_61282238 extends \Smarty\Runtime\Block
+class Block_854830810698b572b6fce78_04906511 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -62,13 +62,11 @@ Connecte toi pour une experience personnalisée<?php
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_15354884676987ba9eb8ba45_92372734 extends \Smarty\Runtime\Block
+class Block_1101020106698b572b6fdcc4_40321883 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 ?>
-
-<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('vardump')($_SESSION);?>
 
 <section id="login" class="container py-5 my-auto ">
 <!-- include messages  -->

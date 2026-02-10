@@ -5,7 +5,7 @@
     require'models/movie_model.php';
     require'entities/comment_entity.php';
     require'models/comment_model.php';
-
+ 
     /**
     * Log in
     * @author Etienne
@@ -18,9 +18,9 @@
     *
     *
     */
-
+ 
     class UserCtrl extends MotherCtrl{
-
+ 
         public function login(){
             // Treating login form
             $strEmail       = $_POST['email']??"";
@@ -32,7 +32,7 @@
             $objUser            = new UserEntity;
             $objUserModel       = new UserModel;
             $objUser->hydrate($_POST);
-
+ 
             // Testing form
             $arrError = [];
             if (count($_POST) > 0) {
@@ -91,7 +91,7 @@
         *
         *
         */
-
+ 
         public function createAccount(){
 
             //Treating createAccount Form
@@ -102,7 +102,6 @@
             $strEmail       = $_POST['email']??"";
             $strPwd         = $_POST['pwd']??"";
             $strPwdConfirm  = $_POST['pwd_confirm']??"";
-
             //Preparing hydrate
             $objUser    = new UserEntity;
             $objUser->hydrate($_POST);
@@ -170,7 +169,6 @@
             $this->_arrData['pseudo'] = $strPseudo;
             $this->_arrData['birthdate'] = $strBirthdate;
             $this->_arrData['strEmail'] = $strEmail;
-
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser']  = $objUser;
             // Afficher
@@ -213,7 +211,7 @@
             }
 
             $objUserModel	= new UserModel;
-            $arrUser		= $objUserModel->findUser($_GET['id']??$_SESSION['user']['user_id']);
+            $arrUser		= $objUserModel->userPage($_GET['id']??$_SESSION['user']['user_id']);
             
             $objUser	= new UserEntity;
             $objUser->hydrate($arrUser);
@@ -277,7 +275,15 @@
             
             $intId = $_GET['id'];
             $objUserModel = new UserModel;
-            $arrUser = $objUserModel->findUser($intId, $_SESSION['user']['user_id']??0);
+			$arrUser		= $objUserModel->userPage($intId, $_SESSION['user']['user_id']);
+
+            if(!isset($arrUser['user_id'])){
+				header("Location:index.php?Ctrl=error&action=err404");
+				exit;
+			}
+
+			$objUser       = new UserEntity('mov_');
+			$objUser->hydrate($arrUser);
 
             if (!$arrUser) {
                 header("Location:index.php?Ctrl=error&action=err404");
@@ -346,12 +352,12 @@
                 if ($repResult === 1) {
                     $_SESSION['success'] = "Le signalement a bien été envoyé !";
 
-                    $arrUser = $objUserModel->findUser($intId, $_SESSION['user']['user_id']);
+                    $arrUser = $objUserModel->userPage($intId, $_SESSION['user']['user_id']);
                     $objUser->hydrate($arrUser);
                 } elseif ($repResult === 2) {
                     $_SESSION['success'] = "Le signalement a bien été supprimer !";
 
-                    $arrUser = $objUserModel->findUser($intId, $_SESSION['user']['user_id']);
+                    $arrUser = $objUserModel->userPage($intId, $_SESSION['user']['user_id']);
                     $objUser->hydrate($arrUser);
                 } else {
                     $arrError[] = "Vous avez déjà signalé cet utilisateur !";

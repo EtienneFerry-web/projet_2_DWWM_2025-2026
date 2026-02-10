@@ -90,7 +90,7 @@
       </div>
     </div>
 </section>
-{if $curDate->format('Y-m-d') >= $objMovie->getCreatedate()}
+{if $curDate->format('Y-m-d') >= $objMovie->getRelease_date()}
     <section id="addComment" class="container text-center py-5">
         <h2>Avis</h2>
         <div class="text-start py-2">

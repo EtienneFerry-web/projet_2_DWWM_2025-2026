@@ -3,7 +3,6 @@
 {block name="description"}Connecte toi pour une experience personnalisée{/block}
 
 {block name="content"}
-{$smarty.session|vardump}
 <section id="login" class="container py-5 my-auto ">
 <!-- include messages  -->
     <h1 class="text-center">Connexion</h1>
