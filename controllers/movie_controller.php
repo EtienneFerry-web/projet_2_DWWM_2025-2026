@@ -137,8 +137,37 @@
 
         public function movie(){
 			$arrError = [];
-
+		
 			$objCommentModel	= new CommentModel;
+
+			if(isset($_POST['likeMovieBtn'])){
+				$objMovieModel = new MovieModel; 
+
+    			$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+				} else if($repResult === 2) {
+					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+                }
+		}
+			if(isset($_POST['likeCommentBtn'])){
+
+				
+				
+				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+				} else if($repResult === 2) {
+					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+                }
+
+			}
+
+
+
 			/**
 			 * @author Etienne
 			 *
@@ -277,22 +306,6 @@
 
 		}
 
-		public function likeMovie(){
-			if(!isset($_SESSION['user'])){
-				header("Location:index.php?ctrl=user&action=login");
-				exit;
-			}
-
-			$intItemId = (int)$_GET['id'];
-
-			$intUserId = $_SESSION['user']['user_id'];
-			
-			$objUserModel = new UserModel; 
-    		$objUserModel->LikeMovie($intUserId, $intItemId);
-
-			header("Location:index.php?ctrl=movie&action=movie&id=" . $intItemId);
-			exit;
-		}
-
+		
 
     }

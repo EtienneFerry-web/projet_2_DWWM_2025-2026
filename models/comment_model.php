@@ -195,14 +195,35 @@
         }
 
         public function LikeComment($intUserId, $intItemId){
-			$strRq = "INSERT INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
-						VALUES (:user_id, :item_id, 'comment', NOW())";
+
+            $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
+                VALUES (:user_id, :item_id, 'comment', NOW())";
 			
 			$rqPrep	= $this->_db->prepare($strRq);
 
 				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
 				$rqPrep->bindValue(":item_id", $intItemId, PDO::PARAM_INT);
 
-			return $rqPrep->execute();
+			$rqPrep->execute();
+
+            if($rqPrep->rowCount() > 0){
+
+            return 1;
+
+            } else {
+
+                $deleteRq = "   DELETE FROM liked
+                                WHERE lik_item_id   = :item_id
+                                AND lik_user_id     = :user_id";
+
+                $prepDelete = $this->_db->prepare($deleteRq);
+                $prepDelete->bindValue(':item_id', $intItemId, PDO::PARAM_INT);
+                $prepDelete->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
+
+                $prepDelete->execute();
+
+                return 2;
+
+            }
 		}
     }

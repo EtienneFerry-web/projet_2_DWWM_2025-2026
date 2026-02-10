@@ -177,18 +177,5 @@
 			return $rqPrep->execute();
 		}
 
-
-
-		public function LikeMovie($intUserId, $intItemId){
-			$strRq = "INSERT INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
-						VALUES (:user_id, :item_id, 'movies', NOW())";
-			
-			$rqPrep	= $this->_db->prepare($strRq);
-
-				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
-				$rqPrep->bindValue(":item_id", $intItemId, PDO::PARAM_INT);
-
-			return $rqPrep->execute();
-		}
 		
     }
