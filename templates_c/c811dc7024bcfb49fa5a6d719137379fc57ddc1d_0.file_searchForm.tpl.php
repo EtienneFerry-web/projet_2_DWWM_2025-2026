@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-11 14:57:32
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:29
   from 'file:views/_partial/searchForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698c98dc62c3a6_04907263',
+  'unifunc' => 'content_698c9b6db376f2_79798554',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698c98dc62c3a6_04907263 (\Smarty\Template $_smarty_tpl) {
+function content_698c9b6db376f2_79798554 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?>
 <form action="index.php?ctrl=search&action=searchPage" class="<?php echo $_smarty_tpl->getValue('formClass');?>

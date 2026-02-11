@@ -23,6 +23,8 @@
 		private int    $_like;
 		private float  $_rating;
 		private string $_nationality;
+		private int		$_user_liked;
+
 
 		/**
 		* Constructeur
@@ -228,4 +230,11 @@
 			$this->_categoriesId = $strCategoriesId;
 		}
 
+		public function setUser_liked($bool){
+			$this->_user_liked = $bool;
+		}
+
+		public function getUser_liked(){
+			return $this->_user_liked;
+		}
 	}

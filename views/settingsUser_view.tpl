@@ -39,7 +39,7 @@
                         class="form-control {if (isset($arrError['bio']))} is-invalid {/if}">{$objUser->getBio()}</textarea>
          </div>
          <div class="col-12 p-2">
-             <label class="form-label">Photo de profil</label>
+            <label class="form-label">Photo de profil</label>
             <div class="mb-2">
                 <img src="assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
             </div>

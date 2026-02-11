@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-11 14:57:32
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:29
   from 'file:views/_partial/newMovie.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698c98dc673ef9_92408431',
+  'unifunc' => 'content_698c9b6db74c94_92465159',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698c98dc673ef9_92408431 (\Smarty\Template $_smarty_tpl) {
+function content_698c9b6db74c94_92465159 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?><li class="splide__slide hoverMovie">
     <a href="index.php?ctrl=movie&action=movie&id=<?php echo $_smarty_tpl->getValue('objMovie')->getId();?>

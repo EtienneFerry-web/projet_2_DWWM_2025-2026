@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-11 14:57:32
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:29
   from 'file:views/_partial/header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698c98dc5bdf15_09480816',
+  'unifunc' => 'content_698c9b6dacd4b4_57532021',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -23,7 +23,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/message.tpl' => 1,
   ),
 ))) {
-function content_698c98dc5bdf15_09480816 (\Smarty\Template $_smarty_tpl) {
+function content_698c9b6dacd4b4_57532021 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -34,15 +34,15 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_654489187698c98dc5a06b5_96073055', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_202869865698c9b6daaff25_64724356', "description");
 ?>
 ">
 	<title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1280521134698c98dc5a6915_96881098', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_945932331698c9b6dab59f2_23701359', "title");
 ?>
 </title>
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_295786801698c98dc5aca15_62921472', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_757778375698c9b6dabba89_19641170', "css_variation");
 ?>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -67,7 +67,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_295786801698c
     <?php $_smarty_tpl->renderSubTemplate("file:views/_partial/message.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }
 /* {block "description"} */
-class Block_654489187698c98dc5a06b5_96073055 extends \Smarty\Runtime\Block
+class Block_202869865698c9b6daaff25_64724356 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
@@ -75,7 +75,7 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 }
 /* {/block "description"} */
 /* {block "title"} */
-class Block_1280521134698c98dc5a6915_96881098 extends \Smarty\Runtime\Block
+class Block_945932331698c9b6dab59f2_23701359 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
@@ -85,7 +85,7 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 }
 /* {/block "title"} */
 /* {block "css_variation"} */
-class Block_295786801698c98dc5aca15_62921472 extends \Smarty\Runtime\Block
+class Block_757778375698c9b6dabba89_19641170 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';

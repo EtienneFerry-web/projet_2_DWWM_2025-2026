@@ -21,14 +21,21 @@
                             SELECT 1 FROM reported_comments 
                             WHERE rep_com_reported_id = comments.com_id 
                             AND rep_com_reporter_id = $idConnectUser
-                            ) AS 'com_reported'
+                            ) AS 'com_reported',
 
+                            EXISTS(
+                                SELECT 1 FROM liked 
+                                WHERE lik_user_id = :user_id 
+                                AND lik_type = 'comment' 
+                                AND lik_item_id = comments.com_id
+                            ) AS com_user_liked
+                            
                         FROM comments
                         INNER JOIN users ON comments.com_user_id = users.user_id
                         INNER JOIN movies ON comments.com_movie_id = movies.mov_id
                         LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
                         LEFT JOIN ratings ON ratings.rat_mov_id = movies.mov_id AND ratings.rat_user_id = users.user_id
-                        WHERE movies.mov_id = $idMovie
+                        WHERE movies.mov_id = :id
                         GROUP BY
                             comments.com_id,
                             comments.com_user_id,
@@ -38,7 +45,12 @@
                             comments.com_datetime";
 
 
-		    return $this->_db->query($strRq)->fetchAll();
+            $stmt = $this->_db->prepare($strRq);
+            $stmt->bindValue(':id', $idMovie, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $idConnectUser, PDO::PARAM_INT);
+            $stmt->execute();
+
+		    return $stmt->fetchAll();
 
         }
 
@@ -231,4 +243,37 @@
                 return 2; 
             }
         }
+
+        public function LikeComment($intUserId, $intItemId){
+
+            $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
+                VALUES (:user_id, :item_id, 'comment', NOW())";
+			
+			$rqPrep	= $this->_db->prepare($strRq);
+
+				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
+				$rqPrep->bindValue(":item_id", $intItemId, PDO::PARAM_INT);
+
+			$rqPrep->execute();
+
+            if($rqPrep->rowCount() > 0){
+
+            return 1;
+
+            } else {
+
+                $deleteRq = "   DELETE FROM liked
+                                WHERE lik_item_id   = :item_id
+                                AND lik_user_id     = :user_id";
+
+                $prepDelete = $this->_db->prepare($deleteRq);
+                $prepDelete->bindValue(':item_id', $intItemId, PDO::PARAM_INT);
+                $prepDelete->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
+
+                $prepDelete->execute();
+
+                return 2;
+
+            }
+		}
     }

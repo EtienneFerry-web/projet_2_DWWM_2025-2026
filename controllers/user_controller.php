@@ -128,6 +128,8 @@
                 }
 
             // Adding regex to verify password
+            //e.ferry607123@gmail.com
+            //1234567890AZERTYUIOP!a
                 $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
                 if ($objUser->getPwd() == ""){
                     $arrError['pwd'] = "Le mot de passe est obligatoire";
@@ -426,4 +428,6 @@
             }
             
         }
+
+        
 }

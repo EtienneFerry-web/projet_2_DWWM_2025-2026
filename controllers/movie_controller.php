@@ -5,6 +5,7 @@
     require'models/movie_model.php';
     require'models/comment_model.php';
     require'models/person_model.php';
+	require'models/user_model.php';
 
     /**
      * @author Marco Schmitt
@@ -135,8 +136,37 @@
 
         public function movie(){
 			$arrError = [];
-
+		
 			$objCommentModel	= new CommentModel;
+
+			if(isset($_POST['likeMovieBtn'])){
+				$objMovieModel = new MovieModel; 
+
+    			$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+				} else if($repResult === 2) {
+					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+                }
+		}
+			if(isset($_POST['likeCommentBtn'])){
+
+				
+				
+				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+				} else if($repResult === 2) {
+					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+                }
+
+			}
+
+
+
 			/**
 			 * @author Etienne
 			 *
@@ -206,7 +236,11 @@
 			}
 
             $objMovieModel 	= new MovieModel;
-			$arrMovie 		= $objMovieModel->findMovie($_GET['id']);
+			$movieId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+			$userId = isset($_SESSION['user']['user_id']) ? $_SESSION['user']['user_id'] : 0;
+
+			$arrMovie = $objMovieModel->findMovie($movieId, $userId);
 
 			if(!$arrMovie['mov_id']){
 				header("Location:index.php?Ctrl=error&action=err404");
@@ -229,7 +263,7 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$arrComment = $objCommentModel->commentOfMovie($_GET['id'], $_SESSION['user']['user_id']??0);
+			$arrComment = $objCommentModel->commentOfMovie($_GET['id'],$_SESSION['user']['user_id']);
 
 			$arrCommentToDisplay = array();
 

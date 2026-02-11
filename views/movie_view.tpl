@@ -13,17 +13,29 @@
         <h1 class="d-block d-md-none">{$objMovie->getTitle()}</h1>
         <img src="{$objMovie->getUrl()}" alt="" class="img-fluid w-75 w-md-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
-            <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
-                <span class="stars d-inline-block"></span>
-                <span class="note d-inline-block">{$objMovie->getRating()}</span>
-            </span>
-
-            <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center">
-                <i class="bi bi-heart-fill"></i><span>{$objMovie->getLike()}</span>
-            </span>
-        </div>
-
-    </div>
+        <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
+            <span class="stars d-inline-block"></span>
+            <span class="note d-inline-block">{$objMovie->getRating()}</span>
+        </span>
+        <form method="POST" class="d-inline">
+            <input type="hidden" name="likeMovieBtn" value="{$objMovie->getId()}">
+            
+            <button type="submit" 
+                    name=""
+                    value=""
+                    class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset" 
+                    style="cursor: pointer;"
+                    >
+            {if $objMovie->getUser_liked()}
+                <i class="bi bi-heart-fill"></i>
+            {else}
+                <i class="bi bi-heart"></i>
+            {/if}
+            <span>{$objMovie->getLike()}</span>
+            </button>
+        </form>
+</div>
+</div>
     <div class="col-12 col-md-8 py-1 py-md-5 text-center text-md-start">
         <h1 class="d-md-block d-none">{$objMovie->getTitle()}</h1>
         <span class=" spanMovie d-block py-2"> Durée : {$objMovie->getLength()}</span>

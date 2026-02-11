@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-11 14:57:32
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:29
   from 'file:views/home_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698c98dc56e840_14982167',
+  'unifunc' => 'content_698c9b6da8a863_79249562',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -21,38 +21,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/newMovie.tpl' => 1,
   ),
 ))) {
-function content_698c98dc56e840_14982167 (\Smarty\Template $_smarty_tpl) {
+function content_698c9b6da8a863_79249562 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_757934009698c98dc512c66_93588364', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1495014236698c9b6da478b5_31576065', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1027038418698c98dc521511_42209746', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_510766030698c98dc527658_55295385', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_333666592698c9b6da51895_93690722', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_569020834698c98dc52d6a2_55243828', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1979266322698c9b6da58028_22314904', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1050091422698c98dc569eb2_12908309', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1454505448698c9b6da5e245_91917432', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_439187265698c9b6da86452_21151745', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_757934009698c98dc512c66_93588364 extends \Smarty\Runtime\Block
+class Block_1495014236698c9b6da478b5_31576065 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -63,7 +63,7 @@ Accueil<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1027038418698c98dc521511_42209746 extends \Smarty\Runtime\Block
+class Block_333666592698c9b6da51895_93690722 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -73,7 +73,7 @@ bienvenue sur notre accueil !!!!<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_510766030698c98dc527658_55295385 extends \Smarty\Runtime\Block
+class Block_1979266322698c9b6da58028_22314904 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -85,7 +85,7 @@ $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_569020834698c98dc52d6a2_55243828 extends \Smarty\Runtime\Block
+class Block_1454505448698c9b6da5e245_91917432 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
@@ -141,7 +141,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_1050091422698c98dc569eb2_12908309 extends \Smarty\Runtime\Block
+class Block_439187265698c9b6da86452_21151745 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';

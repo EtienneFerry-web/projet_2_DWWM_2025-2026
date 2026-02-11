@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-11 14:57:32
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:29
   from 'file:views/_partial/footer.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698c98dc698db1_15554508',
+  'unifunc' => 'content_698c9b6db98348_48828554',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698c98dc698db1_15554508 (\Smarty\Template $_smarty_tpl) {
+function content_698c9b6db98348_48828554 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -40,14 +40,14 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"><?php echo '</script'; ?>
 >
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_716764433698c98dc695050_65877984', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1884528179698c9b6db945e9_85690108', "js");
 ?>
 
 </body>
 </html>
 <?php }
 /* {block "js"} */
-class Block_716764433698c98dc695050_65877984 extends \Smarty\Runtime\Block
+class Block_1884528179698c9b6db945e9_85690108 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';

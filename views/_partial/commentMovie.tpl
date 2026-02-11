@@ -22,10 +22,24 @@
         <p>
             {$comment->getComment()}
         </p>
-        <form method="post" class="col-1">
-            <input type="radio" class="btn-check" name="searchBy" value="{$comment->getId()}" id="filter-like" onchange="this.form.submit()">
-            <label class="form-label" for="filter-like"><i class="bi bi-heart-fill"></i><span> {$comment->getLike()} </span></label>
-        </form>
+
+        <div class="col-1">
+            <form method="post" action="" class="js-like-form">
+                
+                <input type="hidden" name="likeCommentBtn" value="{$comment->getId()}">
+                
+                <button type="submit" class="border-0 bg-transparent p-0 text-decoration-none" name="">
+                    <label class="form-label" style="cursor:pointer;">
+                    {if $comment->getUser_liked()}
+                        <i class="bi bi-heart-fill"></i>
+                    {else}
+                        <i class="bi bi-heart"></i>
+                    {/if}
+                        <span class="like-count"> {$comment->getLike()}</span>
+                    </label>
+                </button>
+            </form>
+        </div>
 
         <div class="row align-items-center ">
             <span class="spanMovie d-block col-6 me-auto">{$comment->getDateFormat()}</span>
