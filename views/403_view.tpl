@@ -8,7 +8,7 @@
 
 {block name="content"}
 <section class="container text-center py-5">
-    <h1>403 - ACCESS DENIED</h1>
+    <h1>403 - Accées Refusé</h1>
     <p>Fléche du haut saute Fléche du bas accroupi bonne chance !</p>
 
     <div id="game-container">

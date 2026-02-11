@@ -9,17 +9,26 @@ const boxHeight = box.clientHeight;
 
 let posX = Math.random() * (zoneWidth - boxWidth);
 let posY = Math.random() * (zoneHeight - boxHeight);
-let movX = 2.5;
-let movY = 2.5;
+let movX = 500;
+let movY = 500;
+let lastTime = 0;
+let hit;
 
 
 const colors = ['#2E5BFF', '#D81B60', '#00796B', '#6A1B9A', '#E65100', '#1A1A1B', '#FF4500', '#0000FF', '#228B22', '#800080'];
 let lastColorIndex = 0;
 
-function update() {
-    posX += movX;
-    posY += movY;
-    let hit = false;
+function update(timestamp) {
+  
+  if (!lastTime) lastTime = timestamp;
+  
+    const deltaTime = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+  
+    
+    posX += (movX * deltaTime);
+    posY += (movY * deltaTime);
+    hit = false;
 
     if (movX > 2.5 || movX < -2.5 && movY > 2.5 || movY < -2.5) {
       movX *= 0.999;
@@ -46,15 +55,17 @@ function update() {
         box.style.color = colors[newColorIndex];
 
     }
-  console.log(hit);
+    
+    console.log(hit);
     box.style.transform = `translate(${posX}px, ${posY}px)`;
     requestAnimationFrame(update);
 }
 
 box.style.color = colors[0];
-update();
+requestAnimationFrame(update);
 
 box.addEventListener('click', () => {
+  if (hit) return;
   movX *= -2;
   movY *= -2;
 

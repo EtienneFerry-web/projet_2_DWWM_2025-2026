@@ -58,7 +58,7 @@ searchBar.addEventListener('input', () => {
                                     }
     timer = setTimeout(() => {
       searchData();
-    }, 500);
+    }, 300);
   } else {
     affichSuggestion(historique);
   }

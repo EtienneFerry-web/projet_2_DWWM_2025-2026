@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
       1024: { perPage: 4, gap: '0.5rem' },
       768:  { perPage: 2, gap: '0.5rem' },
     },
-    autoScroll: { speed: 1 },
+    autoScroll: { speed: 2 },
   }).mount(window.splide.Extensions);
 });
 
