@@ -1,1 +1,6 @@
 /vendor/
+
+.env
+
+templates_c/
+

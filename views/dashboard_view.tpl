@@ -11,16 +11,20 @@
 {block name="content"}
 <section id="dashboard" class="container py-5">
     <h1>DashBoard</h1>
-    
-    <div class="py-2 container row col-12 col-lg-auto">
-        <button id="user" class="nav-link col-2">Utilisateurs</button>
-        <button id="addMovie" class="nav-link col-2">Films</button>
-        <button id="person" class="nav-link col-2">Célébrités</button>
-        <button id="report" class="nav-link col-2">Signalement</button>
+
+    <div class="py-2 row g-2">
+        <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2 active">Home</a>
+        <a id="user" href="index.php?ctrl=admin&action=allUser" class="nav-link col-2">Utilisateurs</a>
+        <a id="addMovie" href="index.php?ctrl=admin&action=allMovie" class="nav-link col-2">Films</a>
+        <a id="person" href="index.php?ctrl=admin&action=allPerson" class="nav-link col-2">Célébrités</a>
+        <a id="report" href="index.php?ctrl=admin&action=allReport" class="nav-link col-2">Signalement</a>
     </div>
 
-    <div id="ficheMovie" class="d-none">
-        <h2>Tous les films</h2>
+    <h2>Home Dashboard</h2>
+    <p>Faire Un affichage de stats ? </p>
+
+    <!--<div id="ficheMovie" class="d-none">
+        <h2>Home</h2>
         <form class="row g-1 align-items-center py-3">
             <div class="col-12 col-md-5 p-0">
                 <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="">
@@ -160,16 +164,16 @@
             {foreachelse}
                 <h3 class="text-center py-4">Aucun signalement !</h3>
             {/foreach}
-            
+
                 <div class="container-fluid mt-4">
                     <form method="post" class="row border-bottom py-3 align-items-center">
                         <div class="col-md-1 fw-bold">#42</div>
-                            
+
                             <div class="col-md-3 d-flex align-items-center">
-                                <div class="rounded-circle bg-secondary me-2"> 
-                                    <img src="assets/img/mouse.png" 
-                                        class="rounded-circle border" 
-                                        style="width: 40px; height: 40px; object-fit: cover;" 
+                                <div class="rounded-circle bg-secondary me-2">
+                                    <img src="assets/img/mouse.png"
+                                        class="rounded-circle border"
+                                        style="width: 40px; height: 40px; object-fit: cover;"
                                         alt="Avatar">
                                 </div>
                                 <div>
@@ -188,16 +192,16 @@
                             </div>
                     </form>
                 </div>
-           
+
             <div class="container-fluid mt-4">
     <form method="post" class="row border-bottom py-3 align-items-center bg-light-hover">
         <div class="col-md-1 fw-bold">#42</div>
-        
+
         <div class="col-md-3 d-flex align-items-center">
-            <div class="rounded-circle bg-secondary me-2"> 
-                <img src="assets/img/mouse.png" 
-                    class="rounded-circle border" 
-                    style="width: 40px; height: 40px; object-fit: cover;" 
+            <div class="rounded-circle bg-secondary me-2">
+                <img src="assets/img/mouse.png"
+                    class="rounded-circle border"
+                    style="width: 40px; height: 40px; object-fit: cover;"
                     alt="Avatar">
             </div>
             <div>
@@ -207,7 +211,7 @@
         </div>
 
         <div class="col-md-4">
-            
+
             <div class="small text-muted fst-italic">"Photo de profil inappropriée et bio publicitaire."</div>
         </div>
 
@@ -222,7 +226,7 @@
             </div>
     </form>
 </div>
-        </div>
+        </div>-->
 </section>
 {/block}
 
