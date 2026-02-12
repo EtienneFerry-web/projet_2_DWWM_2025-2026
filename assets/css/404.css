@@ -6,8 +6,8 @@ section {
 
 .dvd-box {
     position: absolute;
-    width: clamp(100px, 20vw, 320px);
-    height: clamp(60px, 20vw, 180px);
+    width: clamp(140px, 20vw, 320px);
+    height: clamp(90px, 20vw, 180px);
     will-change: transform;
     filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
     cursor: pointer;

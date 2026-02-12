@@ -136,11 +136,11 @@
 
         public function movie(){
 			$arrError = [];
-		
+
 			$objCommentModel	= new CommentModel;
 
 			if(isset($_POST['likeMovieBtn'])){
-				$objMovieModel = new MovieModel; 
+				$objMovieModel = new MovieModel;
 
     			$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
 
@@ -152,8 +152,8 @@
 		}
 			if(isset($_POST['likeCommentBtn'])){
 
-				
-				
+
+
 				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
 
 
@@ -210,7 +210,7 @@
 						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
 				}
-			
+
 			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
 
 			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
@@ -219,7 +219,7 @@
 			}
 
 			if (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
-                    
+
 				$objComment = new CommentEntity;
 				$objComment->hydrate($_POST);
 
@@ -263,7 +263,7 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$arrComment = $objCommentModel->commentOfMovie($_GET['id'],$_SESSION['user']['user_id']);
+			$arrComment = $objCommentModel->commentOfMovie($_GET['id'],$_SESSION['user']['user_id']??0);
 
 			$arrCommentToDisplay = array();
 
@@ -291,7 +291,7 @@
 			$objMovieModel = new MovieModel();
 			var_dump($objMovie);
 			$arrError = [];
-			
+
 			// 2. Validation des données
 			if (count($_POST)>0){
 				if (empty($objMovie->getTitle())) {
@@ -299,7 +299,7 @@
 				}
 				// if (empty($objMovie->getCategorieId())) {
 				// 	$arrError['categorie'] = "La catégorie est obligatoire";
-				// }				
+				// }
 				if (empty($objMovie->getLength())) {
 					$arrError['length'] = "La durée est obligatoire";
 				}
@@ -309,7 +309,7 @@
 				// if (empty($objMovie->getUrl())) {
 				// 	$arrError['photo'] = "L'affiche du film est obligatoire";
 				// }
-	
+
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png');
 				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
@@ -349,9 +349,9 @@
 				}
 			}
 
-			$arrCategory = $objMovieModel->allCategories();		
-				$arrCatToDisplay	= array();			
-								
+			$arrCategory = $objMovieModel->allCategories();
+				$arrCatToDisplay	= array();
+
 			$arrCatToDisplay = array();
 			foreach($arrCategory as $arrDetCat){
 				$objContent = new MovieEntity('mov_');
@@ -360,9 +360,9 @@
 				$arrCatToDisplay[]	= $objContent;
 			}
 
-			$arrNationality = $objMovieModel->allCountry();		
+			$arrNationality = $objMovieModel->allCountry();
 			$arrNatToDisplay	= array();
-			
+
 			$arrNatToDisplay = array();
 			foreach($arrNationality as $arrDetNat){
 				$objNat = new MovieEntity('mov_');
@@ -379,12 +379,12 @@
 			$this->_arrData['arrCatToDisplay'] = $arrCatToDisplay;
 			$this->_arrData['arrNatToDisplay'] = $arrNatToDisplay;
 
-			
+
             $this->_display("addMovie");
         }
-		
+
 		public function deleteMovie() {
-			
+
            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
@@ -394,7 +394,7 @@
 
             // Si on a supprimé, on nettoie tout
             if($success){
-            
+
                 $_SESSION['success'] = "Le film a bien été supprimé";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;

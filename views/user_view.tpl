@@ -79,6 +79,10 @@
     <div class="col-12 col-md-10 mx-auto py-1 scrollList">
         {foreach $arrCommentToDisplay as $review}
             {include file="views/_partial/reviewMovie.tpl"}
+        {foreachelse}
+        <div class="col-12 text-center py-3">
+            <h3 class="border-0">Cette Utilisateur n'a pas de review</h3>
+        </div>
         {/foreach}
     </div>
 </section>

@@ -19,30 +19,44 @@ const colors = ['#2E5BFF', '#D81B60', '#00796B', '#6A1B9A', '#E65100', '#1A1A1B'
 let lastColorIndex = 0;
 
 function update(timestamp) {
-  
+
   if (!lastTime) lastTime = timestamp;
-  
+
     const deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
-  
-    
+
+
     posX += (movX * deltaTime);
-    posY += (movY * deltaTime);
+    posY += Math.min(movY * deltaTime);
     hit = false;
 
-    if (movX > 2.5 || movX < -2.5 && movY > 2.5 || movY < -2.5) {
+  if (Math.abs(movX) > 500 || Math.abs(movY) > 500) {
+      console.log('test')
       movX *= 0.999;
       movY *= 0.999;
     }
 
-    if (posX + boxWidth >= zoneWidth || posX <= 0) {
-        movX *= -1;
-        hit = true;
-    }
-    if (posY + boxHeight >= zoneHeight || posY <= 0) {
-        movY *= -1;
-        hit = true;
-    }
+  if (posX + boxWidth >= zoneWidth) {
+      posX = zoneWidth - boxWidth;
+      movX *= -1;
+      hit = true;
+  }
+  else if (posX <= 0) {
+      posX = 0;
+      movX *= -1;
+      hit = true;
+  }
+
+  if (posY + boxHeight >= zoneHeight) {
+      posY = zoneHeight - boxHeight;
+      movY *= -1;
+      hit = true;
+  }
+  else if (posY <= 0) {
+      posY = 0;
+      movY *= -1;
+      hit = true;
+  }
 
     if (hit) {
       let newColorIndex;
@@ -55,8 +69,8 @@ function update(timestamp) {
         box.style.color = colors[newColorIndex];
 
     }
-    
-    console.log(hit);
+
+
     box.style.transform = `translate(${posX}px, ${posY}px)`;
     requestAnimationFrame(update);
 }

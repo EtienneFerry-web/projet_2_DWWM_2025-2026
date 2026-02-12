@@ -5,7 +5,7 @@
     require'models/movie_model.php';
     require'entities/comment_entity.php';
     require'models/comment_model.php';
- 
+
     /**
     * Log in
     * @author Etienne
@@ -18,9 +18,9 @@
     *
     *
     */
- 
+
     class UserCtrl extends MotherCtrl{
- 
+
         public function login(){
             // Treating login form
             $strEmail       = $_POST['email']??"";
@@ -32,7 +32,7 @@
             $objUser            = new UserEntity;
             $objUserModel       = new UserModel;
             $objUser->hydrate($_POST);
- 
+
             // Testing form
             $arrError = [];
             if (count($_POST) > 0) {
@@ -91,7 +91,7 @@
         *
         *
         */
- 
+
         public function createAccount(){
 
             //Treating createAccount Form
@@ -214,14 +214,14 @@
 
             $objUserModel	= new UserModel;
             $arrUser		= $objUserModel->userPage($_GET['id']??$_SESSION['user']['user_id']);
-            
+
             $objUser	= new UserEntity;
             $objUser->hydrate($arrUser);
 
             $arrError = [];
             var_dump($objUser);
             var_dump($_FILES);
-            
+
             if (count($_POST) > 0) {
                 $objUser->hydrate($_POST);
                 $arrError	= $this->verifInfos($objUser);
@@ -270,14 +270,14 @@
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser']  = $objUser;
             $this->_display("settingsUser");
-            
+
         }
 
         public function user() {
-            
+
             $intId = $_GET['id'];
             $objUserModel = new UserModel;
-			$arrUser		= $objUserModel->userPage($intId, $_SESSION['user']['user_id']);
+			$arrUser		= $objUserModel->userPage($intId, $_SESSION['user']['user_id']??0);
 
             if(!isset($arrUser['user_id'])){
 				header("Location:index.php?Ctrl=error&action=err404");
@@ -309,7 +309,7 @@
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
-            } 
+            }
 
             elseif (isset($_POST['comment']) && isset($_POST['rating'])) {
                 $objComment->hydrate($_POST);
@@ -320,7 +320,7 @@
                 } else {
                     $arrError[] = "erreur lors de la modification";
                 }
-            } 
+            }
 
             elseif (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
                 $objComment = new CommentEntity;
@@ -341,8 +341,8 @@
                     $_SESSION['success'] = "Spoiler Update !";
                 }
             }
-            
-            
+
+
 
             $objUser = new UserEntity;
             $objUser->hydrate($arrUser);
@@ -426,8 +426,8 @@
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;
             }
-            
+
         }
 
-        
+
 }
