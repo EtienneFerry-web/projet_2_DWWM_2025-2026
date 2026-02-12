@@ -428,6 +428,30 @@
             }
 
         }
-
+        public function allUser(){
+      
+			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
+      
+			$objUserModel 	= new UserModel;
+			$arrUsers 		= $objUserModel->findAllUsers();
+      
+			// Initialisation d'un tableau => objets
+			$arrUserToDisplay	= array();
+      
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrUsers as $arrDetUser){
+				$objUser = new UserEntity;
+				$objUser->hydrate($arrDetUser);
+      
+				$arrUserToDisplay[]	= $objUser;
+			}
+      
+			$this->_arrData['arrUserToDisplay']	    = $arrUserToDisplay;
+      
+			$this->_display("allUser");
+		}
 
 }

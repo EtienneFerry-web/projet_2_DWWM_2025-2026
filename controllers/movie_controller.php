@@ -136,7 +136,7 @@
 
         public function movie(){
 			$arrError = [];
-
+		
 			$objCommentModel	= new CommentModel;
 
 			if(isset($_POST['likeMovieBtn'])){
@@ -149,20 +149,84 @@
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
                 }
-		}
+			}
+			
 			if(isset($_POST['likeCommentBtn'])){
-
-
-
+		
 				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
-
-
+				
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Votre like a bien été pris en compte !";
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
                 }
-
+			}
+			
+			if(isset($_FILES['images'])){
+                $arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
+				if ($_FILES['images']['error'] != 4){ 
+					if (!in_array($_FILES['images']['type'], $arrTypeAllowed)){
+						$arrError['images'] = "Le type de fichier n'est pas autorisé";
+					}else{
+						// Vérification des codes d'erreur
+						switch ($_FILES['images']['error']){
+							case 0 : 
+								// Renommage de l'image 
+								$strImageName	= uniqid();
+								
+								switch ($_FILES['images']['type']){
+									case 'image/jpeg' :
+										$strImageName .= '.jpg';
+										break;
+									case 'image/png' :
+										$strImageName .= '.png';
+										break;
+									case 'image/webp' :
+										$strImageName .= '.png';
+										break;
+								}
+								
+								break;
+							case 1 :
+								$arrError['img'] = "Le fichier est trop volumineux";
+								break;
+							case 2 :
+								$arrError['img'] = "Le fichier est trop volumineux";
+								break;
+							case 3 :
+								$arrError['img'] = "Le fichier a été partiellement téléchargé";
+								break;
+							case 6 :
+								$arrError['img'] = "Le répertoire temporaire est manquant";
+								break;
+							default :
+								$arrError['img'] = "Erreur sur l'image";
+								break;
+						}
+					}
+						
+				}else{
+					$arrError['img'] = "L'image est obligatoire";
+				}
+				
+				if(count($arrError) == 0){
+				    $objMovieModel = new MovieModel;
+								
+					$boolInsert = $objMovieModel->addImageOfMovies($strImageName, $_GET['id'], $_SESSION['user']['user_id']);
+					
+					if($boolInsert){
+    					 $strDest = 'assets/img/movie/' . $strImageName;
+    
+                        if(move_uploaded_file($_FILES['images']['tmp_name'], $strDest)){
+                        $this->_resize($strDest, 400, 400);
+                        
+                        $_SESSION['success'] = "ajoute de l'image";
+                        
+                    } else {
+                        $arrError['photo'] = "Erreur lors du téléchargement";
+                    }
+					}
+				}
 			}
 
 
@@ -172,7 +236,7 @@
 			 *
 			 */
 				// 1. Check if the form has been submitted
-				if(!empty($_POST)) {
+				if(!empty($_POST) && isset($_POST['com_comment']) ) {
 
 				// 2. Ensure the user is logged in
 					if(isset($_SESSION['user'])) {
@@ -236,16 +300,27 @@
 			}
 
             $objMovieModel 	= new MovieModel;
-			$movieId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-			$userId = isset($_SESSION['user']['user_id']) ? $_SESSION['user']['user_id'] : 0;
-
-			$arrMovie = $objMovieModel->findMovie($movieId, $userId);
+			$arrMovie = $objMovieModel->findMovie($_GET['id'], $_SESSION['user']['user_id']??0);
+			$arrMovieImages = $objMovieModel->selectImageMovie($_GET['id']);
 
 			if(!$arrMovie['mov_id']){
 				header("Location:index.php?Ctrl=error&action=err404");
 				exit;
 			}
+			
+			
+			
+			$arrImagesToDisplay = array();
+
+			foreach($arrMovieImages as $arrDetImage){
+				$objMovie = new MovieEntity('mov_');
+				$objMovie->hydrate($arrDetImage);
+
+				$arrImagesToDisplay[]	= $objMovie;
+			}
+			
+	
 
 			$objMovie  = new MovieEntity('mov_');
 			$objMovie->hydrate($arrMovie);
@@ -278,6 +353,7 @@
 
 			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
+			$this->_arrData['arrImagesToDisplay'] = $arrImagesToDisplay;
 			$this->_arrData['objMovie'] = $objMovie;
 
             $this->_display("movie");
@@ -285,11 +361,10 @@
 
         public function addMovie(){
 			// 1. Initialisation des objets et variables
-			var_dump($_POST);
 			$objMovie = new MovieEntity();
 			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
 			$objMovieModel = new MovieModel();
-			var_dump($objMovie);
+		
 			$arrError = [];
 
 			// 2. Validation des données
@@ -401,7 +476,31 @@
 
             }
 
+		}
+		
+		public function allMovie(){
+			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=err403");
+				exit;
+			}
 
+			$objMovieModel 	= new MovieModel;
+			$arrMovie   	= $objMovieModel->findAllMovies();
+
+			// Initialisation d'un tableau => objets
+			$arrMovieToDisplay	= array();
+
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrMovie as $arrDetMovie){
+				$objMovie = new MovieEntity("mov_");
+				$objMovie->hydrate($arrDetMovie);
+
+				$arrMovieToDisplay[]	= $objMovie;
+			}
+			
+			$this->_arrData['arrMovieToDisplay']	    = $arrMovieToDisplay;
+
+			$this->_display("allMovie");
 		}
 
     }

@@ -181,4 +181,27 @@
              
         
         }
+        
+        public function allPerson(){
+      
+			$objPersonModel 	= new PersonModel;
+			$arrPerson   	= $objPersonModel->listPerson();
+      
+			// Initialisation d'un tableau => objets
+			$arrPersonToDisplay	= array();
+      
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrPerson as $arrDetPerson){
+				$objPerson = new PersonEntity();
+				$objPerson->hydrate($arrDetPerson);
+      
+				$arrPersonToDisplay[]	= $objPerson;
+			}
+      
+			// Donner arrUsersToDisplay à maman pour l'affichage
+      
+			$this->_arrData['arrPersonToDisplay']	= $arrPersonToDisplay;
+      
+			$this->_display("allPerson");
+		}
     }

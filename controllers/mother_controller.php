@@ -35,4 +35,40 @@ class MotherCtrl{
         $objSmarty->display("views/".$strView."_view.tpl");
 
     }
+    
+    protected function _resize($img, $intX=250, $intY=250){        
+		$filename = $img;
+
+        $width = $intX;
+        $height = $intY;
+
+        list($width_orig, $height_orig) = getimagesize($filename);
+
+        $image_p = imagecreatetruecolor($width, $height);
+
+        $data = file_get_contents($filename);
+        $image = imagecreatefromstring($data);
+
+        imagecopyresampled(
+            $image_p,
+            $image,
+            0, 0, 0, 0,
+            $width, $height,
+            $width_orig, $height_orig
+        );
+
+        $extension = pathinfo($img, PATHINFO_EXTENSION);
+
+        if ($extension == 'jpg' || $extension == 'jpeg') {
+            imagejpeg($image_p, $img, 80);
+        } elseif ($extension == 'png') {
+            imagepng($image_p, $img);
+        } elseif ($extension == 'webp') {
+            imagewebp($image_p, $img);
+        }
+
+        imagedestroy($image);
+        imagedestroy($image_p);
+
+    }
 }

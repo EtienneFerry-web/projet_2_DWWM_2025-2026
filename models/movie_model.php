@@ -339,6 +339,33 @@
 
             }
 		}
+		
+		public function addImageOfMovies(string $img, int $intMovId, int $intUserId){
+		
+    		$strRq = "INSERT INTO photos (pho_url, pho_type, pho_mov_id, pho_user_id) 
+    				  VALUES (:img, 'Content', :movId, :userId)";
+    
+    		$rqPrep = $this->_db->prepare($strRq);
+    		$rqPrep->bindValue(':img', $img, PDO::PARAM_STR);
+            $rqPrep->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+            $rqPrep->bindValue(':userId', $intUserId, PDO::PARAM_INT);
+    
+    		return $rqPrep->execute();
+      
+		}
+		
+		public function selectImageMovie($intMovId){
+		
+		    $strRq = " SELECT pho_id AS 'mov_id', pho_url AS 'mov_url' 
+						FROM photos
+						WHERE pho_mov_id = :id AND pho_type = 'Content'";
+						
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intMovId, PDO::PARAM_INT);
+			$rqPrep->execute();
+			return $rqPrep->fetchAll();
+			
+		}
 
     }
 ?>

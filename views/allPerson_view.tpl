@@ -15,9 +15,9 @@
 
     <div class="py-2 row g-2">
         <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
-        <a id="user" href="index.php?ctrl=admin&action=allUser" class="nav-link col-2">Utilisateurs</a>
-        <a id="addMovie" href="index.php?ctrl=admin&action=allMovie" class="nav-link col-2">Films</a>
-        <a id="person" href="index.php?ctrl=admin&action=allPerson" class="nav-link col-2 active">Célébrités</a>
+        <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
+        <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2">Films</a>
+        <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2 active">Célébrités</a>
         <a id="report" href="index.php?ctrl=admin&action=allReport" class="nav-link col-2">Signalement</a>
     </div>
 
@@ -47,10 +47,11 @@
                         <span class="spanMovie fw-bold">#{$objPerson->getId()}</span>
                     </div>
                     <div class="col-10 col-md-5">
-                        <span class="spanMovie">{$objPerson->getFullName()}</span>
+                         <a class="text-decoration-none" href="index.php?ctrl=person&action=person&id={$objPerson->getId()}"><span class="spanMovie">{$objPerson->getFullName()}</span></a>
+        
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
-                        <a href="" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
+                        <a href="index.php?ctrl=person&action=settingsPerson&id={$objPerson->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
                         <a href="index.php?ctrl=movie&action=deletePerson&id={$objPerson->getId()}"
                         class="btn btn-sm btn-outline-danger px-5"
                         onclick="return confirm('Vous allez supprimer le film {$objPerson->getFullName()|escape:'javascript'}')">

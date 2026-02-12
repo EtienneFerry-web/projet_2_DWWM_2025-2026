@@ -8,6 +8,7 @@
 {/block}
 
 {block name="content"}
+
 <section class="container row mx-auto" id="movie">
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
         <h1 class="d-block d-md-none">{$objMovie->getTitle()}</h1>
@@ -59,45 +60,24 @@
 </section>
 <section  id="imgMovie" class="container py-5 text-center">
     <h2>Image du film</h2>
-    <form method="post" class="row text-center">
+    {if count($arrImagesToDisplay) < 20 && isset($smarty.session.user)}
+    <form method="post" class="row text-center" enctype="multipart/form-data">
         <div class="col-10 p-2 mx-auto">
-            <input type="file" class="form-control" accept="image/*">
+            <input type="file" class="form-control" accept="image/*" name="images">
         </div>
         <button type="submit" class="btnCustom py-2 col-10 mx-auto">Enregistrer</button>
     </form>
+    {/if}
     <div class="splide">
       <div class="splide__track">
         <ul class="splide__list">
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/300x400/000/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/500x400/555/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/300x400/000/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/500x400/555/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
-          <li class="splide__slide">
-            <img src="https://dummyimage.com/350x400/999/fff" />
-          </li>
+        {foreach from=$arrImagesToDisplay item=objImage}
+            <li class="splide__slide">
+                <img src="assets/img/movie/{$objImage->getUrl()}" />
+            </li>
+          {foreachelse}
+            <h3>Ce film n'a aucun image</h3>
+          {/foreach}
         </ul>
       </div>
     </div>
@@ -106,7 +86,7 @@
     <section id="addComment" class="container text-center py-5">
         <h2>Avis</h2>
         <div class="text-start py-2">
-            <form method="post" >
+            <form method="post">
                 <div class="py-2">
                     <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
                     <textarea

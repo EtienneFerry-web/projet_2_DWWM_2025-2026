@@ -8,22 +8,22 @@
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
-		private string $_title;
-		private string $_original_title;
-		private string $_url;
-		private string $_description;
-		private string $_release_date;
-		private string $_trailer_url;
-		private int $_countryId;
-		private string $_country;
-		private int $_categoriesId;
-		private string $_categories;
-		private string $_length;
-		private string $_func;
-		private int    $_like;
-		private float  $_rating;
-		private string $_nationality;
-		private int		$_user_liked;
+		private string  $_title;
+		private string  $_original_title;
+		private string  $_url;
+		private string  $_description;
+		private string  $_release_date;
+		private string  $_trailer_url;
+		private int     $_countryId;
+		private string  $_country;
+		private int     $_categoriesId;
+		private string  $_categories;
+		private string  $_length;
+		private string  $_func;
+		private int     $_like;
+		private float   $_rating;
+		private string  $_nationality;
+		private int	    $_user_liked;
 
 
 		/**

@@ -15,9 +15,9 @@
 
     <div class="py-2 row g-2">
         <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
-        <a id="user" href="index.php?ctrl=admin&action=allUser" class="nav-link col-2">Utilisateurs</a>
-        <a id="addMovie" href="index.php?ctrl=admin&action=allMovie" class="nav-link col-2">Films</a>
-        <a id="person" href="index.php?ctrl=admin&action=allPerson" class="nav-link col-2">Célébrités</a>
+        <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
+        <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2">Films</a>
+        <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2">Célébrités</a>
         <a id="report" href="index.php?ctrl=admin&action=allReport" class="nav-link col-2 active">Signalement</a>
     </div>
 
