@@ -5,6 +5,7 @@
     require'models/movie_model.php';
     require'models/comment_model.php';
     require'models/person_model.php';
+	require'models/user_model.php';
 
     /**
      * @author Marco Schmitt
@@ -36,7 +37,6 @@
         public function list(){
             $objContentModel 	= new MovieModel;
 
-        
             $objContentModel->producer  	= $_POST['producer']??"";
             $objContentModel->actor 	    = $_POST['actor']??"";
             $objContentModel->realisator 	= $_POST['realisator']??"";
@@ -129,16 +129,44 @@
 			$this->_arrData['arrCountryToDisplay'] 		= $arrCountryToDisplay;
 			$this->_arrData['arrMovieToDisplay'] 		= $arrMovieToDisplay;
 
-
             $this->_display("list");
         }
 
-		
+
 
         public function movie(){
 			$arrError = [];
-            
+
 			$objCommentModel	= new CommentModel;
+
+			if(isset($_POST['likeMovieBtn'])){
+				$objMovieModel = new MovieModel;
+
+    			$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+				} else if($repResult === 2) {
+					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+                }
+		}
+			if(isset($_POST['likeCommentBtn'])){
+
+
+
+				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+				} else if($repResult === 2) {
+					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+                }
+
+			}
+
+
+
 			/**
 			 * @author Etienne
 			 *
@@ -154,7 +182,7 @@
 							$arrError['com_comment'] = "Vous devez remplir le champ commentaire pour laisser un avis";
 						}
 				// 4. Validation: Check if a rating has been selected
-						if (empty($_POST['noteRating'])){
+						if (empty($_POST['rating'])){
 							$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
 						}
 				/// 5. Final Verdict: If no errors were found, proceed with insertion
@@ -163,19 +191,56 @@
 							$objComment = new CommentEntity;
 							$objComment->setComment($_POST['com_comment']);
 							$objComment->setUser_id($_SESSION['user']['user_id']);
-							$objComment->setRating($_POST['noteRating']);
+							$objComment->setRating($_POST['rating']);
 							$objComment->setmovieId($_GET['id']);
 				// Insert into DB and set success notification
-							$objCommentModel->commentInsert($objComment);
-							$_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+							$comment = $objCommentModel->commentInsert($objComment);
+
+							if(!$comment){
+							    $arrError[] 	= "Echec de l'ajout du commentaire !";
+							} elseif(isset($comment['error'])){
+							    $arrError[] 	= $comment['error'];
+							}else{
+			                    $_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+							}
+
+
 						}
 					} else{
 						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
 				}
 
+			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
+
+			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
+					$_SESSION['success'] = "Spoiler Update !";
+				}
+			}
+
+			if (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
+
+				$objComment = new CommentEntity;
+				$objComment->hydrate($_POST);
+
+				$repResult = $objCommentModel->reportComment($objComment, $_SESSION['user']['user_id']);
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Le signalement a bien été envoyé !";
+				} elseif ($repResult === 2) {
+					$_SESSION['success'] = "Le signalement à bien était supprimer !";
+				} else{
+					$arrError[] = "Vous avez déjà signalé cet utilisateur !";
+				}
+
+			}
+
             $objMovieModel 	= new MovieModel;
-			$arrMovie 		= $objMovieModel->findMovie($_GET['id']);
+			$movieId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+			$userId = isset($_SESSION['user']['user_id']) ? $_SESSION['user']['user_id'] : 0;
+
+			$arrMovie = $objMovieModel->findMovie($movieId, $userId);
 
 			if(!$arrMovie['mov_id']){
 				header("Location:index.php?Ctrl=error&action=err404");
@@ -198,8 +263,7 @@
 				$arrPersToDisplay[]	= $objPerson;
 			}
 
-			$arrComment = $objCommentModel->commentOfMovie($_GET['id']);
-
+			$arrComment = $objCommentModel->commentOfMovie($_GET['id'],$_SESSION['user']['user_id']??0);
 
 			$arrCommentToDisplay = array();
 
@@ -215,7 +279,6 @@
 			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
 			$this->_arrData['objMovie'] = $objMovie;
-			
 
             $this->_display("movie");
         }
@@ -228,7 +291,7 @@
 			$objMovieModel = new MovieModel();
 			var_dump($objMovie);
 			$arrError = [];
-			
+
 			// 2. Validation des données
 			if (count($_POST)>0){
 				if (empty($objMovie->getTitle())) {
@@ -236,7 +299,7 @@
 				}
 				// if (empty($objMovie->getCategorieId())) {
 				// 	$arrError['categorie'] = "La catégorie est obligatoire";
-				// }				
+				// }
 				if (empty($objMovie->getLength())) {
 					$arrError['length'] = "La durée est obligatoire";
 				}
@@ -246,7 +309,7 @@
 				// if (empty($objMovie->getUrl())) {
 				// 	$arrError['photo'] = "L'affiche du film est obligatoire";
 				// }
-	
+
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png');
 				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
@@ -286,9 +349,9 @@
 				}
 			}
 
-			$arrCategory = $objMovieModel->allCategories();		
-				$arrCatToDisplay	= array();			
-								
+			$arrCategory = $objMovieModel->allCategories();
+				$arrCatToDisplay	= array();
+
 			$arrCatToDisplay = array();
 			foreach($arrCategory as $arrDetCat){
 				$objContent = new MovieEntity('mov_');
@@ -297,9 +360,9 @@
 				$arrCatToDisplay[]	= $objContent;
 			}
 
-			$arrNationality = $objMovieModel->allCountry();		
+			$arrNationality = $objMovieModel->allCountry();
 			$arrNatToDisplay	= array();
-			
+
 			$arrNatToDisplay = array();
 			foreach($arrNationality as $arrDetNat){
 				$objNat = new MovieEntity('mov_');
@@ -316,12 +379,12 @@
 			$this->_arrData['arrCatToDisplay'] = $arrCatToDisplay;
 			$this->_arrData['arrNatToDisplay'] = $arrNatToDisplay;
 
-			
+
             $this->_display("addMovie");
         }
-		
+
 		public function deleteMovie() {
-			
+
            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
@@ -331,7 +394,7 @@
 
             // Si on a supprimé, on nettoie tout
             if($success){
-            
+
                 $_SESSION['success'] = "Le film a bien été supprimé";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;

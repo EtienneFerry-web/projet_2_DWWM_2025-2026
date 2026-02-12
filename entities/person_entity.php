@@ -27,30 +27,26 @@
 		}
 
 		public function getBirthDate(){
-			return $this->_birthdate;
+		    return $this->_birthdate;
 		}
 
-		public function getBirthDateFormat(string $strFormat = "fr_FR"){
-			// Traiter l'affichage de la date
-			$objDate	= new DateTime($this->_birthdate);
-			//$strDate	= $objDate->format("d/m/Y"); // en anglais
-
-			// Version avec configuration pour l'avoir en français
-			$objDateFormatter	= new IntlDateFormatter(
-                $strFormat, // langue
-                IntlDateFormatter::LONG,  // format de date
-                IntlDateFormatter::NONE, // format heure
-            );
-			$strDate	= $objDateFormatter->format($objDate);
-			return $strDate;
-		}
 		public function getDeathDate(){
-			return $this->_deathdate;
+		    return $this->_deathdate;
 		}
+
+		public function getAge(){
+            $dateNaissance = new DateTime($this->_birthdate);
+            $age = $dateNaissance->diff(new DateTime())->y;
+
+            return $age .' ans';
+		}
+
+
+		
 
 		public function getDeathDateFormat(string $strFormat = "fr_FR"){
       		if (empty($this->_deathdate)) {
-                return "En vie";
+                return '';
             }
 			$objDate	= new DateTime($this->_deathdate);
 			//$strDate	= $objDate->format("d/m/Y"); // en anglais
@@ -62,7 +58,24 @@
                 IntlDateFormatter::NONE, // format heure
             );
 			$strDate	= $objDateFormatter->format($objDate);
-			return $strDate;
+			return 'Mort : '.$strDate;
+		}
+
+		public function getBirthdateFormat(string $strFormat = "fr_FR"){
+      		if (empty($this->_birthdate)) {
+                return '';
+            }
+			$objDate	= new DateTime($this->_birthdate);
+			//$strDate	= $objDate->format("d/m/Y"); // en anglais
+
+			// Version avec configuration pour l'avoir en français
+			$objDateFormatter	= new IntlDateFormatter(
+                $strFormat, // langue
+                IntlDateFormatter::LONG,  // format de date
+                IntlDateFormatter::NONE, // format heure
+            );
+			$strDate	= $objDateFormatter->format($objDate);
+			return 'Née : '.$strDate;
 		}
 
 		public function setDeathDate(?string $strDeathDate){
@@ -123,4 +136,7 @@
 		public function setNameJob(string $strJob){
 			$this->_NameJob = $strJob;
 		}
+
+
+
 	}

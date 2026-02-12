@@ -14,7 +14,11 @@
         public string $order        = '';
         public string $job          = 'ASC';
         
-
+        public function findAllMovies() : array {
+            $strRq = "SELECT mov_id, mov_title
+                        FROM movies";
+            return $this->_db->query($strRq)->fetchAll();
+        }
 
         public function newMovie(){
           $strRq	= "
@@ -27,12 +31,6 @@
                         GROUP BY movies.mov_id
                         ";
 
-            return $this->_db->query($strRq)->fetchAll();
-        }
-
-        public function findAllMovies() : array {
-            $strRq = "SELECT mov_id, mov_title
-                        FROM movies";
             return $this->_db->query($strRq)->fetchAll();
         }
 
@@ -130,46 +128,35 @@
             $stmt->execute();
 
             return $stmt->fetchAll();
-        }
+                }
 
-        public function findOneMovie(int $idMovie=0){
-            $strRq	= " SELECT movies.*,
-                            pho_url AS 'mov_url',                            
-                            nat_country AS 'mov_country'
-                            belong_mov_id AS 'mov_belong_id'
-                            cat_name AS 'mov_categorie'
-                            part_mov_id AS 'mov_part_id'
-                            job_name AS 'mov_job'
-                        FROM movies
-                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
-                        INNER JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
-                        INNER JOIN belongs ON movies.mov_id = belongs.belong_mov_id
-                        INNER JOIN categories ON belongs.belong_cat_id = categories.cat_id
-                        INNER JOIN participates ON movies.mov_id = participates.part_mov_id
-                        INNER JOIN jobs ON participates.part_job_id = jobs.job_id
-                        INNER JOIN persons ON participates.part_pers_id = persons.pers_id
-                        WHERE mov_id = :id ";
-        }
+        public function findMovie(int $idMovie, int $intUserId = 0){
 
-
-		public function findMovie(int $idMovie=0){
-
- 	        $strRq	= " SELECT movies.*,
+            $strRq  = " SELECT movies.*,
                             pho_url AS 'mov_url',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
-                            COUNT(DISTINCT lik_user_id ) AS 'mov_like',
-                            nat_country AS 'mov_country'
+                          
+                            COUNT(DISTINCT liked.lik_user_id ) AS 'mov_like',
+                            nat_country AS 'mov_country',
+                      
+                            EXISTS(
+                                SELECT 1 FROM liked 
+                                WHERE lik_user_id = :user_id 
+                                AND lik_type = 'movies' 
+                                AND lik_item_id = movies.mov_id
+                            ) AS mov_user_liked
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
+                      
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE mov_id = :id ";
+                        WHERE mov_id = :id 
+                        GROUP BY movies.mov_id";
 
             $stmt = $this->_db->prepare($strRq);
-
             $stmt->bindValue(':id', $idMovie, PDO::PARAM_INT);
-
+            $stmt->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt->fetch();
@@ -319,6 +306,39 @@
 
 			return $rqPrep->execute();
         }
+
+            public function LikeMovie($intUserId, $intItemId){
+
+            $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
+                VALUES (:user_id, :item_id, 'movies', NOW())";
+			
+			$rqPrep	= $this->_db->prepare($strRq);
+
+				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
+				$rqPrep->bindValue(":item_id", $intItemId, PDO::PARAM_INT);
+
+			$rqPrep->execute();
+
+            if($rqPrep->rowCount() > 0){
+
+            return 1;
+
+            } else {
+
+                $deleteRq = "   DELETE FROM liked
+                                WHERE lik_item_id   = :item_id
+                                AND lik_user_id     = :user_id";
+
+                $prepDelete = $this->_db->prepare($deleteRq);
+                $prepDelete->bindValue(':item_id', $intItemId, PDO::PARAM_INT);
+                $prepDelete->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
+
+                $prepDelete->execute();
+
+                return 2;
+
+            }
+		}
 
     }
 ?>

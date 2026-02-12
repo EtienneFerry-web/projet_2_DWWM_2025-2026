@@ -25,21 +25,20 @@
 			$arrPerson 		= $objPersonModel->findPerson($_GET['id']);
 			$arrJobs        = $objPersonModel->findJobsOfPerson($_GET['id']);
 
+
 			$arrJobToDisplay	= array();
 
 			foreach($arrJobs as $arrDetJob){
-                $objContent = new PersonEntity('job_');
+                $objContent = new PersonEntity;
                 $objContent->hydrate($arrDetJob);
 
                 $arrJobToDisplay[]	= $objContent;
             }
 
-
 			$objPerson = new PersonEntity('pers_');
 			$objPerson->hydrate($arrPerson);
 
 
-			
             $arrMovie		    = $objMovieModel->movieOfPerson($_GET['id']);
 
             $arrMovieToDisplay	= array();
@@ -79,7 +78,6 @@
 
             // Si on a supprimé, on nettoie tout
             if($success){
-            
                 $_SESSION['success'] = "La célébrité a bien été supprimée";
                 header("Location:index.php?ctrl=admin&action=dashboard");
                 exit;

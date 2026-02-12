@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 06 fév. 2026 à 10:03
+-- Généré le : mer. 11 fév. 2026 à 19:37
 -- Version du serveur : 8.4.7
--- Version de PHP : 8.4.16
+-- Version de PHP : 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,8 +40,6 @@ CREATE TABLE IF NOT EXISTS `belongs` (
 --
 
 INSERT INTO `belongs` (`belong_cat_id`, `belong_mov_id`) VALUES
-(1, 11),
-(2, 12),
 (1, 13),
 (4, 14),
 (3, 15),
@@ -49,7 +47,8 @@ INSERT INTO `belongs` (`belong_cat_id`, `belong_mov_id`) VALUES
 (5, 17),
 (8, 18),
 (9, 19),
-(10, 20);
+(10, 20),
+(10, 27);
 
 -- --------------------------------------------------------
 
@@ -100,24 +99,16 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
 INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, `com_movie_id`, `com_mod_id`, `com_spoiler`) VALUES
-(1, 'Un chef-d\'œuvre absolu. La fin reste un mystère total.', '2024-01-15 14:30:00', 1, 11, NULL, 0),
-(2, 'Visuellement époustouflant, mais le rythme est lent.', '2024-02-02 20:15:00', 6, 11, 1, 0),
-(3, 'HAL 9000 est le meilleur personnage du film.', '2024-12-01 10:00:00', 3, 11, NULL, 0),
-(4, 'Jack Nicholson est terrifiant dans ce rôle !', '2024-03-10 22:00:00', 8, 12, NULL, 0),
-(5, 'Je préfère le livre de Stephen King, désolé.', '2024-01-20 18:45:00', 2, 12, NULL, 0),
-(6, 'La scène de la salle de bain me hante encore.', '2024-11-20 23:00:00', 7, 12, NULL, 0),
-(7, 'Un film qui questionne la morale avec violence.', '2024-04-05 16:20:00', 3, 13, NULL, 0),
 (8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL, 0),
-(9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 1),
-(10, 'La première partie est un chef-d\'œuvre de tension.', '2024-06-25 19:30:00', 9, 14, NULL, 0),
-(11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 0),
+(9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 0),
+(11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 1),
 (12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 0),
 (13, 'Une atmosphère onirique et envoûtante.', '2024-08-14 23:45:00', 10, 15, NULL, 0),
 (14, 'Je n\'ai pas tout compris, c\'est bizarre.', '2024-09-01 10:30:00', 5, 15, 3, 0),
@@ -133,12 +124,11 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (24, 'Ce bébé mutant va me donner des cauchemars.', '2024-05-01 03:00:00', 8, 18, NULL, 0),
 (25, 'Le film le plus humain et touchant de Lynch.', '2024-12-20 20:30:00', 7, 19, NULL, 0),
 (26, 'Photographie en noir et blanc sublime.', '2024-01-05 17:15:00', 4, 19, NULL, 0),
-(27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL, 0),
+(27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL, 1),
 (28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0),
 (29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0),
 (30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0),
-(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0),
-(76, 'azdzdkldddqdzqdzdqz', '2026-02-06 10:46:35', 17, 15, NULL, 0);
+(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -159,10 +149,6 @@ CREATE TABLE IF NOT EXISTS `follows` (
 --
 
 INSERT INTO `follows` (`follo_user_id`, `follo_mov_id`) VALUES
-(1, 11),
-(6, 11),
-(2, 12),
-(6, 12),
 (3, 13),
 (7, 13),
 (4, 14),
@@ -181,9 +167,6 @@ INSERT INTO `follows` (`follo_user_id`, `follo_mov_id`) VALUES
 (10, 20),
 (8, 21),
 (8, 22),
-(1, 23),
-(5, 23),
-(8, 23),
 (2, 24),
 (4, 25);
 
@@ -292,7 +275,9 @@ INSERT INTO `liked` (`lik_user_id`, `lik_item_id`, `lik_type`, `lik_created_at`)
 (9, 15, 'comment', '2026-01-25 11:21:38'),
 (9, 25, 'movies', '2026-01-25 11:20:57'),
 (10, 11, 'movies', '2026-01-25 11:20:57'),
-(10, 16, 'comment', '2026-01-25 11:21:38');
+(10, 16, 'comment', '2026-01-25 11:21:38'),
+(17, 22, 'movies', '2026-02-11 18:13:53'),
+(24, 22, 'movies', '2026-02-11 18:14:08');
 
 -- --------------------------------------------------------
 
@@ -340,15 +325,13 @@ CREATE TABLE IF NOT EXISTS `movies` (
   PRIMARY KEY (`mov_id`),
   KEY `mov_mod_id` (`mov_mod_id`),
   KEY `fk_movies_nationality` (`mov_nat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `movies`
 --
 
 INSERT INTO `movies` (`mov_id`, `mov_title`, `mov_original_title`, `mov_length`, `mov_description`, `mov_release_date`, `mov_mod_id`, `mov_nat_id`, `mov_trailer_url`) VALUES
-(11, '2001 : L\'Odyssée de l\'espace', '2001: A Space Odyssey', '02:29:00', 'Une mystérieuse structure noire connecte le passé et le futur de l\'humanité.', '1968-04-03', NULL, 3, 'https://www.youtube.com/watch?v=k2rfc2OxLic'),
-(12, 'Shining', 'The Shining', '02:26:00', 'Un écrivain sombre dans la folie alors qu\'il garde un hôtel isolé en hiver avec sa famille.', '1980-05-23', NULL, 2, 'https://www.youtube.com/watch?v=FZQvIJxG9Xs'),
 (13, 'Orange Mécanique', 'A Clockwork Orange', '02:16:00', 'Dans un futur dystopique, un chef de gang sadique est soumis à une expérience de réhabilitation.', '1971-12-19', NULL, 3, 'https://www.youtube.com/watch?v=T54uZPI4Z8A'),
 (14, 'Full Metal Jacket', 'Full Metal Jacket', '01:56:00', 'Le parcours de jeunes marines américains, de l\'entraînement brutal à la guerre du Vietnam.', '1987-06-26', NULL, 2, 'https://www.google.com/search?q=trailer+full+metal+jacket&rlz=1C1VDKB_frFR1102FR1102&oq=trailer+full+metal+jacket&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCAgCEAAYFhgeMggIAxAAGBYYHjIICAQQABgWGB4yCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMggIC'),
 (15, 'Eyes Wide Shut', 'Eyes Wide Shut', '02:39:00', 'Un médecin new-yorkais s\'aventure dans une odyssée nocturne étrange et érotique.', '1999-07-16', NULL, 2, 'https://www.google.com/search?q=trailer+eyes+wide+shut&sca_esv=f9558c3169decf9e&rlz=1C1VDKB_frFR1102FR1102&sxsrf=ANbL-n5RN_Qb7MwyMR5AJXafxA7vtNqRZA%3A1768731365994&ei=5bJsadC6PPWpkdUPk8Xh4QY&oq=trailer+eyes&gs_lp=Egxnd3Mtd2l6LXNlcnAiDHRyYWlsZXIgZXllcyoCCA'),
@@ -359,9 +342,9 @@ INSERT INTO `movies` (`mov_id`, `mov_title`, `mov_original_title`, `mov_length`,
 (20, 'Lost Highway', 'Lost Highway', '02:14:00', 'Après une rencontre bizarroïde lors d\'une fête, un saxophoniste est accusé du meurtre de sa femme.', '1997-02-21', NULL, 2, 'https://www.youtube.com/watch?v=8-1pcMvy5qc'),
 (21, 'Avatar: Fire and Ash', 'Avatar: Fire and Ash', '03:10:00', 'Jake Sully et Neytiri affrontent un nouveau clan de Na\'vi lié au feu dans une région volcanique de Pandora.', '2026-01-07', NULL, 2, 'https://www.youtube.com/watch?v=nb_fFj_0rq8'),
 (22, 'M3GAN 2.0', 'M3GAN 2.0', '01:42:00', 'L\'intelligence artificielle meurtrière est de retour dans une version plus évoluée et plus dangereuse.', '2026-01-14', NULL, 2, 'https://www.youtube.com/watch?v=I0VWWnMUjFU'),
-(23, 'Wolfman', 'Wolfman', '01:45:00', 'Un homme tente de protéger sa famille d\'un prédateur nocturne terrifiant dans une ferme isolée.', '2026-01-14', NULL, 2, 'https://www.youtube.com/watch?v=E_MVwBXPJlQ'),
 (24, 'Paddington au Pérou', 'Paddington in Peru', '01:43:00', 'Paddington retourne au Pérou pour rendre visite à sa tante Lucy, entraînant les Brown dans une aventure épique.', '2026-01-07', NULL, 3, 'https://www.youtube.com/watch?v=Fp-1L1KOIk8'),
-(25, 'The Drama', 'The Drama', '02:05:00', 'Une crise inattendue survient dans la vie d\'un couple à la veille de leur mariage.', '2026-01-05', NULL, 2, 'https://www.google.com/search?q=trailer+the+drama&rlz=1C1VDKB_frFR1102FR1102&sca_esv=f9558c3169decf9e&sxsrf=ANbL-n40rc4yxeDI2p-TpaTEP3S6ZfVrTA%3A1768731399284&ei=B7Nsaf6EEeDCnsEP7fu26QI&ved=0ahUKEwi-pIf27ZSSAxVgoScCHe29LS0Q4dUDCBE&uact=5&oq=trailer+the+dr');
+(25, 'The Drama', 'The Drama', '02:05:00', 'Une crise inattendue survient dans la vie d\'un couple à la veille de leur mariage.', '2026-01-05', NULL, 2, 'https://www.google.com/search?q=trailer+the+drama&rlz=1C1VDKB_frFR1102FR1102&sca_esv=f9558c3169decf9e&sxsrf=ANbL-n40rc4yxeDI2p-TpaTEP3S6ZfVrTA%3A1768731399284&ei=B7Nsaf6EEeDCnsEP7fu26QI&ved=0ahUKEwi-pIf27ZSSAxVgoScCHe29LS0Q4dUDCBE&uact=5&oq=trailer+the+dr'),
+(27, 'dqdqzdz', 'zdqdzqdzqdqz', '22:22:00', 'ddzqdzqdzqdzqdzq', '1111-11-11', NULL, 10, 'httpsjesaispacs');
 
 -- --------------------------------------------------------
 
@@ -414,26 +397,13 @@ CREATE TABLE IF NOT EXISTS `participates` (
 --
 
 INSERT INTO `participates` (`part_pers_id`, `part_job_id`, `part_mov_id`, `part_character_name`) VALUES
-(1, 1, 11, NULL),
-(1, 1, 19, NULL),
-(1, 2, 11, NULL),
-(1, 2, 23, NULL),
-(1, 3, 15, NULL),
-(2, 1, 11, NULL),
-(2, 1, 15, NULL),
-(2, 1, 23, NULL),
-(2, 3, 19, NULL),
 (3, 2, 15, NULL),
 (3, 2, 19, NULL),
-(3, 3, 11, NULL),
-(3, 3, 23, NULL),
-(4, 1, 12, NULL),
 (4, 1, 20, NULL),
 (4, 2, 16, NULL),
 (4, 2, 24, NULL),
 (5, 1, 16, NULL),
 (5, 1, 24, NULL),
-(5, 2, 12, NULL),
 (5, 2, 20, NULL),
 (6, 1, 13, NULL),
 (6, 1, 25, NULL),
@@ -479,8 +449,6 @@ CREATE TABLE IF NOT EXISTS `persons` (
 --
 
 INSERT INTO `persons` (`pers_id`, `pers_name`, `pers_firstname`, `pers_birthdate`, `pers_deathdate`, `pers_nat_id`, `pers_bio`, `pers_photo`) VALUES
-(1, 'Kubrick', 'Stanley', '1928-07-26', '1999-03-07', 2, 'Stanley Kubrick est un réalisateur, scénariste et producteur américain, connu pour ses films cultes et son perfectionnisme extrême.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Kubrick_on_the_set_of_Barry_Lyndon_%281975_publicity_photo%29.jpg/250px-Kubrick_on_the_set_of_Barry_Lyndon_%281975_publicity_photo%29.jpg'),
-(2, 'Lynch', 'David', '1946-01-20', NULL, 2, 'David Lynch est un réalisateur, scénariste et artiste américain, connu pour son cinéma étrange et onirique, mêlant mystère, rêve et inquiétante étrangeté.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/David_Lynch_Cannes_2017.jpg/250px-David_Lynch_Cannes_2017.jpg'),
 (3, 'Clarke', 'Arthur C.', '1917-12-16', '2008-03-19', 3, 'Stanley Kubrick est un réalisateur, scénariste et producteur américain, connu pour ses films cultes et son perfectionnisme extrême.', 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSkYSBpua4nWLeJZKz2RIrPgYPlYmz9vfA7K_qKvndm8KzaXivfCgxgLmxCsO8Z4DiVnbaU3bMV24mG39w'),
 (4, 'Nicholson', 'Jack', '1937-04-22', NULL, 2, 'David Lynch est un réalisateur, scénariste et artiste américain, connu pour son cinéma étrange et onirique, mêlant mystère, rêve et inquiétante étrangeté.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/David_Lynch_Cannes_2017.jpg/250px-David_Lynch_Cannes_2017.jpg'),
 (5, 'McDowell', 'Malcolm', '1943-06-13', NULL, 2, 'David Lynch est un réalisateur, scénariste et artiste américain, connu pour son cinéma étrange et onirique, mêlant mystère, rêve et inquiétante étrangeté.', 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSkYSBpua4nWLeJZKz2RIrPgYPlYmz9vfA7K_qKvndm8KzaXivfCgxgLmxCsO8Z4DiVnbaU3bMV24mG39w'),
@@ -504,15 +472,13 @@ CREATE TABLE IF NOT EXISTS `photos` (
   `pho_mov_id` int UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`pho_id`),
   KEY `fk_pho_mov_id` (`pho_mov_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `photos`
 --
 
 INSERT INTO `photos` (`pho_id`, `pho_url`, `pho_type`, `pho_mov_id`) VALUES
-(1, 'https://upload.wikimedia.org/wikipedia/en/thumb/1/11/2001_A_Space_Odyssey_%281968%29.png/250px-2001_A_Space_Odyssey_%281968%29.png', 'Affiche', 11),
-(2, 'https://www.filmsfantastiques.com/wp-content/uploads/2014/04/Shining-poster-OK.jpg', 'Affiche', 12),
 (3, 'https://fr.web.img6.acsta.net/medias/nmedia/18/36/25/34/18465555.jpg', 'Affiche', 13),
 (4, 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg', 'Affiche', 14),
 (5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15),
@@ -523,9 +489,9 @@ INSERT INTO `photos` (`pho_id`, `pho_url`, `pho_type`, `pho_mov_id`) VALUES
 (10, 'https://fr.web.img4.acsta.net/pictures/22/10/27/16/38/1152463.jpg', 'Affiche', 20),
 (11, 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg', 'Affiche', 21),
 (12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22),
-(13, 'https://www.benzinemag.net/wp-content/uploads/2025/01/Wolfman-affiche.jpg', 'Affiche', 23),
 (14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24),
-(15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25);
+(15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25),
+(16, '698b5638c6bda.png', 'Affiche', 27);
 
 -- --------------------------------------------------------
 
@@ -611,7 +577,11 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (15, 24, 4.0),
 (15, 25, 5.0),
 (16, 24, 0.5),
-(17, 15, 1.0);
+(17, 15, 4.0),
+(17, 22, 1.0),
+(17, 25, 5.0),
+(17, 17, 0.5),
+(17, 23, 3.0);
 
 -- --------------------------------------------------------
 
@@ -622,11 +592,27 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 DROP TABLE IF EXISTS `reported_comments`;
 CREATE TABLE IF NOT EXISTS `reported_comments` (
   `rep_com_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `rep_com_content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rep_com_com_id` int UNSIGNED NOT NULL,
+  `rep_com_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rep_com_reported_id` int UNSIGNED NOT NULL,
   `rep_com_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`rep_com_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `rep_com_reporter_id` int UNSIGNED NOT NULL,
+  PRIMARY KEY (`rep_com_id`),
+  UNIQUE KEY `uk_com_reported_reporter_id` (`rep_com_reported_id`,`rep_com_reporter_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `reported_comments`
+--
+
+INSERT INTO `reported_comments` (`rep_com_id`, `rep_com_content`, `rep_com_reported_id`, `rep_com_date`, `rep_com_reporter_id`) VALUES
+(1, '0', 17, '2026-02-09 10:42:16', 24),
+(2, 'Ce film est nul, je déteste tout !', 12, '2026-02-09 10:51:15', 24),
+(3, 'Je n\'ai pas tout compris, c\'est bizarre.', 14, '2026-02-09 10:51:17', 24),
+(24, 'La musique de Beethoven n\'a jamais été aussi effrayante.', 9, '2026-02-09 14:49:28', 24),
+(27, 'Moins fan de la partie au Vietnam.', 11, '2026-02-11 18:14:23', 24),
+(22, 'L\'ambiance est malsaine au possible.', 20, '2026-02-09 14:34:41', 24),
+(9, 'Trop bizarre pour moi, j\'ai arrêté.', 23, '2026-02-09 13:49:34', 24),
+(25, 'Photographie en noir et blanc sublime.', 26, '2026-02-09 15:53:59', 24);
 
 -- --------------------------------------------------------
 
@@ -637,13 +623,27 @@ CREATE TABLE IF NOT EXISTS `reported_comments` (
 DROP TABLE IF EXISTS `reported_users`;
 CREATE TABLE IF NOT EXISTS `reported_users` (
   `rep_user_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `rep_user_bio` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rep_user_pseudo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rep_user_img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_user_bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_user_pseudo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_user_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rep_user_user_id` int UNSIGNED NOT NULL,
   `rep_user_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`rep_user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `rep_reporter_id` int UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`rep_user_id`),
+  UNIQUE KEY `uk_reporter_id_reported_id` (`rep_user_user_id`,`rep_reporter_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `reported_users`
+--
+
+INSERT INTO `reported_users` (`rep_user_id`, `rep_user_bio`, `rep_user_pseudo`, `rep_user_img`, `rep_user_user_id`, `rep_user_date`, `rep_reporter_id`) VALUES
+(53, '', 'sophie_b', 'defaultImgUser.jpg', 4, '2026-02-11 18:14:33', 24),
+(34, '', 'mary_l', 'defaultImgUser.jpg', 2, '2026-02-09 16:06:21', 24),
+(17, '', 'keke_99', '/Projet2/assets/img/defaultImgUser.jpg', 5, '2026-02-09 09:51:44', 24),
+(18, '', 'lele_d', '/Projet2/assets/img/defaultImgUser.jpg', 8, '2026-02-09 09:53:36', 24),
+(19, '', 'cam_rob', '/Projet2/assets/img/defaultImgUser.jpg', 6, '2026-02-09 09:56:02', 24),
+(35, '', 'luke_sky', 'defaultImgUser.jpg', 3, '2026-02-09 18:44:37', 17);
 
 -- --------------------------------------------------------
 
@@ -675,16 +675,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `fk_user_funct_id` (`user_funct_id`),
   KEY `fk_users_nationalities` (`user_nat_id`),
   KEY `fk_users_roles` (`user_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `user_email`, `user_birthdate`, `user_creadate`, `user_com_id`, `user_nat_id`, `user_funct_id`, `user_bio`, `user_photo`, `user_pwd`, `user_delete_at`, `user_update_at`, `user_ban_at`) VALUES
-(1, 'Dubois', 'Thomas', 'tom_dubois', 'thomas.dubois@exemple.com', '1990-05-15', '2024-01-10 09:00:00', NULL, NULL, 3, NULL, NULL, '', NULL, NULL, NULL),
-(2, 'Leroy', 'Marie', 'mary_l', 'marie.leroy@exemple.com', '1985-11-20', '2024-01-12 10:30:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
-(3, 'Martin', 'Lucas', 'luke_sky', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
+(1, 'Dubois', 'Thomas', 'tom_dubois', 'thomas.dubois@exemple.com', '1990-05-15', '2024-01-10 09:00:00', NULL, NULL, 3, NULL, NULL, '', '2026-02-07 16:32:25', NULL, NULL),
+(2, 'Leroy', 'Marie', 'mary_l', 'marie.leroy@exemple.com', '1985-11-20', '2024-01-12 10:30:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-10 17:04:20', NULL, NULL),
+(3, 'Martin', 'Lucas', 'luke_sky', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-11 18:12:50', NULL, NULL),
 (4, 'Bernard', 'Sophie', 'sophie_b', 'sophie.bernard@exemple.com', '1992-07-22', '2024-02-01 11:00:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
 (5, 'Petit', 'Kevin', 'keke_99', 'kevin.petit@exemple.com', '1999-12-01', '2024-02-10 16:45:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL),
 (6, 'Robert', 'Camille', 'cam_rob', 'camille.robert@exemple.com', '1995-09-14', '2024-02-20 08:20:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
@@ -692,7 +692,9 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
-(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 1, NULL, NULL, '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, NULL, NULL);
+(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, '', '6989baf6403f5.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-09 11:46:14', NULL),
+(23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL),
+(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 1, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL);
 
 --
 -- Contraintes pour les tables déchargées

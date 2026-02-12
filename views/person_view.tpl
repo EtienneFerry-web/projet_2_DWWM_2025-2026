@@ -7,20 +7,21 @@
         <img src="{$objPerson->getPhoto()}" alt="Photo de {$objPerson->getFullName()}" class="img-fluid w-75 w-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
             <span class="spanMovie d-block py-1">{$objPerson->getCountry()}</span>
-            <span class="spanMovie d-block py-1">Née : {$objPerson->getBirthDate()}</span>
-            
+            <span class="spanMovie d-block py-1">{$objPerson->getBirthdateFormat()}</span>
+
             {* On n'affiche la date de décès que si elle existe *}
             {if $objPerson->getDeathDate()}
-                <span class="spanMovie d-block py-1">Mort : {$objPerson->getDeathDate()}</span>
+                <span class="spanMovie d-block py-1">{$objPerson->getDeathDateFormat()}</span>
+            {else}
+                <span class="spanMovie d-block py-1">{$objPerson->getAge()}</span>
             {/if}
-            
+
             <p>{$objPerson->getBio()}</p>
         </div>
     </div>
 
     <div class="col-12 col-md-9 py-1 py-md-5 text-center text-md-start ">
         <h1 class="d-md">{$objPerson->getFullName()}</h1>
-        
         <form method="post" class="row filterActor align-items-center">
             <div class="col-5 col-md-4 ">
                 <select class="form-select" name="order">

@@ -3,7 +3,7 @@
 {block name="description"}bienvenue sur notre accueil !!!!{/block}
 
 {block name="css_variation"}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
 {/block}
 
 {block name="content"}
@@ -13,7 +13,7 @@
             <h1>Bienvenue sur give me five</h1>
             <p class="py-3">N'hésitez a vous connecter ou vous créer un compte pour accéder a plus de fonctionnalité donnez votre avis sur nos film !</p>
             <div>
-                <a href="index.php?ctrl=user&action=login" class="btnCustom">Se connecter</a>
+                <a href="index.php?ctrl=user&action=login" class="btnCustom ">Se connecter</a>
                 <a href="index.php?ctrl=user&action=createAccount" class="btnCustom ">S'incrire</a>
             </div>
             {else}
@@ -33,20 +33,15 @@
       <div class="splide py-5">
         <div class="splide__track">
           <ul class="splide__list">
-            
+
                {foreach from=$arrMovieToDisplay item=objMovie}
                     {include file="views/_partial/newMovie.tpl"}
                 {/foreach}
-                
-           
+
+
           </ul>
         </div>
       </div>
-    </section>
-    <section id="addMovie" class="container text-center py-5">
-        <h2>Ajoutez un film</h2>
-        <p class="mx-auto py-3">Vous vous pouvez ajouter un nouveau film a condition qui soit sourcer etc etc bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, possimus cupiditate esse ducimus soluta earum?</p>
-        <a href="index.php?ctrl=movie&action=addMovie" class="btnCustom ">Ajoutez un film</a>
     </section>
 {/block}
 

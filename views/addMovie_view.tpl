@@ -35,8 +35,8 @@
 					<option value="0">Tous les pays d'origine</option>
 
 					{foreach from=$arrNatToDisplay item=arrDetNat}
-					<option class="form-control" value="{$arrDetNat->getId()}" {if $arrDetNat->getId()
-						== $arrDetNat}selected{/if}>
+					<option class="form-control" value="{$arrDetNat->getId()}" {*if $arrDetNat->getId()
+						== $arrDetNat*}selected{*/if*}>
 						{$arrDetNat->getCountry()}
 					</option>
 					{/foreach}

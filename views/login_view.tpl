@@ -10,17 +10,17 @@
     <form method="post">
         <div class="form-group py-3">
             <label class="form-label">Adresse Mail</label>
-            <input  type="email" 
+            <input  type="email"
                     name="email"
-                    class="form-control {if (isset($arrError['email']))} is-invalid{/if}" 
+                    class="form-control {if (isset($arrError['email']))} is-invalid{/if}"
                     value="{$objUser->getEmail()}"
                     placeholder="Email">
         </div>
         <div class="form-group py-3">
             <label class="form-label">Mots de passe</label>
-            <input  type="password" 
+            <input  type="password"
                     name="pwd"
-                    class="form-control {if (isset($arrError['pwd']))} is-invalid {/if}"  
+                    class="form-control {if (isset($arrError['pwd']))} is-invalid {/if}"
                     value=""
                     placeholder="Mot de Passe">
         </div>
