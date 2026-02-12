@@ -139,32 +139,37 @@
 
 			$objCommentModel	= new CommentModel;
 
-			if(isset($_POST['likeMovieBtn'])){
-				$objMovieModel = new MovieModel;
+				if(isset($_POST['likeMovieBtn']) && (isset($_SESSION['user']))){
+					$objMovieModel = new MovieModel;
 
-    			$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
+					$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
 
-				if ($repResult === 1) {
-					$_SESSION['success'] = "Votre like a bien été pris en compte !";
-				} else if($repResult === 2) {
-					$_SESSION['success'] = "Votre like a bien été était supprimer !";
-                }
-		}
-			if(isset($_POST['likeCommentBtn'])){
+					if ($repResult === 1) {
+						$_SESSION['success'] = "Votre like a bien été pris en compte !";
+					} else if($repResult === 2) {
+						$_SESSION['success'] = "Votre like a bien été était supprimer !";
+					}
+				}elseif(!isset($_SESSION['user'])){
+					$arrError[''] = "Vous devez etre connecté pour liker un film";
+				}
+
+				if(isset($_POST['likeCommentBtn'])&&(isset($_SESSION['user']))){
 
 
 
-				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+						$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
 
 
-				if ($repResult === 1) {
-					$_SESSION['success'] = "Votre like a bien été pris en compte !";
-				} else if($repResult === 2) {
-					$_SESSION['success'] = "Votre like a bien été était supprimer !";
-                }
+						if ($repResult === 1) {
+							$_SESSION['success'] = "Votre like a bien été pris en compte !";
+						} else if($repResult === 2) {
+							$_SESSION['success'] = "Votre like a bien été était supprimer !";
+						}
 
-			}
-
+				}elseif(isset($_POST['likeMovieBtn']) && !isset($_SESSION['user'])){
+					$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
+				}
+			
 
 
 			/**
@@ -172,7 +177,7 @@
 			 *
 			 */
 				// 1. Check if the form has been submitted
-				if(!empty($_POST)) {
+				if((!empty($_POST)) && (isset($_POST['com_comment']))){
 
 				// 2. Ensure the user is logged in
 					if(isset($_SESSION['user'])) {

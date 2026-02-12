@@ -5,6 +5,8 @@
 	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 	$dotenv->load();
 
+	
+
 	require'controllers/mother_controller.php';
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'movie'; // quel contrôleur ?
