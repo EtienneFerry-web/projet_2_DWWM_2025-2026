@@ -149,7 +149,7 @@
 					} else if($repResult === 2) {
 						$_SESSION['success'] = "Votre like a bien été était supprimer !";
 					}
-				}elseif(!isset($_SESSION['user'])){
+				}elseif(!isset($_SESSION['user'])&& isset($_POST['likeMovieBtn'])){
 					$arrError[''] = "Vous devez etre connecté pour liker un film";
 				}
 
