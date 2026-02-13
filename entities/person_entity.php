@@ -14,7 +14,7 @@
 		private ?string $_deathdate="";
 		private ?string $_bio="";
 		private string $_country;
-		private string $_photo;
+		private ?string $_photo;
 		private string $_NameJob;
 
 
@@ -126,7 +126,7 @@
 			return $this->_photo;
 		}
 
-		public function setPhoto(string $strPhoto){
+		public function setPhoto(?string $strPhoto){
 			$this->_photo = $strPhoto;
 		}
 		public function getNameJob():string{

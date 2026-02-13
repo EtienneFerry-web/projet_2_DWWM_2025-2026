@@ -286,6 +286,7 @@
 			$this->_arrData['objMovie'] = $objMovie;
 
             $this->_display("movie");
+			
         }
 
         public function addMovie(){
@@ -384,7 +385,7 @@
 			$this->_arrData['arrCatToDisplay'] = $arrCatToDisplay;
 			$this->_arrData['arrNatToDisplay'] = $arrNatToDisplay;
 
-
+			
             $this->_display("addMovie");
         }
 
