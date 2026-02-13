@@ -283,15 +283,31 @@
             $this->_display("movie");
         }
 
-        public function addMovie(){
+		/**
+		* @author Audrey
+		* Page d'ajout / edition d'un Film
+		*/
+        public function addEditMovie(){
+			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=error_403");
+				exit;
+			}
 			// 1. Initialisation des objets et variables
 			var_dump($_POST);
 			$objMovie = new MovieEntity();
-			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
 			$objMovieModel = new MovieModel();
-			var_dump($objMovie);
-			$arrError = [];
 
+			// si on est en modification
+			if (isset($_GET['id'])){
+				$arrMovie = $objMovieModel->findMovie($_GET['id']);
+				$objMovie->hydrate($arrMovie); // 
+			}
+			//si on est en ajout
+			$objMovie->hydrate($_POST); 
+			
+			var_dump($objMovie);
+
+			$arrError = [];
 			// 2. Validation des données
 			if (count($_POST)>0){
 				if (empty($objMovie->getTitle())) {
@@ -380,7 +396,7 @@
 			$this->_arrData['arrNatToDisplay'] = $arrNatToDisplay;
 
 
-            $this->_display("addMovie");
+            $this->_display("addEditMovie");
         }
 
 		public function deleteMovie() {

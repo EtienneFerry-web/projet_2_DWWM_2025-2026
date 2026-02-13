@@ -27,8 +27,8 @@
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
-                        GROUP BY movies.mov_id
+                        WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND photos.pho_type = 'Affiche'
+                        GROUP BY movies.mov_id, pho_url
                         ";
 
             return $this->_db->query($strRq)->fetchAll();

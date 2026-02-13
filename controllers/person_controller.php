@@ -176,7 +176,8 @@
 				
             $this->_arrData['objPerson']            = $objPerson;
             $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;
-            $this->_arrData['arrError']             = $arrError;    
+            $this->_arrData['arrError']             = $arrError; 
+               
             $this->_display("settingsPerson");
              
         

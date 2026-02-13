@@ -13,7 +13,7 @@
 			<div class="col-12 form-group py-2">
 				<label class="form-label">Titre du film*</label>
 				<input name="title" type="text" class="form-control" id="title" placeholder="Titre"
-					value="{*$_POST->getTitle*}">
+					value="{*$_POST->getTitle()*}">
 			</div>
 			<div class="col-md-12">
 				<label for="categories" class="form-label">Genre</label>
@@ -21,8 +21,8 @@
 					<option value="0">Toutes les catégories</option>
 
 					{foreach from=$arrCatToDisplay item=arrDetCategory}
-					<option class="form-control" value="{$arrDetCategory->getId()}" {*if $arrDetCategory->getId() ==
-						$arrDetCategory*}selected{*/if*}>
+					<option class="form-control" value="{$arrDetCategory->getId()}" {if $arrDetCategory->getId() ==
+						$_POST['Id']}selected{/if}>
 						{$arrDetCategory->getCategories()}
 					</option>
 					{/foreach}
@@ -64,45 +64,6 @@
 				<textarea name="description" class="form-control textarea" id="description"
 					placeholder="Synopsis"></textarea>
 			</div>
-
-			<hr>
-
-			<!-- </div>
-			<label class="form-label">Acteur principal*</label>
-			<div class="row">
-				<div class="form-group col-4 py-2">
-					<label class="form-label">Nom</label>
-					<input 	name="actorName" 
-							type="text" 
-							class="form-control {if isset($arrError['actorName'])}is-invalid{/if}" 
-							id="actorName" 
-							value="{$strActorName}"
-							placeholder="Nom de l'acteur principal"
-							required>
-				</div>
-				<div class="form-group col-4 py-2">
-					<label for="actorFirstname" class="form-label">Prénom</label>
-					<input 	name="actorFirstname" 
-							type="text" 
-							class="form-control {if isset($arrError['actorFirstname'])}is-invalid{/if}" 
-							id="actorFirstname" 
-							value="{$strActorFirstname}"
-							placeholder="Nom de l'acteur principal"
-							required>
-				</div>
-				<div class="form-group col-4 py-2">
-					<label class="form-label">Rôle principal</label>
-					<input 	name="characterName" 
-							type="text" 
-							class="form-control" 
-							id="characterName" 
-							value="{$strCharacterName}"
-							placeholder="nom du personnage de l'acteur principal">
-				</div>
-			</div> -->
-
-			<hr>
-
 			<div class="col-12 form-group py-2">
 				<label for="photo" class="form-label">Affiche du film*</label>
 				</label>
