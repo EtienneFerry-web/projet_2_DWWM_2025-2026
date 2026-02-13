@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 11 fév. 2026 à 19:37
+-- Généré le : ven. 13 fév. 2026 à 10:50
 -- Version du serveur : 8.4.7
--- Version de PHP : 8.3.28
+-- Version de PHP : 8.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -109,7 +109,7 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL, 0),
 (9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 0),
 (11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 1),
-(12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 0),
+(12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 1),
 (13, 'Une atmosphère onirique et envoûtante.', '2024-08-14 23:45:00', 10, 15, NULL, 0),
 (14, 'Je n\'ai pas tout compris, c\'est bizarre.', '2024-09-01 10:30:00', 5, 15, 3, 0),
 (15, 'Le dernier film de Kubrick est son plus mystérieux.', '2024-08-05 18:45:00', 1, 15, NULL, 0),
@@ -277,7 +277,7 @@ INSERT INTO `liked` (`lik_user_id`, `lik_item_id`, `lik_type`, `lik_created_at`)
 (10, 11, 'movies', '2026-01-25 11:20:57'),
 (10, 16, 'comment', '2026-01-25 11:21:38'),
 (17, 22, 'movies', '2026-02-11 18:13:53'),
-(24, 22, 'movies', '2026-02-11 18:14:08');
+(24, 21, 'movies', '2026-02-12 15:30:21');
 
 -- --------------------------------------------------------
 
@@ -470,28 +470,31 @@ CREATE TABLE IF NOT EXISTS `photos` (
   `pho_url` varchar(255) NOT NULL COMMENT 'Photo URL',
   `pho_type` varchar(150) NOT NULL COMMENT 'Type of file',
   `pho_mov_id` int UNSIGNED DEFAULT NULL,
+  `pho_user_id` int UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`pho_id`),
+  UNIQUE KEY `uk_mov_user_id` (`pho_mov_id`,`pho_user_id`),
   KEY `fk_pho_mov_id` (`pho_mov_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `photos`
 --
 
-INSERT INTO `photos` (`pho_id`, `pho_url`, `pho_type`, `pho_mov_id`) VALUES
-(3, 'https://fr.web.img6.acsta.net/medias/nmedia/18/36/25/34/18465555.jpg', 'Affiche', 13),
-(4, 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg', 'Affiche', 14),
-(5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15),
-(6, 'https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png', 'Affiche', 16),
-(7, 'https://m.media-amazon.com/images/I/61LkggMExBL._AC_UF894,1000_QL80_.jpg', 'Affiche', 17),
-(8, 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Eraserhead.jpg/960px-Eraserhead.jpg', 'Affiche', 18),
-(9, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQcyCI04HaeBW7oH00JXR8QkcOgROgMbOQsM2uNIgCjzlpZJlNI', 'Affiche', 19),
-(10, 'https://fr.web.img4.acsta.net/pictures/22/10/27/16/38/1152463.jpg', 'Affiche', 20),
-(11, 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg', 'Affiche', 21),
-(12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22),
-(14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24),
-(15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25),
-(16, '698b5638c6bda.png', 'Affiche', 27);
+INSERT INTO `photos` (`pho_id`, `pho_url`, `pho_type`, `pho_mov_id`, `pho_user_id`) VALUES
+(3, 'https://fr.web.img6.acsta.net/medias/nmedia/18/36/25/34/18465555.jpg', 'Affiche', 13, NULL),
+(4, 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg', 'Affiche', 14, NULL),
+(5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15, NULL),
+(6, 'https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png', 'Affiche', 16, NULL),
+(7, 'https://m.media-amazon.com/images/I/61LkggMExBL._AC_UF894,1000_QL80_.jpg', 'Affiche', 17, NULL),
+(8, 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Eraserhead.jpg/960px-Eraserhead.jpg', 'Affiche', 18, NULL),
+(9, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQcyCI04HaeBW7oH00JXR8QkcOgROgMbOQsM2uNIgCjzlpZJlNI', 'Affiche', 19, NULL),
+(10, 'https://fr.web.img4.acsta.net/pictures/22/10/27/16/38/1152463.jpg', 'Affiche', 20, NULL),
+(11, 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg', 'Affiche', 21, NULL),
+(12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22, NULL),
+(14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24, NULL),
+(15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25, NULL),
+(16, '698b5638c6bda.png', 'Affiche', 27, NULL),
+(17, '698dda1f43162.png', 'Content', 22, 24);
 
 -- --------------------------------------------------------
 
@@ -631,19 +634,51 @@ CREATE TABLE IF NOT EXISTS `reported_users` (
   `rep_reporter_id` int UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`rep_user_id`),
   UNIQUE KEY `uk_reporter_id_reported_id` (`rep_user_user_id`,`rep_reporter_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reported_users`
 --
 
 INSERT INTO `reported_users` (`rep_user_id`, `rep_user_bio`, `rep_user_pseudo`, `rep_user_img`, `rep_user_user_id`, `rep_user_date`, `rep_reporter_id`) VALUES
-(53, '', 'sophie_b', 'defaultImgUser.jpg', 4, '2026-02-11 18:14:33', 24),
+(54, '', 'sophie_b', 'defaultImgUser.jpg', 4, '2026-02-12 15:28:18', 24),
 (34, '', 'mary_l', 'defaultImgUser.jpg', 2, '2026-02-09 16:06:21', 24),
 (17, '', 'keke_99', '/Projet2/assets/img/defaultImgUser.jpg', 5, '2026-02-09 09:51:44', 24),
 (18, '', 'lele_d', '/Projet2/assets/img/defaultImgUser.jpg', 8, '2026-02-09 09:53:36', 24),
 (19, '', 'cam_rob', '/Projet2/assets/img/defaultImgUser.jpg', 6, '2026-02-09 09:56:02', 24),
 (35, '', 'luke_sky', 'defaultImgUser.jpg', 3, '2026-02-09 18:44:37', 17);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reports`
+--
+
+DROP TABLE IF EXISTS `reports`;
+CREATE TABLE IF NOT EXISTS `reports` (
+  `rep_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `rep_reported_user_id` int UNSIGNED DEFAULT NULL,
+  `rep_reported_movie_id` int UNSIGNED DEFAULT NULL,
+  `rep_reported_com_id` int UNSIGNED DEFAULT NULL,
+  `rep_com_content` int UNSIGNED DEFAULT NULL,
+  `rep_pseudo_user` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_bio_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_date` datetime DEFAULT NULL,
+  `rep_reporter_user_id` int UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`rep_id`),
+  UNIQUE KEY `uk_reported_reporter` (`rep_reported_user_id`,`rep_reporter_user_id`),
+  UNIQUE KEY `uk_com_reporter` (`rep_reported_com_id`,`rep_reporter_user_id`),
+  KEY `rep_reported_movie_id` (`rep_reported_movie_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `reports`
+--
+
+INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`) VALUES
+(20, NULL, NULL, 11, 0, NULL, NULL, '2026-02-13 11:27:28', 25),
+(22, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-13 11:39:51', 25),
+(23, NULL, 22, NULL, NULL, NULL, NULL, '2026-02-13 11:47:43', 25);
 
 -- --------------------------------------------------------
 
@@ -675,7 +710,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `fk_user_funct_id` (`user_funct_id`),
   KEY `fk_users_nationalities` (`user_nat_id`),
   KEY `fk_users_roles` (`user_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -694,7 +729,8 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, '', '6989baf6403f5.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-09 11:46:14', NULL),
 (23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL),
-(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 1, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL);
+(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 3, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL),
+(25, 'dqzzdq', 'dzqdzq', 'user', 'user@gmail.com', '2222-02-22', '2026-02-13 11:12:08', NULL, NULL, 1, NULL, NULL, '$2y$12$VMEuNAGgcYnmr13mM7Sy3.naxE/pgFRbal1ujYj6hsHKF.nEUAz8G', NULL, NULL, NULL);
 
 --
 -- Contraintes pour les tables déchargées

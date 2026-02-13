@@ -103,9 +103,9 @@
 
             $strRq	= " SELECT users.*, functions.funct_name AS 'user_function',
 						EXISTS(
-                            SELECT 1 FROM reported_users 
-                            WHERE rep_user_user_id = user_id
-                            AND rep_reporter_id = $idConnectUser
+                            SELECT 1 FROM reports 
+                            WHERE rep_reported_user_id = user_id
+                            AND rep_reporter_user_id = $idConnectUser
                             ) AS 'user_reported'
                         FROM users
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
@@ -141,15 +141,15 @@
 
 		public function reportUser(object $objUser, int $reporter):int{
 
-			$strRq = "  INSERT IGNORE INTO reported_users (rep_user_bio, rep_user_pseudo, rep_user_img, rep_user_user_id, rep_reporter_id ,rep_user_date)
-						VALUES (:bio, :pseudo, :img, :reported, :reporter,NOW())";
+			$strRq = "  INSERT IGNORE INTO reports (rep_bio_user, rep_pseudo_user, rep_reported_user_id, rep_reporter_user_id ,rep_date)
+						VALUES (:bio, :pseudo, :reported, :reporter,NOW())";
         
 			$rqPrep = $this->_db->prepare($strRq);
 
 			$rqPrep->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
 			$rqPrep->bindValue(':bio', $objUser->getBio(), PDO::PARAM_STR);
 			$rqPrep->bindValue(':pseudo', $objUser->getPseudo(), PDO::PARAM_STR);
-			$rqPrep->bindValue(':img', $objUser->getPhoto(), PDO::PARAM_STR);
+			//$rqPrep->bindValue(':img', $objUser->getPhoto(), PDO::PARAM_STR);
 			$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
 			
 
@@ -160,9 +160,9 @@
                 return 1; 
             } else {
                 
-                $deleteRq = "   DELETE FROM reported_users
-                                WHERE rep_user_user_id = :reported
-                                AND rep_reporter_id = :reporter"; 
+                $deleteRq = "   DELETE FROM reports
+                                WHERE rep_reported_user_id = :reported
+                                AND rep_reporter_user_id = :reporter"; 
 
                 $prepDelete = $this->_db->prepare($deleteRq);
                 $prepDelete->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);

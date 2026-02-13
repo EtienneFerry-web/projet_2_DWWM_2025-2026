@@ -18,9 +18,9 @@
                             COUNT(DISTINCT liked.lik_user_id) AS com_like,
 
                             EXISTS(
-                            SELECT 1 FROM reported_comments 
-                            WHERE rep_com_reported_id = comments.com_id 
-                            AND rep_com_reporter_id = $idConnectUser
+                            SELECT 1 FROM reports 
+                            WHERE rep_reported_com_id = comments.com_id 
+                            AND rep_reporter_user_id = $idConnectUser
                             ) AS 'com_reported',
 
                             EXISTS(
@@ -68,9 +68,9 @@
                         com_datetime,
                     
                         EXISTS(
-                            SELECT 1 FROM reported_comments 
-                            WHERE rep_com_reported_id = comments.com_id 
-                            AND rep_com_reporter_id = $idConnectUser
+                        SELECT 1 FROM reports 
+                        WHERE rep_reported_com_id = comments.com_id 
+                        AND rep_reporter_user_id = $idConnectUser
                         ) AS 'com_reported'
 
                     FROM users
@@ -217,7 +217,7 @@
 
         public function reportComment(object $objComment, int $reporterId): int {
             
-            $strRq = "  INSERT IGNORE INTO reported_comments (rep_com_content, rep_com_reported_id, rep_com_reporter_id, rep_com_date)
+            $strRq = "  INSERT IGNORE INTO reports (rep_com_content, rep_reported_com_id, rep_reporter_user_id, rep_date)
                         VALUES (:content, :comId, :reporterId, NOW())";
 
             $rq = $this->_db->prepare($strRq);
@@ -231,9 +231,9 @@
                 return 1; 
             } else {
                 
-                $deleteRq = "   DELETE FROM reported_comments 
-                                WHERE rep_com_reported_id = :comId 
-                                AND rep_com_reporter_id = :reporterId"; 
+                $deleteRq = "   DELETE FROM reports 
+                                WHERE rep_reported_com_id = :comId 
+                                AND rep_reporter_user_id = :reporterId"; 
 
                 $prepDelete = $this->_db->prepare($deleteRq);
                 $prepDelete->bindValue(':comId', $objComment->getId(), PDO::PARAM_INT);
@@ -244,7 +244,7 @@
             }
         }
 
-        public function LikeComment($intUserId, $intItemId){
+        public function likeComment($intUserId, $intItemId){
 
             $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
                 VALUES (:user_id, :item_id, 'comment', NOW())";

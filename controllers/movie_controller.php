@@ -138,9 +138,10 @@
 			$arrError = [];
 		
 			$objCommentModel	= new CommentModel;
+			$objMovieModel = new MovieModel;
 
 			if(isset($_POST['likeMovieBtn'])){
-				$objMovieModel = new MovieModel;
+				
 
     			$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
 
@@ -161,6 +162,23 @@
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
                 }
 			}
+			
+			if (isset($_POST['repMovie']) && $_POST['repMovie'] == 1) {
+
+                $repResult = $objMovieModel->reportMovie($_GET['id'], $_SESSION['user']['user_id']);
+
+                if ($repResult === 1) {
+                    $_SESSION['success'] = "Le signalement a bien été envoyé !";
+
+                   
+                } elseif ($repResult === 2) {
+                    $_SESSION['success'] = "Le signalement a bien été supprimer !";
+
+                    
+                } else {
+                    $arrError[] = "erreur";
+                }
+            }
 			
 			if(isset($_FILES['images'])){
                 $arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
@@ -210,7 +228,7 @@
 				}
 				
 				if(count($arrError) == 0){
-				    $objMovieModel = new MovieModel;
+				    
 								
 					$boolInsert = $objMovieModel->addImageOfMovies($strImageName, $_GET['id'], $_SESSION['user']['user_id']);
 					

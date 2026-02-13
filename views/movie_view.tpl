@@ -56,6 +56,12 @@
             <a href="{$objMovie->getTrailer()}" target="blank" class="py-2 spanMovie d-block link"> Voir le trailer &#8599;</a>
             <a id="shareMovie" class="py-2 spanMovie d-block link">Partager &#8599;</a>
         </div>
+        <form method="post" class="d-block ms-auto col-auto">
+            <button type="submit" name="repMovie" value="1"
+                    class="border-0 bg-transparent p-0">
+                {*if $comment->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if*}<i class="bi bi-flag fs-3"></i>
+            </button>
+        </form>
     </div>
 </section>
 <section  id="imgMovie" class="container py-5 text-center">

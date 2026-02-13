@@ -27,8 +27,8 @@
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
-                        GROUP BY movies.mov_id
+                        WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND photos.pho_type = 'Affiche'
+                        GROUP BY movies.mov_id,  pho_url
                         ";
 
             return $this->_db->query($strRq)->fetchAll();
@@ -365,6 +365,37 @@
 			$rqPrep->execute();
 			return $rqPrep->fetchAll();
 			
+		}
+		
+		public function reportMovie(int $movieId,int $reporter){
+		    $strRq = "  INSERT IGNORE INTO reports (rep_reported_movie_id, rep_reporter_user_id ,rep_date)
+					VALUES (:movieId, :reporter, NOW())";
+        
+      		$rqPrep = $this->_db->prepare($strRq);
+        
+      		
+      		$rqPrep->bindValue(':movieId', $movieId, PDO::PARAM_INT);
+      		$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
+      		
+        
+                
+      		$rqPrep->execute();
+
+		    if ($rqPrep->rowCount() > 0) {
+                return 1; 
+            } else {
+                
+                $deleteRq = "   DELETE FROM reports
+                                WHERE rep_reported_movie_id = :movieId
+                                AND rep_reporter_user_id = :reporter"; 
+
+                $prepDelete = $this->_db->prepare($deleteRq);
+                $rqPrep->bindValue(':movieId', $movieId, PDO::PARAM_INT);
+                $rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
+                $prepDelete->execute();
+
+                return 2; 
+            }
 		}
 
     }
