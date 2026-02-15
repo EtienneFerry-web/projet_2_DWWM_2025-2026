@@ -18,18 +18,18 @@
                             COUNT(DISTINCT liked.lik_user_id) AS com_like,
 
                             EXISTS(
-                            SELECT 1 FROM reports 
-                            WHERE rep_reported_com_id = comments.com_id 
+                            SELECT 1 FROM reports
+                            WHERE rep_reported_com_id = comments.com_id
                             AND rep_reporter_user_id = $idConnectUser
                             ) AS 'com_reported',
 
                             EXISTS(
-                                SELECT 1 FROM liked 
-                                WHERE lik_user_id = :user_id 
-                                AND lik_type = 'comment' 
+                                SELECT 1 FROM liked
+                                WHERE lik_user_id = :user_id
+                                AND lik_type = 'comment'
                                 AND lik_item_id = comments.com_id
                             ) AS com_user_liked
-                            
+
                         FROM comments
                         INNER JOIN users ON comments.com_user_id = users.user_id
                         INNER JOIN movies ON comments.com_movie_id = movies.mov_id
@@ -66,31 +66,32 @@
                         ratings.rat_score AS 'com_rating',
                         COUNT(DISTINCT liked.lik_user_id) AS 'com_like',
                         com_datetime,
-                    
+
                         EXISTS(
-                        SELECT 1 FROM reports 
-                        WHERE rep_reported_com_id = comments.com_id 
+                        SELECT 1 FROM reports
+                        WHERE rep_reported_com_id = comments.com_id
                         AND rep_reporter_user_id = $idConnectUser
+                        AND rep_pseudo_user IS NULL
                         ) AS 'com_reported'
 
-                    FROM users
-                    INNER JOIN ratings ON users.user_id = ratings.rat_user_id
-                    INNER JOIN movies ON ratings.rat_mov_id = movies.mov_id
-                    INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
-                    INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
-                    LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
-                    WHERE users.user_id = $idUser
+                        FROM users
+                        INNER JOIN ratings ON users.user_id = ratings.rat_user_id
+                        INNER JOIN movies ON ratings.rat_mov_id = movies.mov_id
+                        INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
+                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
+                        LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
+                        WHERE users.user_id = $idUser
 
-                    GROUP BY
-                        comments.com_id,
-                        comments.com_user_id,
-                        users.user_pseudo,
-                        comments.com_comment,
-                        ratings.rat_score,
-                        comments.com_datetime,
-                        photos.pho_url,
-                        movies.mov_id,
-                        movies.mov_title";
+                        GROUP BY
+                            comments.com_id,
+                            comments.com_user_id,
+                            users.user_pseudo,
+                            comments.com_comment,
+                            ratings.rat_score,
+                            comments.com_datetime,
+                            photos.pho_url,
+                            movies.mov_id,
+                            movies.mov_title";
 
 
 	        return $this->_db->query($strRq)->fetchAll();
@@ -124,11 +125,9 @@
                 ];
             }
 
-    // 2. CORRECTION ICI : Gestion de la note (INSERT ou UPDATE)
-    // On utilise "ON DUPLICATE KEY UPDATE"
-    $sql2 = "INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score) 
-            VALUES (:userId, :movieId, :rating)
-            ON DUPLICATE KEY UPDATE rat_score = :rating";
+            $sql2 = "INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score)
+                    VALUES (:userId, :movieId, :rating)
+                    ON DUPLICATE KEY UPDATE rat_score = :rating";
 
             $sql2 = "INSERT IGNORE INTO ratings (rat_user_id, rat_mov_id, rat_score)
                     VALUES (:userId, :movieId, :rating)";
@@ -215,40 +214,56 @@
             return $rq->execute();
         }
 
-        public function reportComment(object $objComment, int $reporterId): int {
-            
-            $strRq = "  INSERT IGNORE INTO reports (rep_com_content, rep_reported_com_id, rep_reporter_user_id, rep_date)
-                        VALUES (:content, :comId, :reporterId, NOW())";
+        public function reportComment(object $objReport, int $reporterId): bool {
+
+            $strRq = "  SELECT com_comment, com_user_id
+                        FROM comments
+                        WHERE com_id = :comId";
 
             $rq = $this->_db->prepare($strRq);
-            $rq->bindValue(':comId', $objComment->getId(), PDO::PARAM_INT);
-            $rq->bindValue(':content', $objComment->getComment(), PDO::PARAM_STR);
-            $rq->bindValue(':reporterId', $reporterId, PDO::PARAM_INT);
+            $rq->bindValue(':comId', $objReport->getReportedComId(), PDO::PARAM_INT);
             $rq->execute();
 
-            
-            if ($rq->rowCount() > 0) {
-                return 1; 
-            } else {
-                
-                $deleteRq = "   DELETE FROM reports 
-                                WHERE rep_reported_com_id = :comId 
-                                AND rep_reporter_user_id = :reporterId"; 
+            $arrData = $rq->fetch();
 
-                $prepDelete = $this->_db->prepare($deleteRq);
-                $prepDelete->bindValue(':comId', $objComment->getId(), PDO::PARAM_INT);
-                $prepDelete->bindValue(':reporterId', $reporterId, PDO::PARAM_INT);
-                $prepDelete->execute();
+            if ($arrData) {
 
-                return 2; 
+                $strRq = "  INSERT INTO reports (rep_reported_user_id, rep_com_content, rep_reported_com_id, rep_reason, rep_reporter_user_id, rep_date)
+                            VALUES (:reportedId, :content, :comId, :reason, :reporterId, NOW())";
+
+                $rqPrep = $this->_db->prepare($strRq);
+
+                $rqPrep->bindValue(':comId', $objReport->getReportedComId(), PDO::PARAM_INT);
+                $rqPrep->bindValue(':reportedId', $arrData['com_user_id'], PDO::PARAM_INT);
+                $rqPrep->bindValue(':reporterId', $reporterId, PDO::PARAM_INT);
+                $rqPrep->bindValue(':content', $arrData['com_comment'], PDO::PARAM_STR);
+                $rqPrep->bindValue(':reason', $objReport->getReason(), PDO::PARAM_STR);
+
+                return $rqPrep->execute();
+
             }
+
+            return false;
         }
+
+        public function deleteRepCom(object $objReport, int $intId ){
+
+                  $strRq = "  DELETE FROM reports
+                              WHERE  rep_reported_com_id  = :comId AND rep_reporter_user_id = :reporter AND rep_pseudo_user IS NULL AND rep_reported_movie_id IS NULL";
+
+            		$rqPrep = $this->_db->prepare($strRq);
+
+            		$rqPrep->bindValue(':comId', $objReport->getReportedComId(), PDO::PARAM_INT);
+            		$rqPrep->bindValue(':reporter', $intId, PDO::PARAM_INT);
+
+            		return $rqPrep->execute();
+		}
 
         public function likeComment($intUserId, $intItemId){
 
             $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
                 VALUES (:user_id, :item_id, 'comment', NOW())";
-			
+
 			$rqPrep	= $this->_db->prepare($strRq);
 
 				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);

@@ -13,7 +13,7 @@
         public string $enddate      = '';
         public string $order        = '';
         public string $job          = 'ASC';
-        
+
         public function findAllMovies() : array {
             $strRq = "SELECT mov_id, mov_title
                         FROM movies";
@@ -36,8 +36,8 @@
 
         public function allMovie(): array {
             $strWhere = " WHERE ";
-            $strRq = " SELECT mov_id, mov_title, mov_description, pho_url AS 'mov_url', 
-                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', 
+            $strRq = " SELECT mov_id, mov_title, mov_description, pho_url AS 'mov_url',
+                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                             COUNT(DISTINCT lik_user_id) AS 'mov_like'
                     FROM movies
                     LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
@@ -95,10 +95,10 @@
             $strRq .= " GROUP BY movies.mov_id
                         ORDER BY mov_release_date DESC";
 
-            
+
             $stmt = $this->_db->prepare($strRq);
 
-            
+
             if (!empty($this->actor)) {
                 $stmt->bindValue(':actor', $this->actor, PDO::PARAM_INT);
             }
@@ -135,23 +135,31 @@
             $strRq  = " SELECT movies.*,
                             pho_url AS 'mov_url',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
-                          
+
                             COUNT(DISTINCT liked.lik_user_id ) AS 'mov_like',
                             nat_country AS 'mov_country',
-                      
+
                             EXISTS(
-                                SELECT 1 FROM liked 
-                                WHERE lik_user_id = :user_id 
-                                AND lik_type = 'movies' 
+                                SELECT 1 FROM liked
+                                WHERE lik_user_id = :user_id
+                                AND lik_type = 'movies'
                                 AND lik_item_id = movies.mov_id
-                            ) AS mov_user_liked
+                            ) AS mov_user_liked,
+
+                            EXISTS(
+                                SELECT 1 FROM reports
+                                WHERE rep_reporter_user_id = :user_id
+                                AND rep_reported_movie_id = movies.mov_id
+
+                            ) AS mov_reported
+
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                      
+
                         LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE mov_id = :id 
+                        WHERE mov_id = :id
                         GROUP BY movies.mov_id";
 
             $stmt = $this->_db->prepare($strRq);
@@ -164,7 +172,7 @@
 
 		public function movieOfPerson(int $idPerson=0):array{
 
-            $direction = (strtoupper($this->order) === 'ASC') ? 'ASC' : 'DESC';    
+            $direction = (strtoupper($this->order) === 'ASC') ? 'ASC' : 'DESC';
 
           	$strRq	= " SELECT
                             movies.mov_id,
@@ -203,7 +211,7 @@
 
             $stmt->execute();
 
-            return $stmt->fetchAll(); 
+            return $stmt->fetchAll();
         }
 
 
@@ -244,7 +252,7 @@
         }
 
         public function addMovie(object $objNewMovie):bool{
-                
+
 		// Request construction
 			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_length, mov_description, mov_release_date, mov_nat_id, mov_trailer_url)
 						        VALUES (:title, :originalTitle, :length, :description, :createDate, :idNationality, :trailer)";
@@ -261,7 +269,7 @@
 
 			// Request execution
 			$result = $rqPrep->execute();
-            
+
             if ($result){
             $lastId = $this->_db->lastInsertId();
 
@@ -269,24 +277,24 @@
                             VALUES (:photo, 'Affiche', :idMovie)";
 
             $rqPrep2	= $this->_db->prepare($strRq2);
-            $rqPrep2->bindValue(":photo", $objNewMovie->getUrl(), PDO::PARAM_STR);         
-            $rqPrep2->bindValue(":idMovie", $lastId, PDO::PARAM_INT); 
-            
+            $rqPrep2->bindValue(":photo", $objNewMovie->getUrl(), PDO::PARAM_STR);
+            $rqPrep2->bindValue(":idMovie", $lastId, PDO::PARAM_INT);
+
              $resultPhoto = $rqPrep2->execute();
-             
+
                 if ($resultPhoto){
 
                     $strRq3 =" INSERT INTO belongs (belong_cat_id, belong_mov_id)
                                 VALUES (:catId, :idMovie)";
                     $rqPrep3	= $this->_db->prepare($strRq3);
-                    $rqPrep3->bindValue(":catId", $objNewMovie->getCategoriesId(), PDO::PARAM_STR);         
-                    $rqPrep3->bindValue(":idMovie", $lastId, PDO::PARAM_INT); 
-                
+                    $rqPrep3->bindValue(":catId", $objNewMovie->getCategoriesId(), PDO::PARAM_STR);
+                    $rqPrep3->bindValue(":idMovie", $lastId, PDO::PARAM_INT);
+
                     return $rqPrep3->execute();
                 }
 
             }
-            
+
 
 
 		}
@@ -298,7 +306,7 @@
          * return boolean
          */
 		public function deleteMovie(int $intId){
-			$strRq = "DELETE FROM movies  
+			$strRq = "DELETE FROM movies
 					  WHERE mov_id = :id";
 
 			$rqPrep = $this->_db->prepare($strRq);
@@ -311,7 +319,7 @@
 
             $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
                 VALUES (:user_id, :item_id, 'movies', NOW())";
-			
+
 			$rqPrep	= $this->_db->prepare($strRq);
 
 				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
@@ -339,63 +347,75 @@
 
             }
 		}
-		
+
 		public function addImageOfMovies(string $img, int $intMovId, int $intUserId){
-		
-    		$strRq = "INSERT INTO photos (pho_url, pho_type, pho_mov_id, pho_user_id) 
+
+            $strRqCount = " SELECT COUNT(*)
+                            FROM photos
+                            WHERE pho_mov_id = :movId AND pho_type = 'Content'";
+
+            $rqPrepCount = $this->_db->prepare($strRqCount);
+            $rqPrepCount->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+
+            $rqPrepCount->execute();
+
+            $nbrImg = $rqPrepCount->fetch();
+
+
+    		if($nbrImg['COUNT(*)'] < 20){
+                $strRq = "INSERT INTO photos (pho_url, pho_type, pho_mov_id, pho_user_id)
     				  VALUES (:img, 'Content', :movId, :userId)";
-    
-    		$rqPrep = $this->_db->prepare($strRq);
-    		$rqPrep->bindValue(':img', $img, PDO::PARAM_STR);
-            $rqPrep->bindValue(':movId', $intMovId, PDO::PARAM_INT);
-            $rqPrep->bindValue(':userId', $intUserId, PDO::PARAM_INT);
-    
-    		return $rqPrep->execute();
-      
+
+                $rqPrep = $this->_db->prepare($strRq);
+                $rqPrep->bindValue(':img', $img, PDO::PARAM_STR);
+                $rqPrep->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+                $rqPrep->bindValue(':userId', $intUserId, PDO::PARAM_INT);
+
+                return $rqPrep->execute();
+            }
+
+
 		}
-		
+
 		public function selectImageMovie($intMovId){
-		
-		    $strRq = " SELECT pho_id AS 'mov_id', pho_url AS 'mov_url' 
+
+		    $strRq = " SELECT pho_id AS 'mov_id', pho_url AS 'mov_url'
 						FROM photos
 						WHERE pho_mov_id = :id AND pho_type = 'Content'";
-						
+
 			$rqPrep = $this->_db->prepare($strRq);
 			$rqPrep->bindValue(':id', $intMovId, PDO::PARAM_INT);
 			$rqPrep->execute();
 			return $rqPrep->fetchAll();
-			
+
 		}
-		
-		public function reportMovie(int $movieId,int $reporter){
-		    $strRq = "  INSERT IGNORE INTO reports (rep_reported_movie_id, rep_reporter_user_id ,rep_date)
-					VALUES (:movieId, :reporter, NOW())";
-        
+
+		public function reportMovie(object $objReport){
+		    $strRq = "  INSERT INTO reports (rep_reported_movie_id, rep_reporter_user_id, rep_reason ,rep_date)
+					VALUES (:movieId, :reporter, :reason ,NOW())";
+
       		$rqPrep = $this->_db->prepare($strRq);
-        
-      		
-      		$rqPrep->bindValue(':movieId', $movieId, PDO::PARAM_INT);
-      		$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
-      		
-        
-                
-      		$rqPrep->execute();
 
-		    if ($rqPrep->rowCount() > 0) {
-                return 1; 
-            } else {
-                
-                $deleteRq = "   DELETE FROM reports
-                                WHERE rep_reported_movie_id = :movieId
-                                AND rep_reporter_user_id = :reporter"; 
 
-                $prepDelete = $this->_db->prepare($deleteRq);
-                $rqPrep->bindValue(':movieId', $movieId, PDO::PARAM_INT);
-                $rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
-                $prepDelete->execute();
+      		$rqPrep->bindValue(':movieId', $objReport->getReportedMovieId(), PDO::PARAM_INT);
+      		$rqPrep->bindValue(':reporter', $objReport->getReporterUserId(), PDO::PARAM_INT);
+            $rqPrep->bindValue(':reason', $objReport->getReason(), PDO::PARAM_STR);
 
-                return 2; 
-            }
+      		return $rqPrep->execute();
+
+		}
+
+		public function deleteRepMovie(object $objReport){
+
+            $strRq = "  DELETE FROM reports
+                        WHERE rep_reported_movie_id = :movieId AND rep_reporter_user_id = :reporter";
+
+      		$rqPrep = $this->_db->prepare($strRq);
+
+      		$rqPrep->bindValue(':movieId', $objReport->getReportedMovieId(), PDO::PARAM_INT);
+      		$rqPrep->bindValue(':reporter', $objReport->getReporterUserId(), PDO::PARAM_INT);
+
+      		return $rqPrep->execute();
 		}
 
     }

@@ -67,6 +67,7 @@
 
     				$arrResultToDisplay[]	= $objContent;
     				}
+
             } else {
                 header("Location: index.php");
                 exit();

@@ -1,10 +1,10 @@
 <?php
     require_once'models/mother_model.php';
-	
+
 
 
     class UserModel extends Connect{
-		
+
         // Methods
 		public function __construct(){
 				parent::__construct();
@@ -16,9 +16,9 @@
         public function findAllUsers():array{
 			// Writing request
 			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email
-						FROM users 
+						FROM users
 						WHERE user_delete_at IS NULL";
-						
+
 			// Launching request and collecting results
 			return $this->_db->query($strRq)->fetchAll();
 		}
@@ -40,7 +40,7 @@
 			$arrUser 	= $this->_db->query($strRq)->fetch();
 
 
-			// Hached password verification 
+			// Hached password verification
 			if($arrUser != null){
 				if (password_verify($strPwd, $arrUser['user_pwd'])){
 				// User return
@@ -65,24 +65,24 @@
 		    $strRq1 = "  SELECT user_email, user_pseudo
                         FROM users
                         WHERE user_email = :email OR user_pseudo = :pseudo ";
-		
-            $rqPrep1	= $this->_db->prepare($strRq1);     
-            
+
+            $rqPrep1	= $this->_db->prepare($strRq1);
+
             $rqPrep1->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
 			$rqPrep1->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
-			
+
 			$rqPrep1->execute();
-			
+
 			 $arrInsertRequest = $rqPrep1->fetch();
-			
-			
+
+
 			if(isset($arrInsertRequest['user_email'])){
-			    
+
 			   return $arrInsertRequest;
 				exit;
-			
-			} else{ 
-                                
+
+			} else{
+
     			$strRq2 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
     						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
     			// Prepared request
@@ -103,9 +103,10 @@
 
             $strRq	= " SELECT users.*, functions.funct_name AS 'user_function',
 						EXISTS(
-                            SELECT 1 FROM reports 
+                            SELECT 1 FROM reports
                             WHERE rep_reported_user_id = user_id
                             AND rep_reporter_user_id = $idConnectUser
+                            AND rep_pseudo_user IS NOT NULL
                             ) AS 'user_reported'
                         FROM users
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
@@ -119,7 +120,7 @@
          * @param $intId = $_GET['id'];
          * return boolean
          */
-		
+
 
 		/**
          * Delete account
@@ -129,49 +130,49 @@
          */
 
         public function deleteUser(int $intId){
-			$strRq = "UPDATE users SET user_delete_at = NOW() 
+			$strRq = "UPDATE users SET user_delete_at = NOW()
 					  WHERE user_id = :id";
-        
+
 			$rqPrep = $this->_db->prepare($strRq);
 			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
-        
+
 			return $rqPrep->execute();
         }
 
 
-		public function reportUser(object $objUser, int $reporter):int{
+		// public function reportUser(object $objUser, int $reporter):int{
 
-			$strRq = "  INSERT IGNORE INTO reports (rep_bio_user, rep_pseudo_user, rep_reported_user_id, rep_reporter_user_id ,rep_date)
-						VALUES (:bio, :pseudo, :reported, :reporter,NOW())";
-        
-			$rqPrep = $this->_db->prepare($strRq);
+		// 	$strRq = "  INSERT IGNORE INTO reports (rep_bio_user, rep_pseudo_user, rep_reported_user_id, rep_reporter_user_id ,rep_date)
+		// 				VALUES (:bio, :pseudo, :reported, :reporter,NOW())";
 
-			$rqPrep->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
-			$rqPrep->bindValue(':bio', $objUser->getBio(), PDO::PARAM_STR);
-			$rqPrep->bindValue(':pseudo', $objUser->getPseudo(), PDO::PARAM_STR);
-			//$rqPrep->bindValue(':img', $objUser->getPhoto(), PDO::PARAM_STR);
-			$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
-			
+		// 	$rqPrep = $this->_db->prepare($strRq);
 
-        
-			$rqPrep->execute();
+		// 	$rqPrep->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
+		// 	$rqPrep->bindValue(':bio', $objUser->getBio(), PDO::PARAM_STR);
+		// 	$rqPrep->bindValue(':pseudo', $objUser->getPseudo(), PDO::PARAM_STR);
+		// 	//$rqPrep->bindValue(':img', $objUser->getPhoto(), PDO::PARAM_STR);
+		// 	$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
 
-			if ($rqPrep->rowCount() > 0) {
-                return 1; 
-            } else {
-                
-                $deleteRq = "   DELETE FROM reports
-                                WHERE rep_reported_user_id = :reported
-                                AND rep_reporter_user_id = :reporter"; 
 
-                $prepDelete = $this->_db->prepare($deleteRq);
-                $prepDelete->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
-                $prepDelete->bindValue(':reporter', $reporter, PDO::PARAM_INT);
-                $prepDelete->execute();
 
-                return 2; 
-            }
-        }
+		// 	$rqPrep->execute();
+
+		// 	if ($rqPrep->rowCount() > 0) {
+  //               return 1;
+  //           } else {
+
+  //               $deleteRq = "   DELETE FROM reports
+  //                               WHERE rep_reported_user_id = :reported
+  //                               AND rep_reporter_user_id = :reporter";
+
+  //               $prepDelete = $this->_db->prepare($deleteRq);
+  //               $prepDelete->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
+  //               $prepDelete->bindValue(':reporter', $reporter, PDO::PARAM_INT);
+  //               $prepDelete->execute();
+
+  //               return 2;
+  //           }
+  //       }
 
 		public function settingsUser(object $objUser):bool{
 
@@ -201,5 +202,33 @@
 			return $rqPrep->execute();
 		}
 
-		
+		public function reportUser(object $objUser, object $objReport, int $intId){
+		    $strRq = "  INSERT INTO reports (rep_reported_user_id, rep_reporter_user_id, rep_reason, rep_pseudo_user, rep_bio_user ,rep_date)
+						VALUES (:userId, :reporter, :reason, :pseudo, :bio, NOW())";
+
+      		$rqPrep = $this->_db->prepare($strRq);
+
+      		$rqPrep->bindValue(':userId', $objUser->getId(), PDO::PARAM_INT);
+      		$rqPrep->bindValue(':reporter', $intId, PDO::PARAM_INT);
+            $rqPrep->bindValue(':reason', $objReport->getReason(), PDO::PARAM_STR);
+            $rqPrep->bindValue(':pseudo', $objUser->getPseudo(), PDO::PARAM_STR);
+            $rqPrep->bindValue(':bio', $objUser->getBio(), PDO::PARAM_STR);
+
+      		return $rqPrep->execute();
+
+		}
+
+		public function deleteRepUser(object $objUser, int $intId ){
+
+            $strRq = "  DELETE FROM reports
+                        WHERE rep_reported_user_id = :userId AND rep_reporter_user_id = :reporter AND rep_pseudo_user IS NOT NULL";
+
+      		$rqPrep = $this->_db->prepare($strRq);
+
+      		$rqPrep->bindValue(':userId', $objUser->getId(), PDO::PARAM_INT);
+      		$rqPrep->bindValue(':reporter', $intId, PDO::PARAM_INT);
+
+      		return $rqPrep->execute();
+		}
+
     }

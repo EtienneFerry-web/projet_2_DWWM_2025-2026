@@ -3,8 +3,8 @@
 	require_once("mother_entity.php");
 
 	/**
-	* Classe d'un objet Article
-	* @author Christel
+	* Classe d'un objet Movie
+	* @author Marco
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
@@ -24,6 +24,7 @@
 		private float   $_rating;
 		private string  $_nationality;
 		private int	    $_user_liked;
+		private int  $_reported;
 
 
 		/**
@@ -49,6 +50,17 @@
 		*/
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
+		}
+
+		public function getReported():int{
+			return $this->_reported;
+		}
+		/**
+		* Mise à jour du titre
+		* @param int le nouveau titre
+		*/
+		public function setReported(int $intRep){
+			$this->_reported = $intRep;
 		}
 		/**
 		* Récupération du titre original
@@ -78,8 +90,8 @@
 		public function setUrl(string $strImg){
 			$this->_url = $strImg;
 		}
-		
-		
+
+
 
 		/**
 		* Récupération du contenu
@@ -207,7 +219,7 @@
 		public function setLength(string $strLength){
 			$this->_length = $strLength;
 		}
-		
+
 		public function getCountryId():string{
 			return $this->_countryId;
 		}

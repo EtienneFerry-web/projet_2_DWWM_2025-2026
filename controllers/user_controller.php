@@ -1,4 +1,5 @@
 <?php
+    require'entities/report_entity.php';
     require'entities/user_entity.php';
     require'models/user_model.php';
     require'entities/movie_entity.php';
@@ -322,19 +323,37 @@
                 }
             }
 
-            elseif (isset($_POST['commentReport']) && $_POST['commentReport'] == 1) {
-                $objComment = new CommentEntity;
-                $objComment->hydrate($_POST);
-                $repResult = $objCommentModel->reportComment($objComment, $_SESSION['user']['user_id']);
+            if (isset($_POST['commentReport']) && $_POST['commentReport'] != '' && isset($_SESSION['user']['user_id'])) {
+                $objReport = new ReportEntity;
+                $objReport->setReason($_POST['commentReport']);
+                $objReport->setReported_com_id($_POST['commentReportId']);
 
-                if ($repResult === 1) {
+                $repResult = $objCommentModel->reportComment($objReport, $_SESSION['user']['user_id']);
+
+                if ($repResult) {
                     $_SESSION['success'] = "Le signalement a bien été envoyé !";
-                } elseif ($repResult === 2) {
-                    $_SESSION['success'] = "Le signalement à bien était supprimer !";
-                } else {
-                    $arrError[] = "Vous avez déjà signalé cet utilisateur !";
+                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
+                    exit;
+                }  else {
+                    $arrError[] = "erreur";
                 }
+            }   elseif(isset($_POST['repComDelete']) && $_POST['repComDelete'] != ''){
+
+                    $objReport = new ReportEntity;
+    				$objReport->setReported_com_id($_POST['repComDelete']);
+
+    				$repResult = $objCommentModel->deleteRepCom($objReport, $_SESSION['user']['user_id']);
+
+                    if ($repResult) {
+                        $_SESSION['success'] = "Votre signalement a bien était supprimer ! !";
+                    }  else {
+                        $arrError[] = "erreur";
+                    }
             }
+
+
+
+
 
             if (isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1) {
                 if ($objCommentModel->addSpoiler($_POST['spoiler'])) {
@@ -347,23 +366,33 @@
             $objUser = new UserEntity;
             $objUser->hydrate($arrUser);
 
-            if (isset($_POST['userReport']) && $_POST['userReport'] == 1) {
+            if (isset($_POST['repUser']) && $_POST['repUser'] != '' && isset($_SESSION['user']['user_id'])) {
 
-                $repResult = $objUserModel->reportUser($objUser, $_SESSION['user']['user_id']);
+                $objReport = new ReportEntity;
+                $objReport->setReason($_POST['repUser']);
 
-                if ($repResult === 1) {
+                $repResult = $objUserModel->reportUser($objUser, $objReport,$_SESSION['user']['user_id']);
+
+                if ($repResult) {
                     $_SESSION['success'] = "Le signalement a bien été envoyé !";
-
-                    $arrUser = $objUserModel->userPage($intId, $_SESSION['user']['user_id']);
-                    $objUser->hydrate($arrUser);
-                } elseif ($repResult === 2) {
-                    $_SESSION['success'] = "Le signalement a bien été supprimer !";
-
-                    $arrUser = $objUserModel->userPage($intId, $_SESSION['user']['user_id']);
-                    $objUser->hydrate($arrUser);
-                } else {
-                    $arrError[] = "Vous avez déjà signalé cet utilisateur !";
+                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
+                    exit;
+                }  else {
+                    $arrError[] = "erreur";
                 }
+
+            } elseif(isset($_POST['repDelete']) && $_POST['repDelete'] == 'delete'){
+
+				$repResult = $objUserModel->deleteRepUser($objUser, $_SESSION['user']['user_id']);
+
+                if ($repResult) {
+                    $_SESSION['success'] = "Votre signalement a bien était supprimer ! !";
+                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
+                    exit;
+                }  else {
+                    $arrError[] = "erreur";
+                }
+
             }
 
             $objLikeModel = new MovieModel;
@@ -429,28 +458,28 @@
 
         }
         public function allUser(){
-      
+
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
-      
+
 			$objUserModel 	= new UserModel;
 			$arrUsers 		= $objUserModel->findAllUsers();
-      
+
 			// Initialisation d'un tableau => objets
 			$arrUserToDisplay	= array();
-      
+
 			// Boucle de transformation du tableau de tableau en tableau d'objets
 			foreach($arrUsers as $arrDetUser){
 				$objUser = new UserEntity;
 				$objUser->hydrate($arrDetUser);
-      
+
 				$arrUserToDisplay[]	= $objUser;
 			}
-      
+
 			$this->_arrData['arrUserToDisplay']	    = $arrUserToDisplay;
-      
+
 			$this->_display("allUser");
 		}
 

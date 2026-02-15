@@ -17,7 +17,7 @@
         <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
         <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2 ">Films</a>
         <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2">Célébrités</a>
-        <a id="report" href="index.php?ctrl=admin&action=allReport" class="nav-link col-2">Signalement</a>
+        <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2">Signalement</a>
     </div>
 
     <h2>Home Dashboard</h2>

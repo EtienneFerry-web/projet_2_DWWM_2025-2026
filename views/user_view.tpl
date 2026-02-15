@@ -44,12 +44,58 @@
                     </div>
                 {elseif isset($smarty.session.user) && $smarty.session.user.user_id != $smarty.get.id}
                 <div class="col-auto ms-auto">
-                    <form method="post" class="d-block ms-auto col-auto">
-                        <button type="submit" name="userReport" value="1"
-                                class="border-0 bg-transparent p-0">
-                            {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
-                        </button>
-                    </form>
+                {if $objUser->getReported() == 0}
+                <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
+                    {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
+                </button>
+                <div class="modal fade" id="reportModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form method="POST" class="modal-content">
+
+                            <div class="modal-header border-0"">
+                                <h5 class="modal-title">Signaler : {$objUser->getPseudo()} </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>Pour que votre signalement sois prit en charge veuillez renseigner la raison !</p>
+                                <textarea name="repUser" class="form-control" placeholder="Raison du signalement..."></textarea>
+                            </div>
+
+                            <div class="modal-footer border-0 mx-auto">
+                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-outline-success px-3">Validez</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                {else}
+                <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
+                    {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
+                </button>
+                <div class="modal fade" id="reportModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form method="POST" class="modal-content">
+
+                            <div class="modal-header border-0"">
+                                <h5 class="modal-title">Signaler : {$objUser->getPseudo()} </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>Voulez vous vraiment supprimer votre signalement ?</p>
+                            </div>
+
+                            <div class="modal-footer border-0 mx-auto">
+                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-3">Supprimer</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                {/if}
                 </div>
                 {/if}
             </div>

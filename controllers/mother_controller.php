@@ -4,7 +4,7 @@
  * @author Marco Schmitt
  * 16/01/2026
  * Version 0.1
- * @todo Peut être utilisé extract etc ob_start(); puis $content = ob_get_clean(); et l'echo echo $content;
+ *
  */
 use Smarty\Smarty;
 
@@ -35,8 +35,8 @@ class MotherCtrl{
         $objSmarty->display("views/".$strView."_view.tpl");
 
     }
-    
-    protected function _resize($img, $intX=250, $intY=250){        
+
+    protected function _resize($img, $intX=250, $intY=250){
 		$filename = $img;
 
         $width = $intX;

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 13 fév. 2026 à 10:50
+-- Généré le : dim. 15 fév. 2026 à 16:13
 -- Version du serveur : 8.4.7
--- Version de PHP : 8.4.16
+-- Version de PHP : 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -276,8 +276,12 @@ INSERT INTO `liked` (`lik_user_id`, `lik_item_id`, `lik_type`, `lik_created_at`)
 (9, 25, 'movies', '2026-01-25 11:20:57'),
 (10, 11, 'movies', '2026-01-25 11:20:57'),
 (10, 16, 'comment', '2026-01-25 11:21:38'),
+(17, 15, 'movies', '2026-02-14 17:34:31'),
 (17, 22, 'movies', '2026-02-11 18:13:53'),
-(24, 21, 'movies', '2026-02-12 15:30:21');
+(24, 21, 'movies', '2026-02-12 15:30:21'),
+(25, 18, 'movies', '2026-02-14 22:24:47'),
+(25, 22, 'comment', '2026-02-14 22:24:36'),
+(25, 24, 'comment', '2026-02-14 22:24:40');
 
 -- --------------------------------------------------------
 
@@ -660,25 +664,28 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `rep_reported_user_id` int UNSIGNED DEFAULT NULL,
   `rep_reported_movie_id` int UNSIGNED DEFAULT NULL,
   `rep_reported_com_id` int UNSIGNED DEFAULT NULL,
-  `rep_com_content` int UNSIGNED DEFAULT NULL,
-  `rep_pseudo_user` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rep_bio_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_com_content` text COLLATE utf8mb4_unicode_ci,
+  `rep_pseudo_user` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_bio_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rep_date` datetime DEFAULT NULL,
   `rep_reporter_user_id` int UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`rep_id`),
-  UNIQUE KEY `uk_reported_reporter` (`rep_reported_user_id`,`rep_reporter_user_id`),
-  UNIQUE KEY `uk_com_reporter` (`rep_reported_com_id`,`rep_reporter_user_id`),
-  KEY `rep_reported_movie_id` (`rep_reported_movie_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `rep_reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`rep_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reports`
 --
 
-INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`) VALUES
-(20, NULL, NULL, 11, 0, NULL, NULL, '2026-02-13 11:27:28', 25),
-(22, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-13 11:39:51', 25),
-(23, NULL, 22, NULL, NULL, NULL, NULL, '2026-02-13 11:47:43', 25);
+INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`) VALUES
+(36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test'),
+(37, 6, NULL, NULL, NULL, 'cam_rob', '', '2026-02-14 18:10:12', 25, 'dzadqzdzqdqzd'),
+(38, 4, NULL, NULL, NULL, 'sophie_b', '', '2026-02-14 18:10:46', 25, 'dzqdzq'),
+(39, 7, NULL, NULL, NULL, 'tony_ric', '', '2026-02-14 18:13:57', 25, 'test'),
+(63, NULL, 18, NULL, NULL, NULL, NULL, '2026-02-14 22:24:53', 25, 'Cnul'),
+(62, 8, NULL, 31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', NULL, NULL, '2026-02-14 22:20:54', 25, 'Avis de merde\r\n'),
+(68, 8, NULL, 24, 'Ce bébé mutant va me donner des cauchemars.', NULL, NULL, '2026-02-14 22:32:43', 25, '2'),
+(69, NULL, 21, NULL, NULL, NULL, NULL, '2026-02-15 14:48:47', 17, 'Test du report sur avatar !\r\n');
 
 -- --------------------------------------------------------
 
@@ -727,7 +734,7 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
-(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, '', '6989baf6403f5.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-09 11:46:14', NULL),
+(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, 'dzqdzqdqzdzqdqzdzqdzqdqzdqzddzqdzqdz', '6991c05b884fb.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-15 13:47:38', NULL),
 (23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL),
 (24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 3, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL),
 (25, 'dqzzdq', 'dzqdzq', 'user', 'user@gmail.com', '2222-02-22', '2026-02-13 11:12:08', NULL, NULL, 1, NULL, NULL, '$2y$12$VMEuNAGgcYnmr13mM7Sy3.naxE/pgFRbal1ujYj6hsHKF.nEUAz8G', NULL, NULL, NULL);
