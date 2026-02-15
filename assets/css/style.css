@@ -19,11 +19,11 @@ h3{
     text-transform: uppercase;
     font-weight: 700;
 }
-p{
+/*p{
     font-size: clamp(0.875rem, 1vw, 1.125rem);
     max-width: 60ch;
     font-weight: 400;
-}
+}*/
 label{
     font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 400;

@@ -8,7 +8,7 @@
         {/if}
         <div class="row align-items-center">
             <div class="rounded-circle col-auto">
-                <img src="assets/img/{$comment->getUrl()}"
+                <img src="assets/img/{$comment->getPhoto()}"
                     class="rounded-circle border"
                     style="width: 40px; height: 40px; object-fit: cover;"
                     alt="Avatar">

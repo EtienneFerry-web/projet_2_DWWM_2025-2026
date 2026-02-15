@@ -45,11 +45,6 @@
 				$arrRepMovieToDisplay[]	= $objContent;
        	    }
 
-
-            var_dump($arrRepMovieToDisplay);
-            var_dump($arrMovieRep);
-
-
             $this->_arrData['arrRepMovieToDisplay'] = $arrRepMovieToDisplay;
             $this->_arrData['arrRepComToDisplay'] = $arrRepComToDisplay;
             $this->_arrData['arrRepUserToDisplay'] = $arrRepUserToDisplay;

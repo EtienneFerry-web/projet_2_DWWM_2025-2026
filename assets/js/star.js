@@ -1,5 +1,5 @@
 const stars = document.querySelectorAll('.rating i');
-const inputNote = document.getElementById('note');
+const inputNote = document.querySelectorAll('#note');
 let antiSpam = false
 
 
@@ -10,7 +10,9 @@ stars.forEach(star => {
     antiSpam = true;
 
     const value = star.dataset.value;
-      inputNote.value = value - 0.5;
+    updateNote(value - 0.5);
+
+      // inputNote.value = value - 0.5;
 
     stars.forEach(s => {
 
@@ -22,6 +24,12 @@ stars.forEach(star => {
     antiSpam = false;
   });
 
+  function updateNote(value) {
+    inputNote.forEach(input => {
+        input.value = value;
+    });
+  }
+
 
   star.addEventListener('click', () => {
 
@@ -29,7 +37,8 @@ stars.forEach(star => {
     antiSpam = true;
 
     const value = star.dataset.value;
-    inputNote.value = value;
+    updateNote(value);
+    //inputNote.value = value;
 
     stars.forEach(s => {
 
@@ -42,7 +51,7 @@ stars.forEach(star => {
   });
 });
 
-/*document.getElementById('shareMovie').addEventListener('click', (e) => {
+document.getElementById('shareMovie').addEventListener('click', (e) => {
 
   navigator.clipboard.writeText(window.location.href);
   e.target.textContent = "URL copiée !";
@@ -51,4 +60,4 @@ stars.forEach(star => {
   setTimeout(() => {
     e.target.innerHTML = "PARTAGER &#8599;";
   }, 1500);
-});*/
+});

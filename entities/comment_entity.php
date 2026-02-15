@@ -14,7 +14,7 @@
 		private string  $_datetime;
 		private string  $_comment;
 		private string  $_title;
-		private ?string  $_url = 'defaultImgUser.jpg';
+		private ?string  $_photo = 'defaultImgUser.jpg';
 		private int     $_like;
 		private int     $_movieId;
 		private int     $_spoiler;
@@ -83,12 +83,12 @@
 			$this->_title = $strComment;
 		}
 
-		public function getUrl():?string{
-			return $this->_url??'defaultImgUser.jpg' ;
+		public function getPhoto():?string{
+			return $this->_photo??'defaultImgUser.jpg' ;
 		}
 
-		public function setUrl(?string $strComment){
-			$this->_url = $strComment;
+		public function setPhoto(?string $strComment){
+			$this->_photo = $strComment;
 		}
 
 		public function getUser_id():string{

@@ -22,13 +22,13 @@
 
         public function newMovie(){
           $strRq	= "
-                        SELECT mov_id, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
+                        SELECT mov_id, pho_photo AS 'mov_photo', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
                         WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND photos.pho_type = 'Affiche'
-                        GROUP BY movies.mov_id,  pho_url
+                        GROUP BY movies.mov_id,  pho_photo
                         ";
 
             return $this->_db->query($strRq)->fetchAll();
@@ -36,13 +36,13 @@
 
         public function allMovie(): array {
             $strWhere = " WHERE ";
-            $strRq = " SELECT mov_id, mov_title, mov_description, pho_url AS 'mov_url',
+            $strRq = " SELECT mov_id, mov_title, mov_description, pho_photo AS 'mov_photo',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                             COUNT(DISTINCT lik_user_id) AS 'mov_like'
                     FROM movies
                     LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                     LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                    LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                    LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
                     ";
 
             $conditions = [];
@@ -133,7 +133,7 @@
         public function findMovie(int $idMovie, int $intUserId = 0){
 
             $strRq  = " SELECT movies.*,
-                            pho_url AS 'mov_url',
+                            pho_photo AS 'mov_photo',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
 
                             COUNT(DISTINCT liked.lik_user_id ) AS 'mov_like',
@@ -142,8 +142,8 @@
                             EXISTS(
                                 SELECT 1 FROM liked
                                 WHERE lik_user_id = :user_id
-                                AND lik_type = 'movies'
-                                AND lik_item_id = movies.mov_id
+                                AND lik_com_id IS NULL
+                                AND lik_mov_id = movies.mov_id
                             ) AS mov_user_liked,
 
                             EXISTS(
@@ -158,7 +158,7 @@
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
 
-                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
                         WHERE mov_id = :id
                         GROUP BY movies.mov_id";
 
@@ -176,7 +176,7 @@
 
           	$strRq	= " SELECT
                             movies.mov_id,
-                            photos.pho_url AS 'mov_url',
+                            photos.pho_photo AS 'mov_photo',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                             COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM persons
@@ -184,7 +184,7 @@
                         LEFT JOIN movies ON participates.part_mov_id = movies.mov_id
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
                         WHERE persons.pers_id = :id";
 
             if(!empty($this->job)){
@@ -216,13 +216,13 @@
 
 
         public function userLike(int $idUser=0){
-            // FIX: Added MIN() around pho_url and added GROUP BY to avoid duplicates
+            // FIX: Added MIN() around pho_photo and added GROUP BY to avoid duplicates
             $strRq  = " SELECT
                             movies.mov_id,
-                            photos.pho_url AS 'mov_url'
+                            photos.pho_photo AS 'mov_photo'
                         FROM users
-                        LEFT JOIN liked ON users.user_id = liked.lik_user_id AND liked.lik_type = 'movies'
-                        INNER JOIN movies ON liked.lik_item_id = movies.mov_id
+                        LEFT JOIN liked ON users.user_id = liked.lik_user_id AND liked.lik_mov_id IS NOT NULL
+                        INNER JOIN movies ON liked.lik_mov_id = movies.mov_id
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         WHERE user_id = $idUser
                         GROUP BY movies.mov_id
@@ -273,11 +273,11 @@
             if ($result){
             $lastId = $this->_db->lastInsertId();
 
-                $strRq2 =" INSERT INTO photos(pho_url, pho_type, pho_mov_id)
+                $strRq2 =" INSERT INTO photos(pho_photo, pho_type, pho_mov_id)
                             VALUES (:photo, 'Affiche', :idMovie)";
 
             $rqPrep2	= $this->_db->prepare($strRq2);
-            $rqPrep2->bindValue(":photo", $objNewMovie->getUrl(), PDO::PARAM_STR);
+            $rqPrep2->bindValue(":photo", $objNewMovie->getphoto(), PDO::PARAM_STR);
             $rqPrep2->bindValue(":idMovie", $lastId, PDO::PARAM_INT);
 
              $resultPhoto = $rqPrep2->execute();
@@ -363,7 +363,7 @@
 
 
     		if($nbrImg['COUNT(*)'] < 20){
-                $strRq = "INSERT INTO photos (pho_url, pho_type, pho_mov_id, pho_user_id)
+                $strRq = "INSERT INTO photos (pho_photo, pho_type, pho_mov_id, pho_user_id)
     				  VALUES (:img, 'Content', :movId, :userId)";
 
                 $rqPrep = $this->_db->prepare($strRq);
@@ -379,7 +379,7 @@
 
 		public function selectImageMovie($intMovId){
 
-		    $strRq = " SELECT pho_id AS 'mov_id', pho_url AS 'mov_url'
+		    $strRq = " SELECT pho_id AS 'mov_id', pho_photo AS 'mov_photo'
 						FROM photos
 						WHERE pho_mov_id = :id AND pho_type = 'Content'";
 

@@ -431,7 +431,7 @@
 				if (empty($objMovie->getDescription())) {
 					$arrError['description'] = "Le synopsis est obligatoire";
 				}
-				// if (empty($objMovie->getUrl())) {
+				// if (empty($objMovie->getphoto())) {
 				// 	$arrError['photo'] = "L'affiche du film est obligatoire";
 				// }
 
@@ -457,7 +457,7 @@
                      $strDest = 'assets/img/movie/' . $strImageName;
 
                     if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
-                        $objMovie->setUrl($strImageName);
+                        $objMovie->setphoto($strImageName);
                     } else {
                         $arrError['photo'] = "Erreur lors du téléchargement";
                     }

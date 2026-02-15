@@ -10,7 +10,7 @@
 		// Attributs
 		private string  $_title;
 		private string  $_original_title;
-		private string  $_url;
+		private string  $_photo;
 		private string  $_description;
 		private string  $_release_date;
 		private string  $_trailer_url;
@@ -80,15 +80,15 @@
 		* Récupération de l'image
 		* @return string l'image de l'objet
 		*/
-		public function getUrl():string{
-			return $this->_url;
+		public function getphoto():string{
+			return $this->_photo;
 		}
 		/**
 		* Mise à jour de l'image
 		* @param string la nouvelle image
 		*/
-		public function setUrl(string $strImg){
-			$this->_url = $strImg;
+		public function setphoto(string $strImg){
+			$this->_photo = $strImg;
 		}
 
 

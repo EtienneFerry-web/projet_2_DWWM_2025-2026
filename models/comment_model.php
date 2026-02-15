@@ -11,7 +11,7 @@
                             comments.com_user_id,
                             comments.com_spoiler,
                             users.user_pseudo AS com_pseudo,
-                            users.user_photo AS com_url,
+                            users.user_photo AS com_photo,
                             comments.com_comment,
                             ratings.rat_score AS com_rating,
                             comments.com_datetime,
@@ -26,14 +26,14 @@
                             EXISTS(
                                 SELECT 1 FROM liked
                                 WHERE lik_user_id = :user_id
-                                AND lik_type = 'comment'
-                                AND lik_item_id = comments.com_id
+                                AND lik_mov_id IS NULL
+                                AND lik_com_id = comments.com_id
                             ) AS com_user_liked
 
                         FROM comments
                         INNER JOIN users ON comments.com_user_id = users.user_id
                         INNER JOIN movies ON comments.com_movie_id = movies.mov_id
-                        LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
+                        LEFT JOIN liked ON liked.lik_com_id = comments.com_id AND liked.lik_mov_id IS NULL
                         LEFT JOIN ratings ON ratings.rat_mov_id = movies.mov_id AND ratings.rat_user_id = users.user_id
                         WHERE movies.mov_id = :id
                         GROUP BY
@@ -60,7 +60,7 @@
                         com_id,
                         comments.com_spoiler,
                         movies.mov_id AS 'com_movieId',
-                        photos.pho_url AS 'com_url',
+                        photos.pho_photo AS 'com_photo',
                         movies.mov_title AS 'com_title',
                         comments.com_comment,
                         ratings.rat_score AS 'com_rating',
@@ -79,7 +79,7 @@
                         INNER JOIN movies ON ratings.rat_mov_id = movies.mov_id
                         INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
-                        LEFT JOIN liked ON liked.lik_item_id = comments.com_id AND liked.lik_type = 'comment'
+                        LEFT JOIN liked ON liked.lik_com_id = comments.com_id AND liked.lik_mov_id IS NULL
                         WHERE users.user_id = $idUser
 
                         GROUP BY
@@ -89,7 +89,7 @@
                             comments.com_comment,
                             ratings.rat_score,
                             comments.com_datetime,
-                            photos.pho_url,
+                            photos.pho_photo,
                             movies.mov_id,
                             movies.mov_title";
 
@@ -176,7 +176,7 @@
 
             $success2 = $rq2->execute();
 
-            $sql3 = " DELETE FROM liked WHERE lik_item_id = :id AND lik_type = 'comment'";
+            $sql3 = " DELETE FROM liked WHERE lik_com_id = :id AND lik_mov_id IS NULL";
 
 
             $rq3 = $this->_db->prepare($sql3);

@@ -57,8 +57,6 @@
                 $objSearchModel 	= new SearchModel;
     			$arrResult		    = $objSearchModel->searchContent($objSearch, $searchBy, 20);
 
-
-
     			$arrResultToDisplay	= array();
 
     			foreach($arrResult as $arrDeResult){

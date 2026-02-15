@@ -318,6 +318,8 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était modifier !";
+                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
+                    exit;
                 } else {
                     $arrError[] = "erreur lors de la modification";
                 }

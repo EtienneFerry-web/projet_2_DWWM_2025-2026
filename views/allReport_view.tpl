@@ -30,22 +30,25 @@
 
     <section class="mb-5">
         <h3 class="h4"><i class="bi bi-chat-left-text me-2"></i>Signalements : Commentaires</h3>
-        <div class="container-fluid bg-white rounded shadow-sm p-3">
+        <div class="container-fluid p-3">
             {foreach from=$arrRepComToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
-                        <img src="assets/img/mouse.png" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Avatar">
-                        <span class="fw-bold">bad_user_99</span>
+                        <img src="assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                        <span class="fw-bold">{$objReport->getPseudo()}</span>
                     </div>
-                    <div class="col-md-4 text-truncate">"Spam répétitif dans les commentaires"</div>
+                    <div class="col-md-4">
+                        <p class="m-0 fw-bold">Raison: {$objReport->getReason()}</p>
+                        <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
+                    </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
                         <div class="btn-group">
                             <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
                             <button type="button" class="btn btn-outline-warning btn-sm">30 J</button>
                         </div>
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Bannir</button>
-                        <button type="submit" class="btn btn-outline-success btn-sm">Ignorer</button>
+                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Bannir</button>
+                        <button type="submit" name="action" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
                     </div>
                 </form>
             {foreachelse}
@@ -56,17 +59,17 @@
 
     <section class="mb-5">
         <h3 class="h4"><i class="bi bi-people me-2"></i>Signalements : Utilisateurs</h3>
-        <div class="container-fluid bg-white rounded shadow-sm p-3">
+        <div class="container-fluid p-3">
             {foreach from=$arrRepUserToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedUserId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <img src="assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
                              class="rounded-circle border me-3"
-                             style="width: 45px; height: 45px; object-fit: cover;" alt="Avatar">
+                             style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
                         <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
                     </div>
-                    <p class="col-md-4 m-0">{$objReport->getReason()}</p>
+                    <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">
                         <div class="btn-group">
                             <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
@@ -84,14 +87,14 @@
 
     <section class="mb-5">
         <h3 class="h4"><i class="bi bi-film me-2"></i>Signalements : Films</h3>
-        <div class="container-fluid bg-white rounded shadow-sm p-3">
+        <div class="container-fluid p-3">
             {foreach from=$arrRepMovieToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedMovieId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <span class="fw-bold">{$objReport->getTitle()}</span>
                     </div>
-                    <p class="col-md-4 m-0">{$objReport->getReason()}</p>
+                    <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">
                          <a href="index.php?ctrl=movie&action=deleteMovie&id={$objReport->getReportedMovieId()}" class="btn btn-outline-danger btn-sm px-3" onclick="return confirm('Vous allez supprimer le film {$objReport->getTitle()|escape:'javascript'}')">Supprimer</a>
                          <a href="" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
