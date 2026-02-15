@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 17:16:43
+/* Smarty version 5.7.0, created on 2026-02-13 20:48:25
   from 'file:views/_partial/movieList.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698a167b62b8b1_47844271',
+  'unifunc' => 'content_698f8e1902eb12_96895990',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e72d06d7dd6c81ec682255e946abbfd5b8a33521' => 
     array (
       0 => 'views/_partial/movieList.tpl',
-      1 => 1769849369,
+      1 => 1770990163,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698a167b62b8b1_47844271 (\Smarty\Template $_smarty_tpl) {
+function content_698f8e1902eb12_96895990 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?><div class="row py-2">
     <div class="col-4 text-center my-auto">

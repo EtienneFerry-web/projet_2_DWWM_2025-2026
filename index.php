@@ -1,11 +1,14 @@
 <?php
 	session_start();
 	require'vendor/autoload.php';
+
+	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+	$dotenv->load();
+
 	require'controllers/mother_controller.php';
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'movie'; // quel contrôleur ?
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?
-	var_dump($_SESSION);
 	// Flag pour afficher le 404 si besoin
 	$boolError		= false;
 	// Construciton du nom du fichier du controller
@@ -32,6 +35,6 @@
 	}
 
 	if($boolError){
-		echo "error 404 - page introuvable";
-		// remplacer par redirection vers controller error -> 404
+	        header("Location:index.php?ctrl=error&action=err404");
+            exit;
 	}

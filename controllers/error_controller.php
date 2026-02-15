@@ -1,5 +1,4 @@
-<?php 
-    
+<?php
 
     /**
      * @author Marco Schmitt
@@ -17,7 +16,7 @@
         }
 
         public function err403(){
-            //Page Pour les accés 
+            //Page Pour les accés
 
             $this->_display("403");
         }

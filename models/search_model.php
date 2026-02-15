@@ -3,8 +3,8 @@
 
     class SearchModel extends Connect{
 
-        public function searchContent(object $objSearch, int $searchBy=0): array {
-            // On prépare la chaîne de recherche avec les % en PHP
+        public function searchContent(object $objSearch, int $searchBy=0, int $limite): array {
+            // On prépare la chaîne de recherche avec les % en PHP car sinon les il y aura double apostrophe
             $search = $objSearch->getSearch();
             $fullSearch = "%" . $search . "%";
             $startSearch = $search . "%";
@@ -31,9 +31,9 @@
 
             if(empty($searchBy) || $searchBy != 5 && $searchBy != 4){
                 $strRq .="      SELECT pers_id AS sear_id, CONCAT(pers_name, ' ', pers_firstname) AS sear_name, pers_bio AS sear_content, pers_photo AS sear_photo, NULL AS sear_rating,  NULL AS sear_like, 'person' AS sear_type,
-                                 CASE WHEN pers_name LIKE :startSearch OR pers_firstname LIKE :startSearch THEN 1 ELSE 2 END AS score
+                                 CASE WHEN CONCAT(pers_name, ' ', pers_firstname) LIKE :startSearch THEN 1 ELSE 2 END AS score
                           FROM persons
-                          WHERE pers_name LIKE :fullSearch OR pers_firstname LIKE :fullSearch";
+                          WHERE CONCAT(pers_name, ' ', pers_firstname) LIKE :fullSearch";
                 if($searchBy != 0){
                     $strRq .=" AND pers_id IN ( SELECT part_pers_id
                                                 FROM participates
@@ -53,13 +53,15 @@
              }
 
             $strRq .=" ) AS search_results
-                      ORDER BY score, sear_name";
+                      ORDER BY score, sear_name LIMIT :limit";
+
+
 
             $rqPrep = $this->_db->prepare($strRq);
-
+            $rqPrep->bindValue(":limit", $limite, PDO::PARAM_INT);
             $rqPrep->bindValue(":fullSearch", $fullSearch, PDO::PARAM_STR);
             $rqPrep->bindValue(":startSearch", $startSearch, PDO::PARAM_STR);
-            //Si les condition ajoute le :job on rentre dans le if sinon pas 
+            //Si les condition ajoute le :job on rentre dans le if sinon pas
             if (strpos($strRq, ':job') !== false) {
                 $rqPrep->bindValue(":job", $searchBy, PDO::PARAM_INT);
             }

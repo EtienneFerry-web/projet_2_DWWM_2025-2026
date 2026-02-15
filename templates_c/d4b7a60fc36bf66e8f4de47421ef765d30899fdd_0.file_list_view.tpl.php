@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 17:16:43
+/* Smarty version 5.7.0, created on 2026-02-13 20:48:24
   from 'file:views/list_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698a167b107713_35103255',
+  'unifunc' => 'content_698f8e18a9fd47_93121660',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd4b7a60fc36bf66e8f4de47421ef765d30899fdd' => 
     array (
       0 => 'views/list_view.tpl',
-      1 => 1769849369,
+      1 => 1770990163,
       2 => 'file',
     ),
   ),
@@ -22,31 +22,31 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/movieList.tpl' => 1,
   ),
 ))) {
-function content_698a167b107713_35103255 (\Smarty\Template $_smarty_tpl) {
+function content_698f8e18a9fd47_93121660 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_883457323698a167b0e81d3_31474601', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_906119521698f8e18a95838_03085447', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1819892502698a167b0ea032_43334253', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_774391019698a167b0eb072_33687345', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_547177513698f8e18a97327_27687197', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_633213382698a167b106c84_75386156', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1188508246698f8e18a983b1_11180125', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2070940649698f8e18a9f341_54439551', "js");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_883457323698a167b0e81d3_31474601 extends \Smarty\Runtime\Block
+class Block_906119521698f8e18a95838_03085447 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -57,7 +57,7 @@ Catalogue<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1819892502698a167b0ea032_43334253 extends \Smarty\Runtime\Block
+class Block_547177513698f8e18a97327_27687197 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -67,7 +67,7 @@ Notre liste de film, par categorie, réalisateur ...<?php
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_774391019698a167b0eb072_33687345 extends \Smarty\Runtime\Block
+class Block_1188508246698f8e18a983b1_11180125 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -123,7 +123,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_633213382698a167b106c84_75386156 extends \Smarty\Runtime\Block
+class Block_2070940649698f8e18a9f341_54439551 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

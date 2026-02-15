@@ -8,21 +8,23 @@
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
-		private string $_title;
-		private string $_original_title;
-		private string $_url;
-		private string $_description;
-		private string $_release_date;
-		private string $_trailer_url;
-		private int $_countryId;
+		private string $_title ='';
+		private string $_original_title ='';
+		private string $_url='';
+		private string $_description='';
+		private string $_release_date='';
+		private string $_trailer_url='';
+		private int    $_countryId = 0;
 		private string $_country;
-		private int $_categoriesId;
+		private int    $_categoriesId = 0;
 		private string $_categories;
-		private string $_length;
+		private string $_length='';
 		private string $_func;
 		private int    $_like;
 		private float  $_rating;
 		private string $_nationality;
+		private int	   $_user_liked;
+
 
 		/**
 		* Constructeur
@@ -52,14 +54,14 @@
 		* Récupération du titre original
 		* @return string le titre original de l'objet
 		*/
-		public function getOriginalTitle():string{
+		public function getOriginal_title():string{
 			return $this->_original_title;
 		}
 		/**
 		* Mise à jour du titre
 		* @param string le nouveau titre
 		*/
-		public function setOriginalTitle(string $strOriginalTitle){
+		public function setOriginal_title(string $strOriginalTitle){
 			$this->_original_title = $this->clean($strOriginalTitle);
 		}
 		/**
@@ -76,6 +78,8 @@
 		public function setUrl(string $strImg){
 			$this->_url = $strImg;
 		}
+		
+		
 
 		/**
 		* Récupération du contenu
@@ -215,15 +219,22 @@
 			$this->_countryId = $strCountryId;
 		}
 
-		public function getCategoriesId():string{
+		public function getCategoriesId():int{
 			return $this->_categoriesId;
 		}
 		/**
 		* Mise à jour de l'identifiant du créateur
 		* @param int le nouvel identifiant du créateur
 		*/
-		public function setCategoriesId(string $strCategoriesId){
-			$this->_categoriesId = $strCategoriesId;
+		public function setCategoriesId(int $intCategoriesId){
+			$this->_categoriesId = $intCategoriesId;
 		}
 
+		public function setUser_liked($bool){
+			$this->_user_liked = $bool;
+		}
+
+		public function getUser_liked(){
+			return $this->_user_liked;
+		}
 	}

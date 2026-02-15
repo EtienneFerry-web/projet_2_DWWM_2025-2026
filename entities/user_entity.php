@@ -14,6 +14,7 @@
 		private ?string $_photo = '';
 		private string $_function;
 		private string $_pwd;
+		private int 	$_reported = 0;
 
 
 
@@ -38,6 +39,9 @@
 		* Name recover
 		* @return string Object name
 		*/
+
+
+
 		public function getName():string{
 			return $this->_name;
 		}
@@ -74,15 +78,16 @@
 		}
 
 		public function setBio(?string $strBio){
-			$this->_bio = $strBio??"Cette Utilisateur na pas de bio!" ;
+			$this->_bio = $strBio??"" ;
 		}
 		public function getBio():string{
 			return $this->_bio;
 		}
 
-		public function setPhoto(?string $strBio){
-			$this->_photo = $strBio??"/Projet2/assets/img/defaultImgUser.jpg" ;
+		public function setPhoto(?string $strPhoto){
+			$this->_photo = $strPhoto??"defaultImgUser.jpg" ;
 		}
+		
 		public function getPhoto():string{
 			return $this->_photo;
 		}
@@ -94,6 +99,12 @@
 			return $this->_function;
 		}
 
+		public function setReported(int $intRep){
+			$this->_reported = $intRep;
+		}
+		public function getReported():int{
+			return $this->_reported;
+		}
 
 		public function getPwdHash():string{
 			return password_hash($this->_pwd, PASSWORD_DEFAULT);

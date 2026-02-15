@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-09 17:16:43
+/* Smarty version 5.7.0, created on 2026-02-13 20:48:24
   from 'file:views/_partial/filtersList.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698a167b2d1ff3_55975186',
+  'unifunc' => 'content_698f8e18c4aae0_96417777',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '36c199f8013013676136b3fc5cfa34f10687361b' => 
     array (
       0 => 'views/_partial/filtersList.tpl',
-      1 => 1769849369,
+      1 => 1770990163,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698a167b2d1ff3_55975186 (\Smarty\Template $_smarty_tpl) {
+function content_698f8e18c4aae0_96417777 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?> <form method="post">
      <div class="row flex-sm-column g-2 text-start">
@@ -58,7 +58,8 @@ $foreach2DoElse = false;
 ?>
                  <option value="<?php echo $_smarty_tpl->getValue('objActor')->getId();?>
 " <?php echo ($_smarty_tpl->getValue('objActor')->getId() === (int)$_smarty_tpl->getValue('actor')) ? "selected" : '';?>
->{ $objActor->getFullName()}</option>
+><?php echo $_smarty_tpl->getValue('objActor')->getFullName();?>
+</option>
             <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>

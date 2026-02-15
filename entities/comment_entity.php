@@ -8,15 +8,18 @@
 	*/
 	class CommentEntity extends Entity{
 		// Attributs
-		private int    $_user_id;
-		private string $_pseudo;
-		private float  $_rating = 0;
-		private string $_datetime;
-		private string $_comment;
-		private string $_title;
-		private string $_url;
-		private int    $_like;
-		private int $_movieId;
+		private int     $_user_id;
+		private string  $_pseudo;
+		private float   $_rating = 0;
+		private string  $_datetime;
+		private string  $_comment;
+		private string  $_title;
+		private ?string  $_url = 'defaultImgUser.jpg';
+		private int     $_like;
+		private int     $_movieId;
+		private int     $_spoiler;
+		private int     $_reported;
+		private int		$_user_liked = 0;
 
 
 		/**
@@ -24,7 +27,7 @@
 		*/
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
-			$this->_prefixe = $prefixe;
+			$this->_prefixe = 'com_';
 		}
 
 
@@ -80,11 +83,11 @@
 			$this->_title = $strComment;
 		}
 
-		public function getUrl():string{
-			return $this->_url ;
+		public function getUrl():?string{
+			return $this->_url??'defaultImgUser.jpg' ;
 		}
 
-		public function setUrl(string $strComment){
+		public function setUrl(?string $strComment){
 			$this->_url = $strComment;
 		}
 
@@ -104,6 +107,14 @@
 			$this->_like = $intLike;
 		}
 
+		public function getSpoiler():int{
+			return $this->_spoiler ;
+		}
+
+		public function setSpoiler(int $intSpoiler){
+			$this->_spoiler = $intSpoiler;
+		}
+
 		public function getMovieId(){
 			return $this->_movieId ;
 		}
@@ -112,5 +123,19 @@
 			$this->_movieId = $intNote ;
 		}
 
+		public function getReported(){
+			return $this->_reported ;
+		}
 
+		public function setReported(int $intRep){
+			$this->_reported = $intRep ;
+		}
+
+		public function setUser_liked(int $bool){
+			$this->_user_liked = $bool;
+		}
+
+		public function getUser_liked():int{
+			return $this->_user_liked;
+		}
 	}
