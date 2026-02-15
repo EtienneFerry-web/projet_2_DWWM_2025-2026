@@ -336,6 +336,10 @@
 				if (empty($objMovie->getTrailer())) {
 					$arrError['countryId'] = "La durée est obligatoire";
 				}			
+				// if (empty($objMovie->getUrl())) {
+				// 	$arrError['photo'] = "L'affiche du film est obligatoire";
+				// }
+
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
 				if ($_FILES['photo']['error'] != 4){ 
@@ -475,6 +479,7 @@
 			$arrCategory = $objMovieModel->allCategories();
 				$arrCatToDisplay	= array();
 
+		
 			$arrCatToDisplay = array();
 			foreach($arrCategory as $arrDetCat){
 				$objContent = new MovieEntity('mov_');
@@ -482,7 +487,6 @@
 
 				$arrCatToDisplay[]	= $objContent;
 			}
-
 
 			$arrNationality = $objMovieModel->allCountry();
 			$arrNatToDisplay	= array();
