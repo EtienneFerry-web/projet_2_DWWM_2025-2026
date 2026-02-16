@@ -140,16 +140,16 @@
 
 			$objCommentModel	= new CommentModel;
 			$objMovieModel = new MovieModel;
-			
+
 			$intNoteJson = file_get_contents("php://input");
-			
+
 			if(!empty($intNoteJson) && isset($_GET['note'])){
 			     header('Content-Type: application/json');
 			     $data = json_decode($intNoteJson, true);
-			
+
 			    $insetResult = $objMovieModel->insertUpdateNote($_SESSION['user']['user_id'], $_GET['id'], $data['intNote']);
-				
-							
+
+
 				if($insetResult){
 				    echo json_encode($insetResult);
 					exit;
@@ -158,6 +158,22 @@
                     exit;
 				}
 			}
+
+			if (isset($_POST['deleteComment'])) {
+			    $objComment = new CommentEntity;
+                $objComment->setId((int)$_POST['deleteComment']);
+                $objComment->setUser_id($_GET['id']);
+
+                if ($_GET['id'] == $_SESSION['user']['user_id'] || $_SESSION['user']['user_funct_id'] != 1) {
+                    $result = $objCommentModel->deleteComment($objComment);
+                }
+
+                if ($result) {
+                    $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+                } else {
+                    $arrError[] = "erreur lors de la suppression veulliez réssayer !";
+                }
+            }
 
 			if(isset($_POST['likeMovieBtn']) && (isset($_SESSION['user']))){
 
@@ -168,7 +184,7 @@
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
 				}
-				
+
 				}elseif(!isset($_SESSION['user'])&& isset($_POST['likeMovieBtn'])){
 					$arrError[''] = "Vous devez etre connecté pour liker un film";
 				}
@@ -186,7 +202,7 @@
     			}elseif(isset($_POST['likeMovieBtn']) && !isset($_SESSION['user'])){
     				$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
     			}
-    
+
     			if (isset($_POST['repMovie']) && $_POST['repMovie'] != '' && isset($_SESSION['user']['user_id'])) {
 
                 $arrData = array_merge([

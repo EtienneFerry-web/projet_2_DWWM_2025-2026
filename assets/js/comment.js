@@ -4,34 +4,40 @@ function initStars() {
     let antiSpam = false;
 
     stars.forEach(star => {
-        
-        star.addEventListener('dblclick', () => {
-            if (antiSpam) return;
-            antiSpam = true;
-            const value = parseFloat(star.dataset.value);
-            inputNote.value = value - 0.5;
-            stars.forEach(s => {
-                const sVal = parseFloat(s.dataset.value);
-                s.classList.toggle('bi-star-fill', sVal < value);
-                s.classList.toggle('bi-star-half', sVal === value);
-                s.classList.toggle('bi-star', sVal > value);
-            });
-            antiSpam = false;
-        });
+      star.addEventListener('click', (e) => {
 
-        
-        star.addEventListener('click', () => {
-            if (antiSpam) return;
-            antiSpam = true;
-            const value = star.dataset.value;
-            inputNote.value = value;
-            stars.forEach(s => {
-                s.classList.remove('bi-star-half');
-                s.classList.toggle('bi-star-fill', s.dataset.value <= value);
-                s.classList.toggle('bi-star', s.dataset.value > value);
-            });
-            antiSpam = false;
+        clearTimeout(time);
+
+        const rect = star.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const isHalf = x < rect.width / 2;
+
+        let value = parseFloat(star.dataset.value);
+        if (isHalf) {
+          value -= 0.5;
+        }
+
+        inputNote.value = value;
+
+        time = setTimeout(() => {
+          insertNote(value);
+        }, 500);
+
+
+        stars.forEach(s => {
+          const dataValue = parseFloat(s.dataset.value);
+
+          s.classList.remove('bi-star-fill', 'bi-star-half', 'bi-star');
+
+          if (dataValue <= value) {
+            s.classList.add('bi-star-fill');
+          } else if (dataValue - 0.5 === value) {
+            s.classList.add('bi-star-half');
+          } else {
+            s.classList.add('bi-star');
+          }
         });
+      });
     });
 }
 
@@ -97,7 +103,7 @@ function enableEdit(reviewId) {
               <div method="post" class="d-block ms-auto col-auto">
                   <button type="submit" class="spanMovie border-0 edit-comment bg-transparent">Enregistrer</button>
               </div>
-              
+
           </div>
       </form>
     `;

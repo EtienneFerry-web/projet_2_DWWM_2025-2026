@@ -16,13 +16,13 @@ function initializeStars() {
       currentValue = parseFloat(input.value);
     }
   });
-  
+
   if (currentValue !== null && currentValue > 0) {
     // Mettre à jour l'affichage des étoiles selon la valeur
     stars.forEach(s => {
       const starValue = parseFloat(s.dataset.value);
-      
-      
+
+
       if (currentValue % 1 === 0.5 && starValue === Math.ceil(currentValue)) {
         s.classList.remove('bi-star', 'bi-star-fill');
         s.classList.add('bi-star-half');
@@ -41,48 +41,39 @@ function initializeStars() {
 document.addEventListener('DOMContentLoaded', initializeStars);
 
 stars.forEach(star => {
-  star.addEventListener('dblclick', () => {
-    clearTimeout(time);
-    
-    if (antiSpam) return;
-    antiSpam = true;
+  star.addEventListener('click', (e) => {
 
-    const value = star.dataset.value;
-    updateNote(value - 0.5);
-    time = setTimeout(insertNote(value  - 0.5),  2000);
-    
-    stars.forEach(s => {
-
-      s.classList.toggle('bi-star-fill', s.dataset.value < value);
-      s.classList.toggle('bi-star-half', s.dataset.value === value);
-      s.classList.toggle('bi-star', s.dataset.value > value);
-
-      });
-    antiSpam = false;
-  });
-
-  star.addEventListener('click', () => {
-    
     clearTimeout(time);
 
-    if (antiSpam) return;
-    antiSpam = true;
+    const rect = star.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const isHalf = x < rect.width / 2;
 
-    const value = star.dataset.value;
-    
+    let value = parseFloat(star.dataset.value);
+    if (isHalf) {
+      value -= 0.5;
+    }
+
     updateNote(value);
-    
-    time = setTimeout(insertNote(value),  2000)
-    //inputNote.value = value;
+
+    time = setTimeout(() => {
+      insertNote(value);
+    }, 500);
+
 
     stars.forEach(s => {
+      const dataValue = parseFloat(s.dataset.value);
 
-      s.classList.remove('bi-star-half');
-      s.classList.toggle('bi-star-fill', s.dataset.value <= value);
-      s.classList.toggle('bi-star', s.dataset.value > value);
+      s.classList.remove('bi-star-fill', 'bi-star-half', 'bi-star');
 
+      if (dataValue <= value) {
+        s.classList.add('bi-star-fill');
+      } else if (dataValue - 0.5 === value) {
+        s.classList.add('bi-star-half');
+      } else {
+        s.classList.add('bi-star');
+      }
     });
-    antiSpam = false;
   });
 });
 
@@ -107,12 +98,12 @@ async function insertNote(value) {
         }
 
         const data = await response.json();
-    
-        
-    
+
+
+
         noteAverage.textContent = Number.parseFloat(data.average).toFixed(2);
         updateAvg(data.average)
-  
+
       } catch (erreur) {
           console.error("Un problème est survenu lors de la récupération :", erreur.message);
       }
@@ -130,7 +121,7 @@ document.getElementById('shareMovie').addEventListener('click', (e) => {
 });
 
 function updateAvg(value) {
-  
+
     const note = parseFloat(value);
     const starsContainer = document.querySelector(" .stars");
 
@@ -149,5 +140,5 @@ function updateAvg(value) {
 
       starsContainer.appendChild(star);
     }
- 
+
 }
