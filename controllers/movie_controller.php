@@ -310,8 +310,6 @@
 				$objMovie->hydrate($_POST);
 			}
 			
-			var_dump($objMovie);
-
 			$arrError = [];
 			// 2. Validation des données
 			if (count($_POST)>0){
@@ -336,9 +334,9 @@
 				if (empty($objMovie->getTrailer())) {
 					$arrError['countryId'] = "La durée est obligatoire";
 				}			
-				// if (empty($objMovie->getUrl())) {
-				// 	$arrError['photo'] = "L'affiche du film est obligatoire";
-				// }
+				if (empty($objMovie->getUrl())) {
+				$arrError['photo'] = "L'affiche du film est obligatoire";
+				}
 
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
@@ -351,31 +349,30 @@
 						case 0 :
 							$strImageName	= uniqid().".webp";
 						// Récupère le nom de l'image avant changement
-							$strOldImg	= $objArticle->getUrl();
+							$strOldImg	= $objMovie->getUrl();
 
-							$objMovie->setImg($strImageName);
+							$objMovie->setUrl($strImageName);
 							break;
 					
 						case 1 :
-							$arrError['img'] = "Le fichier est trop volumineux";
+							$arrError['photo'] = "Le fichier est trop volumineux";
 							break;
 						case 2 :
-							$arrError['img'] = "Le fichier est trop volumineux";
+							$arrError['photo'] = "Le fichier est trop volumineux";
 							break;
 						case 3 :
-							$arrError['img'] = "Le fichier a été partiellement téléchargé";
+							$arrError['photo'] = "Le fichier a été partiellement téléchargé";
 							break;
 						case 6 :
-							$arrError['img'] = "Le répertoire temporaire est manquant";
+							$arrError['photo'] = "Le répertoire temporaire est manquant";
 							break;
 						default :
-							$arrError['img'] = "Erreur sur l'image";
+							$arrError['photo'] = "Erreur sur l'image";
 							break;
 					}
 				}
 
 				// 3. Logique d'insertion
-				
 				
 			}else{
 				// Est-ce que le fichier existe ?
@@ -383,6 +380,7 @@
 					$arrError['img'] = "L'image est obligatoire";
 				}
 			}
+			var_dump($_POST);
 			// Si le formulaire est rempli correctement
 			if (count($arrError) == 0){			
 		
@@ -397,62 +395,11 @@
 							// Création du chemin de destination
 							$strDest    = $_ENV['IMG_PATH'].$strImageName;
 							// Récupération de la source de l'image
-							$strSource	= $_FILES['img']['tmp_name'];
-							// Récupération des dimensions de l'image source
-							list($intWidth, $intHeight) = getimagesize($strSource);
-							// Dimensions de destination
-							$intDestWidth 	= 200;
-							$intDestHeight 	= 250;
-							
-							// Calcul du ratio de destination
-							$fltDestRatio 	= $intDestWidth / $intDestHeight;
-							// Calcul du ratio de la source
-							$fltSourceRatio = $intWidth / $intHeight;
-							
-							// Détermination de la zone à cropper
-							if ($fltSourceRatio > $fltDestRatio) {
-								// L'image source est plus large → on crop en largeur
-								$intCropHeight 	= $intHeight;
-								$intCropWidth 	= round($intHeight * $fltDestRatio);
-								$intCropX 		= ($intWidth - $intCropWidth) / 2; // Centrage horizontal
-								$intCropY 		= 0;
-							} else {
-								// L'image source est plus haute → on crop en hauteur
-								$intCropWidth 	= $intWidth;
-								$intCropHeight 	= round($intWidth / $fltDestRatio);
-								$intCropX 		= 0;
-								$intCropY 		= ($intHeight - $intCropHeight) / 2; // Centrage vertical
-							}
-
-							// Création d'une image 'vide'
-							$objDest		= imagecreatetruecolor($intDestWidth, $intDestHeight);
-
-							// Création d'un objet image à partir de la source (attention au type de fichier)
-							switch ($_FILES['img']['type']){
-								case 'image/jpeg' :
-									$objSource		= imagecreatefromjpeg($strSource);
-									break;
-								case 'image/png' :
-									$objSource		= imagecreatefrompng($strSource);
-									break;
-								case 'image/webp' :
-									$objSource		= imagecreatefromwebp($strSource);
-									break;
-							}
-							
-							// Mise à jour de l'image 'vide' avec les informations de dimension
-							//imagecopyresized($objDest, $objSource, 0, 0, 0, 0, 200, 250, $intWidth, $intHeight);
-							imagecopyresampled($objDest, $objSource, 
-												0, 0, $intCropX, $intCropY, 
-												$intDestWidth, $intDestHeight, $intCropWidth, $intCropHeight);
-							
-							// Si la copie de l'image a bien été effectuée à la destination voulue
-							$boolResultMovie = imagewebp($objDest, $strDest);
+							$strSource	= $_FILES['photo']['tmp_name'];							
 						}
 						if ($boolResultMovie === true){
-						var_dump($strOldImg);
-						var_dump($_ENV['IMG_PATH']);
-							// suppression de l'ancienne image
+						
+							//suppression de l'ancienne image
 							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
 							if (file_exists($strOldFile)){
 								unlink($strOldFile);

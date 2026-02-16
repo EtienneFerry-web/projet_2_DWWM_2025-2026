@@ -82,7 +82,7 @@
 					<img src="assets/img/movie/{$objMovie->getUrl()}" alt="Affiche du film {$objMovie->getTitle()}">
 					{/if}
 				</div>
-				<input name="photo" id="photo" type="file" class="form-control" value="{$objMovie->getTitle()}>
+				<input name="photo" id="photo" type="file" class="form-control" value="{$objMovie->getUrl()}">
 			</div>
 
 			<div class="form-group py-2">
