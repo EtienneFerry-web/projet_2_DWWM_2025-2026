@@ -57,8 +57,6 @@
                 $objSearchModel 	= new SearchModel;
     			$arrResult		    = $objSearchModel->searchContent($objSearch, $searchBy, 20);
 
-
-
     			$arrResultToDisplay	= array();
 
     			foreach($arrResult as $arrDeResult){
@@ -67,6 +65,7 @@
 
     				$arrResultToDisplay[]	= $objContent;
     				}
+
             } else {
                 header("Location: index.php");
                 exit();

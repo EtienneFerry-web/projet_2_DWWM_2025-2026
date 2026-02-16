@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-13 20:27:15
+/* Smarty version 5.7.0, created on 2026-02-16 15:25:19
   from 'file:views/user_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698f8923a5ab97_36041283',
+  'unifunc' => 'content_699336df499417_41665134',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3e6204db2b3faf8be3c5c8ed5d2082aa044c08c2' => 
     array (
       0 => 'views/user_view.tpl',
-      1 => 1770990163,
+      1 => 1771255358,
       2 => 'file',
     ),
   ),
@@ -22,38 +22,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/reviewMovie.tpl' => 1,
   ),
 ))) {
-function content_698f8923a5ab97_36041283 (\Smarty\Template $_smarty_tpl) {
+function content_699336df499417_41665134 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1627178583698f8923a33970_11434275', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_587048630699336df2f3f18_63181264', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_581319201698f8923a373d2_50054214', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_302938054698f8923a39c34_67726426', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1045785887699336df2ffea9_20631650', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_44577270698f8923a3b3d0_08220180', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1633170547699336df30a031_66127209', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_24744480698f8923a59cf8_91711872', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_105746771699336df3139d3_75165455', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_949324826699336df492a14_80676516', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1627178583698f8923a33970_11434275 extends \Smarty\Runtime\Block
+class Block_587048630699336df2f3f18_63181264 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -64,7 +64,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_581319201698f8923a373d2_50054214 extends \Smarty\Runtime\Block
+class Block_1045785887699336df2ffea9_20631650 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -74,7 +74,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_302938054698f8923a39c34_67726426 extends \Smarty\Runtime\Block
+class Block_1633170547699336df30a031_66127209 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -87,7 +87,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_44577270698f8923a3b3d0_08220180 extends \Smarty\Runtime\Block
+class Block_105746771699336df3139d3_75165455 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -131,12 +131,60 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
                     </div>
                 <?php } elseif ((true && (true && null !== ($_SESSION['user'] ?? null))) && $_SESSION['user']['user_id'] != $_GET['id']) {?>
                 <div class="col-auto ms-auto">
-                    <form method="post" class="d-block ms-auto col-auto">
-                        <button type="submit" name="userReport" value="1"
-                                class="border-0 bg-transparent p-0">
-                            <?php if ($_smarty_tpl->getValue('objUser')->getReported() == 0) {?><i class="bi bi-flag fs-3"></i><?php } else { ?> <i class="bi bi-flag-fill fs-3"></i><?php }?>
-                        </button>
-                    </form>
+                <?php if ($_smarty_tpl->getValue('objUser')->getReported() == 0) {?>
+                <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
+                    <?php if ($_smarty_tpl->getValue('objUser')->getReported() == 0) {?><i class="bi bi-flag fs-3"></i><?php } else { ?> <i class="bi bi-flag-fill fs-3"></i><?php }?>
+                </button>
+                <div class="modal fade" id="reportModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form method="POST" class="modal-content">
+
+                            <div class="modal-header border-0"">
+                                <h5 class="modal-title">Signaler : <?php echo $_smarty_tpl->getValue('objUser')->getPseudo();?>
+ </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>Pour que votre signalement sois prit en charge veuillez renseigner la raison !</p>
+                                <textarea name="repUser" class="form-control" placeholder="Raison du signalement..."></textarea>
+                            </div>
+
+                            <div class="modal-footer border-0 mx-auto">
+                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-outline-success px-3">Validez</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <?php } else { ?>
+                <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
+                    <?php if ($_smarty_tpl->getValue('objUser')->getReported() == 0) {?><i class="bi bi-flag fs-3"></i><?php } else { ?> <i class="bi bi-flag-fill fs-3"></i><?php }?>
+                </button>
+                <div class="modal fade" id="reportModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form method="POST" class="modal-content">
+
+                            <div class="modal-header border-0"">
+                                <h5 class="modal-title">Signaler : <?php echo $_smarty_tpl->getValue('objUser')->getPseudo();?>
+ </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>Voulez vous vraiment supprimer votre signalement ?</p>
+                            </div>
+
+                            <div class="modal-footer border-0 mx-auto">
+                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-3">Supprimer</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <?php }?>
                 </div>
                 <?php }?>
             </div>
@@ -203,7 +251,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_24744480698f8923a59cf8_91711872 extends \Smarty\Runtime\Block
+class Block_949324826699336df492a14_80676516 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

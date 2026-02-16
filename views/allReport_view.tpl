@@ -1,5 +1,7 @@
 {extends file="views/layout_view.tpl"}
-{block name="title" prepend}Dashboard{/block}
+
+{block name="title" prepend}Dashboard - Signalements{/block}
+
 {block name="description"}{/block}
 
 {block name="css_variation"}
@@ -8,118 +10,103 @@
     <link rel="stylesheet" href="/Projet2/assets/css/style.css">
 {/block}
 
-
 {block name="content"}
+
 <section id="dashboard" class="container py-5">
-    <h1>DashBoard</h1>
 
-    <div class="py-2 row g-2">
-        <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
-        <a id="user" href="index.php?ctrl=admin&action=allUser" class="nav-link col-2">Utilisateurs</a>
-        <a id="addMovie" href="index.php?ctrl=admin&action=allMovie" class="nav-link col-2">Films</a>
-        <a id="person" href="index.php?ctrl=admin&action=allPerson" class="nav-link col-2">Célébrités</a>
-        <a id="report" href="index.php?ctrl=admin&action=allReport" class="nav-link col-2 active">Signalement</a>
-    </div>
-
-
-        <h2>Les signalement</h2>
-        <div id="ficheMovie" class="d-flex flex-column py-3"></div>
-        <h3>Les commentaire</h3>
-        <form class="row g-1 align-items-center py-3">
-            <div class="col-12 col-md-5 p-0">
-                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="">
+        <h1>DashBoard</h1>
+        <nav class="py-2 row g-2">
+            <div class="py-2 row g-2">
+                <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
+                <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
+                <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2">Films</a>
+                <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2 active">Célébrités</a>
+                <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2">Signalement</a>
             </div>
-            <div class="col-12 col-md-5 p-0">
-                <select class="form-select">
-                    <option value="">Tous Les Grades</option>
-                    <option value="usa">Croissant</option>
-                    <option value="france">Decroissant</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-2 p-0">
-                <button type="submit" class="w-100 p-1 btnCustom" id="sendMovie">Recherche</button>
-            </div>
-        </form>
+        </nav>
 
-        <div class="container-fluid mt-4">
-            <form method="post" class="row border-bottom py-3 align-items-center">
-                <div class="col-md-1 fw-bold">#42</div>
 
+    <h2 class="mb-4 py-2">Gestion des Signalements</h2>
+
+    <section class="mb-5">
+        <h3 class="h4"><i class="bi bi-chat-left-text me-2"></i>Signalements : Commentaires</h3>
+        <div class="container-fluid p-3">
+            {foreach from=$arrRepComToDisplay item=objReport}
+                <form method="post" class="row border-bottom py-3 align-items-center">
+                    <div class="col-md-1 fw-bold">#{$objReport->getId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
-                        <div class="rounded-circle bg-secondary me-2">
-                            <img src="assets/img/mouse.png"
-                                class="rounded-circle border"
-                                style="width: 40px; height: 40px; object-fit: cover;"
-                                alt="Avatar">
-                        </div>
-                        <div>
-                            <div class="fw-bold text-dark">bad_user_99</div>
-                            <div class="small text-muted">Inscrit le 12/01/24</div>
-                        </div>
+                        <img src="assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                        <span class="fw-bold">{$objReport->getPseudo()}</span>
                     </div>
-                    <div class="col-md-4">"Spam répétitif dans les commentaires aaaaaaaaaaaaaaaaaaa"</div>
+                    <div class="col-md-4">
+                        <p class="m-0 fw-bold">Raison: {$objReport->getReason()}</p>
+                        <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
+                    </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
-                        <div class="btn-group ms-auto">
-                            <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">15 Jours</button>
-                            <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">30 Jours</button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
+                            <button type="button" class="btn btn-outline-warning btn-sm">30 J</button>
                         </div>
-                        <button type="button" class="btn btn-outline-danger btn-sm px-4 py-1">Bannir</button>
-                        <button type="button" class="btn btn-outline-success btn-sm px-4 py-1">Ignorer</button>
+                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Bannir</button>
+                        <button type="submit" name="action" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
                     </div>
-            </form>
+                </form>
+            {foreachelse}
+                <p class="text-muted py-3 m-0">Aucun signalement de commentaire.</p>
+            {/foreach}
         </div>
-    </div>
-    <div id="ficheMovie" class="d-flex flex-column py-3"></div>
-        <h3>Les Profils</h3>
-        <form class="row g-1 align-items-center py-3">
-            <div class="col-12 col-md-5 p-0">
-                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="">
-            </div>
-            <div class="col-12 col-md-5 p-0">
-                <select class="form-select">
-                    <option value="">Tous Les Grades</option>
-                    <option value="usa">Croissant</option>
-                    <option value="france">Decroissant</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-2 p-0">
-                <button type="submit" class="w-100 p-1 btnCustom" id="sendMovie">Recherche</button>
-            </div>
-        </form>
-        <div class="container-fluid mt-4">
-            <form method="post" class="row border-bottom py-3 align-items-center bg-light-hover">
-                <div class="col-md-1 fw-bold">#42</div>
+    </section>
 
-                <div class="col-md-3 d-flex align-items-center">
-                    <div class="rounded-circle bg-secondary me-2">
-                        <img src="assets/img/mouse.png"
-                            class="rounded-circle border"
-                            style="width: 40px; height: 40px; object-fit: cover;"
-                            alt="Avatar">
+    <section class="mb-5">
+        <h3 class="h4"><i class="bi bi-people me-2"></i>Signalements : Utilisateurs</h3>
+        <div class="container-fluid p-3">
+            {foreach from=$arrRepUserToDisplay item=objReport}
+                <form method="post" class="row border-bottom py-3 align-items-center">
+                    <div class="col-md-1 fw-bold">#{$objReport->getReportedUserId()}</div>
+                    <div class="col-md-3 d-flex align-items-center">
+                        <img src="assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
+                             class="rounded-circle border me-3"
+                             style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                        <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
                     </div>
-                    <div>
-                        <div class="fw-bold text-dark">bad_user_99</div>
-                        <div class="small text-muted">Inscrit le 12/01/24</div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="small text-muted fst-italic">"Photo de profil inappropriée et bio publicitaire."</div>
-                </div>
-
-                <div class="col-md-4 d-flex justify-content-end gap-2">
-                    <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
-                        <div class="btn-group ms-auto">
-                            <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">15 Jours</button>
-                            <button type="button" class="btn btn-outline-warning btn-sm px-4 text-nowrap">30 Jours</button>
+                    <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
+                    <div class="col-md-4 d-flex justify-content-end gap-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
+                            <button type="button" class="btn btn-outline-warning btn-sm">30 J</button>
                         </div>
-                        <button type="button" class="btn btn-outline-danger btn-sm px-4 py-1">Bannir</button>
-                        <button type="button" class="btn btn-outline-success btn-sm px-4 py-1">Ignorer</button>
-                </div>
-            </form>
+                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Bannir</button>
+                        <button type="submit" name="action" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
+                    </div>
+                </form>
+            {foreachelse}
+                <p class="text-muted py-3 m-0">Aucun signalement d'utilisateur en attente.</p>
+            {/foreach}
         </div>
+    </section>
 
+    <section class="mb-5">
+        <h3 class="h4"><i class="bi bi-film me-2"></i>Signalements : Films</h3>
+        <div class="container-fluid p-3">
+            {foreach from=$arrRepMovieToDisplay item=objReport}
+                <form method="post" class="row border-bottom py-3 align-items-center">
+                    <div class="col-md-1 fw-bold">#{$objReport->getReportedMovieId()}</div>
+                    <div class="col-md-3 d-flex align-items-center">
+                        <span class="fw-bold">{$objReport->getTitle()}</span>
+                    </div>
+                    <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
+                    <div class="col-md-4 d-flex justify-content-end gap-2">
+                         <a href="index.php?ctrl=movie&action=deleteMovie&id={$objReport->getReportedMovieId()}" class="btn btn-outline-danger btn-sm px-3" onclick="return confirm('Vous allez supprimer le film {$objReport->getTitle()|escape:'javascript'}')">Supprimer</a>
+                         <a href="" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
+                         <button type="submit" class="btn btn-outline-success btn-sm px-3">Valider</button>
+
+                    </div>
+                </form>
+            {foreachelse}
+                 <p class="text-muted py-3 m-0">Aucun signalement de film.</p>
+            {/foreach}
+        </div>
+    </section>
 </section>
 {/block}
 

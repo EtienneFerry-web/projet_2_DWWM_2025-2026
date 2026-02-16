@@ -1,6 +1,6 @@
 <div class="row py-2">
     <div class="col-4 text-center my-auto">
-        <a href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><img src="{$objMovie->getUrl()}" alt="" class="img-fluid"></a>
+        <a href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><img src="{$objMovie->getPhoto()}" alt="" class="img-fluid"></a>
     </div>
     <div class="col-8 text-start">
         <a href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}" class="link"><h2>{$objMovie->getTitle()}</h2></a>

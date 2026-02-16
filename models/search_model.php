@@ -13,15 +13,15 @@
                       FROM (";
 
             if(empty($searchBy) || $searchBy == 5){
-                $strRq .=" SELECT mov_id AS sear_id, mov_title AS sear_name, mov_description AS sear_content, pho_url AS sear_photo,
+                $strRq .=" SELECT mov_id AS sear_id, mov_title AS sear_name, mov_description AS sear_content, pho_photo AS sear_photo,
                                     COALESCE(AVG(ratings.rat_score), 0) AS sear_rating,
                                     COALESCE(COUNT(DISTINCT lik_user_id), 0) AS sear_like, 'movie' AS sear_type,
                                     CASE WHEN mov_title LIKE :startSearch THEN 1 ELSE 2 END AS score
                             FROM movies
                             LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                             LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                            LEFT JOIN liked ON movies.mov_id = liked.lik_item_id
-                            WHERE mov_title LIKE :fullSearch AND lik_type = 'movies'
+                            LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id
+                            WHERE mov_title LIKE :fullSearch AND lik_com_id IS NULL
                          GROUP BY mov_id";
             }
 
@@ -61,7 +61,7 @@
             $rqPrep->bindValue(":limit", $limite, PDO::PARAM_INT);
             $rqPrep->bindValue(":fullSearch", $fullSearch, PDO::PARAM_STR);
             $rqPrep->bindValue(":startSearch", $startSearch, PDO::PARAM_STR);
-            //Si les condition ajoute le :job on rentre dans le if sinon pas
+            //Si le if est présent dans la rq préparer
             if (strpos($strRq, ':job') !== false) {
                 $rqPrep->bindValue(":job", $searchBy, PDO::PARAM_INT);
             }

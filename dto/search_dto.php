@@ -4,14 +4,14 @@
     class SearchDto extends Dto{
 
 
-		private string $_name;
-		private ?float $_rating = 0;
+		private string  $_name;
+		private ?float  $_rating = 0;
 		private ?string $_content;
 		private ?string $_photo;
-		private ?int $_like;
-		private string $_type;
-		private string $_search;
-		private string $_searchBy;
+		private ?int    $_like;
+		private string  $_type;
+		private string  $_search;
+		private string  $_searchBy;
 
 
 		/**

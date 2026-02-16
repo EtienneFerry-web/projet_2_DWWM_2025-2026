@@ -3,32 +3,35 @@
 	require_once("mother_entity.php");
 
 	/**
-	* Classe d'un objet Article
-	* @author Christel
+	* Classe d'un objet Movie
+	* @author Marco
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
-		private string $_title ='';
-		private string $_original_title ='';
-		private string $_url='';
-		private string $_description='';
-		private string $_release_date='';
-		private string $_trailer_url='';
-		private int    $_countryId = 0;
-		private string $_country;
-		private int    $_categoriesId = 0;
-		private string $_categories;
-		private string $_length='';
-		private string $_func;
-		private int    $_like;
-		private float  $_rating;
-		private string $_nationality;
-		private int		$_user_liked;
+		private string  $_title;
+		private string  $_original_title;
+		private string  $_photo;
+		private string  $_description;
+		private string  $_release_date;
+		private string  $_trailer_url;
+		private int     $_countryId;
+		private string  $_country;
+		private int     $_categoriesId;
+		private string  $_categories;
+		private string  $_length;
+		private string  $_func;
+		private int     $_like;
+		private float   $_rating;
+		private string  $_nationality;
+		private int	    $_user_liked;
+		private ?float	$_note_user;
+		private int     $_reported;
 
 
 		/**
 		* Constructeur
 		*/
+		
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
 			$this->_prefixe = $prefixe;
@@ -50,36 +53,58 @@
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
 		}
+		
+		public function getNoteUser():float{
+			return $this->_note_user;
+		}
+		/**
+		* Mise à jour du titre
+		* @param string le nouveau titre
+		*/
+		public function setNote_user(?float $strNote){
+			$this->_note_user = $strNote??'0';
+		}
+
+		public function getReported():int{
+			return $this->_reported;
+		}
+		/**
+		* Mise à jour du titre
+		* @param int le nouveau titre
+		*/
+		public function setReported(int $intRep){
+			$this->_reported = $intRep;
+		}
 		/**
 		* Récupération du titre original
 		* @return string le titre original de l'objet
 		*/
-		public function getOriginal_title():string{
+		public function getOriginalTitle():string{
 			return $this->_original_title;
 		}
 		/**
 		* Mise à jour du titre
 		* @param string le nouveau titre
 		*/
-		public function setOriginal_title(string $strOriginalTitle){
+		public function setOriginalTitle(string $strOriginalTitle){
 			$this->_original_title = $this->clean($strOriginalTitle);
 		}
 		/**
 		* Récupération de l'image
 		* @return string l'image de l'objet
 		*/
-		public function getUrl():string{
-			return $this->_url;
+		public function getphoto():string{
+			return $this->_photo;
 		}
 		/**
 		* Mise à jour de l'image
 		* @param string la nouvelle image
 		*/
-		public function setUrl(string $strImg){
-			$this->_url = $strImg;
+		public function setphoto(string $strImg){
+			$this->_photo = $strImg;
 		}
-		
-		
+
+
 
 		/**
 		* Récupération du contenu
@@ -207,7 +232,7 @@
 		public function setLength(string $strLength){
 			$this->_length = $strLength;
 		}
-		
+
 		public function getCountryId():string{
 			return $this->_countryId;
 		}
@@ -219,15 +244,15 @@
 			$this->_countryId = $strCountryId;
 		}
 
-		public function getCategoriesId():int{
+		public function getCategoriesId():string{
 			return $this->_categoriesId;
 		}
 		/**
 		* Mise à jour de l'identifiant du créateur
 		* @param int le nouvel identifiant du créateur
 		*/
-		public function setCategoriesId(int $intCategoriesId){
-			$this->_categoriesId = $intCategoriesId;
+		public function setCategoriesId(string $strCategoriesId){
+			$this->_categoriesId = $strCategoriesId;
 		}
 
 		public function setUser_liked($bool){

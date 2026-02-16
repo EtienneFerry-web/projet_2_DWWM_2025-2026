@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-13 20:48:24
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:40
   from 'file:views/list_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698f8e18a9fd47_93121660',
+  'unifunc' => 'content_698c9b786ab312_98622067',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    'd4b7a60fc36bf66e8f4de47421ef765d30899fdd' => 
+    '582a70a43bd1f75d9634df0fe12379291c66b4c6' => 
     array (
       0 => 'views/list_view.tpl',
-      1 => 1770990163,
+      1 => 1769785504,
       2 => 'file',
     ),
   ),
@@ -22,55 +22,55 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/movieList.tpl' => 1,
   ),
 ))) {
-function content_698f8e18a9fd47_93121660 (\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+function content_698c9b786ab312_98622067 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_906119521698f8e18a95838_03085447', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1175616643698c9b78657f93_40249227', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_547177513698f8e18a97327_27687197', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1188508246698f8e18a983b1_11180125', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1416395487698c9b78670e17_80336274', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2070940649698f8e18a9f341_54439551', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8068922698c9b78677e43_69201203', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1861393783698c9b786a7441_98416559', "js");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_906119521698f8e18a95838_03085447 extends \Smarty\Runtime\Block
+class Block_1175616643698c9b78657f93_40249227 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 ?>
 Catalogue<?php
 }
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_547177513698f8e18a97327_27687197 extends \Smarty\Runtime\Block
+class Block_1416395487698c9b78670e17_80336274 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 ?>
 Notre liste de film, par categorie, réalisateur ...<?php
 }
 }
 /* {/block "description"} */
 /* {block "content"} */
-class Block_1188508246698f8e18a983b1_11180125 extends \Smarty\Runtime\Block
+class Block_8068922698c9b78677e43_69201203 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 ?>
 
 <section id="listFilter" class="container text-center text-lg-start row py-5 mx-auto">
@@ -123,10 +123,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_2070940649698f8e18a9f341_54439551 extends \Smarty\Runtime\Block
+class Block_1861393783698c9b786a7441_98416559 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views';
 ?>
 
         <?php echo '<script'; ?>

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-13 20:27:14
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:29
   from 'file:views/_partial/header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698f8922ea26c7_03632186',
+  'unifunc' => 'content_698c9b6dacd4b4_57532021',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '62e78cb1dc677bc652606b1b3ae5617b4199b349' => 
+    'f404f7d883b51dcd31100dd14757de511187eaa0' => 
     array (
       0 => 'views/_partial/header.tpl',
-      1 => 1770990163,
+      1 => 1770634641,
       2 => 'file',
     ),
   ),
@@ -23,8 +23,8 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/message.tpl' => 1,
   ),
 ))) {
-function content_698f8922ea26c7_03632186 (\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
+function content_698c9b6dacd4b4_57532021 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
 
@@ -34,15 +34,15 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8561625698f8922e9bae6_25437981', "description");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_202869865698c9b6daaff25_64724356', "description");
 ?>
 ">
 	<title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1585063323698f8922e9d482_34004815', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_945932331698c9b6dab59f2_23701359', "title");
 ?>
 </title>
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1891546461698f8922e9edd2_45056103', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_757778375698c9b6dabba89_19641170', "css_variation");
 ?>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -67,28 +67,28 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1891546461698
     <?php $_smarty_tpl->renderSubTemplate("file:views/_partial/message.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }
 /* {block "description"} */
-class Block_8561625698f8922e9bae6_25437981 extends \Smarty\Runtime\Block
+class Block_202869865698c9b6daaff25_64724356 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 }
 }
 /* {/block "description"} */
 /* {block "title"} */
-class Block_1585063323698f8922e9d482_34004815 extends \Smarty\Runtime\Block
+class Block_945932331698c9b6dab59f2_23701359 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?>
  - Give Me Five<?php
 }
 }
 /* {/block "title"} */
 /* {block "css_variation"} */
-class Block_1891546461698f8922e9edd2_45056103 extends \Smarty\Runtime\Block
+class Block_757778375698c9b6dabba89_19641170 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 }
 }
 /* {/block "css_variation"} */

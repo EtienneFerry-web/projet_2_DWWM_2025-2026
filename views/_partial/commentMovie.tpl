@@ -7,10 +7,10 @@
             </div>
         {/if}
         <div class="row align-items-center">
-            <div class="rounded-circle col-auto"> 
-                <img src="assets/img/{$comment->getUrl()}" 
-                    class="rounded-circle border" 
-                    style="width: 40px; height: 40px; object-fit: cover;" 
+            <div class="rounded-circle col-auto">
+                <img src="assets/img/{$comment->getPhoto()}"
+                    class="rounded-circle border"
+                    style="width: 40px; height: 40px; object-fit: cover;"
                     alt="Avatar">
             </div>
             <span class="spanMovie col-auto p-0"><a href="index.php?ctrl=user&action=user&id={$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
@@ -25,9 +25,9 @@
 
         <div class="col-1">
             <form method="post" action="" class="js-like-form">
-                
+
                 <input type="hidden" name="likeCommentBtn" value="{$comment->getId()}">
-                
+
                 <button type="submit" class="border-0 bg-transparent p-0 text-decoration-none" name="">
                     <label class="form-label" style="cursor:pointer;">
                     {if $comment->getUser_liked()}
@@ -44,14 +44,58 @@
         <div class="row align-items-center ">
             <span class="spanMovie d-block col-6 me-auto">{$comment->getDateFormat()}</span>
             {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 1}
-                <form method="post" class="d-block ms-auto col-auto">
-                    <input type="hidden" name="comment" value="{$comment->getComment()}">
-                    <input type="hidden" name="id" value="{$comment->getId()}">
-                    <button type="submit" name="commentReport" value="1"
-                            class="border-0 bg-transparent p-0">
-                        {if $comment->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
-                    </button>
-                </form>
+                {if $comment->getReported() == 0}
+                <button class="border-0 bg-transparent text-end col-6 pe-3" data-bs-toggle="modal" data-bs-target="#reportModal-review-{$comment->getId()}">
+                    <i class="bi bi-flag fs-3 ms-auto"></i>
+                </button>
+                <div class="modal fade" id="reportModal-review-{$comment->getId()}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form method="POST" class="modal-content">
+                            <input type="hidden" name="commentReportId" value="{$comment->getId()} ">
+                            <div class="modal-header border-0"">
+                                <h5 class="modal-title">Signaler : {$comment->getPseudo()} </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>Pour que votre signalement sois prit en charge veuillez renseigner la raison !</p>
+                                <textarea name="commentReport" class="form-control" placeholder="Raison du signalement..."></textarea>
+                            </div>
+
+                            <div class="modal-footer border-0 mx-auto">
+                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-outline-success px-3">Validez</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                {else}
+                <button class="border-0 bg-transparent text-end col-6 pe-3" data-bs-toggle="modal" data-bs-target="#reportModal-review-{$comment->getId()}">
+                    <i class="bi bi-flag-fill fs-3 ms-auto"></i>
+                </button>
+                <div class="modal fade" id="reportModal-review-{$comment->getId()}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form method="POST" class="modal-content">
+
+                            <div class="modal-header border-0"">
+                                <h5 class="modal-title">Signaler : {$comment->getPseudo()} </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>Voulez vous vraiment supprimer votre signalement ?</p>
+                            </div>
+
+                            <div class="modal-footer border-0 mx-auto">
+                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" name="repComDelete" value="{$comment->getId()}" class="btn btn-outline-danger px-3">Supprimer</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                {/if}
             {elseif isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1}
                 <form method="post" class="d-block ms-auto col-auto">
                     <input type="radio" class="btn-check" name="spoiler" value="{$comment->getId()}" id="filter-spoiler-{$comment->getId()}" onchange="this.form.submit()">

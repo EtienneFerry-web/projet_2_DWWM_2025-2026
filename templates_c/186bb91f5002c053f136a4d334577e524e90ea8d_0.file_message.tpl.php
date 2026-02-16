@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-13 20:27:15
+/* Smarty version 5.7.0, created on 2026-02-11 15:08:29
   from 'file:views/_partial/message.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698f892331f463_38662564',
+  'unifunc' => 'content_698c9b6db55dd2_05162895',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '1cf628e4b0f2c94e049e984ad7a5340453caa826' => 
+    '186bb91f5002c053f136a4d334577e524e90ea8d' => 
     array (
       0 => 'views/_partial/message.tpl',
-      1 => 1770990163,
+      1 => 1769785504,
       2 => 'file',
     ),
   ),
@@ -20,8 +20,8 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698f892331f463_38662564 (\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
+function content_698c9b6db55dd2_05162895 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?>
 
     <?php if (((true && ($_smarty_tpl->hasVariable('success_message') && null !== ($_smarty_tpl->getValue('success_message') ?? null))))) {?>

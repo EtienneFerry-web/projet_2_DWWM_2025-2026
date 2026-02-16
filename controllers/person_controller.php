@@ -96,23 +96,11 @@
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
-            var_dump($_GET);
             $objPersonModel = new PersonModel();
-            $arrPerson      = $objPersonModel->findPerson($_GET['id']);
-            $arrJobs        = $objPersonModel->findAllJobs();
-
-            $arrJobToDisplay    = array();
-
-
-            foreach($arrJobs as $arrDetJob){
-                $objPerson = new PersonEntity;
-                $objPerson ->hydrate($arrDetJob); 
-                $arrJobToDisplay[]  = $objPerson;
-            }
-
-            //Preparing hydrate
-            $objPerson = new PersonEntity;
-			$objPerson->hydrate($arrPerson);
+            var_dump($_POST);
+            $objPerson = new PersonEntity();            
+            $objPerson->hydrate($_POST);
+      
             //Testing Form
             $arrError = [];
             if (count($_POST) > 0) {
@@ -188,10 +176,32 @@
 				
             $this->_arrData['objPerson']            = $objPerson;
             $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;
-            $this->_arrData['arrError']             = $arrError; 
-               
+            $this->_arrData['arrError']             = $arrError;    
             $this->_display("settingsPerson");
              
         
         }
+        
+        public function allPerson(){
+      
+			$objPersonModel 	= new PersonModel;
+			$arrPerson   	= $objPersonModel->listPerson();
+      
+			// Initialisation d'un tableau => objets
+			$arrPersonToDisplay	= array();
+      
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrPerson as $arrDetPerson){
+				$objPerson = new PersonEntity();
+				$objPerson->hydrate($arrDetPerson);
+      
+				$arrPersonToDisplay[]	= $objPerson;
+			}
+      
+			// Donner arrUsersToDisplay à maman pour l'affichage
+      
+			$this->_arrData['arrPersonToDisplay']	= $arrPersonToDisplay;
+      
+			$this->_display("allPerson");
+		}
     }

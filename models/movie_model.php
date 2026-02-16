@@ -13,8 +13,7 @@
         public string $enddate      = '';
         public string $order        = '';
         public string $job          = 'ASC';
-        public string $prefix          = '_mov';
-        
+
         public function findAllMovies() : array {
             $strRq = "SELECT mov_id, mov_title
                         FROM movies";
@@ -23,13 +22,13 @@
 
         public function newMovie(){
           $strRq	= "
-                        SELECT mov_id, pho_url AS 'mov_url', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
+                        SELECT mov_id, pho_photo AS 'mov_photo', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
                         WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND photos.pho_type = 'Affiche'
-                        GROUP BY movies.mov_id, pho_url
+                        GROUP BY movies.mov_id,  pho_photo
                         ";
 
             return $this->_db->query($strRq)->fetchAll();
@@ -37,13 +36,13 @@
 
         public function allMovie(): array {
             $strWhere = " WHERE ";
-            $strRq = " SELECT mov_id, mov_title, mov_description, pho_url AS 'mov_url', 
-                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', 
+            $strRq = " SELECT mov_id, mov_title, mov_description, pho_photo AS 'mov_photo',
+                            COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                             COUNT(DISTINCT lik_user_id) AS 'mov_like'
                     FROM movies
                     LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                     LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                    LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                    LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
                     ";
 
             $conditions = [];
@@ -96,10 +95,10 @@
             $strRq .= " GROUP BY movies.mov_id
                         ORDER BY mov_release_date DESC";
 
-            
+
             $stmt = $this->_db->prepare($strRq);
 
-            
+
             if (!empty($this->actor)) {
                 $stmt->bindValue(':actor', $this->actor, PDO::PARAM_INT);
             }
@@ -134,25 +133,39 @@
         public function findMovie(int $idMovie, int $intUserId = 0){
 
             $strRq  = " SELECT movies.*,
-                            pho_url AS 'mov_url',
+                            pho_photo AS 'mov_photo',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
-                          
+
                             COUNT(DISTINCT liked.lik_user_id ) AS 'mov_like',
                             nat_country AS 'mov_country',
-                      
+
                             EXISTS(
-                                SELECT 1 FROM liked 
-                                WHERE lik_user_id = :user_id 
-                                AND lik_type = 'movies' 
-                                AND lik_item_id = movies.mov_id
-                            ) AS mov_user_liked
+                                SELECT 1 FROM liked
+                                WHERE lik_user_id = :user_id
+                                AND lik_com_id IS NULL
+                                AND lik_mov_id = movies.mov_id
+                            ) AS mov_user_liked,
+
+                            EXISTS(
+                                SELECT 1 FROM reports
+                                WHERE rep_reporter_user_id = :user_id
+                                AND rep_reported_movie_id = movies.mov_id
+
+                            ) AS mov_reported,
+                            
+                            (
+                                SELECT rat_score FROM ratings 
+                                WHERE rat_user_id = :user_id 
+                                AND rat_mov_id = movies.mov_id
+                            ) AS mov_note_user
+
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                      
-                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
-                        WHERE mov_id = :id 
+
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
+                        WHERE mov_id = :id
                         GROUP BY movies.mov_id";
 
             $stmt = $this->_db->prepare($strRq);
@@ -163,38 +176,13 @@
             return $stmt->fetch();
         }
 
-         public function findOneMovie(){
-            $strRq	= " SELECT movies.*, 
-                            mov_original_title AS 'mov_orginalTitle',                           
-                            pho_url AS 'mov_url', 
-                            nat_id AS 'mov_CountryId',                           
-                            nat_country AS 'mov_country',
-                            belong_mov_id AS 'mov_belong_id',
-                            cat_id AS 'mov_categoriesId',
-                            cat_name AS 'mov_categorie',
-                            part_mov_id AS 'mov_part_id',
-                            job_name AS 'mov_job'
-                        FROM movies
-                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
-                        INNER JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
-                        INNER JOIN belongs ON movies.mov_id = belongs.belong_mov_id
-                        INNER JOIN categories ON belongs.belong_cat_id = categories.cat_id
-                        INNER JOIN participates ON movies.mov_id = participates.part_mov_id
-                        INNER JOIN jobs ON participates.part_job_id = jobs.job_id
-                        INNER JOIN persons ON participates.part_pers_id = persons.pers_id
-                        WHERE mov_id = ".$_GET['id'];
-        
-
-            return $this->_db->query($strRq)->fetch();
-        }
-
 		public function movieOfPerson(int $idPerson=0):array{
 
-            $direction = (strtoupper($this->order) === 'ASC') ? 'ASC' : 'DESC';    
+            $direction = (strtoupper($this->order) === 'ASC') ? 'ASC' : 'DESC';
 
           	$strRq	= " SELECT
                             movies.mov_id,
-                            photos.pho_url AS 'mov_url',
+                            photos.pho_photo AS 'mov_photo',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                             COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM persons
@@ -202,7 +190,7 @@
                         LEFT JOIN movies ON participates.part_mov_id = movies.mov_id
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
-                        LEFT JOIN liked ON movies.mov_id = liked.lik_item_id AND liked.lik_type = 'movies'
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
                         WHERE persons.pers_id = :id";
 
             if(!empty($this->job)){
@@ -229,18 +217,18 @@
 
             $stmt->execute();
 
-            return $stmt->fetchAll(); 
+            return $stmt->fetchAll();
         }
 
 
         public function userLike(int $idUser=0){
-            // FIX: Added MIN() around pho_url and added GROUP BY to avoid duplicates
+            // FIX: Added MIN() around pho_photo and added GROUP BY to avoid duplicates
             $strRq  = " SELECT
                             movies.mov_id,
-                            photos.pho_url AS 'mov_url'
+                            photos.pho_photo AS 'mov_photo'
                         FROM users
-                        LEFT JOIN liked ON users.user_id = liked.lik_user_id AND liked.lik_type = 'movies'
-                        INNER JOIN movies ON liked.lik_item_id = movies.mov_id
+                        LEFT JOIN liked ON users.user_id = liked.lik_user_id AND liked.lik_mov_id IS NOT NULL
+                        INNER JOIN movies ON liked.lik_mov_id = movies.mov_id
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         WHERE user_id = $idUser
                         GROUP BY movies.mov_id
@@ -270,7 +258,7 @@
         }
 
         public function addMovie(object $objNewMovie):bool{
-                
+
 		// Request construction
 			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_length, mov_description, mov_release_date, mov_nat_id, mov_trailer_url)
 						        VALUES (:title, :originalTitle, :length, :description, :createDate, :idNationality, :trailer)";
@@ -278,7 +266,7 @@
 			$rqPrep	= $this->_db->prepare($strRq);
 			// Sending information
 			$rqPrep->bindValue(":title", $objNewMovie->getTitle(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginal_title(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginalTitle(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":length", $objNewMovie->getLength(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":description", $objNewMovie->getDescription(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":createDate", $objNewMovie->getRelease_date(), PDO::PARAM_STR);
@@ -287,89 +275,34 @@
 
 			// Request execution
 			$result = $rqPrep->execute();
-            
+
             if ($result){
             $lastId = $this->_db->lastInsertId();
 
-                $strRq2 =" INSERT INTO photos(pho_url, pho_type, pho_mov_id)
+                $strRq2 =" INSERT INTO photos(pho_photo, pho_type, pho_mov_id)
                             VALUES (:photo, 'Affiche', :idMovie)";
 
             $rqPrep2	= $this->_db->prepare($strRq2);
-            $rqPrep2->bindValue(":photo", $objNewMovie->getUrl(), PDO::PARAM_STR);         
-            $rqPrep2->bindValue(":idMovie", $lastId, PDO::PARAM_INT); 
-            
+            $rqPrep2->bindValue(":photo", $objNewMovie->getphoto(), PDO::PARAM_STR);
+            $rqPrep2->bindValue(":idMovie", $lastId, PDO::PARAM_INT);
+
              $resultPhoto = $rqPrep2->execute();
-             
+
                 if ($resultPhoto){
 
                     $strRq3 =" INSERT INTO belongs (belong_cat_id, belong_mov_id)
                                 VALUES (:catId, :idMovie)";
                     $rqPrep3	= $this->_db->prepare($strRq3);
-                    $rqPrep3->bindValue(":catId", $objNewMovie->getCategoriesId(), PDO::PARAM_STR);         
-                    $rqPrep3->bindValue(":idMovie", $lastId, PDO::PARAM_INT); 
-                
+                    $rqPrep3->bindValue(":catId", $objNewMovie->getCategoriesId(), PDO::PARAM_STR);
+                    $rqPrep3->bindValue(":idMovie", $lastId, PDO::PARAM_INT);
+
                     return $rqPrep3->execute();
                 }
 
             }
-            
-		}
 
-        public function updateMovie(object $objNewMovie):bool{
-                
-		// Request construction
-			$strRq 	=   "UPDATE movies 
-                         SET mov_title = :title,
-                             mov_original_title = :originalTitle,
-                             mov_length = :length, 
-                             mov_description = :description, 
-                             mov_release_date = :createDate, 
-                             mov_nat_id = :idNationality, 
-                             mov_trailer_url = :trailer
-						 WHERE mov_id= :id";
-			// Prepared request
-			$rqPrep	= $this->_db->prepare($strRq);
-			// Sending information
-			$rqPrep->bindValue(":title", $objNewMovie->getTitle(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginal_title(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":length", $objNewMovie->getLength(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":description", $objNewMovie->getDescription(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":createDate", $objNewMovie->getRelease_date(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":idNationality", $objNewMovie->getCountryId(), PDO::PARAM_INT);
-			$rqPrep->bindValue(":trailer", $objNewMovie->getTrailer(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":id", $objNewMovie->getId(), PDO::PARAM_STR);
-          
-			// Request execution
-			$result = $rqPrep->execute();
-            
-            if ($result){    
 
-                $strRq2 = "UPDATE photos
-                            SET pho_url = :photo,                                 
-                                pho_mov_id = :idMovie
-                            WHERE pho_mov_id = :idMovie";
 
-            $rqPrep2	= $this->_db->prepare($strRq2);
-            $rqPrep2->bindValue(":photo", $objNewMovie->getUrl(), PDO::PARAM_STR);         
-            $rqPrep2->bindValue(":idMovie", $objNewMovie->getId(), PDO::PARAM_INT); 
-            
-             $resultPhoto = $rqPrep2->execute();
-             
-                if ($resultPhoto){
-
-                    $strRq3 =" UPDATE belongs 
-                                SET belong_cat_id = :catId, 
-                                    belong_mov_id = :idMovie
-                                WHERE belong_mov_id = :idMovie";
-                    $rqPrep3	= $this->_db->prepare($strRq3);
-                    $rqPrep3->bindValue(":catId", $objNewMovie->getCategoriesId(), PDO::PARAM_STR);         
-                    $rqPrep3->bindValue(":idMovie", $objNewMovie->getId(), PDO::PARAM_INT); 
-                
-                    return $rqPrep3->execute();
-                }
-
-            }
-            
 		}
 
         /**
@@ -379,7 +312,7 @@
          * return boolean
          */
 		public function deleteMovie(int $intId){
-			$strRq = "DELETE FROM movies  
+			$strRq = "DELETE FROM movies
 					  WHERE mov_id = :id";
 
 			$rqPrep = $this->_db->prepare($strRq);
@@ -392,7 +325,7 @@
 
             $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
                 VALUES (:user_id, :item_id, 'movies', NOW())";
-			
+
 			$rqPrep	= $this->_db->prepare($strRq);
 
 				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
@@ -419,6 +352,110 @@
                 return 2;
 
             }
+		}
+
+		public function addImageOfMovies(string $img, int $intMovId, int $intUserId){
+
+            $strRqCount = " SELECT COUNT(*)
+                            FROM photos
+                            WHERE pho_mov_id = :movId AND pho_type = 'Content'";
+
+            $rqPrepCount = $this->_db->prepare($strRqCount);
+            $rqPrepCount->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+
+            $rqPrepCount->execute();
+
+            $nbrImg = $rqPrepCount->fetch();
+
+
+    		if($nbrImg['COUNT(*)'] < 20){
+                $strRq = "INSERT INTO photos (pho_photo, pho_type, pho_mov_id, pho_user_id)
+    				  VALUES (:img, 'Content', :movId, :userId)";
+
+                $rqPrep = $this->_db->prepare($strRq);
+                $rqPrep->bindValue(':img', $img, PDO::PARAM_STR);
+                $rqPrep->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+                $rqPrep->bindValue(':userId', $intUserId, PDO::PARAM_INT);
+
+                return $rqPrep->execute();
+            }
+
+
+		}
+
+		public function selectImageMovie($intMovId){
+
+		    $strRq = " SELECT pho_id AS 'mov_id', pho_photo AS 'mov_photo'
+						FROM photos
+						WHERE pho_mov_id = :id AND pho_type = 'Content'";
+
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intMovId, PDO::PARAM_INT);
+			$rqPrep->execute();
+			return $rqPrep->fetchAll();
+
+		}
+
+		public function reportMovie(object $objReport){
+		    $strRq = "  INSERT INTO reports (rep_reported_movie_id, rep_reporter_user_id, rep_reason ,rep_date)
+					VALUES (:movieId, :reporter, :reason ,NOW())";
+
+      		$rqPrep = $this->_db->prepare($strRq);
+
+
+      		$rqPrep->bindValue(':movieId', $objReport->getReportedMovieId(), PDO::PARAM_INT);
+      		$rqPrep->bindValue(':reporter', $objReport->getReporterUserId(), PDO::PARAM_INT);
+            $rqPrep->bindValue(':reason', $objReport->getReason(), PDO::PARAM_STR);
+
+      		return $rqPrep->execute();
+
+		}
+
+		public function deleteRepMovie(object $objReport){
+
+            $strRq = "  DELETE FROM reports
+                        WHERE rep_reported_movie_id = :movieId AND rep_reporter_user_id = :reporter";
+
+      		$rqPrep = $this->_db->prepare($strRq);
+
+      		$rqPrep->bindValue(':movieId', $objReport->getReportedMovieId(), PDO::PARAM_INT);
+      		$rqPrep->bindValue(':reporter', $objReport->getReporterUserId(), PDO::PARAM_INT);
+
+      		return $rqPrep->execute();
+		}
+		
+		public function insertUpdateNote(int $intIdUser, int $movId, string $intNote){
+		
+            $strRq = "  INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score)
+                        VALUES (:userId, :movieId, :rating)
+                        ON DUPLICATE KEY UPDATE rat_score = :rating";
+
+            $rqPrep = $this->_db->prepare($strRq);
+            $rqPrep->bindValue(":userId",  $intIdUser, PDO::PARAM_INT);
+            $rqPrep->bindValue(":movieId", $movId, PDO::PARAM_INT);
+            $rqPrep->bindValue(":rating",  $intNote,  PDO::PARAM_STR);
+
+            $bool = $rqPrep->execute();
+            
+            if($bool){
+                $strRq = "  SELECT AVG(rat_score) AS 'average'
+                            FROM ratings
+                            WHERE rat_mov_id = :movieId
+                            GROUP BY rat_mov_id";
+                
+                $rqPrep2 = $this->_db->prepare($strRq);
+  
+                $rqPrep2->bindValue(":movieId", $movId, PDO::PARAM_INT);
+    
+                $rqPrep2->execute();
+                
+                return $rqPrep2->fetch();
+                            
+                
+            } else{
+                return false;
+            }
+            
 		}
 
     }

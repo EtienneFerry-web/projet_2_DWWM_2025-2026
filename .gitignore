@@ -1,5 +1,12 @@
 /vendor/
+<<<<<<< HEAD
 /templates_c/
 /.env/
 /env/
+=======
+
+.env
+
+templates_c/
+>>>>>>> origin/main2
 

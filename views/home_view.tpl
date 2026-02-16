@@ -11,7 +11,7 @@
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
             {if !isset($smarty.session.user)}
             <h1>Bienvenue sur give me five</h1>
-            <p class="py-3">N'hésitez à vous connecter ou créer un compte pour accéder à plus de fonctionnalités et donner votre avis sur nos films !</p>
+            <p class="py-3">N'hésitez a vous connecter ou vous créer un compte pour accéder a plus de fonctionnalité donnez votre avis sur nos film !</p>
             <div>
                 <a href="index.php?ctrl=user&action=login" class="btnCustom ">Se connecter</a>
                 <a href="index.php?ctrl=user&action=createAccount" class="btnCustom ">S'incrire</a>

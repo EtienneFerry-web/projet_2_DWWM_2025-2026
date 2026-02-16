@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 11 fév. 2026 à 19:37
+-- Généré le : dim. 15 fév. 2026 à 21:11
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -99,17 +99,17 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
 INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, `com_movie_id`, `com_mod_id`, `com_spoiler`) VALUES
-(8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL, 0),
+(8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL, 1),
 (9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 0),
 (11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 1),
-(12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 0),
+(12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 1),
 (13, 'Une atmosphère onirique et envoûtante.', '2024-08-14 23:45:00', 10, 15, NULL, 0),
 (14, 'Je n\'ai pas tout compris, c\'est bizarre.', '2024-09-01 10:30:00', 5, 15, 3, 0),
 (15, 'Le dernier film de Kubrick est son plus mystérieux.', '2024-08-05 18:45:00', 1, 15, NULL, 0),
@@ -117,7 +117,6 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (17, 'Je suis complètement perdu. Qui est qui ?', '2024-11-05 14:20:00', 6, 16, NULL, 0),
 (18, 'Naomi Watts est incroyable dans ce film.', '2024-07-30 21:15:00', 9, 16, NULL, 0),
 (19, 'Dennis Hopper est absolument effrayant.', '2024-02-28 20:10:00', 2, 17, NULL, 0),
-(20, 'L\'ambiance est malsaine au possible.', '2024-03-15 09:55:00', 8, 17, NULL, 0),
 (21, 'Une vision cauchemardesque de l\'Amérique.', '2024-06-12 11:20:00', 5, 17, NULL, 0),
 (22, 'L\'expérience la plus sonore et visuelle de ma vie.', '2024-04-01 02:00:00', 3, 18, NULL, 0),
 (23, 'Trop bizarre pour moi, j\'ai arrêté.', '2024-04-10 16:40:00', 9, 18, NULL, 0),
@@ -128,7 +127,8 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0),
 (29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0),
 (30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0),
-(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0);
+(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0),
+(82, 'test', '2026-02-15 21:57:43', 17, 25, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -222,62 +222,71 @@ INSERT INTO `jobs` (`job_id`, `job_name`) VALUES
 
 DROP TABLE IF EXISTS `liked`;
 CREATE TABLE IF NOT EXISTS `liked` (
-  `lik_user_id` int UNSIGNED NOT NULL,
-  `lik_item_id` int UNSIGNED NOT NULL,
-  `lik_type` varchar(20) NOT NULL,
-  `lik_created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`lik_user_id`,`lik_item_id`,`lik_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `lik_user_id` int NOT NULL,
+  `lik_mov_id` int DEFAULT NULL,
+  `lik_com_id` int DEFAULT NULL,
+  `lik_created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `uk_like_movie` (`lik_user_id`,`lik_mov_id`),
+  UNIQUE KEY `uk_like_comment` (`lik_user_id`,`lik_com_id`),
+  KEY `lik_mov_id` (`lik_mov_id`),
+  KEY `lik_com_id` (`lik_com_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `liked`
 --
 
-INSERT INTO `liked` (`lik_user_id`, `lik_item_id`, `lik_type`, `lik_created_at`) VALUES
-(1, 1, 'comment', '2026-01-25 11:21:38'),
-(1, 2, 'comment', '2026-01-25 11:21:38'),
-(1, 3, 'comment', '2026-01-25 11:21:38'),
-(1, 11, 'movies', '2026-01-25 11:20:57'),
-(1, 12, 'movies', '2026-01-25 11:20:57'),
-(1, 13, 'movies', '2026-01-25 11:20:57'),
-(1, 17, 'comment', '2026-01-25 11:21:38'),
-(2, 4, 'comment', '2026-01-25 11:21:38'),
-(2, 5, 'comment', '2026-01-25 11:21:38'),
-(2, 6, 'comment', '2026-01-25 11:21:38'),
-(2, 14, 'movies', '2026-01-25 11:20:57'),
-(2, 15, 'movies', '2026-01-25 11:20:57'),
-(2, 16, 'movies', '2026-01-25 11:20:57'),
-(2, 18, 'comment', '2026-01-25 11:21:38'),
-(3, 7, 'comment', '2026-01-25 11:21:38'),
-(3, 8, 'comment', '2026-01-25 11:21:38'),
-(3, 9, 'comment', '2026-01-25 11:21:38'),
-(3, 17, 'movies', '2026-01-25 11:20:57'),
-(3, 18, 'movies', '2026-01-25 11:20:57'),
-(3, 19, 'movies', '2026-01-25 11:20:57'),
-(3, 31, 'comment', '2026-01-25 11:21:38'),
-(4, 10, 'comment', '2026-01-25 11:21:38'),
-(4, 20, 'movies', '2026-01-25 11:20:57'),
-(4, 21, 'movies', '2026-01-25 11:20:57'),
-(4, 22, 'movies', '2026-01-25 11:20:57'),
-(4, 30, 'comment', '2026-01-25 11:21:38'),
-(5, 11, 'comment', '2026-01-25 11:21:38'),
-(5, 23, 'movies', '2026-01-25 11:20:57'),
-(5, 24, 'movies', '2026-01-25 11:20:57'),
-(5, 25, 'movies', '2026-01-25 11:20:57'),
-(5, 29, 'comment', '2026-01-25 11:21:38'),
-(6, 11, 'movies', '2026-01-25 11:20:57'),
-(6, 12, 'comment', '2026-01-25 11:21:38'),
-(6, 15, 'movies', '2026-01-25 11:20:57'),
-(7, 12, 'movies', '2026-01-25 11:20:57'),
-(7, 13, 'comment', '2026-01-25 11:21:38'),
-(8, 14, 'comment', '2026-01-25 11:21:38'),
-(8, 20, 'movies', '2026-01-25 11:20:57'),
-(9, 15, 'comment', '2026-01-25 11:21:38'),
-(9, 25, 'movies', '2026-01-25 11:20:57'),
-(10, 11, 'movies', '2026-01-25 11:20:57'),
-(10, 16, 'comment', '2026-01-25 11:21:38'),
-(17, 22, 'movies', '2026-02-11 18:13:53'),
-(24, 22, 'movies', '2026-02-11 18:14:08');
+INSERT INTO `liked` (`lik_user_id`, `lik_mov_id`, `lik_com_id`, `lik_created_at`) VALUES
+(1, 13, NULL, '2026-02-15 19:50:38'),
+(2, 13, NULL, '2026-02-15 19:50:38'),
+(3, 13, NULL, '2026-02-15 19:50:38'),
+(4, 13, NULL, '2026-02-15 19:50:38'),
+(5, 13, NULL, '2026-02-15 19:50:38'),
+(6, 14, NULL, '2026-02-15 19:50:38'),
+(7, 14, NULL, '2026-02-15 19:50:38'),
+(8, 14, NULL, '2026-02-15 19:50:38'),
+(9, 14, NULL, '2026-02-15 19:50:38'),
+(10, 14, NULL, '2026-02-15 19:50:38'),
+(1, 15, NULL, '2026-02-15 19:50:38'),
+(3, 15, NULL, '2026-02-15 19:50:38'),
+(5, 15, NULL, '2026-02-15 19:50:38'),
+(7, 15, NULL, '2026-02-15 19:50:38'),
+(9, 15, NULL, '2026-02-15 19:50:38'),
+(2, 16, NULL, '2026-02-15 19:50:38'),
+(4, 16, NULL, '2026-02-15 19:50:38'),
+(6, 16, NULL, '2026-02-15 19:50:38'),
+(8, 16, NULL, '2026-02-15 19:50:38'),
+(10, 16, NULL, '2026-02-15 19:50:38'),
+(1, 17, NULL, '2026-02-15 19:50:38'),
+(2, 17, NULL, '2026-02-15 19:50:38'),
+(5, 17, NULL, '2026-02-15 19:50:38'),
+(8, 17, NULL, '2026-02-15 19:50:38'),
+(17, 17, NULL, '2026-02-15 19:50:38'),
+(3, 18, NULL, '2026-02-15 19:50:38'),
+(4, 18, NULL, '2026-02-15 19:50:38'),
+(9, 18, NULL, '2026-02-15 19:50:38'),
+(10, 18, NULL, '2026-02-15 19:50:38'),
+(23, 18, NULL, '2026-02-15 19:50:38'),
+(6, 19, NULL, '2026-02-15 19:50:38'),
+(7, 19, NULL, '2026-02-15 19:50:38'),
+(1, 19, NULL, '2026-02-15 19:50:38'),
+(2, 19, NULL, '2026-02-15 19:50:38'),
+(5, 19, NULL, '2026-02-15 19:50:38'),
+(2, NULL, 8, '2026-02-15 19:50:38'),
+(3, NULL, 8, '2026-02-15 19:50:38'),
+(4, NULL, 8, '2026-02-15 19:50:38'),
+(1, NULL, 13, '2026-02-15 19:50:38'),
+(5, NULL, 13, '2026-02-15 19:50:38'),
+(6, NULL, 13, '2026-02-15 19:50:38'),
+(7, NULL, 16, '2026-02-15 19:50:38'),
+(8, NULL, 16, '2026-02-15 19:50:38'),
+(9, NULL, 16, '2026-02-15 19:50:38'),
+(10, NULL, 22, '2026-02-15 19:50:38'),
+(1, NULL, 22, '2026-02-15 19:50:38'),
+(2, NULL, 22, '2026-02-15 19:50:38'),
+(4, NULL, 28, '2026-02-15 19:50:38'),
+(5, NULL, 28, '2026-02-15 19:50:38'),
+(6, NULL, 28, '2026-02-15 19:50:38');
 
 -- --------------------------------------------------------
 
@@ -467,31 +476,34 @@ INSERT INTO `persons` (`pers_id`, `pers_name`, `pers_firstname`, `pers_birthdate
 DROP TABLE IF EXISTS `photos`;
 CREATE TABLE IF NOT EXISTS `photos` (
   `pho_id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Photo ID',
-  `pho_url` varchar(255) NOT NULL COMMENT 'Photo URL',
+  `pho_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Photo URL',
   `pho_type` varchar(150) NOT NULL COMMENT 'Type of file',
   `pho_mov_id` int UNSIGNED DEFAULT NULL,
+  `pho_user_id` int UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`pho_id`),
+  UNIQUE KEY `uk_mov_user_id` (`pho_mov_id`,`pho_user_id`),
   KEY `fk_pho_mov_id` (`pho_mov_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `photos`
 --
 
-INSERT INTO `photos` (`pho_id`, `pho_url`, `pho_type`, `pho_mov_id`) VALUES
-(3, 'https://fr.web.img6.acsta.net/medias/nmedia/18/36/25/34/18465555.jpg', 'Affiche', 13),
-(4, 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg', 'Affiche', 14),
-(5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15),
-(6, 'https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png', 'Affiche', 16),
-(7, 'https://m.media-amazon.com/images/I/61LkggMExBL._AC_UF894,1000_QL80_.jpg', 'Affiche', 17),
-(8, 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Eraserhead.jpg/960px-Eraserhead.jpg', 'Affiche', 18),
-(9, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQcyCI04HaeBW7oH00JXR8QkcOgROgMbOQsM2uNIgCjzlpZJlNI', 'Affiche', 19),
-(10, 'https://fr.web.img4.acsta.net/pictures/22/10/27/16/38/1152463.jpg', 'Affiche', 20),
-(11, 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg', 'Affiche', 21),
-(12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22),
-(14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24),
-(15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25),
-(16, '698b5638c6bda.png', 'Affiche', 27);
+INSERT INTO `photos` (`pho_id`, `pho_photo`, `pho_type`, `pho_mov_id`, `pho_user_id`) VALUES
+(3, 'https://fr.web.img6.acsta.net/medias/nmedia/18/36/25/34/18465555.jpg', 'Affiche', 13, NULL),
+(4, 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg', 'Affiche', 14, NULL),
+(5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15, NULL),
+(6, 'https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png', 'Affiche', 16, NULL),
+(7, 'https://m.media-amazon.com/images/I/61LkggMExBL._AC_UF894,1000_QL80_.jpg', 'Affiche', 17, NULL),
+(8, 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Eraserhead.jpg/960px-Eraserhead.jpg', 'Affiche', 18, NULL),
+(9, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQcyCI04HaeBW7oH00JXR8QkcOgROgMbOQsM2uNIgCjzlpZJlNI', 'Affiche', 19, NULL),
+(10, 'https://fr.web.img4.acsta.net/pictures/22/10/27/16/38/1152463.jpg', 'Affiche', 20, NULL),
+(11, 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg', 'Affiche', 21, NULL),
+(12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22, NULL),
+(14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24, NULL),
+(15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25, NULL),
+(16, '698b5638c6bda.png', 'Affiche', 27, NULL),
+(17, '698dda1f43162.png', 'Content', 22, 24);
 
 -- --------------------------------------------------------
 
@@ -579,71 +591,45 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (16, 24, 0.5),
 (17, 15, 4.0),
 (17, 22, 1.0),
-(17, 25, 5.0),
+(17, 25, 3.0),
 (17, 17, 0.5),
 (17, 23, 3.0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `reported_comments`
+-- Structure de la table `reports`
 --
 
-DROP TABLE IF EXISTS `reported_comments`;
-CREATE TABLE IF NOT EXISTS `reported_comments` (
-  `rep_com_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `rep_com_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rep_com_reported_id` int UNSIGNED NOT NULL,
-  `rep_com_date` datetime DEFAULT NULL,
-  `rep_com_reporter_id` int UNSIGNED NOT NULL,
-  PRIMARY KEY (`rep_com_id`),
-  UNIQUE KEY `uk_com_reported_reporter_id` (`rep_com_reported_id`,`rep_com_reporter_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `reports`;
+CREATE TABLE IF NOT EXISTS `reports` (
+  `rep_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `rep_reported_user_id` int UNSIGNED DEFAULT NULL,
+  `rep_reported_movie_id` int UNSIGNED DEFAULT NULL,
+  `rep_reported_com_id` int UNSIGNED DEFAULT NULL,
+  `rep_com_content` text COLLATE utf8mb4_unicode_ci,
+  `rep_pseudo_user` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_bio_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rep_date` datetime DEFAULT NULL,
+  `rep_reporter_user_id` int UNSIGNED DEFAULT NULL,
+  `rep_reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`rep_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `reported_comments`
+-- Déchargement des données de la table `reports`
 --
 
-INSERT INTO `reported_comments` (`rep_com_id`, `rep_com_content`, `rep_com_reported_id`, `rep_com_date`, `rep_com_reporter_id`) VALUES
-(1, '0', 17, '2026-02-09 10:42:16', 24),
-(2, 'Ce film est nul, je déteste tout !', 12, '2026-02-09 10:51:15', 24),
-(3, 'Je n\'ai pas tout compris, c\'est bizarre.', 14, '2026-02-09 10:51:17', 24),
-(24, 'La musique de Beethoven n\'a jamais été aussi effrayante.', 9, '2026-02-09 14:49:28', 24),
-(27, 'Moins fan de la partie au Vietnam.', 11, '2026-02-11 18:14:23', 24),
-(22, 'L\'ambiance est malsaine au possible.', 20, '2026-02-09 14:34:41', 24),
-(9, 'Trop bizarre pour moi, j\'ai arrêté.', 23, '2026-02-09 13:49:34', 24),
-(25, 'Photographie en noir et blanc sublime.', 26, '2026-02-09 15:53:59', 24);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `reported_users`
---
-
-DROP TABLE IF EXISTS `reported_users`;
-CREATE TABLE IF NOT EXISTS `reported_users` (
-  `rep_user_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `rep_user_bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rep_user_pseudo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rep_user_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rep_user_user_id` int UNSIGNED NOT NULL,
-  `rep_user_date` datetime DEFAULT NULL,
-  `rep_reporter_id` int UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`rep_user_id`),
-  UNIQUE KEY `uk_reporter_id_reported_id` (`rep_user_user_id`,`rep_reporter_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `reported_users`
---
-
-INSERT INTO `reported_users` (`rep_user_id`, `rep_user_bio`, `rep_user_pseudo`, `rep_user_img`, `rep_user_user_id`, `rep_user_date`, `rep_reporter_id`) VALUES
-(53, '', 'sophie_b', 'defaultImgUser.jpg', 4, '2026-02-11 18:14:33', 24),
-(34, '', 'mary_l', 'defaultImgUser.jpg', 2, '2026-02-09 16:06:21', 24),
-(17, '', 'keke_99', '/Projet2/assets/img/defaultImgUser.jpg', 5, '2026-02-09 09:51:44', 24),
-(18, '', 'lele_d', '/Projet2/assets/img/defaultImgUser.jpg', 8, '2026-02-09 09:53:36', 24),
-(19, '', 'cam_rob', '/Projet2/assets/img/defaultImgUser.jpg', 6, '2026-02-09 09:56:02', 24),
-(35, '', 'luke_sky', 'defaultImgUser.jpg', 3, '2026-02-09 18:44:37', 17);
+INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`) VALUES
+(36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test'),
+(37, 6, NULL, NULL, NULL, 'cam_rob', '', '2026-02-14 18:10:12', 25, 'dzadqzdzqdqzd'),
+(38, 4, NULL, NULL, NULL, 'sophie_b', '', '2026-02-14 18:10:46', 25, 'dzqdzq'),
+(39, 7, NULL, NULL, NULL, 'tony_ric', '', '2026-02-14 18:13:57', 25, 'test'),
+(63, NULL, 18, NULL, NULL, NULL, NULL, '2026-02-14 22:24:53', 25, 'Cnul'),
+(62, 8, NULL, 31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', NULL, NULL, '2026-02-14 22:20:54', 25, 'Avis de merde\r\n'),
+(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger'),
+(68, 8, NULL, 24, 'Ce bébé mutant va me donner des cauchemars.', NULL, NULL, '2026-02-14 22:32:43', 25, '2'),
+(71, NULL, 21, NULL, NULL, NULL, NULL, '2026-02-15 21:19:29', 17, 'c de la merde ');
 
 -- --------------------------------------------------------
 
@@ -675,7 +661,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `fk_user_funct_id` (`user_funct_id`),
   KEY `fk_users_nationalities` (`user_nat_id`),
   KEY `fk_users_roles` (`user_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -692,9 +678,10 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
-(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, '', '6989baf6403f5.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-09 11:46:14', NULL),
+(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, 'dzqdzqdqzdzqdqzdzqdzqdqzdqzddzqdzqdz', '6991c05b884fb.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-15 13:47:38', NULL),
 (23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL),
-(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 1, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL);
+(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 3, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL),
+(25, 'dqzzdq', 'dzqdzq', 'user', 'user@gmail.com', '2222-02-22', '2026-02-13 11:12:08', NULL, NULL, 1, NULL, NULL, '$2y$12$VMEuNAGgcYnmr13mM7Sy3.naxE/pgFRbal1ujYj6hsHKF.nEUAz8G', NULL, NULL, NULL);
 
 --
 -- Contraintes pour les tables déchargées
@@ -721,13 +708,6 @@ ALTER TABLE `comments`
 ALTER TABLE `follows`
   ADD CONSTRAINT `fk_follo_mov_id` FOREIGN KEY (`follo_mov_id`) REFERENCES `movies` (`mov_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_follo_user_id` FOREIGN KEY (`follo_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `liked`
---
-ALTER TABLE `liked`
-  ADD CONSTRAINT `fk_lik_user_id` FOREIGN KEY (`lik_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_liked_user` FOREIGN KEY (`lik_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `moderations`
