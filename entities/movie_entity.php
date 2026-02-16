@@ -24,12 +24,14 @@
 		private float   $_rating;
 		private string  $_nationality;
 		private int	    $_user_liked;
-		private int  $_reported;
+		private ?float	$_note_user;
+		private int     $_reported;
 
 
 		/**
 		* Constructeur
 		*/
+		
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
 			$this->_prefixe = $prefixe;
@@ -50,6 +52,17 @@
 		*/
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
+		}
+		
+		public function getNoteUser():float{
+			return $this->_note_user;
+		}
+		/**
+		* Mise à jour du titre
+		* @param string le nouveau titre
+		*/
+		public function setNote_user(?float $strNote){
+			$this->_note_user = $strNote??'0';
 		}
 
 		public function getReported():int{

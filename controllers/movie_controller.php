@@ -140,6 +140,24 @@
 
 			$objCommentModel	= new CommentModel;
 			$objMovieModel = new MovieModel;
+			
+			$intNoteJson = file_get_contents("php://input");
+			
+			if(!empty($intNoteJson) && isset($_GET['note'])){
+			     header('Content-Type: application/json');
+			     $data = json_decode($intNoteJson, true);
+			
+			    $insetResult = $objMovieModel->insertUpdateNote($_SESSION['user']['user_id'], $_GET['id'], $data['intNote']);
+				
+							
+				if($insetResult){
+				    echo json_encode($insetResult);
+					exit;
+				}   else{
+     		        echo json_encode("ntm");
+                    exit;
+				}
+			}
 
 			if(isset($_POST['likeMovieBtn'])){
 
@@ -374,6 +392,7 @@
 
 			$objMovie  = new MovieEntity('mov_');
 			$objMovie->hydrate($arrMovie);
+			var_dump($objMovie);
 
 			$objPersonModel = new PersonModel;
 			$arrPerson      = $objPersonModel->findAllPerson($_GET['id']);

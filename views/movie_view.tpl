@@ -15,7 +15,7 @@
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
         <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
             <span class="stars d-inline-block"></span>
-            <span class="note d-inline-block">{$objMovie->getRating()}</span>
+            <span class="note d-inline-block" id="average" >{$objMovie->getRating()}</span>
         </span>
         <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset"><i class="bi bi-heart-fill me-1"></i> {$objMovie->getLike()}</span>
 </div>
@@ -42,6 +42,7 @@
             </div>
 
         </div>
+        {if isset($smarty.session.user)}
         <form method="POST" class="d-inline">
             <input type="hidden" name="likeMovieBtn" value="{$objMovie->getId()}">
 
@@ -72,11 +73,12 @@
                     <i class="bi bi-star" data-value="5"></i>
                     </span>
                     <!--input value for rating score-->
-                    <input type="hidden" name="rating" id="note" value="0" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
+                    <input type="hidden" name="rating" id="note" value="{$objMovie->getNoteUser()}" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
 
                 </div>
             </div>
         </form>
+        {/if}
         {if $objMovie->getReported() == 0}
         <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
             {if $objMovie->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
@@ -187,7 +189,7 @@
                         <i class="bi bi-star" data-value="5"></i>
                         </span>
                         <!--input value for rating score-->
-                        <input type="hidden" name="rating" id="note" value="0" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
+                        <input type="hidden" name="rating" id="note" value="{$objMovie->getNoteUser()}" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
 
                     </div>
                     <div class="col-md-4 mw-100 " >
