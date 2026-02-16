@@ -159,30 +159,35 @@
 				}
 			}
 
-			if(isset($_POST['likeMovieBtn'])){
+			if(isset($_POST['likeMovieBtn']) && (isset($_SESSION['user']))){
 
-
-    			$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
-
-				if ($repResult === 1) {
-					$_SESSION['success'] = "Votre like a bien été pris en compte !";
-				} else if($repResult === 2) {
-					$_SESSION['success'] = "Votre like a bien été était supprimer !";
-                }
-			}
-
-			if(isset($_POST['likeCommentBtn'])){
-
-				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+				$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
 
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Votre like a bien été pris en compte !";
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
-                }
-			}
+				}
+				
+				}elseif(!isset($_SESSION['user'])&& isset($_POST['likeMovieBtn'])){
+					$arrError[''] = "Vous devez etre connecté pour liker un film";
+				}
 
-			if (isset($_POST['repMovie']) && $_POST['repMovie'] != '' && isset($_SESSION['user']['user_id'])) {
+				if(isset($_POST['likeCommentBtn'])&&(isset($_SESSION['user']))){
+
+					$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+
+					if ($repResult === 1) {
+						$_SESSION['success'] = "Votre like a bien été pris en compte !";
+					} else if($repResult === 2) {
+						$_SESSION['success'] = "Votre like a bien été était supprimer !";
+					}
+
+    			}elseif(isset($_POST['likeMovieBtn']) && !isset($_SESSION['user'])){
+    				$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
+    			}
+    
+    			if (isset($_POST['repMovie']) && $_POST['repMovie'] != '' && isset($_SESSION['user']['user_id'])) {
 
                 $arrData = array_merge([
                     'reported_movie_id' => $_GET['id'],
