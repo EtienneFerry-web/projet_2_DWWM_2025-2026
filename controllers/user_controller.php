@@ -253,6 +253,16 @@
                     }
                 }
 
+                if(!empty($objUser->getPwd())){
+                    $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
+                    $strPwdConfirm = $_POST['pwdconfirm'];
+                    if(!preg_match($strRegex, $objUser->getPwd())){
+                        $arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
+                    }else if($objUser->getPwd() != $strPwdConfirm){
+                        $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
+                    }
+                }
+                
                 if(count($arrError) == 0){
                     $boolUpdate = $objUserModel->settingsUser($objUser);
 
@@ -266,6 +276,7 @@
                         $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
                     }
                 }
+                
             }
 
             $this->_arrData['arrError'] = $arrError;

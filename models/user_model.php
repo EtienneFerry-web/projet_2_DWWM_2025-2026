@@ -184,8 +184,13 @@
 							user_photo			= :photo,
 							user_email			= :email,
 							user_bio			= :bio,
-							user_update_at		= NOW()
-						WHERE user_id			= :id";
+							user_update_at		= NOW()";
+
+					if(!empty($objUser->getPwd())){
+
+			$strRq .=",		user_pwd			=:pwd";
+						}
+			$strRq .="		WHERE user_id			= :id";
 
 			$rqPrep	= $this->_db->prepare($strRq);
 				// Donne les informations
@@ -197,6 +202,11 @@
 				$rqPrep->bindValue(":photo", $objUser->getPhoto(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			if(!empty($objUser->getPwd())){
+					$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
+			}
+				
 
 			// Executer la requête
 			return $rqPrep->execute();

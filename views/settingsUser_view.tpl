@@ -53,11 +53,15 @@
      <h2 class="py-2">Sécurité</h2>
         <div class="form-group py-2">
              <label for="" class="form-label">Adresse Email</label>
-             <input name="" id="" placeholder="Email" class="form-control">
+             <input name="email" id="" placeholder="Email" value="{$objUser->getEmail()}"class="form-control"> 
          </div>
          <div class="form-group py-2">
              <label for="" class="form-label">Mots de Passe</label>
-             <input type="text" name="" value="" class="form-control">
+             <input type="text" name="pwd" value="" class="form-control">
+         </div>
+         <div class="form-group py-2">
+             <label for="" class="form-label">Confirmation du Mots de Passe</label>
+             <input type="text" name="pwdconfirm" value="" class="form-control">
          </div>
          <button type="submit" class="btnCustom py-3">Enregistrer</button>
      </form>
