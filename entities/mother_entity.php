@@ -1,4 +1,5 @@
 <?php
+    namespace App\Entities;
 	class Entity {
 
 		protected int $_id;

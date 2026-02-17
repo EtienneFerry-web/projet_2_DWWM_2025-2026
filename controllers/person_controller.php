@@ -1,4 +1,5 @@
 <?php
+    namespace App\Controllers;
     require'entities/movie_entity.php';
     require'entities/comment_entity.php';
     require'entities/person_entity.php';

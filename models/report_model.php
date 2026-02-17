@@ -1,6 +1,6 @@
 <?php
-
-    require_once'models/mother_model.php';
+    namespace App\Models;
+    //require_once'models/mother_model.php';
 
     class ReportModel extends connect{
 

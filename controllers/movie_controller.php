@@ -1,4 +1,6 @@
 <?php
+    namespace App\Controllers;
+
     require'entities/movie_entity.php';
     require'entities/report_entity.php';
     require'entities/comment_entity.php';
@@ -154,19 +156,17 @@
 				    echo json_encode($insetResult);
 					exit;
 				}   else{
-     		        echo json_encode("ntm");
+     		        echo json_encode("ca marche pas");
                     exit;
 				}
-			}
-
-			if (isset($_POST['deleteComment'])) {
-			    $objComment = new CommentEntity;
-                $objComment->setId((int)$_POST['deleteComment']);
-                $objComment->setUser_id($_GET['id']);
-
-                if ($_GET['id'] == $_SESSION['user']['user_id'] || $_SESSION['user']['user_funct_id'] != 1) {
-                    $result = $objCommentModel->deleteComment($objComment);
-                }
+			}	
+			
+			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
+			    $objCommentDelete = new CommentEntity('com_');
+                $objCommentDelete->setId((int)$_POST['deleteComment']);
+                $objCommentDelete->setUser_id($_SESSION['user']['user_id']);
+                
+                $result = $objCommentModel->deleteComment($objCommentDelete);
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";

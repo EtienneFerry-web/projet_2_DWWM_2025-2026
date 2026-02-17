@@ -1,11 +1,23 @@
 <?php
-    require'entities/report_entity.php';
-    require'entities/user_entity.php';
-    require'models/user_model.php';
-    require'entities/movie_entity.php';
-    require'models/movie_model.php';
-    require'entities/comment_entity.php';
-    require'models/comment_model.php';
+    namespace App\Controllers;
+    //Entities
+    use Src\Entities\MovieEntity;
+    use Src\Entities\CommentEntity;
+    use Src\Entities\ReportEntity;
+    use Src\Entities\UserEntity;
+    //models
+    use Src\Models\MovieModel;
+    use Src\Models\CommentEntity;
+    use Src\Models\UserEntity;
+    
+    
+    // require'entities/report_entity.php';
+    // require'entities/user_entity.php';
+    // require'models/user_model.php';
+    // require'entities/movie_entity.php';
+    // require'models/movie_model.php';
+    // require'entities/comment_entity.php';
+    // require'models/comment_model.php';
 
     /**
     * Log in
@@ -297,13 +309,12 @@
             $objComment = new CommentEntity;
             $arrError = [];
 
-            if (isset($_POST['deleteComment'])) {
+            if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
                 $objComment->setId((int)$_POST['deleteComment']);
-                $objComment->setUser_id($_GET['id']);
-
-                if ($_GET['id'] == $_SESSION['user']['user_id'] || $_SESSION['user']['user_funct_id'] != 1) {
-                    $result = $objCommentModel->deleteComment($objComment);
-                }
+                $objComment->setUser_id($_SESSION['user']['user_id']);
+                
+                $result = $objCommentModel->deleteComment($objComment);
+                
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";

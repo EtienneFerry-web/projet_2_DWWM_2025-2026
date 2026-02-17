@@ -1,5 +1,5 @@
 <?php
-
+    namespace App\Controllers;
     /**
      * @author Marco Schmitt
      * 16/01/2026

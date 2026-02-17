@@ -1,6 +1,7 @@
 
 <?php
-	require_once("mother_entity.php");
+    namespace App\Entities;
+	//require_once("mother_entity.php");
 
 	/**
 	* Classe d'un objet Movie

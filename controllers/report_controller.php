@@ -1,5 +1,12 @@
 <?php
+    namespace App\Controllers;
+    
+    use App\Models\ReportModel;
+    use App\Models\CommentModel;
+    use App\Entities\ReportEntity;
+    
     require'models/report_model.php';
+    require'models/comment_model.php';
     require'entities/report_entity.php';
 
 
@@ -11,6 +18,19 @@
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
+			
+			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
+                $objComment->setId((int)$_POST['deleteComment']);
+                $objComment->setUser_id($_SESSION['user']['user_id']);
+                
+                $result = $objCommentModel->deleteComment($objComment);
+
+                if ($result) {
+                    $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+                } else {
+                    $arrError[] = "erreur lors de la suppression veulliez réssayer !";
+                }
+            }
 
             $objReportModel = new ReportModel;
 

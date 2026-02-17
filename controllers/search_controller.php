@@ -1,6 +1,11 @@
 <?php
-    require'dto/search_dto.php';
-    require'models/search_model.php';
+    namespace App\Controllers;
+    
+    use App\Dto\SearchDto;
+    use App\Models\SearchModel;
+    
+    //require'dto/search_dto.php';
+    //require'models/search_model.php';
 
     /**
      * @author Marco Schmitt

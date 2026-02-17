@@ -66,7 +66,7 @@
                     <button class="border-0 bg-transparent text-end col-6 pe-3" data-bs-toggle="modal" data-bs-target="#reportModal-review-{$review->getId()}">
                         <i class="bi bi-flag fs-3 ms-auto"></i>
                     </button>
-                    <div class="modal fade" id="reportModal-review-{$review->getId()}" tabindex="-1">
+                    <div class="modal fade m-auto" id="reportModal-review-{$review->getId()}" tabindex="-1">
                         <div class="modal-dialog">
                             <form method="POST" class="modal-content">
                                 <input type="hidden" name="commentReportId" value="{$review->getId()} ">

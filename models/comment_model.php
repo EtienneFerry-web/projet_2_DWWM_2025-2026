@@ -1,6 +1,7 @@
 <?php
+    namespace App\Models;
 
-    require_once'models/mother_model.php';
+    //require_once'models/mother_model.php';
 
     class CommentModel extends Connect{
 
@@ -191,7 +192,13 @@
 
         public function deleteComment(object $objComment):bool{
 
-            $strRq = "DELETE FROM comments WHERE com_id = :comId AND com_user_id = :userId ";
+            $strRq = "  DELETE FROM comments 
+                        WHERE com_id = :comId 
+                        AND (com_user_id = :userId 
+                        OR :userId IN ( SELECT user_id
+                                        FROM users
+                                        WHERE user_id = :userId
+                                        AND (user_funct_id = 2 OR user_funct_id = 3)))";
 
             $rq = $this->_db->prepare($strRq);
 

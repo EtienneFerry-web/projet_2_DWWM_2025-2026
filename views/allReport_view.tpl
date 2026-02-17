@@ -20,8 +20,8 @@
                 <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
                 <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
                 <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2">Films</a>
-                <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2 active">Célébrités</a>
-                <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2">Signalement</a>
+                <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2">Célébrités</a>
+                <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2  active">Signalement</a>
             </div>
         </nav>
 
@@ -43,11 +43,12 @@
                         <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
-                        <div class="btn-group">
+                        <!--<div class="btn-group">
                             <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
                             <button type="button" class="btn btn-outline-warning btn-sm">30 J</button>
-                        </div>
-                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Bannir</button>
+                        </div>-->
+                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Spoiler</button>
+                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Supprimer</button>
                         <button type="submit" name="action" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
                     </div>
                 </form>

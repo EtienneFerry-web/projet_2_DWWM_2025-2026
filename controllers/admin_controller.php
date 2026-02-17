@@ -1,4 +1,6 @@
 <?php
+    namespace App\Controllers;
+    
     require'entities/admin_entity.php';
     require'models/admin_model.php';
     require'models/user_model.php';

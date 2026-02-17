@@ -1,5 +1,7 @@
 <?php
-    require'dto/mother_dto.php';
+    namespace App\Dto;
+
+    //require'dto/mother_dto.php';
 
     class SearchDto extends Dto{
 
