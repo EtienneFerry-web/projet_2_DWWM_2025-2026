@@ -219,7 +219,7 @@
 			$rqPrep	= $this->_db->prepare($strRq);
 			// Sending information
 			$rqPrep->bindValue(":title", $objNewMovie->getTitle(), PDO::PARAM_STR);
-			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginal_title(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginalTitle(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":length", $objNewMovie->getLength(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":description", $objNewMovie->getDescription(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":createDate", $objNewMovie->getRelease_date(), PDO::PARAM_STR);
@@ -233,12 +233,12 @@
             if ($result){    
 
                 $strRq2 = "UPDATE photos
-                            SET pho_url = :photo,                                 
+                            SET pho_photo = :photo,                                 
                                 pho_mov_id = :idMovie
                             WHERE pho_mov_id = :idMovie";
 
             $rqPrep2	= $this->_db->prepare($strRq2);
-            $rqPrep2->bindValue(":photo", $objNewMovie->getUrl(), PDO::PARAM_STR);         
+            $rqPrep2->bindValue(":photo", $objNewMovie->getPhoto(), PDO::PARAM_STR);         
             $rqPrep2->bindValue(":idMovie", $objNewMovie->getId(), PDO::PARAM_INT); 
             
              $resultPhoto = $rqPrep2->execute();
