@@ -72,7 +72,14 @@
                         WHERE rep_reported_com_id = comments.com_id
                         AND rep_reporter_user_id = $idConnectUser
                         AND rep_pseudo_user IS NULL
-                        ) AS 'com_reported'
+                        ) AS 'com_reported',
+
+                        EXISTS(
+                        SELECT 1 FROM liked
+                        WHERE lik_user_id = $idConnectUser
+                        AND lik_mov_id IS NULL
+                        AND lik_com_id = comments.com_id
+                        ) AS com_user_liked
 
                         FROM users
                         INNER JOIN ratings ON users.user_id = ratings.rat_user_id

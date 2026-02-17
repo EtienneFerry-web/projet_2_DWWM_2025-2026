@@ -364,7 +364,21 @@
                     }
             }
 
+        	if(isset($_POST['likeReviewBtn'])&&(isset($_SESSION['user']))){
 
+					$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeReviewBtn']);
+
+					if ($repResult === 1) {
+						$_SESSION['success'] = "Votre like a bien été pris en compte !";
+                        header("Location: index.php?ctrl=user&action=user&id=" . $intId);
+                        exit;
+					} else if($repResult === 2) {
+						$_SESSION['success'] = "Votre like a bien été était supprimer !";
+					}
+
+    			}elseif(isset($_POST['likeReviewBtn']) && !isset($_SESSION['user'])){
+    				$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
+    			}
 
 
 
