@@ -1,4 +1,3 @@
-
 <?php
     namespace App\Entities;
     //require_once("mother_entity.php");
@@ -88,7 +87,7 @@
 		public function setPhoto(?string $strPhoto){
 			$this->_photo = $strPhoto??"defaultImgUser.jpg" ;
 		}
-		
+
 		public function getPhoto():string{
 			return $this->_photo;
 		}

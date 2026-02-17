@@ -1,5 +1,6 @@
 <?php
     namespace App\Models;
+    use PDO;
     //require_once'models/mother_model.php';
 
     class MovieModel extends Connect{
@@ -153,10 +154,10 @@
                                 AND rep_reported_movie_id = movies.mov_id
 
                             ) AS mov_reported,
-                            
+
                             (
-                                SELECT rat_score FROM ratings 
-                                WHERE rat_user_id = :user_id 
+                                SELECT rat_score FROM ratings
+                                WHERE rat_user_id = :user_id
                                 AND rat_mov_id = movies.mov_id
                             ) AS mov_note_user
 
@@ -424,9 +425,9 @@
 
       		return $rqPrep->execute();
 		}
-		
+
 		public function insertUpdateNote(int $intIdUser, int $movId, string $intNote){
-		
+
             $strRq = "  INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score)
                         VALUES (:userId, :movieId, :rating)
                         ON DUPLICATE KEY UPDATE rat_score = :rating";
@@ -437,26 +438,26 @@
             $rqPrep->bindValue(":rating",  $intNote,  PDO::PARAM_STR);
 
             $bool = $rqPrep->execute();
-            
+
             if($bool){
                 $strRq = "  SELECT AVG(rat_score) AS 'average'
                             FROM ratings
                             WHERE rat_mov_id = :movieId
                             GROUP BY rat_mov_id";
-                
+
                 $rqPrep2 = $this->_db->prepare($strRq);
-  
+
                 $rqPrep2->bindValue(":movieId", $movId, PDO::PARAM_INT);
-    
+
                 $rqPrep2->execute();
-                
+
                 return $rqPrep2->fetch();
-                            
-                
+
+
             } else{
                 return false;
             }
-            
+
 		}
 
     }

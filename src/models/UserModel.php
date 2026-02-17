@@ -1,6 +1,6 @@
 <?php
     namespace App\Models;
-    
+    use PDO;
     //require_once'models/mother_model.php';
 
     class UserModel extends Connect{

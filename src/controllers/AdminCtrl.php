@@ -1,14 +1,17 @@
 <?php
     namespace App\Controllers;
-    
-    require'entities/admin_entity.php';
-    require'models/admin_model.php';
-    require'models/user_model.php';
-    require'models/movie_model.php';
-    require'models/person_model.php';
-    require'entities/user_entity.php';
-    require'entities/movie_entity.php';
-    require'entities/person_entity.php';
+
+    // Modèles
+    use App\Models\AdminModel;
+    use App\Models\UserModel;
+    use App\Models\MovieModel;
+    use App\Models\PersonModel;
+
+    // Entités
+    use App\Entities\AdminEntity;
+    use App\Entities\UserEntity;
+    use App\Entities\MovieEntity;
+    use App\Entities\PersonEntity;
 
 
     /**

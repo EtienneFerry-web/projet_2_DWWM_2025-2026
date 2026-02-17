@@ -76,7 +76,7 @@
             </form>
         </div>
     </div>
-    {/if}
+
 
     <div class="mt-4">
         <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal" title="Signaler">
@@ -87,7 +87,7 @@
             {/if}
         </button>
     </div>
-
+{/if}
     <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <form method="POST" class="modal-content">
@@ -144,6 +144,7 @@
 </section>
 {/if}
 {if $curDate->format('Y-m-d') >= $objMovie->getRelease_date()}
+{if isset($smarty.session.user)}
     <section id="addComment" class="container text-center py-5">
         <h2>Avis</h2>
         <div class="text-start py-2">
@@ -179,7 +180,9 @@
                 </div>
             </form>
         </div>
+
     </section>
+     {/if}
     <section id="userComment" class="container py-5">
         <h3 class="py-3">Avis utilisateur</h3>
         <div class="allComment">

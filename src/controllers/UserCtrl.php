@@ -1,16 +1,16 @@
 <?php
     namespace App\Controllers;
     //Entities
-    use Src\Entities\MovieEntity;
-    use Src\Entities\CommentEntity;
-    use Src\Entities\ReportEntity;
-    use Src\Entities\UserEntity;
+    use App\Entities\MovieEntity;
+    use App\Entities\CommentEntity;
+    use App\Entities\ReportEntity;
+    use App\Entities\UserEntity;
     //models
-    use Src\Models\MovieModel;
-    use Src\Models\CommentEntity;
-    use Src\Models\UserEntity;
-    
-    
+    use App\Models\MovieModel;
+    use App\Models\CommentModel;
+    use App\Models\UserModel;
+
+
     // require'entities/report_entity.php';
     // require'entities/user_entity.php';
     // require'models/user_model.php';
@@ -312,9 +312,9 @@
             if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
                 $objComment->setId((int)$_POST['deleteComment']);
                 $objComment->setUser_id($_SESSION['user']['user_id']);
-                
+
                 $result = $objCommentModel->deleteComment($objComment);
-                
+
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";

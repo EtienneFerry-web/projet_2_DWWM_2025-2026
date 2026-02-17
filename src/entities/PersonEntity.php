@@ -1,4 +1,3 @@
-
 <?php
     namespace App\Entities;
     //require_once("mother_entity.php");
@@ -43,7 +42,7 @@
 		}
 
 
-		
+
 
 		public function getDeathDateFormat(string $strFormat = "fr_FR"){
       		if (empty($this->_deathdate)) {

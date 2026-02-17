@@ -1,7 +1,8 @@
-
 <?php
     namespace App\Entities;
-	//require_once("mother_entity.php");
+
+    use DateTime;
+    use IntlDateFormatter;
 
 	/**
 	* Classe d'un objet Movie
@@ -32,7 +33,7 @@
 		/**
 		* Constructeur
 		*/
-		
+
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
 			$this->_prefixe = $prefixe;
@@ -54,7 +55,7 @@
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
 		}
-		
+
 		public function getNoteUser():float{
 			return $this->_note_user;
 		}

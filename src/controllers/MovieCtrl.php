@@ -1,14 +1,17 @@
 <?php
     namespace App\Controllers;
 
-    require'entities/movie_entity.php';
-    require'entities/report_entity.php';
-    require'entities/comment_entity.php';
-    require'entities/person_entity.php';
-    require'models/movie_model.php';
-    require'models/comment_model.php';
-    require'models/person_model.php';
-	require'models/user_model.php';
+    // Modèles
+    use App\Models\MovieModel;
+    use App\Models\CommentModel;
+    use App\Models\PersonModel;
+    use App\Models\UserModel;
+
+    // Entités
+    use App\Entities\MovieEntity;
+    use App\Entities\ReportEntity;
+    use App\Entities\CommentEntity;
+    use App\Entities\PersonEntity;
 
     /**
      * @author Marco Schmitt
@@ -159,13 +162,13 @@
      		        echo json_encode("ca marche pas");
                     exit;
 				}
-			}	
-			
+			}
+
 			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
 			    $objCommentDelete = new CommentEntity('com_');
                 $objCommentDelete->setId((int)$_POST['deleteComment']);
                 $objCommentDelete->setUser_id($_SESSION['user']['user_id']);
-                
+
                 $result = $objCommentModel->deleteComment($objCommentDelete);
 
                 if ($result) {

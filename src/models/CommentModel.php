@@ -1,6 +1,9 @@
 <?php
     namespace App\Models;
 
+    use PDO;
+	use PDOException;
+
     //require_once'models/mother_model.php';
 
     class CommentModel extends Connect{
@@ -192,9 +195,9 @@
 
         public function deleteComment(object $objComment):bool{
 
-            $strRq = "  DELETE FROM comments 
-                        WHERE com_id = :comId 
-                        AND (com_user_id = :userId 
+            $strRq = "  DELETE FROM comments
+                        WHERE com_id = :comId
+                        AND (com_user_id = :userId
                         OR :userId IN ( SELECT user_id
                                         FROM users
                                         WHERE user_id = :userId

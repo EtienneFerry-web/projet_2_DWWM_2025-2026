@@ -1,5 +1,6 @@
 <?php
     namespace App\Models;
+    use PDO;
     /**
     * @author All
     * 16/01/2026
