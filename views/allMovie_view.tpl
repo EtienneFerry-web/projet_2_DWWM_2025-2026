@@ -50,7 +50,7 @@
                         <a class="text-decoration-none" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><span class="spanMovie">{$objMovie->getTitle()}</span></a>
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
-                        <a href="" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
+                        <a href="index.php?ctrl=movie&action=addEditMovie&id={$objMovie->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
                         <a href="index.php?ctrl=movie&action=deleteMovie&id={$objMovie->getId()}"
                         class="btn btn-sm btn-outline-danger px-5"
                         onclick="return confirm('Vous allez supprimer le film {$objMovie->getTitle()|escape:'javascript'}')">

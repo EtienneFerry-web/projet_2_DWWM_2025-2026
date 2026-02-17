@@ -9,7 +9,7 @@
 	class MovieEntity extends Entity{
 		// Attributs
 		private string  $_title;
-		private string  $_original_title;
+		private string  $_original_title='';
 		private string  $_photo;
 		private string  $_description;
 		private string  $_release_date;
@@ -93,7 +93,7 @@
 		* Récupération de l'image
 		* @return string l'image de l'objet
 		*/
-		public function getphoto():string{
+		public function getPhoto():string{
 			return $this->_photo;
 		}
 		/**
