@@ -585,5 +585,21 @@
                 header("Location:index.php?ctrl=error&action=err403");
                 exit;
             }
+
+            $intIdUser      = $_GET['id']?? null;
+            $intNewGrade = $_POST['user_funct_id'] ?? null;
+
+            if($intIdUser && $intNewGrade) {
+                $objUserModel = new userModel();
+                $success = $objUserModel->updateGrade((int)$intIdUser, (int)$intNewGrade);
+
+                if($success){
+                    $_SESSION['success'] = "Le grade a bien été mis à jour.";
+                } else {
+                    $_SESSION['error'] = "Erreur lors de la mise à jour";
+                }
+            }
+
+            header("Location: index.php?ctrl=user&action=allUser");
         }
 }

@@ -5,17 +5,17 @@
     class UserEntity extends Entity{
 
         // Attributs
-        private string $_name = '';
-		private string $_firstname = '';
-		private string $_pseudo = '';
-        private string $_birthdate = '';
-		private string $_email = '';
+        private string 	$_name = '';
+		private string 	$_firstname = '';
+		private string 	$_pseudo = '';
+        private string 	$_birthdate = '';
+		private string 	$_email = '';
 		private ?string $_bio = '';
 		private ?string $_photo = '';
-		private string $_function;
-		private string $_pwd;
+		private string 	$_function;
+		private string 	$_pwd;
 		private int 	$_reported = 0;
-
+		private int 	$_funct_id = 1;
 
 
 		/**
@@ -111,6 +111,14 @@
 		}
 		public function setPwd(string $strPwd){
 			$this->_pwd = $strPwd;
+		}
+
+		public function getUser_funct_id(): int {
+			return $this->_funct_id;
+		}
+
+		public function setFunct_id(int $intId): void {
+			$this->_funct_id = $intId;
 		}
 
     }

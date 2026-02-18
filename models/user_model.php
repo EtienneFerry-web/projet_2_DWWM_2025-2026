@@ -15,7 +15,7 @@
         */
         public function findAllUsers():array{
 			// Writing request
-			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email
+			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
 						FROM users
 						WHERE user_delete_at IS NULL";
 
@@ -278,10 +278,10 @@
 							user_update_at	= NOW()
 						WHERE user_id 		= :id";
 
-			$rqPrp = $this->_db->prepare($strRq);
+			$rqPrep = $this->_db->prepare($strRq);
 
 			$rqPrep->bindValue(':functId', $intFunctId, PDO::PARAM_INT);
-			$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+			$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
 
 			return $rqPrep->execute();
 		}

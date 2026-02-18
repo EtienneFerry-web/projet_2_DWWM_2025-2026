@@ -50,11 +50,13 @@
                     <a class="text-decoration-none" href="index.php?ctrl=user&action=user&id={$objUser->getId()}"><span class="spanMovie">{$objUser->getPseudo()}</span></a>
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
-                        <select name="" id="">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </select>
+                        <form action="index.php?ctrl=user&action=updateGrade&id={$objUser->getId()}" method="post">
+                            <select name="user_funct_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                                <option value="1" {if $objUser->getUser_funct_id() ==1}selected{/if} >Utilisateur</option>
+                                <option value="2" {if $objUser->getUser_funct_id() ==2}selected{/if} >Modérateur</option>
+                                <option value="3" {if $objUser->getUser_funct_id() ==3}selected{/if} >Administrasteur</option>
+                            </select>
+                        </form>
                         <a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
                         <a href="index.php?ctrl=movie&action=deleteAccount&id={$objUser->getId()}"
                         class="btn btn-sm btn-outline-danger px-5"
