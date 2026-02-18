@@ -556,28 +556,19 @@
                         }
                     }
                 }
-
-                if(!empty($objUser->getPwd())){
-                    $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
-                    $strPwdConfirm = $_POST['pwdconfirm'];
-                    if(!preg_match($strRegex, $objUser->getPwd())){
-                        $arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
-                    }else if($objUser->getPwd() != $strPwdConfirm){
-                        $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
-                    }
-                }
                 
                 if(count($arrError) == 0){
-                    $boolUpdate = $objUserModel->settingsUser($objUser);
+                    $boolUpdate = $objUserModel->settingsAllUser($objUser);
 
                     if($boolUpdate){
-                        $_SESSION['user']['user_pseudo'] = $objUser->getPseudo();
+                        if($objUser->getPseudo() == $_SESSION['user']['user_pseudo']){
 
                         $_SESSION['success'] = "Le profil à bien été mis à jour";
                         header("Location:index.php?ctrl=user&action=settingsAllUser");
                         exit;
+                        }
                     }else{
-                        $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
+                        $arrError[] = "Erreur lors de la mise a jours, veuillez reessayer";
                     }
                 }
                 
