@@ -212,6 +212,37 @@
 			return $rqPrep->execute();
 		}
 
+		//MODIFIER UN AUTRE UTILISATEUR
+
+		public function settingsAllUser(object $objUser):bool{
+
+			$strRq = "UPDATE users
+						SET user_name 			= :name,
+							user_firstname		= :firstname,
+							user_pseudo 		= :pseudo,
+							user_birthdate		= :birthdate,
+							user_photo			= :photo,
+							user_email			= :email,
+							user_bio			= :bio,
+							user_update_at		= NOW()
+						WHERE user_id 			= :id";
+
+			$rqPrep	= $this->_db->prepare($strRq);
+				// Donne les informations
+				$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":photo", $objUser->getPhoto(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}
+
 		public function reportUser(object $objUser, object $objReport, int $intId){
 		    $strRq = "  INSERT INTO reports (rep_reported_user_id, rep_reporter_user_id, rep_reason, rep_pseudo_user, rep_bio_user ,rep_date)
 						VALUES (:userId, :reporter, :reason, :pseudo, :bio, NOW())";

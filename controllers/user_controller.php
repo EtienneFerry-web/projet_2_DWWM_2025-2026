@@ -510,4 +510,84 @@
 			$this->_display("allUser");
 		}
 
+        public function settingsAllUser() {
+
+            if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+            header("Location:index.php?ctrl=error&action=error_403");
+            exit;
+            }
+
+            $objUserModel	= new UserModel;
+            $arrUser		= $objUserModel->userPage($_GET['id']??$_SESSION['user']['user_id']);
+
+            $objUser	= new UserEntity;
+            $objUser->hydrate($arrUser);
+
+            $arrError = [];
+            var_dump($objUser);
+            var_dump($_FILES);
+
+            if (count($_POST) > 0) {
+                $objUser->hydrate($_POST);
+                $arrError	= $this->verifInfos($objUser);
+
+                if($_FILES['photo']['error'] != 4) {
+
+                    $arrTypeFile = array('image/jpeg', 'image/png');
+
+                    if(!in_array($_FILES['photo']['type'], $arrTypeFile)){
+                        $arrError['photo'] = "Le type de fichier n'est pas autorisé (veuillez utiliser un fichier JPEG ou PNG).";
+                    }
+
+                    if(!isset($arrError['photo'])){
+                        $strImageName = uniqid();
+
+                        switch($_FILES['photo']['type']){
+                            case 'image/jpeg' : $strImageName .= '.jpg'; break;
+                            case 'image/png' : $strImageName .= '.png'; break;
+                        }
+
+                        $strDest = 'assets/img/users/' . $strImageName;
+
+                        if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
+                            $objUser->setPhoto($strImageName);
+                        } else {
+                            $arrError['photo'] = "Erreur lors du téléchargement";
+                        }
+                    }
+                }
+
+                if(!empty($objUser->getPwd())){
+                    $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
+                    $strPwdConfirm = $_POST['pwdconfirm'];
+                    if(!preg_match($strRegex, $objUser->getPwd())){
+                        $arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
+                    }else if($objUser->getPwd() != $strPwdConfirm){
+                        $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
+                    }
+                }
+                
+                if(count($arrError) == 0){
+                    $boolUpdate = $objUserModel->settingsUser($objUser);
+
+                    if($boolUpdate){
+                        $_SESSION['user']['user_pseudo'] = $objUser->getPseudo();
+
+                        $_SESSION['success'] = "Le profil à bien été mis à jour";
+                        header("Location:index.php?ctrl=user&action=settingsAllUser");
+                        exit;
+                    }else{
+                        $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
+                    }
+                }
+                
+            }
+
+            $this->_arrData['arrError'] = $arrError;
+            $this->_arrData['objUser']  = $objUser;
+            $this->_display("settingsAllUser");
+
+        }
+
+
 }
