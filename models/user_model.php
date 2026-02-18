@@ -272,4 +272,18 @@
       		return $rqPrep->execute();
 		}
 
+		public function updateGrade(int $intId, int $intFunctId):bool {
+			$strRq = "UPDATE users 
+						SET user_funct_id 	= :functId,
+							user_update_at	= NOW()
+						WHERE user_id 		= :id";
+
+			$rqPrp = $this->_db->prepare($strRq);
+
+			$rqPrep->bindValue(':functId', $intFunctId, PDO::PARAM_INT);
+			$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			return $rqPrep->execute();
+		}
+
     }

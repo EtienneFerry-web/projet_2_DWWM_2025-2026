@@ -50,6 +50,11 @@
                     <a class="text-decoration-none" href="index.php?ctrl=user&action=user&id={$objUser->getId()}"><span class="spanMovie">{$objUser->getPseudo()}</span></a>
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
+                        <select name="" id="">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </select>
                         <a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
                         <a href="index.php?ctrl=movie&action=deleteAccount&id={$objUser->getId()}"
                         class="btn btn-sm btn-outline-danger px-5"
