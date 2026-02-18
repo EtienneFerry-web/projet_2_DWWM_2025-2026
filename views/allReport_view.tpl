@@ -36,7 +36,7 @@
                     <div class="col-md-1 fw-bold">#{$objReport->getId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <img src="assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
-                        <span class="fw-bold">{$objReport->getPseudo()}</span>
+                        <a class="text-decoration-none" href="index.php?ctrl=user&action=user&id={$objReport->getReportedUserId()}"><span class="fw-bold">{$objReport->getPseudo()}</span></a>
                     </div>
                     <div class="col-md-4">
                         <p class="m-0 fw-bold">Raison: {$objReport->getReason()}</p>
@@ -47,9 +47,9 @@
                             <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
                             <button type="button" class="btn btn-outline-warning btn-sm">30 J</button>
                         </div>-->
-                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Spoiler</button>
-                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Supprimer</button>
-                        <button type="submit" name="action" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
+                        <button type="submit" name="spoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-danger btn-sm">Spoiler</button>
+                        <button type="submit" name="delete" value="ban" class="btn btn-outline-danger btn-sm">Supprimer</button>
+                        <button type="submit" name="ignore" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
                     </div>
                 </form>
             {foreachelse}

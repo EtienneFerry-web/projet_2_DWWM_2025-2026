@@ -8,14 +8,7 @@
     //Models
     use App\Models\MovieModel;
     use App\Models\CommentModel;
-    use App\Models\PersonEntity;
-
-    // require'entities/movie_entity.php';
-    // require'entities/comment_entity.php';
-    // require'entities/person_entity.php';
-    // require'models/movie_model.php';
-    // require'models/comment_model.php';
-    // require'models/person_model.php';
+    use App\Models\PersonModel;
 
     /**
      * @author Marco Schmitt

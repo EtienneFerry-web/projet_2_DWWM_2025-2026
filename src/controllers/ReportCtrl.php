@@ -3,26 +3,36 @@
 
     //Entities
     use App\Entities\ReportEntity;
+    use App\Entities\CommentEntity;
     //models
     use App\Models\ReportModel;
     use App\Models\CommentModel;
 
-
-    // require'models/report_model.php';
-    // require'models/comment_model.php';
-    // require'entities/report_entity.php';
-
+    /**
+    * Reports
+    * @author Marco
+    *
+    */
 
     class ReportCtrl extends MotherCtrl{
 
         public function allReport(){
+            
+            $objCommentModel = new CommentModel;
 
             if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] == 1){
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
+			
+			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
 
-			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
+			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
+					$_SESSION['success'] = "Spoiler Update !";
+				}
+			}
+
+			/*if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
                 $objComment->setId((int)$_POST['deleteComment']);
                 $objComment->setUser_id($_SESSION['user']['user_id']);
 
@@ -33,7 +43,7 @@
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
-            }
+                }*/
 
             $objReportModel = new ReportModel;
 
@@ -67,6 +77,7 @@
 
 				$arrRepMovieToDisplay[]	= $objContent;
        	    }
+            var_dump($_POST);
 
             $this->_arrData['arrRepMovieToDisplay'] = $arrRepMovieToDisplay;
             $this->_arrData['arrRepComToDisplay'] = $arrRepComToDisplay;

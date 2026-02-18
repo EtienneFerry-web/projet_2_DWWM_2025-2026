@@ -24,7 +24,7 @@
         }
 
         public function allCommentReport(){
-            $strRq = "  SELECT rep_id ,rep_com_content, rep_reason, rep_reported_user_id,user_pseudo AS 'rep_pseudo', user_photo AS 'rep_photo'
+            $strRq = "  SELECT rep_id, rep_reported_com_id, rep_com_content, rep_reason, rep_reported_user_id,user_pseudo AS 'rep_pseudo', user_photo AS 'rep_photo'
                         FROM reports
                         INNER JOIN users ON reports.rep_reported_user_id = users.user_id
                         WHERE rep_reported_movie_id IS NULL AND rep_com_content IS NOT NULL";
