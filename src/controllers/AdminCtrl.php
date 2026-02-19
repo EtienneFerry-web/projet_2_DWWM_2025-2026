@@ -32,13 +32,22 @@
 				exit;
 			}
 
-            $objMovieModel = new MovieModel;
-            $objCommentModel = new CommentModel;
+            $objMovieModel      = new MovieModel;
+            $objCommentModel    = new CommentModel;
 
-            $this->_arrData['total_movies'] =   $objMovieModel->countAllMovies();
-            $this->_arrData['total_likes'] =    $objMovieModel->countAllLikes();
-            $this->_arrData['total_comments'] = $objCommentModel->countAllComments();
-            
+            $arrLastMovies      = $objMovieModel->findLastMovies();
+            $arrLastMovies = [];
+
+            foreach($arrLastMovies as $data){
+                $objMovie = new MovieEntity("mov_");
+                $objMovie->hydrate($data);
+                $arrLastMoviesObjects[] = $objMovies;
+            }
+
+            $this->_arrData['total_movies']     = $objMovieModel->countAllMovies();
+            $this->_arrData['total_likes']      = $objMovieModel->countAllLikes();
+            $this->_arrData['total_comments']   = $objCommentModel->countAllComments();
+            $this->_arrData['arrLastMovies']    = $arrLastMoviesObjects;
 
 			$this->_display("dashboard");
 		}

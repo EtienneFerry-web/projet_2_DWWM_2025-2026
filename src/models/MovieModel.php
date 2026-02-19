@@ -474,5 +474,17 @@
 			return $this->_db->query($strRq)->fetchColumn();
 		}
 
+        public function findLastMovies() {
+            $strRq = "SELECT movies.mov_id, movies.mov_title, movies.mov_release_date,
+                            COUNT (DISTINCT liked.lik_user_id)  AS 'mov_like',
+                            COUNT (DISTINCT comments.com_id)    AS 'movie_nb_comments'
+                        FROM movies
+                        LEFT JOIN liked ON movies.mov_id    = liked.lik_mov_id AND liked.lik_com_id IS NULL
+                        LEFT JOIN comments ON movies.mov_id = comments.com_mov_id
+                        GROUP BY movies.mov_id
+                        ORDER BY movies.mov_id DESC
+                        LIMIT 10";
+            return $this->_db->query($strRq)->fetchAll();
+        }
     }
 ?>

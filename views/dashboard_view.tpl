@@ -40,21 +40,13 @@
         <div class="mt-4">
             <h5 class="fw-bold text-uppercase mb-3">Top Performance</h5>
             <ul class="list-group list-group-flush border-top border-dark">
+                {foreach from=$arrDataLastMovies item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">Inception (2026)</span>
-                    <span class="col-4 text-center">1,250 likes</span>
-                    <span class="col-4 text-end">890 commentaires</span>
+                    <span class="col-4">{$objMovie->getTitle()}</span>
+                    <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
+                    <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">Inception (2026)</span>
-                    <span class="col-4 text-center">1,250 likes</span>
-                    <span class="col-4 text-end">890 commentaires</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">Inception (2026)</span>
-                    <span class="col-4 text-center">1,250 likes</span>
-                    <span class="col-4 text-end">890 commentaires</span>
-                </li>
+                
             </ul>
         </div>
     </div>
