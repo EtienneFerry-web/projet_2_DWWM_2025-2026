@@ -63,7 +63,7 @@
             //User ban
             if (isset($_POST['userBan'])){
             
-                $boolResult = $objUserModel->banUser($_POST['userBan']));
+                $boolResult = $objUserModel->banUser($_POST['userBan']);
                 
                 if($boolResult){
                     $_SESSION['success'] = "L'utilisateur a était banni !";
