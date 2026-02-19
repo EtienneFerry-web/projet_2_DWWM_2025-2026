@@ -72,4 +72,18 @@
             imagedestroy($image_p);
 
         }
+        //Function pour les access
+        protected function _checkAccess(int $grade){
+
+            if(!isset($_SESSION['user']['user_funct_id'])){
+                header("Location:index.php?ctrl=error&action=err403");
+                exit;
+            }
+
+            if($grade > $_SESSION['user']['user_funct_id']){
+                header("Location:index.php?ctrl=error&action=err403");
+                exit;
+            }
+
+        }
     }

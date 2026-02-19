@@ -8,11 +8,12 @@
 
 
     class PageCtrl extends MotherCtrl{
-
+        
+        //Page Mention
         public function mention(){
             $this->_display("mention");
         }
-
+        //Page Policy
         public function policy(){
             $this->_display("policy");
         }

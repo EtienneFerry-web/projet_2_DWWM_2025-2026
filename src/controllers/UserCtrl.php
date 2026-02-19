@@ -10,15 +10,6 @@
     use App\Models\CommentModel;
     use App\Models\UserModel;
 
-
-    // require'entities/report_entity.php';
-    // require'entities/user_entity.php';
-    // require'models/user_model.php';
-    // require'entities/movie_entity.php';
-    // require'models/movie_model.php';
-    // require'entities/comment_entity.php';
-    // require'models/comment_model.php';
-
     /**
     * Log in
     * @author Etienne

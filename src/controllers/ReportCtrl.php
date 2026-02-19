@@ -11,20 +11,22 @@
     /**
     * Reports
     * @author Marco
-    *
+    * @todo Suppresion du report et le ban et aprés le merge faire les lien avec editMovie et EditUser
     */
 
     class ReportCtrl extends MotherCtrl{
 
         public function allReport(){
-            
+            $this->_checkAccess(2);
+
             $objCommentModel = new CommentModel;
+            $objComment = new CommentEntity;
 
             if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] == 1){
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
-			
+
 			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
 
 			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
@@ -32,7 +34,7 @@
 				}
 			}
 
-			/*if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
+			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
                 $objComment->setId((int)$_POST['deleteComment']);
                 $objComment->setUser_id($_SESSION['user']['user_id']);
 
@@ -43,7 +45,11 @@
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
-                }*/
+            }
+            
+            // if (isset($_POST['deleteComment']))
+
+
 
             $objReportModel = new ReportModel;
 

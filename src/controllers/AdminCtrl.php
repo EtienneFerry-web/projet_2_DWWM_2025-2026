@@ -34,26 +34,4 @@
 
 			$this->_display("dashboard");
 		}
-
-		public function allReport(){
-
-			// $objUserModel 	= new UserModel;
-			// $arrRepUser 		= $objUserModel->findAllUserReport();
-
-			// // Initialisation d'un tableau => objets
-			// $arrUserRepToDisplay	= array();
-
-			// // Boucle de transformation du tableau de tableau en tableau d'objets
-			// foreach($arrRepUser as $arrDetUser){
-			// 	$objUser = new UserEntity;
-			// 	$objUser->hydrate($arrDetUser);
-
-			// 	$arrUserRepToDisplay[]	= $objUser;
-			// }
-
-			// $this->_arrData['arrUserRepToDisplay'] = $arrUserRepToDisplay;
-
-			$this->_display("allReport");
-		}
-
-    }
+}

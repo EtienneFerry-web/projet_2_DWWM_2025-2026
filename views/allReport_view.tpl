@@ -35,21 +35,19 @@
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
-                        <img src="assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
-                        <a class="text-decoration-none" href="index.php?ctrl=user&action=user&id={$objReport->getReportedUserId()}"><span class="fw-bold">{$objReport->getPseudo()}</span></a>
+                        <a class="text-decoration-none text-dark d-flex align-items-center" href="index.php?ctrl=user&action=user&id={$objReport->getReportedUserId()}">
+                            <img src="assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                            <span class="fw-bold">{$objReport->getPseudo()}</span>
+                        </a>
                     </div>
                     <div class="col-md-4">
                         <p class="m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                         <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
-                        <!--<div class="btn-group">
-                            <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
-                            <button type="button" class="btn btn-outline-warning btn-sm">30 J</button>
-                        </div>-->
-                        <button type="submit" name="spoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-danger btn-sm">Spoiler</button>
-                        <button type="submit" name="delete" value="ban" class="btn btn-outline-danger btn-sm">Supprimer</button>
-                        <button type="submit" name="ignore" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
+                        <button type="submit" name="spoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-warning btn-sm">Spoiler</button>
+                        <button type="submit" name="deleteComment" value="{$objReport->getReportedComId()}" class="btn btn-outline-danger btn-sm">Supprimer</button>
+                        <button type="submit" name="ignore" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm">Ignorer</button>
                     </div>
                 </form>
             {foreachelse}
@@ -65,10 +63,12 @@
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedUserId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
-                        <img src="assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
-                             class="rounded-circle border me-3"
-                             style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
-                        <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
+                        <a class="text-decoration-none text-dark d-flex align-items-center" href="index.php?ctrl=user&action=user&id={$objReport->getReportedUserId()}">
+                            <img src="assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
+                                class="rounded-circle border me-2"
+                                style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                            <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
+                        </a>
                     </div>
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">

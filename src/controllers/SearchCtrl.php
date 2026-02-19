@@ -4,9 +4,6 @@
     use App\Dto\SearchDto;
     use App\Models\SearchModel;
     
-    //require'dto/search_dto.php';
-    //require'models/search_model.php';
-
     /**
      * @author Marco Schmitt
      * 16/01/2026

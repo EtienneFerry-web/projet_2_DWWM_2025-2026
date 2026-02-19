@@ -6,7 +6,6 @@
     use App\Models\CommentModel;
     use App\Models\PersonModel;
     use App\Models\UserModel;
-
     // Entités
     use App\Entities\MovieEntity;
     use App\Entities\ReportEntity;
@@ -22,6 +21,7 @@
     class MovieCtrl extends MotherCtrl{
 
         public function home(){
+            var_dump($_SERVER['REMOTE_ADDR']);
 
             $objContentModel 	= new MovieModel;
 			$arrMovie		    = $objContentModel->newMovie();
@@ -416,7 +416,6 @@
 
 			$objMovie  = new MovieEntity('mov_');
 			$objMovie->hydrate($arrMovie);
-			var_dump($objMovie);
 
 			$objPersonModel = new PersonModel;
 			$arrPerson      = $objPersonModel->findAllPerson($_GET['id']);

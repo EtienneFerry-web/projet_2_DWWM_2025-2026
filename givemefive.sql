@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 15 fév. 2026 à 21:11
+-- Généré le : mer. 18 fév. 2026 à 21:01
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -47,8 +47,7 @@ INSERT INTO `belongs` (`belong_cat_id`, `belong_mov_id`) VALUES
 (5, 17),
 (8, 18),
 (9, 19),
-(10, 20),
-(10, 27);
+(10, 20);
 
 -- --------------------------------------------------------
 
@@ -99,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
@@ -114,21 +113,17 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (14, 'Je n\'ai pas tout compris, c\'est bizarre.', '2024-09-01 10:30:00', 5, 15, 3, 0),
 (15, 'Le dernier film de Kubrick est son plus mystérieux.', '2024-08-05 18:45:00', 1, 15, NULL, 0),
 (16, 'Le puzzle cinématographique ultime. Lynch est un génie.', '2024-10-12 21:00:00', 1, 16, NULL, 0),
-(17, 'Je suis complètement perdu. Qui est qui ?', '2024-11-05 14:20:00', 6, 16, NULL, 0),
 (18, 'Naomi Watts est incroyable dans ce film.', '2024-07-30 21:15:00', 9, 16, NULL, 0),
 (19, 'Dennis Hopper est absolument effrayant.', '2024-02-28 20:10:00', 2, 17, NULL, 0),
 (21, 'Une vision cauchemardesque de l\'Amérique.', '2024-06-12 11:20:00', 5, 17, NULL, 0),
 (22, 'L\'expérience la plus sonore et visuelle de ma vie.', '2024-04-01 02:00:00', 3, 18, NULL, 0),
 (23, 'Trop bizarre pour moi, j\'ai arrêté.', '2024-04-10 16:40:00', 9, 18, NULL, 0),
-(24, 'Ce bébé mutant va me donner des cauchemars.', '2024-05-01 03:00:00', 8, 18, NULL, 0),
 (25, 'Le film le plus humain et touchant de Lynch.', '2024-12-20 20:30:00', 7, 19, NULL, 0),
 (26, 'Photographie en noir et blanc sublime.', '2024-01-05 17:15:00', 4, 19, NULL, 0),
 (27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL, 1),
 (28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0),
 (29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0),
-(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0),
-(31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', '2024-12-20 20:30:00', 8, 19, NULL, 0),
-(82, 'test', '2026-02-15 21:57:43', 17, 25, NULL, 0);
+(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -352,8 +347,7 @@ INSERT INTO `movies` (`mov_id`, `mov_title`, `mov_original_title`, `mov_length`,
 (21, 'Avatar: Fire and Ash', 'Avatar: Fire and Ash', '03:10:00', 'Jake Sully et Neytiri affrontent un nouveau clan de Na\'vi lié au feu dans une région volcanique de Pandora.', '2026-01-07', NULL, 2, 'https://www.youtube.com/watch?v=nb_fFj_0rq8'),
 (22, 'M3GAN 2.0', 'M3GAN 2.0', '01:42:00', 'L\'intelligence artificielle meurtrière est de retour dans une version plus évoluée et plus dangereuse.', '2026-01-14', NULL, 2, 'https://www.youtube.com/watch?v=I0VWWnMUjFU'),
 (24, 'Paddington au Pérou', 'Paddington in Peru', '01:43:00', 'Paddington retourne au Pérou pour rendre visite à sa tante Lucy, entraînant les Brown dans une aventure épique.', '2026-01-07', NULL, 3, 'https://www.youtube.com/watch?v=Fp-1L1KOIk8'),
-(25, 'The Drama', 'The Drama', '02:05:00', 'Une crise inattendue survient dans la vie d\'un couple à la veille de leur mariage.', '2026-01-05', NULL, 2, 'https://www.google.com/search?q=trailer+the+drama&rlz=1C1VDKB_frFR1102FR1102&sca_esv=f9558c3169decf9e&sxsrf=ANbL-n40rc4yxeDI2p-TpaTEP3S6ZfVrTA%3A1768731399284&ei=B7Nsaf6EEeDCnsEP7fu26QI&ved=0ahUKEwi-pIf27ZSSAxVgoScCHe29LS0Q4dUDCBE&uact=5&oq=trailer+the+dr'),
-(27, 'dqdqzdz', 'zdqdzqdzqdqz', '22:22:00', 'ddzqdzqdzqdzqdzq', '1111-11-11', NULL, 10, 'httpsjesaispacs');
+(25, 'The Drama', 'The Drama', '02:05:00', 'Une crise inattendue survient dans la vie d\'un couple à la veille de leur mariage.', '2026-01-30', NULL, 2, 'https://www.google.com/search?q=trailer+the+drama&rlz=1C1VDKB_frFR1102FR1102&sca_esv=f9558c3169decf9e&sxsrf=ANbL-n40rc4yxeDI2p-TpaTEP3S6ZfVrTA%3A1768731399284&ei=B7Nsaf6EEeDCnsEP7fu26QI&ved=0ahUKEwi-pIf27ZSSAxVgoScCHe29LS0Q4dUDCBE&uact=5&oq=trailer+the+dr');
 
 -- --------------------------------------------------------
 
@@ -502,7 +496,6 @@ INSERT INTO `photos` (`pho_id`, `pho_photo`, `pho_type`, `pho_mov_id`, `pho_user
 (12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22, NULL),
 (14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24, NULL),
 (15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25, NULL),
-(16, '698b5638c6bda.png', 'Affiche', 27, NULL),
 (17, '698dda1f43162.png', 'Content', 22, 24);
 
 -- --------------------------------------------------------
@@ -591,9 +584,11 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (16, 24, 0.5),
 (17, 15, 4.0),
 (17, 22, 1.0),
-(17, 25, 3.0),
-(17, 17, 0.5),
-(17, 23, 3.0);
+(17, 25, 0.5),
+(17, 17, 4.5),
+(17, 23, 3.0),
+(17, 21, 3.0),
+(17, 16, 3.0);
 
 -- --------------------------------------------------------
 
@@ -613,8 +608,11 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `rep_date` datetime DEFAULT NULL,
   `rep_reporter_user_id` int UNSIGNED DEFAULT NULL,
   `rep_reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`rep_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`rep_id`),
+  KEY `fk_rep_reported_user` (`rep_reported_user_id`),
+  KEY `fk_rep_reported_mov` (`rep_reported_movie_id`),
+  KEY `fk_rep_reported_com` (`rep_reported_com_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reports`
@@ -626,10 +624,7 @@ INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`
 (38, 4, NULL, NULL, NULL, 'sophie_b', '', '2026-02-14 18:10:46', 25, 'dzqdzq'),
 (39, 7, NULL, NULL, NULL, 'tony_ric', '', '2026-02-14 18:13:57', 25, 'test'),
 (63, NULL, 18, NULL, NULL, NULL, NULL, '2026-02-14 22:24:53', 25, 'Cnul'),
-(62, 8, NULL, 31, 'Le film le plus humain et touchant de Lynch incroyable wowww.', NULL, NULL, '2026-02-14 22:20:54', 25, 'Avis de merde\r\n'),
-(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger'),
-(68, 8, NULL, 24, 'Ce bébé mutant va me donner des cauchemars.', NULL, NULL, '2026-02-14 22:32:43', 25, '2'),
-(71, NULL, 21, NULL, NULL, NULL, NULL, '2026-02-15 21:19:29', 17, 'c de la merde ');
+(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger');
 
 -- --------------------------------------------------------
 
@@ -680,7 +675,7 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL),
 (17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, 'dzqdzqdqzdzqdqzdzqdzqdqzdqzddzqdzqdz', '6991c05b884fb.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-15 13:47:38', NULL),
 (23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL),
-(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 3, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL),
+(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 1, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL),
 (25, 'dqzzdq', 'dzqdzq', 'user', 'user@gmail.com', '2222-02-22', '2026-02-13 11:12:08', NULL, NULL, 1, NULL, NULL, '$2y$12$VMEuNAGgcYnmr13mM7Sy3.naxE/pgFRbal1ujYj6hsHKF.nEUAz8G', NULL, NULL, NULL);
 
 --
@@ -741,6 +736,18 @@ ALTER TABLE `persons`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `fk_pho_mov_id` FOREIGN KEY (`pho_mov_id`) REFERENCES `movies` (`mov_id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `reports`
+--
+ALTER TABLE `reports`
+  ADD CONSTRAINT `fk_rep_mov` FOREIGN KEY (`rep_reported_movie_id`) REFERENCES `movies` (`mov_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_rep_reported_com` FOREIGN KEY (`rep_reported_com_id`) REFERENCES `comments` (`com_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_rep_reported_mov` FOREIGN KEY (`rep_reported_movie_id`) REFERENCES `movies` (`mov_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_rep_reported_user` FOREIGN KEY (`rep_reported_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_rep_user` FOREIGN KEY (`rep_reported_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_reported_mov` FOREIGN KEY (`rep_reported_movie_id`) REFERENCES `movies` (`mov_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_reported_user` FOREIGN KEY (`rep_reported_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `users`
