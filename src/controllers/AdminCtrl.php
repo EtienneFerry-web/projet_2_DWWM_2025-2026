@@ -6,6 +6,7 @@
     use App\Models\UserModel;
     use App\Models\MovieModel;
     use App\Models\PersonModel;
+    use App\Models\CommentModel;
 
     // Entités
     use App\Entities\AdminEntity;
@@ -31,7 +32,16 @@
 				exit;
 			}
 
+            $objMovieModel = new MovieModel;
+            $objCommentModel = new CommentModel;
+
+            $this->_arrData['total_movies'] =   $objMovieModel->countAllMovies();
+            $this->_arrData['total_likes'] =    $objMovieModel->countAllLikes();
+            $this->_arrData['total_comments'] = $objCommentModel->countAllComments();
+            
 
 			$this->_display("dashboard");
 		}
+
+        
 }

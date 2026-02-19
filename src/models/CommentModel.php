@@ -308,4 +308,10 @@
 
             }
 		}
+
+        public function countAllComments() {
+            $strRq = "SELECT COUNT(*)
+                        FROM comments";
+            return $this->_db->query($strRq)->fetchColumn();
+        }
     }

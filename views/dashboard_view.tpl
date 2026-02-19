@@ -24,16 +24,16 @@
     <div class="mx-auto py-5">
         <div class="row g-4 mb-5">
             <div class="col-md-4 text-center">
-                <h3 class=" display-5 fw-bold">12</h3>
-                <h4 class=" mb-2">NOUVEAUX FILMS</h4>
+                <h3 class=" display-5 fw-bold">{$total_likes}</h3>
+                <h4 class=" mb-2">Like sur le site</h4>
             </div>
             <div class="col-md-4 text-center">
-                <h3 class=" display-5 fw-bold">12</h3>
-                <h4 class=" mb-2">NOUVEAUX FILMS</h4>
+                <h3 class=" display-5 fw-bold">{$total_movies}</h3>
+                <h4 class=" mb-2">Film sur le site</h4>
             </div>
             <div class="col-md-4 text-center">
-                <h3 class=" display-5 fw-bold">12</h3>
-                <h4 class=" mb-2">NOUVEAUX FILMS</h4>
+                <h3 class=" display-5 fw-bold">{$total_comments}</h3>
+                <h4 class=" mb-2">Commentaires sur le site</h4>
             </div>
         </div>
 

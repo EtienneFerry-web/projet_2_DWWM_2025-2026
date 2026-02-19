@@ -460,5 +460,19 @@
 
 		}
 
+        public function countAllLikes() {
+			$strRq = "SELECT COUNT(*)
+						FROM liked";
+
+			return $this->_db->query($strRq)->fetchColumn();
+		}
+
+        public function countAllMovies() {
+			$strRq = "SELECT COUNT(*)
+						FROM movies";
+
+			return $this->_db->query($strRq)->fetchColumn();
+		}
+
     }
 ?>
