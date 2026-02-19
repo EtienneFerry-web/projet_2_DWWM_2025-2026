@@ -61,7 +61,7 @@
          </div>
          <div class="form-group py-2">
              <label for="" class="form-label">Confirmation du Mots de Passe</label>
-             <input type="text" name="pwdconfirm" value="" class="form-control">
+             <input type="text" name="pwd_confirm" value="" class="form-control">
          </div>
          <button type="submit" class="btnCustom py-3">Enregistrer</button>
      </form>

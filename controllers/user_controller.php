@@ -285,12 +285,32 @@
                     }
                 }
 
-                if(!empty($objUser->getPwd())){
-                    $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
-                    $strPwdConfirm = $_POST['pwdconfirm'];
-                    if(!preg_match($strRegex, $objUser->getPwd())){
-                        $arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
-                    }else if($objUser->getPwd() != $strPwdConfirm){
+                $password = $objUser->getPwd();
+
+                if ($password == "") {
+                    $arrError['pwd'] = "Le mot de passe est obligatoire";
+                } else {
+                    if(strlen($password) < 16) {
+                        $arrError['pwd'] = "Le mot de passe doit au moins avoir 16 caractères";
+                    } 
+                    
+                    if (!preg_match('/[A-Z]/', $password)) {
+                        $arrError['pwd'] = "Il manque une majuscule";
+                    } 
+                    
+                    if (!preg_match('/[a-z]/', $password)) {
+                        $arrError['pwd'] = "Il manque une minuscule";
+                    } 
+                    
+                    if (!preg_match('/[0-9]/', $password)) {
+                        $arrError['pwd'] = "Il manque au moins un chiffre";
+                    } 
+                    
+                    if (!preg_match('/[#?!@$%^&*-]/', $password)) {
+                        $arrError['pwd'] = "Il manque un caractère spécial (#?!@$%^&*-)";
+                    } 
+                    
+                    if ($password != $strPwdConfirm){
                         $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
                     }
                 }
