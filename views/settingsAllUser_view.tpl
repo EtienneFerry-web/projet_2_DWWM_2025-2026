@@ -4,7 +4,7 @@
 {block name="content"}
 <section id="settingsUser" class="container py-5">
 <h1>Gestion de compte</h1>
-<div class="py-3"><a href="index.php?ctrl=user&action=user&id={$smarty.session.user.user_id}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>
+<div class="py-3"><a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
@@ -26,20 +26,20 @@
                     placeholder="Nom">
         </div>
           <div class="form-group py-2">
-             <label for="" class="form-label">Changez de pseudo</label>
+             <label for="" class="form-label">Changez le pseudo</label>
              <input type="text" 
                     name="pseudo"  
                     value="{$objUser->getPseudo()}" 
                     class="form-control {if (isset($arrError['pseudo']))} is-invalid {/if}">
          </div>
           <div class="form-group py-2">
-             <label for="" class="form-label">Changez de Bio</label>
+             <label for="" class="form-label">Changer la Bio</label>
              <textarea  name="bio" 
                         placeholder="Bio Utilisateur"
                         class="form-control {if (isset($arrError['bio']))} is-invalid {/if}">{$objUser->getBio()}</textarea>
          </div>
          <div class="col-12 p-2">
-            <label class="form-label">Photo de profil</label>
+            <label class="form-label">Modifier la photo de profil</label>
             <div class="mb-2">
                 <img src="assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
             </div>
@@ -48,38 +48,9 @@
                         class="form-control {if (isset($arrError['photo'])) } is-invalid {/if}" 
                         >
          </div>
-
-
-     <h2 class="py-2">Sécurité</h2>
-        <div class="form-group py-2">
-             <label for="" class="form-label">Adresse Email</label>
-             <input name="email" id="" placeholder="Email" value="{$objUser->getEmail()}"class="form-control"> 
-         </div>
-         <div class="form-group py-2">
-             <label for="" class="form-label">Mots de Passe</label>
-             <input type="text" name="pwd" value="" class="form-control">
-         </div>
-         <div class="form-group py-2">
-             <label for="" class="form-label">Confirmation du Mots de Passe</label>
-             <input type="text" name="pwd_confirm" value="" class="form-control">
-         </div>
-         <button type="submit" class="btnCustom py-3">Enregistrer</button>
-     </form>
-     <div class="row justify-content-center mt-3">
-         <div class="col-auto">
-             <a href="index.php?ctrl=user&action=logout" class="nav-link">
-                 Se déconnecter
-             </a>
-         </div>
-
-         <div class="col-auto">
-             <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
-      onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
-        <button type="submit" class="border-0 bg-transparent">
-            Supprimer mon compte
-        </button>
-</form>
-         </div>
+            <button type="submit" class="btnCustom py-3">Enregistrer</button>
+    </form>
+        
      </div>
 </div>
 

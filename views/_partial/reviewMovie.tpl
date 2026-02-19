@@ -27,10 +27,23 @@
                 </span>
 
                 <form method="post" class="mt-2">
-                    <input type="radio" class="btn-check" name="searchBy" value="{$review->getId()}" id="filter-like-{$review->getId()}" onchange="this.form.submit()">
-                    <label class="form-label" for="filter-like-{$review->getId()}">
-                        <i class="bi bi-heart-fill"></i><span> {$review->getLike()} </span>
-                    </label>
+                    <input type="hidden"  name="likeReviewBtn" value="{$review->getId()}">
+
+                    <button type="submit" class="border-0 bg-transparent p-0 text-decoration-none" name="">
+                        <label class="form-label" style="cursor:pointer;">
+                        {if $review->getUser_liked()}
+                            <i class="bi bi-heart-fill"></i>
+                        {else}
+                            <i class="bi bi-heart"></i>
+                        {/if}
+                            <span class="like-count"> {$review->getLike()}</span>
+                        </label>
+                     </button>
+                    
+
+                    <!--<label class="form-label" for="filter-like-{$review->getId()}">
+                        <i class="bi bi-heart-fill"></i><span>  </span>
+                    </label>-->
                 </form>
             </div>
 

@@ -323,15 +323,15 @@
 			return $rqPrep->execute();
         }
 
-            public function LikeMovie($intUserId, $intItemId){
+            public function LikeMovie($intUserId, $intMovId){
 
-            $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
-                VALUES (:user_id, :item_id, 'movies', NOW())";
+            $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_mov_id)
+                VALUES (:user_id, :mov_id)";
 
 			$rqPrep	= $this->_db->prepare($strRq);
 
 				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
-				$rqPrep->bindValue(":item_id", $intItemId, PDO::PARAM_INT);
+				$rqPrep->bindValue(":mov_id", $intMovId, PDO::PARAM_INT);
 
 			$rqPrep->execute();
 
@@ -342,11 +342,11 @@
             } else {
 
                 $deleteRq = "   DELETE FROM liked
-                                WHERE lik_item_id   = :item_id
+                                WHERE lik_mov_id  = :mov_id
                                 AND lik_user_id     = :user_id";
 
                 $prepDelete = $this->_db->prepare($deleteRq);
-                $prepDelete->bindValue(':item_id', $intItemId, PDO::PARAM_INT);
+                $prepDelete->bindValue(':mov_id', $intMovId, PDO::PARAM_INT);
                 $prepDelete->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
 
                 $prepDelete->execute();

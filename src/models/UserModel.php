@@ -15,7 +15,7 @@
         */
         public function findAllUsers():array{
 			// Writing request
-			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email
+			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
 						FROM users
 						WHERE user_delete_at IS NULL";
 
@@ -168,8 +168,13 @@
 							user_photo			= :photo,
 							user_email			= :email,
 							user_bio			= :bio,
-							user_update_at		= NOW()
-						WHERE user_id			= :id";
+							user_update_at		= NOW()";
+
+					if(!empty($objUser->getPwd())){
+
+			$strRq .=",		user_pwd			=:pwd";
+						}
+			$strRq .="		WHERE user_id			= :id";
 
 			$rqPrep	= $this->_db->prepare($strRq);
 				// Donne les informations
@@ -181,6 +186,42 @@
 				$rqPrep->bindValue(":photo", $objUser->getPhoto(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			if(!empty($objUser->getPwd())){
+					$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
+			}
+				
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}
+
+		//MODIFIER UN AUTRE UTILISATEUR
+
+		public function settingsAllUser(object $objUser):bool{
+
+			$strRq = "UPDATE users
+						SET user_name 			= :name,
+							user_firstname		= :firstname,
+							user_pseudo 		= :pseudo,
+							user_birthdate		= :birthdate,
+							user_photo			= :photo,
+							user_email			= :email,
+							user_bio			= :bio,
+							user_update_at		= NOW()
+						WHERE user_id 			= :id";
+
+			$rqPrep	= $this->_db->prepare($strRq);
+				// Donne les informations
+				$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":email", $objUser->getEmail(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":birthdate", $objUser->getBirthdate(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":photo", $objUser->getPhoto(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":bio", $objUser->getBio(), PDO::PARAM_STR);
+				$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
 
 			// Executer la requête
 			return $rqPrep->execute();
@@ -213,6 +254,20 @@
       		$rqPrep->bindValue(':reporter', $intId, PDO::PARAM_INT);
 
       		return $rqPrep->execute();
+		}
+
+		public function updateGrade(int $intId, int $intFunctId):bool {
+			$strRq = "UPDATE users 
+						SET user_funct_id 	= :functId,
+							user_update_at	= NOW()
+						WHERE user_id 		= :id";
+
+			$rqPrep = $this->_db->prepare($strRq);
+
+			$rqPrep->bindValue(':functId', $intFunctId, PDO::PARAM_INT);
+			$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
+
+			return $rqPrep->execute();
 		}
 
     }
