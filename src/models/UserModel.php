@@ -26,10 +26,10 @@
         /**
 		 * User login request
 		 *
-                 * @param string $stEmail
-                 * @param string $strPwd
-                 * @return array|bool
-                 */
+        * @param string $stEmail
+        * @param string $strPwd
+        * @return array|bool
+        */
 		public function verifUser(string $strEmail, string $strPwd):array|bool{
 			// verify user request
 			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd, user_funct_id
@@ -138,41 +138,25 @@
 
 			return $rqPrep->execute();
         }
+        
+        public function banUser(int $intId, int $intDay, bool $blType){
+			$strRq = "UPDATE users SET user_ban_at = CURDATE + INTERVAL :value";
+			
+			if($blType == 3){
+			    $strRq .="YEAR";
+			} else{
+			    $strRq .="DAY";
+			}
+			
+			$strRq .="	  WHERE user_id = :id";
 
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+			$rqPrep->bindValue(':value', $intId, PDO::PARAM_INT);
+			
 
-		// public function reportUser(object $objUser, int $reporter):int{
-
-		// 	$strRq = "  INSERT IGNORE INTO reports (rep_bio_user, rep_pseudo_user, rep_reported_user_id, rep_reporter_user_id ,rep_date)
-		// 				VALUES (:bio, :pseudo, :reported, :reporter,NOW())";
-
-		// 	$rqPrep = $this->_db->prepare($strRq);
-
-		// 	$rqPrep->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
-		// 	$rqPrep->bindValue(':bio', $objUser->getBio(), PDO::PARAM_STR);
-		// 	$rqPrep->bindValue(':pseudo', $objUser->getPseudo(), PDO::PARAM_STR);
-		// 	//$rqPrep->bindValue(':img', $objUser->getPhoto(), PDO::PARAM_STR);
-		// 	$rqPrep->bindValue(':reporter', $reporter, PDO::PARAM_INT);
-
-
-
-		// 	$rqPrep->execute();
-
-		// 	if ($rqPrep->rowCount() > 0) {
-  //               return 1;
-  //           } else {
-
-  //               $deleteRq = "   DELETE FROM reports
-  //                               WHERE rep_reported_user_id = :reported
-  //                               AND rep_reporter_user_id = :reporter";
-
-  //               $prepDelete = $this->_db->prepare($deleteRq);
-  //               $prepDelete->bindValue(':reported', $objUser->getId(), PDO::PARAM_INT);
-  //               $prepDelete->bindValue(':reporter', $reporter, PDO::PARAM_INT);
-  //               $prepDelete->execute();
-
-  //               return 2;
-  //           }
-  //       }
+			return $rqPrep->execute();
+        }
 
 		public function settingsUser(object $objUser):bool{
 

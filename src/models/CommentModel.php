@@ -24,7 +24,7 @@
                             EXISTS(
                             SELECT 1 FROM reports
                             WHERE rep_reported_com_id = comments.com_id
-                            AND rep_reporter_user_id = $idConnectUser
+                            AND rep_reporter_user_id = :user_id
                             ) AS 'com_reported',
 
                             EXISTS(

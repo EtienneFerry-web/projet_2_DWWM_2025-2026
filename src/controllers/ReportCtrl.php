@@ -7,11 +7,12 @@
     //models
     use App\Models\ReportModel;
     use App\Models\CommentModel;
+    use App\Models\UserModel;
 
     /**
     * Reports
     * @author Marco
-    * @todo Suppresion du report et le ban et aprés le merge faire les lien avec editMovie et EditUser
+    * @todo Faire la rq du ban(Faire Procedure avec historique des ban + trigger) et merge les edit movie et user
     */
 
     class ReportCtrl extends MotherCtrl{
@@ -20,21 +21,21 @@
             $this->_checkAccess(2);
 
             $objCommentModel = new CommentModel;
+            $objReportModel = new ReportModel;
+            $objUserModel = new UserModel;
             $objComment = new CommentEntity;
+            
+			//Add spoiler on comment
+			if(isset($_POST['addRemoveSpoiler'])){
 
-            if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] == 1){
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
-
-			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
-
-			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
+			    if($objCommentModel->addSpoiler($_POST['addRemoveSpoiler'])){
 					$_SESSION['success'] = "Spoiler Update !";
 				}
 			}
-
-			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
+			
+			//Delete Comment
+			if (isset($_POST['deleteComment'])) {
+			
                 $objComment->setId((int)$_POST['deleteComment']);
                 $objComment->setUser_id($_SESSION['user']['user_id']);
 
@@ -47,7 +48,29 @@
                 }
             }
             
-            // if (isset($_POST['deleteComment']))
+            //Delete Reports
+            if (isset($_POST['deleteRep'])){
+                
+                $boolResult = $objReportModel->deleteReport($_POST['deleteRep']);
+                
+                if($boolResult){
+                    $_SESSION['success'] = "Le reports à bien était supprimer !";
+                } else{
+                    $arrError[] = "erreur lors de la tentative de suppression !";
+                }
+            }
+            
+            //User ban
+            if (isset($_POST['userBan'])){
+            
+                $boolResult = $objUserModel->banUser($_POST['userBan']));
+                
+                if($boolResult){
+                    $_SESSION['success'] = "L'utilisateur a était banni !";
+                } else{
+                    $arrError[] = "erreur lors de la tentative de suppression !";
+                }
+            }
 
 
 
@@ -83,7 +106,6 @@
 
 				$arrRepMovieToDisplay[]	= $objContent;
        	    }
-            var_dump($_POST);
 
             $this->_arrData['arrRepMovieToDisplay'] = $arrRepMovieToDisplay;
             $this->_arrData['arrRepComToDisplay'] = $arrRepComToDisplay;

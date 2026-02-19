@@ -122,7 +122,7 @@ function saveSearch(keyword) {
 
 
 function searchData(){
-  fetch(`index.php?ctrl=search&action=autoComplete&keywords=${encodeURIComponent(searchBar.value)}`) //encodeURIComponent Permet d'encode les espace ou caractére spécial & = %26 et php pourra le décoder et remettre &
+  fetch(`index.php?ctrl=search&action=autoComplete&keywords=${encodeURIComponent(searchBar.value)}`)
     .then(res => res.json())
     .then(data => {
       affichSuggestion(data);

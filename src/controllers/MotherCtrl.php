@@ -75,7 +75,7 @@
         //Function pour les access
         protected function _checkAccess(int $grade){
 
-            if(!isset($_SESSION['user']['user_funct_id'])){
+            if(!isset($_SESSION['user'])){
                 header("Location:index.php?ctrl=error&action=err403");
                 exit;
             }

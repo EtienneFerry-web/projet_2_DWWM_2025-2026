@@ -45,9 +45,9 @@
                         <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
-                        <button type="submit" name="spoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-warning btn-sm">Spoiler</button>
+                        <button type="submit" name="addRemoveSpoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-warning btn-sm">{if $objReport->getSpoiler() == 0} Add Spoiler {else} Remove Spoiler {/if}</button>
                         <button type="submit" name="deleteComment" value="{$objReport->getReportedComId()}" class="btn btn-outline-danger btn-sm">Supprimer</button>
-                        <button type="submit" name="ignore" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm">Ignorer</button>
+                        <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
                     </div>
                 </form>
             {foreachelse}
@@ -73,11 +73,11 @@
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-outline-warning btn-sm">15 J</button>
-                            <button type="button" class="btn btn-outline-warning btn-sm">30 J</button>
+                            <button type="banUser" value="1" class="btn btn-outline-warning btn-sm">15 J</button>
+                            <button type="banUser" value="2" class="btn btn-outline-warning btn-sm">30 J</button>
                         </div>
-                        <button type="submit" name="action" value="ban" class="btn btn-outline-danger btn-sm">Bannir</button>
-                        <button type="submit" name="action" value="ignore" class="btn btn-outline-success btn-sm">Ignorer</button>
+                        <button type="submit" name="banUser" value="3" class="btn btn-outline-danger btn-sm">Bannir</button>
+                        <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
                     </div>
                 </form>
             {foreachelse}
@@ -99,8 +99,7 @@
                     <div class="col-md-4 d-flex justify-content-end gap-2">
                          <a href="index.php?ctrl=movie&action=deleteMovie&id={$objReport->getReportedMovieId()}" class="btn btn-outline-danger btn-sm px-3" onclick="return confirm('Vous allez supprimer le film {$objReport->getTitle()|escape:'javascript'}')">Supprimer</a>
                          <a href="" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
-                         <button type="submit" class="btn btn-outline-success btn-sm px-3">Valider</button>
-
+                         <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
                     </div>
                 </form>
             {foreachelse}
