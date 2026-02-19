@@ -14,6 +14,7 @@
 		private ?string $_photo = '';
 		private string 	$_function;
 		private string 	$_pwd;
+		private string 	$_pwdConfirm;
 		private int 	$_reported = 0;
 		private int 	$_funct_id = 1;
 
@@ -41,7 +42,12 @@
 		*/
 
 
-
+		public function getPwdConfirm():string{
+			return $this->_pwdConfirm;
+		}
+		public function setPwdConfirm(string $strPwdConfirm){
+			$this->_pwdConfirm = $strPwdConfirm;
+		}
 		public function getName():string{
 			return $this->_name;
 		}

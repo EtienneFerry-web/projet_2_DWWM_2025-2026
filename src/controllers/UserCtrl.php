@@ -146,7 +146,8 @@
                 }
                 */
 
-                $password = $objUser->getPwd();
+                // $password = $objUser->getPwd();
+                
 
                 if ($password == "") {
                     $arrError['pwd'] = "Le mot de passe est obligatoire";
@@ -289,10 +290,10 @@
                 }
 
                 $password = $objUser->getPwd();
+                $strPwdConfirm = $objUser->getPwdConfirm();
 
-                if ($password == "") {
-                    $arrError['pwd'] = "Le mot de passe est obligatoire";
-                } else {
+                if ($password != "") {  
+                    
                     if(strlen($password) < 16) {
                         $arrError['pwd'] = "Le mot de passe doit au moins avoir 16 caractères";
                     } 
