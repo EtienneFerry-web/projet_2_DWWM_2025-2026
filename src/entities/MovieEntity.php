@@ -28,6 +28,7 @@
 		private int	    $_user_liked;
 		private ?float	$_note_user;
 		private int     $_reported;
+		private int 	$_nb_comments = 0;
 
 
 		/**
@@ -263,5 +264,13 @@
 
 		public function getUser_liked(){
 			return $this->_user_liked;
+		}
+
+		public function getNbComments(): int {
+			return $this->_nb_comments;
+		}
+
+		public function setNb_comments(int $IntNb) {
+			$this->_nb_comments = $IntNb;
 		}
 	}

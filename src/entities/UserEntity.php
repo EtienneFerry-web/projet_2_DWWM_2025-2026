@@ -1,10 +1,18 @@
 <?php
     namespace App\Entities;
-    //require_once("mother_entity.php");
+
+    /**
+	 * UserEntity Class.
+	 * Represents an application user.
+	 * Maps the columns of the 'users' table.
+	 */
 
     class UserEntity extends Entity{
 
-        // Attributs
+        /**
+		 * User Attributes
+		 */
+
         private string 	$_name = '';
 		private string 	$_firstname = '';
 		private string 	$_pseudo = '';
@@ -12,6 +20,11 @@
 		private string 	$_email = '';
 		private ?string $_bio = '';
 		private ?string $_photo = '';
+
+		/**
+		 * Security and role-related attributes
+		 */
+
 		private string 	$_function;
 		private string 	$_pwd;
 		private string 	$_pwdConfirm;
@@ -20,40 +33,35 @@
 
 
 		/**
-		* Constructor
-		*/
+		 * Constructor.
+		 * Sets the prefix used by the hydrator (e.g., user_name, user_email, etc.).
+		 */
 		public function __construct(){
 			// Table prefix for hydratation
 			$this->_prefixe = 'user_';
 		}
 
 		/**
-		 * Method - getters et setters
-		 * Format value to prepare Hydrate
-		 *
-		 * @param clean 		trim undesirable space before and after the value
-		 * @param strtolower 	sanitize from unwanted CAP
-		 * @param password_hash
+		 * Getters & Setters
 		 */
 
+
 		/**
-		* Name recover
-		* @return string Object name
-		*/
+		 * @return string The user's last name.
+		 */
 
-
-		public function getPwdConfirm():string{
-			return $this->_pwdConfirm;
-		}
-		public function setPwdConfirm(string $strPwdConfirm){
-			$this->_pwdConfirm = $strPwdConfirm;
-		}
 		public function getName():string{
 			return $this->_name;
 		}
+
+		/**
+		 * @param string $strNewName The raw last name.
+		 */
+
 		public function setName(string $strNewName){
 			$this->_name = $this->clean($strNewName);
 		}
+
 		public function getFirstname():string{
 			return $this->_firstname;
 		}
@@ -79,9 +87,6 @@
 		public function setEmail(string $strEmail){
 			$this->_email = strtolower($this->clean($strEmail));
 		}
-		public function getPwd():string{
-			return $this->_pwd;
-		}
 
 		public function setBio(?string $strBio){
 			$this->_bio = $strBio??"" ;
@@ -97,6 +102,21 @@
 		public function getPhoto():string{
 			return $this->_photo;
 		}
+
+		public function getPwd():string{
+			return $this->_pwd;
+		}
+
+		public function getPwdConfirm():string{
+			return $this->_pwdConfirm;
+		}
+		public function setPwdConfirm(string $strPwdConfirm){
+			$this->_pwdConfirm = $strPwdConfirm;
+		}
+
+
+
+
 
 		public function setFunction(string $strFunction){
 			$this->_function = $strFunction;

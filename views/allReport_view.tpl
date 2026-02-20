@@ -45,6 +45,7 @@
                         <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+                        {if !$objReport->getUserBan()}
                         <button type="button"
                                 class="btn btn-outline-danger btn-sm px-3"
                                 data-bs-toggle="modal"
@@ -53,6 +54,8 @@
                                 data-pseudo="{$objReport->getPseudo()}">
                             Bannir
                         </button>
+                        {/if}
+                        {if $objReport->getUserBan()} <button type="submit" name="unBanUser" value="{$objReport->getReportedUserId()}" class="btn btn-outline-success btn-sm px-3">Débannir</button>{/if}
                         <button type="submit" name="addRemoveSpoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-warning btn-sm">{if $objReport->getSpoiler() == 0} Add Spoiler {else} Remove Spoiler {/if}</button>
                         <button type="submit" name="deleteComment" value="{$objReport->getReportedComId()}" class="btn btn-outline-danger btn-sm">Supprimer</button>
                         <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>

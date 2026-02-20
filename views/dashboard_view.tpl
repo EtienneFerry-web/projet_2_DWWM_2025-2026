@@ -24,37 +24,67 @@
     <div class="mx-auto py-5">
         <div class="row g-4 mb-5">
             <div class="col-md-4 text-center">
-                <h3 class=" display-5 fw-bold">12</h3>
-                <h4 class=" mb-2">NOUVEAUX FILMS</h4>
+                <h3 class=" display-5 fw-bold">{$total_likes}</h3>
+                <h4 class=" mb-2">Like sur le site</h4>
             </div>
             <div class="col-md-4 text-center">
-                <h3 class=" display-5 fw-bold">12</h3>
-                <h4 class=" mb-2">NOUVEAUX FILMS</h4>
+                <h3 class=" display-5 fw-bold">{$total_movies}</h3>
+                <h4 class=" mb-2">Film sur le site</h4>
             </div>
             <div class="col-md-4 text-center">
-                <h3 class=" display-5 fw-bold">12</h3>
-                <h4 class=" mb-2">NOUVEAUX FILMS</h4>
+                <h3 class=" display-5 fw-bold">{$total_comments}</h3>
+                <h4 class=" mb-2">Commentaires sur le site</h4>
             </div>
         </div>
 
         <div class="mt-4">
-            <h5 class="fw-bold text-uppercase mb-3">Top Performance</h5>
+            <h5 class="fw-bold text-uppercase mb-3">Les plus liké</h5>
             <ul class="list-group list-group-flush border-top border-dark">
+                {foreach from=$arrTopLikes item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">Inception (2026)</span>
-                    <span class="col-4 text-center">1,250 likes</span>
-                    <span class="col-4 text-end">890 commentaires</span>
+                    <a class="text-decoration-none col-4 text-dark" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}">
+                        <span>{$objMovie->getTitle()}</span>
+                    </a>
+                    <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
+                    <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
                 </li>
+                {foreachelse}
+                    <li class="list-group-item text-center">Aucun film trouvé.</li>
+                {/foreach}
+            </ul>
+        </div>
+
+        <div class="mt-4">
+            <h5 class="fw-bold text-uppercase mb-3">Les plus commenté</h5>
+            <ul class="list-group list-group-flush border-top border-dark">
+                {foreach from=$arrTopComments item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">Inception (2026)</span>
-                    <span class="col-4 text-center">1,250 likes</span>
-                    <span class="col-4 text-end">890 commentaires</span>
+                    <a class="text-decoration-none col-4 text-dark" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}">
+                        <span>{$objMovie->getTitle()}</span>
+                    </a>
+                    <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
+                    <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
                 </li>
+                {foreachelse}
+                    <li class="list-group-item text-center">Aucun film trouvé.</li>
+                {/foreach}
+            </ul>
+        </div>
+
+        <div class="mt-4">
+            <h5 class="fw-bold text-uppercase mb-3">Dernier ajouts</h5>
+            <ul class="list-group list-group-flush border-top border-dark">
+                {foreach from=$arrLastMovies item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">Inception (2026)</span>
-                    <span class="col-4 text-center">1,250 likes</span>
-                    <span class="col-4 text-end">890 commentaires</span>
+                    <a class="text-decoration-none col-4 text-dark" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}">
+                        <span>{$objMovie->getTitle()}</span>
+                    </a>
+                    <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
+                    <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
                 </li>
+                {foreachelse}
+                    <li class="list-group-item text-center">Aucun film trouvé.</li>
+                {/foreach}
             </ul>
         </div>
     </div>

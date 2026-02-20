@@ -1,10 +1,9 @@
 {extends file="views/layout_view.tpl"}
-{block name="title" prepend}Ajouter un film{/block}
+{block name="title" prepend}Modifier un utilisateur{/block}
 {block name="description"}Ici vous pouvez ajouter un film !{/block}
 {block name="content"}
 <section id="settingsUser" class="container py-5">
-<h1>Gestion de compte</h1>
-<div class="py-3"><a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>
+<h1>Gestion de l'utilisateur</h1>
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
