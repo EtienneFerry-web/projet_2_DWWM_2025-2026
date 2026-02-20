@@ -50,19 +50,37 @@
                     <a class="text-decoration-none" href="index.php?ctrl=user&action=user&id={$objUser->getId()}"><span class="spanMovie">{$objUser->getPseudo()}</span></a>
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
+
+                        {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id()}
                         <form action="index.php?ctrl=user&action=updateGrade&id={$objUser->getId()}" method="post">
                             <select name="user_funct_id" class="form-select form-select-sm" onchange="this.form.submit()">
                                 <option value="1" {if $objUser->getUser_funct_id() ==1}selected{/if} >Utilisateur</option>
                                 <option value="2" {if $objUser->getUser_funct_id() ==2}selected{/if} >Modérateur</option>
+                                {if $smarty.session.user.user_funct_id == 3}
                                 <option value="3" {if $objUser->getUser_funct_id() ==3}selected{/if} >Administrasteur</option>
+                                {/if}
                             </select>
                         </form>
-                        <a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
-                        <a href="index.php?ctrl=movie&action=deleteAccount&id={$objUser->getId()}"
-                        class="btn btn-sm btn-outline-danger px-5"
-                        onclick="return confirm('Vous allez supprimer le film {$objUser->getPseudo()|escape:'javascript'}')">
-                            Supprimer
-                        </a>
+                        {else}
+                            <span >
+                                {if     $objUser->getUser_funct_id() == 1}Utilisateur
+                                {elseif $objUser->getUser_funct_id() == 2}Modérateur
+                                {elseif $objUser->getUser_funct_id() == 3}Administrateur
+                                {/if}
+                            </span>
+                        {/if}
+
+                        {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id() || $smarty.session.user.user_id == $objUser->getId()}
+                            <a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
+                        {/if}
+
+                        {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id() || $smarty.session.user.user_id == $objUser->getId()}
+                            <a href="index.php?ctrl=movie&action=deleteAccount&id={$objUser->getId()}"
+                            class="btn btn-sm btn-outline-danger px-5"
+                            onclick="return confirm('Vous allez supprimer le film {$objUser->getPseudo()|escape:'javascript'}')">
+                                Supprimer
+                            </a>
+                        {/if}
                     </div>
                 </div>
             {/foreach}
