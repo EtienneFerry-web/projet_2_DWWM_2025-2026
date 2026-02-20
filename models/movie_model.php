@@ -336,6 +336,7 @@
 
         }
 
+
         public function addMovie(object $objNewMovie):bool{
 
 		// Request construction
@@ -534,6 +535,49 @@
             }
             
 		}
+        /**
+     * 
+     * @author Audrey
+     * @param object $
+     * return Array
+     */
+    public function findMovieWithFilters(?string $strSearch, string $strFilter,string $strSort): array {
+
+			$strRq = "SELECT mov_id, mov_title, cat_name AS mov_category
+						FROM movies
+                        INNER JOIN belongs ON belongs.belong_mov_id = movies.mov_id
+                        INNER JOIN categories ON categories.cat_id = belongs.belong_cat_id
+                        WHERE 1 = 1";
+                        
+
+			$params = [];
+
+			if (!empty($strSearch)) {
+
+				$strRq .= " AND mov_title LIKE :search";
+
+				$params[':search'] = "%" . $strSearch . "%";
+			}			
+
+			if (!empty($strFilter) && $strFilter !== '0'){
+                
+                 $strRq .= " AND belongs.belong_cat_id = :idCat";
+                 $params[':idCat'] = $strFilter;
+            }
+            
+            if ($strSort === 'desc') {
+                    $strRq .= " ORDER BY mov_title DESC";
+                } else {
+                    $strRq .= " ORDER BY mov_title ASC";
+            }     
+
+			$prep = $this->_db->prepare($strRq);
+
+			$prep->execute($params);
+
+			return $prep->fetchAll();
+		}
+
 
     }
-?>
+

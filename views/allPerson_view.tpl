@@ -25,17 +25,27 @@
         <h2>Tous les Célébrités</h2>
 
         <form class="row g-1 align-items-center py-3">
-            <div class="col-12 col-md-5 p-0">
-                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="">
+            <input type="hidden" name="ctrl" value="person">
+            <input type="hidden" name="action" value="allPerson">
+            <div class="col-12 col-md-3 p-0">
+                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="{$search|default:''}">
             </div>
-            <div class="col-12 col-md-5 p-0">
-                <select class="form-select">
-                    <option value="">Tous Les Grades</option>
-                    <option value="usa">Croissant</option>
-                    <option value="france">Decroissant</option>
+            <div class="col-12 col-md-3 p-0">
+                <select class="form-select" name="filter" onchange="this.form.submit()">
+                    <option value="all"  {if $filter == 'all'}selected{/if}>Tous les métiers</option>
+                    <option value="actor"  {if $filter == 'actor'}selected{/if}>Acteur</option>
+                    <option value="producer"  {if $filter == 'producer'}selected{/if}>Producteur</option>
+                    <option value="realisator"  {if $filter == 'realisator'}selected{/if}>Réalisateur</option>
+                    
                 </select>
             </div>
-            <div class="col-12 col-md-2 p-0">
+            <div class="col-6 col-md-3 p-0">
+                <select class="form-select" name="sort" onchange="this.form.submit()">
+                    <option value="asc" {if $sort == 'asc'}selected{/if}>Nom (A-Z)</option>
+                    <option value="desc" {if $sort == 'desc'}selected{/if}>Nom (Z-A)</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-3 p-0">
                 <button type="submit" class="w-100 p-1 btnCustom" id="sendMovie">Recherche</button>
             </div>
         </form>

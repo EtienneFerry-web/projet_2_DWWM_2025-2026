@@ -3,6 +3,10 @@
 
     class PersonModel extends Connect{
 
+    public ?string $strSearch = null;
+    public int $intJob = 0;
+
+
     public function findAllPerson(int $idMovie=0){
 
         $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
@@ -170,5 +174,61 @@
         return $rqPrep->execute();
     }
 
+    /**
+     * 
+     * @author Audrey
+     * @param object $
+     * return Array
+     */
+    public function findPersonWithFilters(?string $strSearch, string $strFilter, string $strSort): array {
+
+			$strRq = "SELECT pers_id, pers_firstname, pers_name, job_name AS pers_job
+						FROM persons 
+                        INNER JOIN participates ON participates.part_pers_id = persons.pers_id
+                        INNER JOIN jobs ON participates.part_job_id = jobs.job_id
+                        WHERE 1 = 1";
+                        
+
+			$params = [];
+
+			if (!empty($strSearch)) {
+
+				$strRq .= " AND CONCAT(pers_firstname, ' ', pers_name) LIKE :search";
+
+				$params[':search'] = "%" . $strSearch . "%";
+			}			
+
+			switch($strFilter) {
+				case 'actor':
+					$strRq .= " AND jobs.job_id = 3";
+					break;
+				case 'producer':
+					$strRq .= " AND jobs.job_id = 2";
+					break;
+				case 'realisator':
+					$strRq .= " AND jobs.job_id = 1";
+					break;				
+				default:
+					break;
+			}
+            $strRq .= " GROUP BY pers_id ";
+
+            if ($strSort === 'desc') {
+                    $strRq .= " ORDER BY CONCAT(pers_firstname,' ' ,pers_name) DESC";
+                } else {
+                    $strRq .= " ORDER BY CONCAT(pers_firstname,' ' ,pers_name) ASC";
+            }
+       
+
+			$prep = $this->_db->prepare($strRq);
+
+			foreach($params as $key => $val) {
+				$prep->bindValue($key, $val, PDO::PARAM_STR);
+			}
+
+			$prep->execute();
+
+			return $prep->fetchAll();
+		}
 
 }

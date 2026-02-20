@@ -183,24 +183,33 @@
         }
         
         public function allPerson(){
+
+            $search = $_GET['search'] ?? NULL;
+            $filter = $_GET['filter'] ?? 'all';
+            $sort   = $_GET['sort'] ?? 'ASC';
       
-			$objPersonModel 	= new PersonModel;
-			$arrPerson   	= $objPersonModel->listPerson();
+			$objPersonModel 	= new PersonModel;                            
+			$arrPerson   	= $objPersonModel->findPersonWithFilters($search, $filter, $sort);
+
       
 			// Initialisation d'un tableau => objets
 			$arrPersonToDisplay	= array();
       
 			// Boucle de transformation du tableau de tableau en tableau d'objets
 			foreach($arrPerson as $arrDetPerson){
+
 				$objPerson = new PersonEntity();
 				$objPerson->hydrate($arrDetPerson);
-      
+                            
 				$arrPersonToDisplay[]	= $objPerson;
-			}
+			} 
       
-			// Donner arrUsersToDisplay à maman pour l'affichage
+			// Donner les infos pour l'affichage
       
 			$this->_arrData['arrPersonToDisplay']	= $arrPersonToDisplay;
+            $this->_arrData['search']               = $search;
+            $this->_arrData['filter']               = $filter;
+            $this->_arrData['sort']                 = $sort;
       
 			$this->_display("allPerson");
 		}

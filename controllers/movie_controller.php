@@ -431,11 +431,7 @@
 
         /**
 		* @author Audrey
-<<<<<<< HEAD
 		* Page d'ajout / édition d'un Film
-=======
-		* Page d'ajout / edition d'un Film
->>>>>>> 3d6d42c7cdbf360512b701e936e1d119657b805e
 		*/
         public function addEditMovie(){
 			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
@@ -631,13 +627,17 @@
 		}
 
 		public function allMovie(){
+			$search = $_GET['search'] ?? NULL;
+            $filter = $_GET['filter'] ?? '0';
+			$sort   = $_GET['sort'] ?? 'ASC';
+
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
 
 			$objMovieModel 	= new MovieModel;
-			$arrMovie   	= $objMovieModel->findAllMovies();
+			$arrMovie   	= $objMovieModel->findMovieWithFilters($search, $filter,$sort);
 
 			// Initialisation d'un tableau => objets
 			$arrMovieToDisplay	= array();
@@ -647,12 +647,28 @@
 				$objMovie = new MovieEntity("mov_");
 				$objMovie->hydrate($arrDetMovie);
 
-				$arrMovieToDisplay[]	= $objMovie;
+				$arrMovieToDisplay[]= $objMovie;
 			}
 
-			$this->_arrData['arrMovieToDisplay']	    = $arrMovieToDisplay;
+			// Récupération des catégories pour le menu déroulant
+			$arrCategory 		= $objMovieModel->allCategories();
+			$arrCatToDisplay	= array();
+
+			foreach($arrCategory as $arrDetCat){
+				$objContent = new MovieEntity('mov_');
+				$objContent->hydrate($arrDetCat);
+
+				$arrCatToDisplay[]	= $objContent;
+			}
+				
+			$this->_arrData['arrMovieToDisplay']	= $arrMovieToDisplay;
+			$this->_arrData['arrCatToDisplay']	    = $arrCatToDisplay;
+            $this->_arrData['search']               = $search;
+            $this->_arrData['filter']               = $filter;
+			$this->_arrData['sort']                 = $sort;
 
 			$this->_display("allMovie");
 		}
-
+		
+		
     }
