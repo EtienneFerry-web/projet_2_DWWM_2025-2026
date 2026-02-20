@@ -10,58 +10,74 @@
 
 
 {block name="content"}
-<section id="dashboard" class="container py-5">
-    <h1>DashBoard</h1>
+    <section id="dashboard" class="container py-5">
+        <h1>DashBoard</h1>
 
-    <div class="py-2 row g-2">
-        <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
-        <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
-        <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2 active">Films</a>
-        <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2">Célébrités</a>
-        <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2">Signalement</a>
-    </div>
-
-    <div id="ficheMovie" class="d-flex flex-column">
-        <h2>Tous les films</h2>
-
-        <form class="row g-1 align-items-center py-3">
-            <div class="col-12 col-md-5 p-0">
-                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="">
-            </div>
-            <div class="col-12 col-md-5 p-0">
-                <select class="form-select">
-                    <option value="">Tous Les Grades</option>
-                    <option value="usa">Croissant</option>
-                    <option value="france">Decroissant</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-2 p-0">
-                <button type="submit" class="w-100 p-1 btnCustom" id="sendMovie">Recherche</button>
-            </div>
-        </form>
-
-        <div class="allMovie">
-            {foreach from=$arrMovieToDisplay item=objMovie}
-                <div class="row g-2 align-items-center py-2 border-bottom">
-                    <div class="col-2 col-md-1">
-                        <span class="spanMovie fw-bold">#{$objMovie->getId()}</span>
-                    </div>
-                    <div class="col-10 col-md-5">
-                        <a class="text-decoration-none" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><span class="spanMovie">{$objMovie->getTitle()}</span></a>
-                    </div>
-                    <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
-                        <a href="" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
-                        <a href="index.php?ctrl=movie&action=deleteMovie&id={$objMovie->getId()}"
-                        class="btn btn-sm btn-outline-danger px-5"
-                        onclick="return confirm('Vous allez supprimer le film {$objMovie->getTitle()|escape:'javascript'}')">
-                            Supprimer
-                        </a>
-                    </div>
-                </div>
-            {/foreach}
+        <div class="py-2 row g-2">
+            <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
+            <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
+            <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2 active">Films</a>
+            <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2">Célébrités</a>
+            <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2">Signalement</a>
         </div>
-    </div>
-</section>
+
+        <div id="ficheMovie" class="d-flex flex-column">
+            <h2>Tous les films</h2>
+
+            <form class="row g-1 align-items-center py-3">
+                <input type="hidden" name="ctrl" value="movie">
+                <input type="hidden" name="action" value="allMovie">
+                <div class="col-12 col-md-3 p-0">
+                    <input class="form-control" type="search" placeholder="Rechercher..." name="search"
+                        value="{$search|default:''}">
+                </div>
+                <div class="col-12 col-md-3 p-0">
+                    <select class="form-select" name="filter" onchange="this.form.submit()">
+                        <option value="0" {if $filter == '0'}selected{/if}>Tous les genres</option>
+                        {foreach from=$arrCatToDisplay item=arrDetCategory}
+                            <option class="form-control" value="{$arrDetCategory->getId()}"
+                                {if $filter == $arrDetCategory->getId()}selected{/if}>
+                                {$arrDetCategory->getCategories()}
+                            </option>
+                        {/foreach}
+                    </select>
+                </div>
+                <div class="col-6 col-md-3 p-0">
+                    <select class="form-select" name="sort" onchange="this.form.submit()">
+                        <option value="asc" {if $sort == 'asc' || $sort == ''}selected{/if}>Nom (A-Z)</option>
+                        <option value="desc" {if $sort == 'desc'}selected{/if}>Nom (Z-A)</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3 p-0">
+                    <button type="submit" class="w-100 p-1 btnCustom" id="sendMovie">Recherche</button>
+                </div>
+            </form>
+
+            <div class="allMovie">
+                {foreach from=$arrMovieToDisplay item=objMovie}
+                    <div class="row g-2 align-items-center py-2 border-bottom">
+                        <div class="col-2 col-md-1">
+                            <span class="spanMovie fw-bold">#{$objMovie->getId()}</span>
+                        </div>
+                        <div class="col-10 col-md-5">
+                            <a class="text-decoration-none"
+                                href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><span
+                                    class="spanMovie">{$objMovie->getTitle()}</span></a>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
+                            <a href="index.php?ctrl=movie&action=addEditMovie&id={$objMovie->getId()}"
+                                class="btn btn-sm btn-outline-dark px-5">Modifier</a>
+                            <a href="index.php?ctrl=movie&action=deleteMovie&id={$objMovie->getId()}"
+                                class="btn btn-sm btn-outline-danger px-5"
+                                onclick="return confirm('Vous allez supprimer le film {$objMovie->getTitle()|escape:'javascript'}')">
+                                Supprimer
+                            </a>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+    </section>
 {/block}
 
 {block name="js"}

@@ -9,7 +9,7 @@
 
     <div class="col-3 my-auto">
         <a id="movie" data-movie="{$review->getMovieId()}" href="index.php?ctrl=movie&action=movie&id={$review->getMovieId()}">
-            <img src="{$review->getPhoto()}" alt="couverture de film" class="img-fluid border-0">
+            <img src="assets/img/movie/{$review->getPhoto()}" alt="couverture de film" class="img-fluid border-0">
         </a>
     </div>
 
@@ -39,7 +39,7 @@
                             <span class="like-count"> {$review->getLike()}</span>
                         </label>
                      </button>
-                    
+
 
                     <!--<label class="form-label" for="filter-like-{$review->getId()}">
                         <i class="bi bi-heart-fill"></i><span>  </span>

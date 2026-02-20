@@ -9,14 +9,14 @@
 	*/
 	class PersonEntity extends Entity{
 		// Attributs
-		private string $_name;
-		private string $_firstname;
-		private string $_birthdate;
-		private ?string $_deathdate="";
-		private ?string $_bio="";
-		private string $_country;
-		private string $_photo;
-		private string $_NameJob;
+		private string 	$_name = '';
+		private string 	$_firstname = '';
+		private string 	$_birthdate;
+		private ?string $_deathdate= "";
+		private ?string $_bio = "";
+		private string 	$_country;
+		private string 	$_photo;
+		private string 	$_NameJob = '';
 
 
 		/**
@@ -88,7 +88,7 @@
 		}
 
 		public function getFullName():string{
-			return $this->_name ." ".$this->_firstname ;
+			return $this->_firstname ." ".$this->_name ;
 		}
 
 		public function getName():string{

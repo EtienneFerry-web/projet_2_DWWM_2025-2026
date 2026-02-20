@@ -11,7 +11,7 @@
 <section class="container row mx-auto" id="movie">
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
         <h1 class="d-block d-md-none">{$objMovie->getTitle()}</h1>
-        <img src="{$objMovie->getPhoto()}" alt="" class="img-fluid w-75 w-md-50">
+        <img src="assets/img/movie/{$objMovie->getPhoto()}" alt="" class="img-fluid w-75 w-md-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
         <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
             <span class="stars d-inline-block"></span>

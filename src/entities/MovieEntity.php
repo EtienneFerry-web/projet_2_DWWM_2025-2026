@@ -10,17 +10,17 @@
 	*/
 	class MovieEntity extends Entity{
 		// Attributs
-		private string  $_title;
-		private string  $_original_title;
-		private string  $_photo;
-		private string  $_description;
-		private string  $_release_date;
-		private string  $_trailer_url;
-		private int     $_countryId;
+		private string  $_title ='';
+		private string  $_original_title='';
+		private string  $_photo ='';
+		private string  $_description = '';
+		private string  $_release_date = '';
+		private string  $_trailer_url ='';
+		private int     $_countryId = 0;
 		private string  $_country;
-		private int     $_categoriesId;
+		private int     $_categoriesId = 0;
 		private string  $_categories;
-		private string  $_length;
+		private string  $_length='';
 		private string  $_func;
 		private int     $_like;
 		private float   $_rating;
@@ -34,6 +34,7 @@
 		/**
 		* Constructeur
 		*/
+
 
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
@@ -56,6 +57,13 @@
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
 		}
+
+
+		/**
+		* Mise à jour du titre
+		* @param string le nouveau titre
+		*/
+
 
 		public function getNoteUser():float{
 			return $this->_note_user;
@@ -89,14 +97,14 @@
 		* Mise à jour du titre
 		* @param string le nouveau titre
 		*/
-		public function setOriginalTitle(string $strOriginalTitle){
+		public function setOriginal_title(string $strOriginalTitle){
 			$this->_original_title = $this->clean($strOriginalTitle);
 		}
 		/**
 		* Récupération de l'image
 		* @return string l'image de l'objet
 		*/
-		public function getphoto():string{
+		public function getPhoto():string{
 			return $this->_photo;
 		}
 		/**
@@ -236,18 +244,18 @@
 			$this->_length = $strLength;
 		}
 
-		public function getCountryId():string{
+		public function getCountryId():int{
 			return $this->_countryId;
 		}
 		/**
 		* Mise à jour de l'identifiant du créateur
 		* @param int le nouvel identifiant du créateur
 		*/
-		public function setCountryId(string $strCountryId){
-			$this->_countryId = $strCountryId;
+		public function setCountryId(string $intCountryId){
+			$this->_countryId = $intCountryId;
 		}
 
-		public function getCategoriesId():string{
+		public function getCategoriesId():int{
 			return $this->_categoriesId;
 		}
 		/**

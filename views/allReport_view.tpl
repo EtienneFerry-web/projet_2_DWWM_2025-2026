@@ -143,7 +143,7 @@
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">
                          <a href="index.php?ctrl=movie&action=deleteMovie&id={$objReport->getReportedMovieId()}" class="btn btn-outline-danger btn-sm px-3" onclick="return confirm('Vous allez supprimer le film {$objReport->getTitle()|escape:'javascript'}')">Supprimer</a>
-                         <a href="" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
+                         <a href="index.php?ctrl=movie&action=addEditMovie&id={$objReport->getReportedMovieId()}" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
                          <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
                     </div>
                 </form>
