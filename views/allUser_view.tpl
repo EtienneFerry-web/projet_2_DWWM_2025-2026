@@ -24,19 +24,24 @@
     <div id="ficheMovie" class="d-flex flex-column">
         <h2>Tous les Utilisateurs</h2>
 
-        <form class="row g-1 align-items-center py-3">
+        <form class="row g-1 align-items-center py-3" method="GET" action="index.php">
+            <input type="hidden" name="ctrl" value="user">
+            <input type="hidden" name="action" value="allUser">
             <div class="col-12 col-md-5 p-0">
-                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="">
+                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="{$searchTerm|default:''}">
             </div>
             <div class="col-12 col-md-5 p-0">
-                <select class="form-select">
-                    <option value="">Tous Les Grades</option>
-                    <option value="usa">Croissant</option>
-                    <option value="france">Decroissant</option>
+                <select class="form-select" name="filter" onchange="this.form.submit()">
+                    <option value="all"     {if $filter == 'all'}selected{/if}>Tous Les Grades</option>
+                    <option value="asc"     {if $filter == 'asc'}selected{/if}>Croissant</option>
+                    <option value="desc"    {if $filter == 'desc'}selected{/if}>Decroissant</option>
+                    <option value="admin"   {if $filter == 'admin'}selected{/if}>Administrateurs</option>
+                    <option value="modo"    {if $filter == 'modo'}selected{/if}>Modérateurs</option>
+                    <option value="user"    {if $filter == 'user'}selected{/if}>Utilisateurs</option>
                 </select>
             </div>
             <div class="col-12 col-md-2 p-0">
-                <button type="submit" class="w-100 p-1 btnCustom" id="sendMovie">Recherche</button>
+                <button type="submit" class="w-100 p-1 btnCustom" id="sendUser">Recherche</button>
             </div>
         </form>
 

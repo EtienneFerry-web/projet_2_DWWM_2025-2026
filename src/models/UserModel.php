@@ -37,6 +37,56 @@
 			return $this->_db->query($strRq)->fetchAll();
 		}
 
+		public function findAllUsersWithFilters(?string $strSearch, string $strFilter): array {
+
+			$strRq = "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
+						FROM users
+						WHERE user_delete_at IS NULL";
+
+			$params = [];
+
+			if (!empty($strSearch)) {
+
+				$strRq .= " AND user_pseudo LIKE :search";
+
+				$params[':search'] = "%" . $strSearch . "%";
+			}
+
+			$orderBy = " ORDER BY user_id DESC";
+
+			switch($strFilter) {
+				case 'admin':
+					$strRq .= " AND user_funct_id = 3";
+					break;
+				case 'modo':
+					$strRq .= " AND user_funct_id = 2";
+					break;
+				case 'user':
+					$strRq .= " AND user_funct_id = 1";
+					break;
+				case 'asc':
+					$orderBy = " ORDER BY user_pseudo ASC";
+					break;
+				case 'desc':
+					$orderBy = " ORDER BY user_pseudo DESC";
+					break;
+				default:
+					break;
+			}
+
+			$strRq .= $orderBy;
+
+			$prep = $this->_db->prepare($strRq);
+
+			foreach($params as $key => $val) {
+				$prep->bindValue($key, $val, PDO::PARAM_STR);
+			}
+
+			$prep->execute();
+
+			return $prep->fetchAll();
+		}
+
         /**
 		 * User login request
 		 *

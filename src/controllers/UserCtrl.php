@@ -592,6 +592,9 @@
 
         public function allUser(){
 
+            $search = $_GET['search'] ?? NULL;
+            $filter = $_GET['filter'] ?? 'all';
+
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
@@ -599,6 +602,7 @@
 
 			$objUserModel 	= new UserModel;
 			$arrUsers 		= $objUserModel->findAllUsers();
+            $arrUsers       = $objUserModel->findAllUsersWithFilters($search, $filter);
 
 			// Initialisation d'un tableau => objets
 			$arrUserToDisplay	= array();
@@ -607,11 +611,12 @@
 			foreach($arrUsers as $arrDetUser){
 				$objUser = new UserEntity;
 				$objUser->hydrate($arrDetUser);
-
 				$arrUserToDisplay[]	= $objUser;
 			}
 
 			$this->_arrData['arrUserToDisplay']	    = $arrUserToDisplay;
+            $this->_arrData['searchTerm']           = $search;
+            $this->_arrData['filter']               = $filter;
 
 			$this->_display("allUser");
 		}
