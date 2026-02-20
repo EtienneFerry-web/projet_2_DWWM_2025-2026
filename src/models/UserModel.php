@@ -139,20 +139,14 @@
 			return $rqPrep->execute();
         }
 
-        public function banUser(int $intId, int $intDay, bool $blType){
-			$strRq = "UPDATE users SET user_ban_at = CURDATE + INTERVAL :value";
+        public function banUser(object $objReport):bool{
+			$strRq = "CALL auto_ban_users(:id, :reason)";
 
-			if($blType == 3){
-			    $strRq .="YEAR";
-			} else{
-			    $strRq .="DAY";
-			}
 
-			$strRq .="	  WHERE user_id = :id";
 
 			$rqPrep = $this->_db->prepare($strRq);
-			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
-			$rqPrep->bindValue(':value', $intId, PDO::PARAM_INT);
+			$rqPrep->bindValue(':id', $objReport->getId(), PDO::PARAM_INT);
+			$rqPrep->bindValue(':reason', $objReport->getReason(), PDO::PARAM_STR);
 
 
 			return $rqPrep->execute();
@@ -268,6 +262,18 @@
 			$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
 
 			return $rqPrep->execute();
+		}
+
+		public function unBanUser(int $intId){
+            $strRq = "  UPDATE users
+           					SET user_ban_at	= NULL
+               	        WHERE user_id 		= :id";
+
+        $rqPrep = $this->_db->prepare($strRq);
+
+		$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
+
+		return $rqPrep->execute();
 		}
 
     }

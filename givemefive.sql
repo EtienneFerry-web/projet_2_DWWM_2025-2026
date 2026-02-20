@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 20 fév. 2026 à 16:39
+-- Généré le : ven. 20 fév. 2026 à 20:29
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -35,15 +35,30 @@ DECLARE nbr INT DEFAULT 0;
     WHERE hist_event = 'UPDATE' AND hist_field = 'user_ban_at' AND hist_elementid = id;
       CASE nbr 
         WHEN 0 THEN
-            UPDATE users SET user_ban_at = CURDATE() + INTERVAL 1 DAY, user_reason_ban = reason WHERE user_id = id;
+            UPDATE users 
+            	SET user_ban_at = CURDATE() + INTERVAL 15 DAY, 
+                user_reason_ban = reason 
+            WHERE user_id = id AND user_funct_id != 3;
         WHEN 1 THEN
-            UPDATE users SET user_ban_at = CURDATE() + INTERVAL 30 DAY, user_reason_ban = reason WHERE user_id = id;
+           UPDATE users 
+            	SET user_ban_at = CURDATE() + INTERVAL 30 DAY, 
+                user_reason_ban = reason 
+            WHERE user_id = id AND user_funct_id != 3;
         WHEN 2 THEN
-            UPDATE users SET user_ban_at = CURDATE() + INTERVAL 60 DAY, user_reason_ban = reason WHERE user_id = id;
+            UPDATE users 
+            	SET user_ban_at = CURDATE() + INTERVAL 60 DAY, 
+                user_reason_ban = reason 
+            WHERE user_id = id AND user_funct_id != 3;
         WHEN 3 THEN
-            UPDATE users SET user_ban_at = CURDATE() + INTERVAL 120 DAY, user_reason_ban = reason WHERE user_id = id;
+            UPDATE users 
+            	SET user_ban_at = CURDATE() + INTERVAL 120 DAY, 
+                user_reason_ban = reason 
+            WHERE user_id = id AND user_funct_id != 3;
         WHEN 4 THEN
-            UPDATE users SET user_ban_at = CURDATE() + INTERVAL 999 YEAR, user_reason_ban = reason WHERE user_id = id;
+            UPDATE users 
+            	SET user_ban_at = CURDATE() + INTERVAL 999 YEAR, 
+                user_reason_ban = reason 
+            WHERE user_id = id AND user_funct_id != 3;
     END CASE;
 END$$
 
@@ -271,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `history_comments` (
   `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   `hist_userid` int NOT NULL,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `history_comments`
@@ -280,7 +295,9 @@ CREATE TABLE IF NOT EXISTS `history_comments` (
 INSERT INTO `history_comments` (`hist_id`, `hist_table`, `hist_event`, `hist_elementid`, `hist_date`, `hist_field`, `hist_oldvalue`, `hist_newvalue`, `hist_userid`) VALUES
 (1, 'comments', 'INSERT', 89, '2026-02-20 10:34:32', NULL, NULL, NULL, 17),
 (2, 'comments', 'UPDATE', 89, '2026-02-20 10:41:45', 'com_comment', 'C nulllllldqzdqzdqzdzqzddqzdzzdq', 'dzqdqzdqzdqzdzq', 17),
-(3, 'comments', 'DELETE', 89, '2026-02-20 10:42:28', 'com_comment', 'dzqdqzdqzdqzdzq', NULL, 17);
+(3, 'comments', 'DELETE', 89, '2026-02-20 10:42:28', 'com_comment', 'dzqdqzdqzdqzdzq', NULL, 17),
+(4, 'comments', 'UPDATE', 22, '2026-02-20 21:09:11', 'com_spoiler', '0', '1', 3),
+(5, 'comments', 'UPDATE', 22, '2026-02-20 21:09:14', 'com_spoiler', '1', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -318,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `history_users` (
   `hist_oldvalue` text COLLATE utf8mb4_unicode_ci,
   `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `history_users`
@@ -334,7 +351,12 @@ INSERT INTO `history_users` (`hist_id`, `hist_table`, `hist_event`, `hist_elemen
 (7, 'users', 'UPDATE', '4', '2026-02-19 22:25:21', 'user_ban_at', NULL, '2026-02-20 00:00:00'),
 (8, 'users', 'UPDATE', '7', '2026-02-19 22:34:00', 'user_funct_id', '1', '3'),
 (9, 'users', 'UPDATE', '7', '2026-02-19 22:34:05', 'user_firstname', 'Antoine', 'Antoinedzqdqz'),
-(10, 'users', 'INSERT', '26', '2026-02-20 08:33:57', NULL, NULL, NULL);
+(10, 'users', 'INSERT', '26', '2026-02-20 08:33:57', NULL, NULL, NULL),
+(11, 'users', 'UPDATE', '9', '2026-02-20 20:42:58', 'user_ban_at', NULL, '2026-03-07 00:00:00'),
+(12, 'users', 'UPDATE', '5', '2026-02-20 21:01:03', 'user_ban_at', NULL, '2026-03-07 00:00:00'),
+(13, 'users', 'UPDATE', '5', '2026-02-20 21:08:37', 'user_ban_at', '2026-03-07 00:00:00', NULL),
+(14, 'users', 'UPDATE', '5', '2026-02-20 21:09:24', 'user_ban_at', NULL, '2026-04-21 00:00:00'),
+(15, 'users', 'UPDATE', '5', '2026-02-20 21:09:30', 'user_ban_at', '2026-04-21 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -845,7 +867,7 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (17, 15, 4.0),
 (17, 16, 3.0),
 (17, 17, 4.5),
-(17, 21, 3.0),
+(17, 21, 5.0),
 (17, 22, 1.0),
 (17, 23, 3.0),
 (17, 25, 5.0);
@@ -868,22 +890,21 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `rep_date` datetime DEFAULT NULL,
   `rep_reporter_user_id` int UNSIGNED DEFAULT NULL,
   `rep_reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rep_delete_at` datetime DEFAULT NULL,
   PRIMARY KEY (`rep_id`),
   KEY `fk_rep_reported_user` (`rep_reported_user_id`),
   KEY `fk_rep_reported_mov` (`rep_reported_movie_id`),
   KEY `fk_rep_reported_com` (`rep_reported_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reports`
 --
 
-INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`, `rep_delete_at`) VALUES
-(36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test', '2026-02-19 22:36:18'),
-(37, 6, NULL, NULL, NULL, 'cam_rob', '', '2026-02-14 18:10:12', 25, 'dzadqzdzqdqzd', NULL),
-(63, NULL, 18, NULL, NULL, NULL, NULL, '2026-02-14 22:24:53', 25, 'Cnul', NULL),
-(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger', '2026-02-19 22:36:57');
+INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`) VALUES
+(36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test'),
+(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger'),
+(76, 3, NULL, 22, 'L\'expérience la plus sonore et visuelle de ma vie.', NULL, NULL, '2026-02-20 20:19:45', 24, 'qdzdzqdqzdqzd'),
+(77, 9, NULL, 23, 'Trop bizarre pour moi, j\'ai arrêté.', NULL, NULL, '2026-02-20 20:19:49', 24, 'dqzdzqdqzd');
 
 -- --------------------------------------------------------
 
@@ -927,11 +948,11 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (2, 'Leroy', 'Marie', 'mary_l', 'marie.leroy@exemple.com', '1985-11-20', '2024-01-12 10:30:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-10 17:04:20', NULL, NULL, NULL),
 (3, 'Martin', 'Lucas', 'luke_sky', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-11 18:12:50', NULL, NULL, NULL),
 (4, 'Bernard', 'Sophie', 'sophie_b', 'sophie.bernard@exemple.com', '1992-07-22', '2024-02-01 11:00:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, '2026-02-20 00:00:00', 'dzqdzqdqzdqzdqz'),
-(5, 'Petit', 'Kevin', 'keke_99', 'kevin.petit@exemple.com', '1999-12-01', '2024-02-10 16:45:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL),
+(5, 'Petit', 'Kevin', 'keke_99', 'kevin.petit@exemple.com', '1999-12-01', '2024-02-10 16:45:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL, 'Parce que!'),
 (6, 'Robert', 'Camille', 'cam_rob', 'camille.robert@exemple.com', '1995-09-14', '2024-02-20 08:20:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL),
 (7, 'Richard', 'Antoinedzqdqz', 'tony_ric', 'antoine.richard@exemple.com', '1988-02-28', '2024-03-05 13:10:00', NULL, NULL, 3, '', 'defaultImgUser.jpg', '', NULL, '2026-02-19 22:34:05', NULL, NULL),
 (8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL),
+(9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, '2026-03-07 00:00:00', 'test'),
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL),
 (17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, 'dzqdzqdqzdzqdqzdzqdzqdqzdqzddzqdzqdz', '6991c05b884fb.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-15 13:47:38', '3025-02-19 00:00:00', NULL),
 (23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL, NULL),

@@ -45,6 +45,14 @@
                         <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm px-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalBan"
+                                data-userid="{$objReport->getReportedUserId()}"
+                                data-pseudo="{$objReport->getPseudo()}">
+                            Bannir
+                        </button>
                         <button type="submit" name="addRemoveSpoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-warning btn-sm">{if $objReport->getSpoiler() == 0} Add Spoiler {else} Remove Spoiler {/if}</button>
                         <button type="submit" name="deleteComment" value="{$objReport->getReportedComId()}" class="btn btn-outline-danger btn-sm">Supprimer</button>
                         <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
@@ -60,31 +68,65 @@
         <h3 class="h4"><i class="bi bi-people me-2"></i>Signalements : Utilisateurs</h3>
         <div class="container-fluid p-3">
             {foreach from=$arrRepUserToDisplay item=objReport}
-                <form method="post" class="row border-bottom py-3 align-items-center">
+                <div class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedUserId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <a class="text-decoration-none text-dark d-flex align-items-center" href="index.php?ctrl=user&action=user&id={$objReport->getReportedUserId()}">
                             <img src="assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
-                                class="rounded-circle border me-2"
-                                style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                                 class="rounded-circle border me-2"
+                                 style="width: 40px; height: 40px; object-fit: cover;" alt="Photo">
                             <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
                         </a>
                     </div>
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">
-                        <div class="btn-group">
-                            <button type="banUser" value="1" class="btn btn-outline-warning btn-sm">15 J</button>
-                            <button type="banUser" value="2" class="btn btn-outline-warning btn-sm">30 J</button>
-                        </div>
-                        <button type="submit" name="banUser" value="3" class="btn btn-outline-danger btn-sm">Bannir</button>
-                        <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
+                    {if !$objReport->getUserBan()}
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm px-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalBan"
+                                data-userid="{$objReport->getReportedUserId()}"
+                                data-pseudo="{$objReport->getPseudoUser()}">
+                            Bannir
+                        </button>
+                    {/if}
+                        <a href="" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
+                        <form method="post" class="m-0">
+                           {if $objReport->getUserBan()} <button type="submit" name="unBanUser" value="{$objReport->getReportedUserId()}" class="btn btn-outline-success btn-sm px-3">Débannir</button>{/if}
+                            <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
+                        </form>
                     </div>
-                </form>
+                </div>
             {foreachelse}
                 <p class="text-muted py-3 m-0">Aucun signalement d'utilisateur en attente.</p>
             {/foreach}
         </div>
     </section>
+
+    <div class="modal fade" id="modalBan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bannir : <span id="modalPseudo"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="modalIdUser">
+
+                    <div class="mb-3">
+                        <label for="banReason" class="form-label fw-bold">Raison du bannissement :</label>
+                        <textarea class="form-control" name="reason" id="banReason" rows="4" placeholder="Expliquez la raison..." required></textarea>
+                    </div>
+                    <p class="small text-muted">Cette action lancera la procédure de bannissement.</p>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-danger">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <section class="mb-5">
         <h3 class="h4"><i class="bi bi-film me-2"></i>Signalements : Films</h3>
@@ -112,4 +154,5 @@
 
 {block name="js"}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/popUp.js"></script>
 {/block}
