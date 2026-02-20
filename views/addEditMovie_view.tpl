@@ -1,4 +1,5 @@
 {extends file="views/layout_view.tpl"}
+
 {if ($objMovie->getId()|is_null)}
 {block name="title" prepend}Ajouter un film{/block}
 {block name="description"}Ici vous pouvez ajouter un film !{/block}
@@ -21,7 +22,8 @@
 		<div class="row">
 			<div class="col-12 form-group py-2">
 				<label class="form-label">Titre du film*</label>
-				<input name="title" type="text" class="form-control" id="title" placeholder="Titre" value="{$objMovie->getTitle()}">
+				<input name="title" type="text" class="form-control" id="title" placeholder="Titre"
+					value="{$objMovie->getTitle()}">
 			</div>
 			<div class="col-md-12">
 				<label for="categories" class="form-label">Genre</label>
@@ -29,8 +31,8 @@
 					<option>Tous les genres</option>
 
 					{foreach from=$arrCatToDisplay item=arrDetCategory}
-					<option class="form-control" value="{$arrDetCategory->getId()}" 
-						{if $arrDetCategory->getId() == $objMovie->getCategoriesId()}selected{/if}>
+					<option class="form-control" value="{$arrDetCategory->getId()}" {if $arrDetCategory->getId() ==
+						$objMovie->getCategoriesId()}selected{/if}>
 						{$arrDetCategory->getCategories()}
 					</option>
 					{/foreach}
@@ -43,8 +45,8 @@
 					<option>Pays d'origine</option>
 
 					{foreach from=$arrNatToDisplay item=arrDetNat}
-					<option class="form-control" value="{$arrDetNat->getId()}" 
-						{if $arrDetNat->getId() == $objMovie->getCountryId()}selected{/if}>
+					<option class="form-control" value="{$arrDetNat->getId()}" {if $arrDetNat->getId() ==
+						$objMovie->getCountryId()}selected{/if}>
 						{$arrDetNat->getCountry()}
 					</option>
 					{/foreach}
@@ -54,37 +56,40 @@
 
 			<div class="form-group py-2">
 				<label class="form-label">Date de sortie*</label>
-				<input name="release_date" type="date" class="form-control" id="release_date" value="{$objMovie->getRelease_date()}" placeholder="Quelle est la date de sortie du film?">
+				<input name="release_date" type="date" class="form-control" id="release_date"
+					value="{$objMovie->getRelease_date()}" placeholder="Quelle est la date de sortie du film?">
 			</div>
 
 			<div class="form-group py-2">
 				<label class="form-label">Titre original</label>
 				<input name="originalTitle" type="text" class="form-control" id="original_title"
-					value="{$objMovie->getOriginal_title()}" placeholder="">
+					value="{$objMovie->getOriginalTitle()}" placeholder="">
 			</div>
 			<div class="form-group py-2">
 				<label class="form-label">Durée*</label>
-				<input name="length" type="time" class="form-control" id="length" value="" placeholder="Email">
+				<input name="length" type="time" class="form-control" id="length" value="{$objMovie->getLength()}">
 			</div>
 			<div class="form-group py-2">
 				<label class="form-label">Synopsis*</label>
-				<textarea name="description" class="form-control textarea" id="description" placeholder="Synopsis">{$objMovie->getDescription()}</textarea>
+				<textarea name="description" class="form-control textarea" id="description"
+					placeholder="Synopsis">{$objMovie->getDescription()}</textarea>
 			</div>
 
 			<div class="col-12 form-group py-2">
 				<label for="photo" class="form-label">Affiche du film*</label>
 				</label>
 				<div>
-					{if (!$objMovie->getId()|is_null)}
-					<img src="assets/img/movie/{$objMovie->getUrl()}" alt="Affiche du film {$objMovie->getTitle()}">
-					{/if}
+					{*if isset($_GET['id'])*}
+					<img src="assets/img/movie/{$objMovie->getPhoto()}" alt="Affiche du film {$objMovie->getTitle()}">
+					{*/if*}
 				</div>
 				<input name="photo" id="photo" type="file" class="form-control " value="{$objMovie->getPhoto()}">
 			</div>
 
 			<div class="form-group py-2">
 				<label class="form-label">Trailer du film</label>
-				<input name="trailer_url" type="text" class="form-control" value="{$objMovie->getTrailer()}" placeholder="Collez le lien du trailer">
+				<input name="trailer_url" type="text" class="form-control" value="{$objMovie->getTrailer()}"
+					placeholder="Collez le lien du trailer">
 			</div>
 
 			<input class="w-100 btnCustom my-2" type="submit">

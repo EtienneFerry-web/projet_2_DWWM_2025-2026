@@ -175,6 +175,85 @@
 
             return $stmt->fetch();
         }
+		
+		public function findOneMovie(){
+            $strRq	= " SELECT movies.*, 
+                            mov_original_title AS 'mov_orginalTitle',                           
+                            pho_photo AS 'mov_photo', 
+                            nat_id AS 'mov_CountryId',                           
+                            nat_country AS 'mov_country',
+                            belong_mov_id AS 'mov_belong_id',
+                            cat_id AS 'mov_categoriesId',
+                            cat_name AS 'mov_categorie'
+                        FROM movies
+                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
+                        INNER JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
+                        INNER JOIN belongs ON movies.mov_id = belongs.belong_mov_id
+                        INNER JOIN categories ON belongs.belong_cat_id = categories.cat_id
+                        WHERE mov_id = ".$_GET['id'];
+        
+
+            return $this->_db->query($strRq)->fetch();
+        }
+		
+		
+		
+		public function updateMovie(object $objNewMovie):bool{
+                
+		// Request construction
+			$strRq 	=   "UPDATE movies 
+                         SET mov_title = :title,
+                             mov_original_title = :originalTitle,
+                             mov_length = :length, 
+                             mov_description = :description, 
+                             mov_release_date = :createDate, 
+                             mov_nat_id = :idNationality, 
+                             mov_trailer_url = :trailer
+						 WHERE mov_id= :id";
+			// Prepared request
+			$rqPrep	= $this->_db->prepare($strRq);
+			// Sending information
+			$rqPrep->bindValue(":title", $objNewMovie->getTitle(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":originalTitle", $objNewMovie->getOriginalTitle(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":length", $objNewMovie->getLength(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":description", $objNewMovie->getDescription(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":createDate", $objNewMovie->getRelease_date(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":idNationality", $objNewMovie->getCountryId(), PDO::PARAM_INT);
+			$rqPrep->bindValue(":trailer", $objNewMovie->getTrailer(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":id", $objNewMovie->getId(), PDO::PARAM_STR);
+          
+			// Request execution
+			$result = $rqPrep->execute();
+            
+            if ($result){    
+
+                $strRq2 = "UPDATE photos
+                            SET pho_photo = :photo,                                 
+                                pho_mov_id = :idMovie
+                            WHERE pho_mov_id = :idMovie";
+
+            $rqPrep2	= $this->_db->prepare($strRq2);
+            $rqPrep2->bindValue(":photo", $objNewMovie->getPhoto(), PDO::PARAM_STR);         
+            $rqPrep2->bindValue(":idMovie", $objNewMovie->getId(), PDO::PARAM_INT); 
+            
+             $resultPhoto = $rqPrep2->execute();
+             
+                if ($resultPhoto){
+
+                    $strRq3 =" UPDATE belongs 
+                                SET belong_cat_id = :catId, 
+                                    belong_mov_id = :idMovie
+                                WHERE belong_mov_id = :idMovie";
+                    $rqPrep3	= $this->_db->prepare($strRq3);
+                    $rqPrep3->bindValue(":catId", $objNewMovie->getCategoriesId(), PDO::PARAM_STR);         
+                    $rqPrep3->bindValue(":idMovie", $objNewMovie->getId(), PDO::PARAM_INT); 
+                
+                    return $rqPrep3->execute();
+                }
+
+            }
+            
+		}
 
 		public function movieOfPerson(int $idPerson=0):array{
 
@@ -283,7 +362,7 @@
                             VALUES (:photo, 'Affiche', :idMovie)";
 
             $rqPrep2	= $this->_db->prepare($strRq2);
-            $rqPrep2->bindValue(":photo", $objNewMovie->getphoto(), PDO::PARAM_STR);
+            $rqPrep2->bindValue(":photo", $objNewMovie->getPhoto(), PDO::PARAM_STR);
             $rqPrep2->bindValue(":idMovie", $lastId, PDO::PARAM_INT);
 
              $resultPhoto = $rqPrep2->execute();
@@ -300,8 +379,6 @@
                 }
 
             }
-
-
 
 		}
 
