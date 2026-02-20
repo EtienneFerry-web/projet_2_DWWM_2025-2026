@@ -27,7 +27,7 @@
 		* Page de gestion des utilisateurs
 		*/
 		public function dashboard(){
-			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
+			if (!isset($_SESSION['user']) || $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
@@ -35,13 +35,13 @@
             $objMovieModel      = new MovieModel;
             $objCommentModel    = new CommentModel;
 
-            $arrLastMovies      = $objMovieModel->findLastMovies();
-            $arrLastMovies = [];
+            $arrLastMoviesData      = $objMovieModel->findLastMovies();
+            $arrLastMoviesObjects = [];
 
-            foreach($arrLastMovies as $data){
+            foreach($arrLastMoviesData as $data){
                 $objMovie = new MovieEntity("mov_");
                 $objMovie->hydrate($data);
-                $arrLastMoviesObjects[] = $objMovies;
+                $arrLastMoviesObjects[] = $objMovie;
             }
 
             $this->_arrData['total_movies']     = $objMovieModel->countAllMovies();

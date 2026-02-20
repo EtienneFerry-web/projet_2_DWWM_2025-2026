@@ -146,9 +146,7 @@
                 }
                 */
 
-                // $password = $objUser->getPwd();
-                
-
+                 $password = $objUser->getPwd();
                 if ($password == "") {
                     $arrError['pwd'] = "Le mot de passe est obligatoire";
                 } else {

@@ -28,7 +28,7 @@
 		private int	    $_user_liked;
 		private ?float	$_note_user;
 		private int     $_reported;
-		private int 	$_nb_comments =0;
+		private int 	$_nb_comments = 0;
 
 
 		/**

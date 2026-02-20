@@ -4,7 +4,6 @@
 {block name="content"}
 <section id="settingsUser" class="container py-5">
 <h1>Gestion de l'utilisateur</h1>
-<div class="py-3"><a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
