@@ -32,7 +32,7 @@
         */
 		public function verifUser(string $strEmail, string $strPwd):array|bool{
 			// verify user request
-			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd, user_funct_id
+			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd, user_funct_id, user_email
 						FROM users
 						WHERE user_email = '".$strEmail."'";
 			// Recover user information
@@ -138,22 +138,22 @@
 
 			return $rqPrep->execute();
         }
-        
+
         public function banUser(int $intId, int $intDay, bool $blType){
 			$strRq = "UPDATE users SET user_ban_at = CURDATE + INTERVAL :value";
-			
+
 			if($blType == 3){
 			    $strRq .="YEAR";
 			} else{
 			    $strRq .="DAY";
 			}
-			
+
 			$strRq .="	  WHERE user_id = :id";
 
 			$rqPrep = $this->_db->prepare($strRq);
 			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
 			$rqPrep->bindValue(':value', $intId, PDO::PARAM_INT);
-			
+
 
 			return $rqPrep->execute();
         }
@@ -190,7 +190,7 @@
 			if(!empty($objUser->getPwd())){
 					$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
 			}
-				
+
 
 			// Executer la requête
 			return $rqPrep->execute();
@@ -257,7 +257,7 @@
 		}
 
 		public function updateGrade(int $intId, int $intFunctId):bool {
-			$strRq = "UPDATE users 
+			$strRq = "UPDATE users
 						SET user_funct_id 	= :functId,
 							user_update_at	= NOW()
 						WHERE user_id 		= :id";

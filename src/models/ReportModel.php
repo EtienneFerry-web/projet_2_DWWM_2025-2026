@@ -9,7 +9,7 @@
             $strRq = "  SELECT rep_id ,rep_bio_user, rep_pseudo_user, rep_reported_user_id, rep_reason, user_photo AS 'rep_photo'
                         FROM reports
                         INNER JOIN users ON reports.rep_reported_user_id = users.user_id
-                        WHERE rep_reported_movie_id IS NULL AND rep_reported_com_id IS NULL 
+                        WHERE rep_reported_movie_id IS NULL AND rep_reported_com_id IS NULL AND rep_delete_at IS NULL
                         GROUP BY rep_reported_user_id";
 
             return $this->_db->query($strRq)->fetchAll();
@@ -19,7 +19,7 @@
             $strRq = "  SELECT rep_id , rep_reported_movie_id, rep_reason, mov_title AS 'rep_title'
                         FROM reports
                         INNER JOIN movies ON reports.rep_reported_movie_id = movies.mov_id
-                        WHERE rep_reported_user_id IS NULL AND rep_reported_com_id IS NULL 
+                        WHERE rep_reported_user_id IS NULL AND rep_reported_com_id IS NULL AND rep_delete_at IS NULL
                         GROUP BY rep_reported_movie_id";
 
             return $this->_db->query($strRq)->fetchAll();
@@ -30,14 +30,15 @@
                         FROM reports
                         INNER JOIN comments ON reports.rep_reported_com_id = comments.com_id
                         INNER JOIN users ON reports.rep_reported_user_id = users.user_id
-                        WHERE rep_reported_movie_id IS NULL AND rep_com_content IS NOT NULL
+                        WHERE rep_reported_movie_id IS NULL AND rep_com_content IS NOT NULL AND rep_delete_at IS NULL
                         GROUP BY rep_reported_com_id";
 
             return $this->_db->query($strRq)->fetchAll();
         }
 
         public function deleteReport(int $intId){
-            $strRq = "  DELETE FROM reports
+            $strRq = "  UPDATE reports
+                            SET rep_delete_at = NOW()
                         WHERE rep_id = :id";
 
             $rqPrep = $this->_db->prepare($strRq);

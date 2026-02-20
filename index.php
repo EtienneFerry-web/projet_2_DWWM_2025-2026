@@ -11,6 +11,7 @@
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?
 	// Flag pour afficher le 404 si besoin
 	$boolError		= false;
+
 	// Construciton du nom du fichier du controller
 	$strFileName	= "src/controllers/".ucfirst($strCtrl)."Ctrl.php";
 	if (file_exists($strFileName)){

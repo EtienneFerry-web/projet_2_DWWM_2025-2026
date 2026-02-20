@@ -158,7 +158,7 @@
             // 1. Insertion du commentaire (Cela fonctionne car on peut commenter plusieurs fois)
             $sql1 = "   UPDATE comments
                         SET com_comment = :comment,
-                        com_datetime = NOW()
+                        com_update_at = NOW()
                         WHERE com_id = :id AND com_user_id = :userId";
 
             $rq1 = $this->_db->prepare($sql1);

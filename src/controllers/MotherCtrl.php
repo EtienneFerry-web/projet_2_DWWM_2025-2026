@@ -13,7 +13,7 @@
 
         protected array $_arrData = [];
 
-        protected function _display($strView){
+        protected function _display(string $strView, bool $boolDisplay = true){
 
             $objSmarty	= new Smarty();
             // Ajouter le var_dump au modificateur de smarty : vardump est le nom appelé après le |
@@ -32,9 +32,11 @@
 
             $objSmarty->assign("success_message", $_SESSION['success']??NULL);
             unset($_SESSION['success']);
-
-            $objSmarty->display("views/".$strView."_view.tpl");
-
+            if($boolDisplay){
+                $objSmarty->display("views/".$strView."_view.tpl");
+            }else{
+				return $objSmarty->fetch("views/".$strView."_view.tpl");
+			}
         }
 
         protected function _resize($img, $intX=250, $intY=250){

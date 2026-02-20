@@ -21,7 +21,7 @@
     class MovieCtrl extends MotherCtrl{
 
         public function home(){
-            var_dump($_SERVER['REMOTE_ADDR']);
+            //var_dump($_SERVER['REMOTE_ADDR']); Pour l'id
 
             $objContentModel 	= new MovieModel;
 			$arrMovie		    = $objContentModel->newMovie();
@@ -138,6 +138,26 @@
             $this->_display("list");
         }
 
+        public function note(){
+
+            $objMovieModel = new MovieModel;
+
+            header('Content-Type: application/json');
+            $intNoteJson = file_get_contents("php://input");
+			$data = json_decode($intNoteJson, true);
+
+		    $insetResult = $objMovieModel->insertUpdateNote($_SESSION['user']['user_id'], $_GET['id'], $data['intNote']);
+
+
+			if($insetResult){
+			    echo json_encode($insetResult);
+				exit;
+			}   else{
+  		        echo json_encode("ca marche pas");
+                exit;
+			}
+        }
+
 
 
         public function movie(){
@@ -146,23 +166,7 @@
 			$objCommentModel	= new CommentModel;
 			$objMovieModel = new MovieModel;
 
-			$intNoteJson = file_get_contents("php://input");
 
-			if(!empty($intNoteJson) && isset($_GET['note'])){
-			     header('Content-Type: application/json');
-			     $data = json_decode($intNoteJson, true);
-
-			    $insetResult = $objMovieModel->insertUpdateNote($_SESSION['user']['user_id'], $_GET['id'], $data['intNote']);
-
-
-				if($insetResult){
-				    echo json_encode($insetResult);
-					exit;
-				}   else{
-     		        echo json_encode("ca marche pas");
-                    exit;
-				}
-			}
 
 			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
 			    $objCommentDelete = new CommentEntity('com_');

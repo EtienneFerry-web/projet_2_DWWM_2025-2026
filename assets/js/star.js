@@ -85,7 +85,7 @@ function updateNote(value) {
 
 async function insertNote(value) {
   try {
-        const response = await fetch(`index.php?ctrl=movie&action=movie&id=${movieId}&note=true`, {
+        const response = await fetch(`index.php?ctrl=movie&action=note&id=${movieId}`, {
             method: 'POST', // methode Post
             headers: {
                 'Content-Type': 'application/json' // On précise qu'on envoie du JSON

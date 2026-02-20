@@ -92,9 +92,9 @@
             {foreach from=$arrRepMovieToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedMovieId()}</div>
-                    <div class="col-md-3 d-flex align-items-center">
+                    <a href="index.php?ctrl=movie&action=movie&id={$objReport->getReportedMovieId()}"class="col-md-3 d-flex align-items-center text-decoration-none text-dark">
                         <span class="fw-bold">{$objReport->getTitle()}</span>
-                    </div>
+                    </a>
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">
                          <a href="index.php?ctrl=movie&action=deleteMovie&id={$objReport->getReportedMovieId()}" class="btn btn-outline-danger btn-sm px-3" onclick="return confirm('Vous allez supprimer le film {$objReport->getTitle()|escape:'javascript'}')">Supprimer</a>
