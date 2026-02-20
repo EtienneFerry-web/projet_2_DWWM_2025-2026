@@ -431,7 +431,11 @@
 
         /**
 		* @author Audrey
+<<<<<<< HEAD
 		* Page d'ajout / édition d'un Film
+=======
+		* Page d'ajout / edition d'un Film
+>>>>>>> 3d6d42c7cdbf360512b701e936e1d119657b805e
 		*/
         public function addEditMovie(){
 			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté

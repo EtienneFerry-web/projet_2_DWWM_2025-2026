@@ -1,5 +1,4 @@
 {extends file="views/layout_view.tpl"}
-
 {if ($objMovie->getId()|is_null)}
 {block name="title" prepend}Ajouter un film{/block}
 {block name="description"}Ici vous pouvez ajouter un film !{/block}
@@ -74,7 +73,6 @@
 				<textarea name="description" class="form-control textarea" id="description"
 					placeholder="Synopsis">{$objMovie->getDescription()}</textarea>
 			</div>
-
 			<div class="col-12 form-group py-2">
 				<label for="photo" class="form-label">Affiche du film*</label>
 				</label>
