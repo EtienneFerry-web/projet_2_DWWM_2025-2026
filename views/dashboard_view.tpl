@@ -38,9 +38,9 @@
         </div>
 
         <div class="mt-4">
-            <h5 class="fw-bold text-uppercase mb-3">Top Performance</h5>
+            <h5 class="fw-bold text-uppercase mb-3">Les plus liké</h5>
             <ul class="list-group list-group-flush border-top border-dark">
-                {foreach from=$arrLastMovies item=objMovie}
+                {foreach from=$arrTopLikes item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
                     <span class="col-4">{$objMovie->getTitle()}</span>
                     <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
@@ -51,7 +51,22 @@
                 {/foreach}
             </ul>
         </div>
-        
+
+        <div class="mt-4">
+            <h5 class="fw-bold text-uppercase mb-3">Les plus commenté</h5>
+            <ul class="list-group list-group-flush border-top border-dark">
+                {foreach from=$arrTopComments item=objMovie}
+                <li class="list-group-item d-flex justify-content-center align-items-center px-0">
+                    <span class="col-4">{$objMovie->getTitle()}</span>
+                    <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
+                    <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
+                </li>
+                {foreachelse}
+                    <li class="list-group-item text-center">Aucun film trouvé.</li>
+                {/foreach}
+            </ul>
+        </div>
+
         <div class="mt-4">
             <h5 class="fw-bold text-uppercase mb-3">Dernier ajouts</h5>
             <ul class="list-group list-group-flush border-top border-dark">

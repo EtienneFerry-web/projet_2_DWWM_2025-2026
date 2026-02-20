@@ -44,10 +44,35 @@
                 $arrLastMoviesObjects[] = $objMovie;
             }
 
+            $arrTopLikesData = $objMovieModel->findMostLikedMovies();
+            $arrTopLikesObjects = [];
+
+            foreach($arrTopLikesData as $data){
+                $objMovie = new MovieEntity("mov_");
+                $objMovie->hydrate($data);
+                $arrTopLikesObjects[] = $objMovie;
+            }
+
+            $arrTopCommentsData = $objMovieModel->findMostCommentedMovies();
+            $arrTopCommentsObjects = [];
+
+            foreach($arrTopCommentsData as $data){
+                $objMovie = new MovieEntity("mov_");
+                $objMovie->hydrate($data);
+                $arrTopCommentsObjects[] = $objMovie;
+            }
+
+
+
+
             $this->_arrData['total_movies']     = $objMovieModel->countAllMovies();
             $this->_arrData['total_likes']      = $objMovieModel->countAllLikes();
             $this->_arrData['total_comments']   = $objCommentModel->countAllComments();
+            
             $this->_arrData['arrLastMovies']    = $arrLastMoviesObjects;
+            $this->_arrData['arrTopLikes']      = $arrTopLikesObjects;
+            $this->_arrData['arrTopComments']   = $arrTopCommentsObjects;
+
 
 			$this->_display("dashboard");
 		}

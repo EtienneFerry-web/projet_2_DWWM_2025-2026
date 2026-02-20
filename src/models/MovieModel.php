@@ -486,5 +486,32 @@
                         LIMIT 10";
             return $this->_db->query($strRq)->fetchAll();
         }
+
+        public function findMostLikedMovies() {
+            $strRq = "SELECT movies.mov_id, movies.mov_title, movies.mov_release_date,
+                            COUNT(DISTINCT liked.lik_user_id)   AS 'mov_like',
+                            COUNT(DISTINCT comments.com_id)      AS 'mov_nb_comments'
+                        FROM movies 
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
+                        LEFT JOIN comments ON movies.mov_id = comments.com_movie_id
+                        GROUP BY movies.mov_id
+                        ORDER BY mov_like DESC 
+                        LIMIT 5";
+
+            return $this->_db->query($strRq)->fetchAll();
+        }
+
+        public function findMostCommentedMovies() {
+            $strRq = "SELECT movies.mov_id, movies.mov_title, movies.mov_release_date,
+                            COUNT(DISTINCT liked.lik_user_id) AS 'mov_like',
+                            COUNT(DISTINCT comments.com_id) AS 'mov_nb_comments'
+                        FROM movies
+                        LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
+                        LEFT JOIN comments ON movies.mov_id = comments.com_movie_id
+                        GROUP BY movies.mov_id
+                        ORDER BY mov_nb_comments DESC
+                        LIMIT 5";
+            return $this->_db->query($strRq)->fetchAll();
+        }
     }
 ?>
