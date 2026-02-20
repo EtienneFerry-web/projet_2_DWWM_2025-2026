@@ -146,7 +146,6 @@
             //Database add
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
-                    var_dump($boolInsert);
 
                     if($boolInsert['user_email'] == $objUser->getEmail()){
                         $arrError[] = 'email probleme change';

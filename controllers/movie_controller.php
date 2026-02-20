@@ -433,7 +433,7 @@
             $this->_display("movie");
         }
 
-        public function addMovie(){
+        public function addEditMovie(){
 			// 1. Initialisation des objets et variables
 			$objMovie = new MovieEntity();
 			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
@@ -526,7 +526,7 @@
 			$this->_arrData['arrNatToDisplay'] = $arrNatToDisplay;
 
 
-            $this->_display("addMovie");
+            $this->_display("addEditMovie");
         }
 
 		public function deleteMovie() {
