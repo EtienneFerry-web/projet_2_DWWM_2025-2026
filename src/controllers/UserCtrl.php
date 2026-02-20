@@ -510,33 +510,86 @@
                 exit;
             }
 
-            if (isset($_GET['id']) && ((int)$_GET['id']) == ($_SESSION['user']['user_id'])){
-                $_SESSION['success'] = "Vous ne pouvez pas supprimer votre compte";
-                header("Location:index.php?ctrl=admin&action=dashboard");
-                exit;
+            $objUserModel = new UserModel(); 
+            $myId         = (int)$_SESSION['user']['user_id'];
+            $myRank       = (int)$_SESSION['user']['user_funct_id'];
+
+
+            if (isset($_GET['id']) && !empty($_GET['id'])) {
+                
+                $intTargetId = (int)$_GET['id'];
+
+                if ($myRank != 2 && $myRank != 3){ 
+                    header("Location:index.php?ctrl=error&action=err403");
+                    exit;
+                }
+
+
+                if ($intTargetId == $myId){
+                    $_SESSION['error'] = "Pour supprimer votre propre compte, ne passez pas par la gestion admin.";
+                    header("Location:index.php?ctrl=admin&action=dashboard");
+                    exit;
+                }
+
+
+                $arrTargetData = $objUserModel->findUser($intTargetId);
+
+                if(!$arrTargetData) {
+                    $_SESSION['error'] = "Cet utilisateur n'existe pas.";
+                    header("location:index.php?ctrl=user&action=allUser");
+                    exit;
+                }
+
+
+                $objTargetUser = new UserEntity();
+                $objTargetUser->hydrate($arrTargetData);
+                $targetRank = (int)$objTargetUser->getUser_funct_id(); 
+
+
+                if($targetRank == 3) {
+                    $_SESSION['error'] = "ACTION REFUSÉE : Impossible de supprimer un Administrateur.";
+                    header("location:index.php?ctrl=user&action=allUser");
+                    exit;
+                }
+
+
+                if($myRank <= $targetRank) {
+                    $_SESSION['error'] = "Vous n'avez pas le grade suffisant pour supprimer cet utilisateur.";
+                    header("location:index.php?ctrl=user&action=allUser");
+                    exit;
+                }
+
+                if($objUserModel->deleteUser($intTargetId)) {
+                    $_SESSION['success'] = "L'utilisateur a bien été supprimé.";
+                } else {
+                    $_SESSION['error'] = "Erreur technique lors de la suppression.";
+                }
+
+                
+                header("Location:index.php?ctrl=user&action=allUser");
+                exit; 
+
+            } 
+
+            else {
+             
+                if($objUserModel->deleteUser($myId)){
+             
+                    unset($_SESSION['user']);
+                    session_destroy(); 
+                    session_start();  
+                    $_SESSION['success'] = "Votre compte a bien été supprimé. Au revoir !";
+                    
+                    header("Location:index.php"); 
+                    exit;
+                } else {
+                    $_SESSION['error'] = "Erreur lors de la suppression de votre compte.";
+                    header("Location:index.php"); 
+                    exit;
+                }
             }
-
-            if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
-
-            $objUserModel = new UserModel();
-            $success = $objUserModel->deleteUser($_GET['id'] ?? $_SESSION['user']['user_id']);
-
-            // Si on a supprimé, on nettoie tout
-            if($success && !isset($_GET['id'])){
-            unset($_SESSION['user']);
-            $_SESSION['success'] = "Votre compte à bien été supprimé";
-            header("Location:index.php");
-            exit;
-            }else{
-                $_SESSION['success'] = "Le compte à bien été supprimé";
-                header("Location:index.php?ctrl=admin&action=dashboard");
-                exit;
-            }
-
         }
+
         public function allUser(){
 
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
@@ -643,7 +696,7 @@
             $intNewGrade = $_POST['user_funct_id'] ?? null;
 
             if($intIdUser && $intNewGrade) {
-                $objUserModel = new userModel();
+                $objUserModel = new UserModel();
                 $success = $objUserModel->updateGrade((int)$intIdUser, (int)$intNewGrade);
 
                 if($success){

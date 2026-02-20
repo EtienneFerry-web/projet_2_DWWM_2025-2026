@@ -36,7 +36,7 @@
 
                 {if isset($smarty.session.user)
                     && $smarty.session.user.user_id == $smarty.get.id
-                    && $objUser->getFunction() === "Administrator"}
+                    && $smarty.session.user.user_funct_id != 1}
                     <div class="col-auto">
                         <a href="index.php?ctrl=admin&action=dashboard" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-1">
                             <i class="bi bi-speedometer2 fs-5"></i><span>Dashboard</span>

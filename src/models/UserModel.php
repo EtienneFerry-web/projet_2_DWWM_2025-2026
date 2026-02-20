@@ -13,6 +13,20 @@
         /**
         * @return array
         */
+
+		public function findUser(int $id) {
+			$strRq = "SELECT *
+						FROM users
+						WHERE user_id = :id
+						AND user_delete_at IS NULL";
+
+			$prep = $this->_db->prepare($strRq);
+			$prep->bindValue(':id', $id, PDO::PARAM_INT);
+			$prep->execute();
+
+			return $prep->fetch();
+		}
+
         public function findAllUsers():array{
 			// Writing request
 			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id

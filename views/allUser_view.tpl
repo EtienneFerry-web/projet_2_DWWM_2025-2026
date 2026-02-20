@@ -56,9 +56,10 @@
                             <select name="user_funct_id" class="form-select form-select-sm" onchange="this.form.submit()">
                                 <option value="1" {if $objUser->getUser_funct_id() ==1}selected{/if} >Utilisateur</option>
                                 <option value="2" {if $objUser->getUser_funct_id() ==2}selected{/if} >Modérateur</option>
-                                {if $smarty.session.user.user_funct_id == 3}
-                                <option value="3" {if $objUser->getUser_funct_id() ==3}selected{/if} >Administrasteur</option>
-                                {/if}
+
+                            {if $smarty.session.user.user_funct_id == 3}
+                                    <option value="3" {if $objUser->getUser_funct_id() == 3}selected{/if}>Administrateur</option>
+                            {/if}
                             </select>
                         </form>
                         {else}
@@ -75,9 +76,9 @@
                         {/if}
 
                         {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id() || $smarty.session.user.user_id == $objUser->getId()}
-                            <a href="index.php?ctrl=movie&action=deleteAccount&id={$objUser->getId()}"
-                            class="btn btn-sm btn-outline-danger px-5"
-                            onclick="return confirm('Vous allez supprimer le film {$objUser->getPseudo()|escape:'javascript'}')">
+                            <a href="index.php?ctrl=user&action=deleteAccount&id={$objUser->getId()}"
+                                class="btn btn-sm btn-outline-danger px-5"
+                                onclick="return confirm('Vous allez supprimer le film {$objUser->getPseudo()|escape:'javascript'}')">
                                 Supprimer
                             </a>
                         {/if}
