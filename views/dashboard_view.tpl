@@ -42,7 +42,7 @@
             <ul class="list-group list-group-flush border-top border-dark">
                 {foreach from=$arrTopLikes item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">{$objMovie->getTitle()}</span>
+                    <a class="text-decoration-none col-4 text-dark" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><span class="col-4">{$objMovie->getTitle()}</span></a>
                     <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
                     <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
                 </li>
@@ -57,7 +57,7 @@
             <ul class="list-group list-group-flush border-top border-dark">
                 {foreach from=$arrTopComments item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">{$objMovie->getTitle()}</span>
+                    <a class="text-decoration-none col-4 text-dark" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><span class="">{$objMovie->getTitle()}</span></a>
                     <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
                     <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
                 </li>
@@ -72,7 +72,7 @@
             <ul class="list-group list-group-flush border-top border-dark">
                 {foreach from=$arrLastMovies item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
-                    <span class="col-4">{$objMovie->getTitle()}</span>
+                    <a class="text-decoration-none col-4 text-dark" href="index.php?ctrl=movie&action=movie&id={$objMovie->getId()}"><span class="">{$objMovie->getTitle()}</span></a>
                     <span class="col-4 text-center">{$objMovie->getLike()} likes</span>
                     <span class="col-4 text-end">{$objMovie->getNbComments()} commentaires</span>
                 </li>
