@@ -1,5 +1,7 @@
 <?php
-    require_once'models/mother_model.php';
+    namespace App\Models;
+    use PDO;
+    //require_once'models/mother_model.php';
 
     class PersonModel extends Connect{
 

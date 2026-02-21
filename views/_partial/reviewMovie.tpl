@@ -9,7 +9,7 @@
 
     <div class="col-3 my-auto">
         <a id="movie" data-movie="{$review->getMovieId()}" href="index.php?ctrl=movie&action=movie&id={$review->getMovieId()}">
-            <img src="{$review->getPhoto()}" alt="couverture de film" class="img-fluid border-0">
+            <img src="assets/img/movie/{$review->getPhoto()}" alt="couverture de film" class="img-fluid border-0">
         </a>
     </div>
 
@@ -27,10 +27,23 @@
                 </span>
 
                 <form method="post" class="mt-2">
-                    <input type="radio" class="btn-check" name="searchBy" value="{$review->getId()}" id="filter-like-{$review->getId()}" onchange="this.form.submit()">
-                    <label class="form-label" for="filter-like-{$review->getId()}">
-                        <i class="bi bi-heart-fill"></i><span> {$review->getLike()} </span>
-                    </label>
+                    <input type="hidden"  name="likeReviewBtn" value="{$review->getId()}">
+
+                    <button type="submit" class="border-0 bg-transparent p-0 text-decoration-none" name="">
+                        <label class="form-label" style="cursor:pointer;">
+                        {if $review->getUser_liked()}
+                            <i class="bi bi-heart-fill"></i>
+                        {else}
+                            <i class="bi bi-heart"></i>
+                        {/if}
+                            <span class="like-count"> {$review->getLike()}</span>
+                        </label>
+                     </button>
+
+
+                    <!--<label class="form-label" for="filter-like-{$review->getId()}">
+                        <i class="bi bi-heart-fill"></i><span>  </span>
+                    </label>-->
                 </form>
             </div>
 
@@ -66,7 +79,7 @@
                     <button class="border-0 bg-transparent text-end col-6 pe-3" data-bs-toggle="modal" data-bs-target="#reportModal-review-{$review->getId()}">
                         <i class="bi bi-flag fs-3 ms-auto"></i>
                     </button>
-                    <div class="modal fade" id="reportModal-review-{$review->getId()}" tabindex="-1">
+                    <div class="modal fade m-auto" id="reportModal-review-{$review->getId()}" tabindex="-1">
                         <div class="modal-dialog">
                             <form method="POST" class="modal-content">
                                 <input type="hidden" name="commentReportId" value="{$review->getId()} ">

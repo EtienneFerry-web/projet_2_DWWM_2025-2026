@@ -1,5 +1,6 @@
 <?php
-
+    namespace App\Models;
+    use PDO;
     /**
     * @author All
     * 16/01/2026
@@ -19,6 +20,8 @@
 					$_ENV['DB_PASSWORD'],
 					array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC)
 				);
+
+				$this->_db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
 
 				$this->_db->exec("SET CHARACTER SET utf8");
 

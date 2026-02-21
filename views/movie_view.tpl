@@ -11,132 +11,112 @@
 <section class="container row mx-auto" id="movie">
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
         <h1 class="d-block d-md-none">{$objMovie->getTitle()}</h1>
-        <img src="{$objMovie->getPhoto()}" alt="" class="img-fluid w-75 w-md-50">
+        <img src="assets/img/movie/{$objMovie->getPhoto()}" alt="" class="img-fluid w-75 w-md-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
         <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
             <span class="stars d-inline-block"></span>
             <span class="note d-inline-block" id="average" >{$objMovie->getRating()}</span>
         </span>
         <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset"><i class="bi bi-heart-fill me-1"></i> {$objMovie->getLike()}</span>
-</div>
-</div>
-    <div class="col-12 col-md-8 py-1 py-md-5 text-center text-md-start">
-        <h1 class="d-md-block d-none">{$objMovie->getTitle()}</h1>
-        <span class=" spanMovie d-block py-2"> Durée : {$objMovie->getLength()}</span>
-        <span class=" spanMovie d-block py-2"> Date de sortie : {$objMovie->getDateFormat()} </span>
-        <p>{$objMovie->getDescription()}</p>
-        <div class="col-12 col-md-8 py-2 row" >
-
-            <span class=" spanMovie d-block py-2"> Film : {$objMovie->getCountry()}</span>
-
-
-            <div class="row col-12 py-4 text-center text-md-start">
-                <h3>Casting</h3>
-                {foreach from=$arrPersToDisplay item=objPerson}
-                    <a class="spanMovie d-block col-4" href="index.php?ctrl=person&action=person&id={$objPerson->getId()}"> {$objPerson->getFullName()}</a>
-                {/foreach}
-            </div>
-            <div class="d-flex align-item-center gap-2">
-                <a href="{$objMovie->getTrailer()}" target="blank" class="py-2 spanMovie d-block link"> Voir le trailer &#8599;</a>
-                <a id="shareMovie" class="py-2 spanMovie d-block link">Partager &#8599;</a>
-            </div>
-
-        </div>
-        {if isset($smarty.session.user)}
-        <form method="POST" class="d-inline">
-            <input type="hidden" name="likeMovieBtn" value="{$objMovie->getId()}">
-
-            <button type="submit"
-                    name=""
-                    value=""
-                    class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent p-0 text-reset"
-                    style="cursor: pointer;"
-                    > Liker :
-            {if $objMovie->getUser_liked()}
-                <i class="bi bi-heart-fill"></i>
-            {else}
-                <i class="bi bi-heart"></i>
-            {/if}
-
-            </button>
-        </form>
-
-        <form method="post">
-            <div class="row align-items-center">
-                <div class="col-md-8 rating user-select-none text-center text-md-start py-2">
-                    <span class="spanMovie">Votre Note :
-                    <!--Data value for ,5 with double click-->
-                    <i class="bi bi-star" data-value="1"></i>
-                    <i class="bi bi-star" data-value="2"></i>
-                    <i class="bi bi-star" data-value="3"></i>
-                    <i class="bi bi-star" data-value="4"></i>
-                    <i class="bi bi-star" data-value="5"></i>
-                    </span>
-                    <!--input value for rating score-->
-                    <input type="hidden" name="rating" id="note" value="{$objMovie->getNoteUser()}" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
-
-                </div>
-            </div>
-        </form>
-        {/if}
-        {if $objMovie->getReported() == 0}
-        <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
-            {if $objMovie->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
-        </button>
-        <div class="modal fade" id="reportModal" tabindex="-1">
-            <div class="modal-dialog">
-                <form method="POST" class="modal-content">
-
-                    <div class="modal-header border-0"">
-                        <h5 class="modal-title">Signaler : {$objMovie->getTitle()} </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Pour que votre signalement sois prit en charge veuillez renseigner la raison !</p>
-                        <textarea name="repMovie" class="form-control" placeholder="Raison du signalement..."></textarea>
-                    </div>
-
-                    <div class="modal-footer border-0 mx-auto">
-                        <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-outline-success px-3">Validez</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-        {else}
-        <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
-            {if $objMovie->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
-        </button>
-        <div class="modal fade" id="reportModal" tabindex="-1">
-            <div class="modal-dialog">
-                <form method="POST" class="modal-content">
-
-                    <div class="modal-header border-0"">
-                        <h5 class="modal-title">Signaler : {$objMovie->getTitle()} </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Voulez vous vraiment supprimer votre signalement ?</p>
-                    </div>
-
-                    <div class="modal-footer border-0 mx-auto">
-                        <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-3">Supprimer</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-        {/if}
-        {if isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1}
-        <div class="col-12 text-center text-md-start">
-           <a href=""><i class="bi bi-pencil-square fs-3 cursor-pointer"></i></a>
-        </div>
-        {/if}
     </div>
+</div>
+<div class="col-12 col-md-8 py-3 py-md-5 text-center text-md-start">
+    <h1 class="d-md-block d-none mb-3">{$objMovie->getTitle()}</h1>
+
+    <div class="mb-3">
+        <span class="spanMovie d-block py-1"><strong>Durée :</strong> {$objMovie->getLength()}</span>
+        <span class="spanMovie d-block py-1"><strong>Date de sortie :</strong> {$objMovie->getDateFormat()}</span>
+        <span class="spanMovie d-block py-1"><strong>Pays :</strong> {$objMovie->getCountry()}</span>
+    </div>
+
+    <p class="px-2 px-md-0 mb-4">{$objMovie->getDescription()}</p>
+
+    <div class="py-3 py-md-4">
+        <h3 class="mb-3">Casting</h3>
+        <div class="row g-2 justify-content-center justify-content-md-start">
+            {foreach from=$arrPersToDisplay item=objPerson}
+                <div class="col-6 col-sm-4 col-md-3">
+                    <a class="spanMovie d-block text-truncate" href="index.php?ctrl=person&action=person&id={$objPerson->getId()}">
+                        {$objPerson->getFullName()}
+                    </a>
+                </div>
+            {/foreach}
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center gap-3 justify-content-center justify-content-md-start mb-4">
+        <a href="{$objMovie->getTrailer()}" target="_blank" class="spanMovie link">Voir le trailer &#8599;</a>
+        <a id="shareMovie" class="spanMovie link" style="cursor:pointer;">Partager &#8599;</a>
+    </div>
+
+    <hr class="d-md-none my-4 opacity-25">
+
+    {if isset($smarty.session.user)}
+    <div class="row g-3 justify-content-center justify-content-md-start align-items-center">
+        <div class="col-12 col-sm-auto">
+            <form method="POST">
+                <input type="hidden" name="likeMovieBtn" value="{$objMovie->getId()}">
+                <button type="submit" class="movieLikes d-flex align-items-center gap-2 spanMovie border-0 bg-transparent p-0 mx-auto mx-md-0" style="cursor: pointer;">
+                    Liker : {if $objMovie->getUser_liked()}<i class="bi bi-heart-fill fs-4"></i>{else} <i class="bi bi-heart fs-4"></i>{/if}
+                </button>
+            </form>
+        </div>
+
+        <div class="col-12 col-sm-auto">
+            <form method="post">
+                <div class="rating user-select-none d-flex align-items-center justify-content-center justify-content-md-start gap-1">
+                    <span class="spanMovie me-2">Votre Note :</span>
+                    <i class="bi bi-star fs-4" data-value="1"></i>
+                    <i class="bi bi-star fs-4" data-value="2"></i>
+                    <i class="bi bi-star fs-4" data-value="3"></i>
+                    <i class="bi bi-star fs-4" data-value="4"></i>
+                    <i class="bi bi-star fs-4" data-value="5"></i>
+                    <input type="hidden" name="rating" id="note" value="{$objMovie->getNoteUser()}" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="mt-4">
+        <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal" title="Signaler">
+            {if $objMovie->getReported() == 0}
+                <i class="bi bi-flag fs-3"></i>
+            {else}
+                <i class="bi bi-flag-fill fs-3"></i>
+            {/if}
+        </button>
+    </div>
+{/if}
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form method="POST" class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Signaler : {$objMovie->getTitle()}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body text-center text-md-start">
+                    {if $objMovie->getReported() == 0}
+                        <p>Pour que votre signalement soit pris en charge, veuillez renseigner la raison :</p>
+                        <textarea name="repMovie" class="form-control" rows="4" placeholder="Raison du signalement..."></textarea>
+                    {else}
+                        <p>Voulez-vous vraiment supprimer votre signalement ?</p>
+                    {/if}
+                </div>
+
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-outline-dark px-4" data-bs-dismiss="modal">Annuler</button>
+                    {if $objMovie->getReported() == 0}
+                        <button type="submit" class="btn btn-outline-success px-4">Valider</button>
+                    {else}
+                        <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-4">Supprimer</button>
+                    {/if}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </section>
 
 {if count($arrImagesToDisplay) > 0}
@@ -164,6 +144,7 @@
 </section>
 {/if}
 {if $curDate->format('Y-m-d') >= $objMovie->getRelease_date()}
+{if isset($smarty.session.user)}
     <section id="addComment" class="container text-center py-5">
         <h2>Avis</h2>
         <div class="text-start py-2">
@@ -199,7 +180,9 @@
                 </div>
             </form>
         </div>
+
     </section>
+     {/if}
     <section id="userComment" class="container py-5">
         <h3 class="py-3">Avis utilisateur</h3>
         <div class="allComment">

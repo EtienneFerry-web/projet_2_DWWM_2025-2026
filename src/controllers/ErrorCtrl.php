@@ -1,23 +1,20 @@
 <?php
-
+    namespace App\Controllers;
     /**
      * @author Marco Schmitt
      * 16/01/2026
-     * Version 0.1
+     * Version 1
      */
 
 
     class ErrorCtrl extends MotherCtrl{
 
+        //Page Error not found
         public function err404(){
-            //Page d'erreur pas not found
-
             $this->_display("404");
         }
-
+        //Page Access denied
         public function err403(){
-            //Page Pour les accés
-
             $this->_display("403");
         }
 

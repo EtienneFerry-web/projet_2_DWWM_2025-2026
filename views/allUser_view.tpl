@@ -24,19 +24,24 @@
     <div id="ficheMovie" class="d-flex flex-column">
         <h2>Tous les Utilisateurs</h2>
 
-        <form class="row g-1 align-items-center py-3">
+        <form class="row g-1 align-items-center py-3" method="GET" action="index.php">
+            <input type="hidden" name="ctrl" value="user">
+            <input type="hidden" name="action" value="allUser">
             <div class="col-12 col-md-5 p-0">
-                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="">
+                <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="{$searchTerm|default:''}">
             </div>
             <div class="col-12 col-md-5 p-0">
-                <select class="form-select">
-                    <option value="">Tous Les Grades</option>
-                    <option value="usa">Croissant</option>
-                    <option value="france">Decroissant</option>
+                <select class="form-select" name="filter" onchange="this.form.submit()">
+                    <option value="all"     {if $filter == 'all'}selected{/if}>Tous Les Grades</option>
+                    <option value="asc"     {if $filter == 'asc'}selected{/if}>Croissant</option>
+                    <option value="desc"    {if $filter == 'desc'}selected{/if}>Decroissant</option>
+                    <option value="admin"   {if $filter == 'admin'}selected{/if}>Administrateurs</option>
+                    <option value="modo"    {if $filter == 'modo'}selected{/if}>Modérateurs</option>
+                    <option value="user"    {if $filter == 'user'}selected{/if}>Utilisateurs</option>
                 </select>
             </div>
             <div class="col-12 col-md-2 p-0">
-                <button type="submit" class="w-100 p-1 btnCustom" id="sendMovie">Recherche</button>
+                <button type="submit" class="w-100 p-1 btnCustom" id="sendUser">Recherche</button>
             </div>
         </form>
 
@@ -50,12 +55,38 @@
                     <a class="text-decoration-none" href="index.php?ctrl=user&action=user&id={$objUser->getId()}"><span class="spanMovie">{$objUser->getPseudo()}</span></a>
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
-                        <a href="" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
-                        <a href="index.php?ctrl=movie&action=deleteAccount&id={$objUser->getId()}"
-                        class="btn btn-sm btn-outline-danger px-5"
-                        onclick="return confirm('Vous allez supprimer le film {$objUser->getPseudo()|escape:'javascript'}')">
-                            Supprimer
-                        </a>
+
+                        {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id()}
+                        <form action="index.php?ctrl=user&action=updateGrade&id={$objUser->getId()}" method="post">
+                            <select name="user_funct_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                                <option value="1" {if $objUser->getUser_funct_id() ==1}selected{/if} >Utilisateur</option>
+                                <option value="2" {if $objUser->getUser_funct_id() ==2}selected{/if} >Modérateur</option>
+
+                            {if $smarty.session.user.user_funct_id == 3}
+                                    <option value="3" {if $objUser->getUser_funct_id() == 3}selected{/if}>Administrateur</option>
+                            {/if}
+                            </select>
+                        </form>
+                        {else}
+                            <span >
+                                {if     $objUser->getUser_funct_id() == 1}Utilisateur
+                                {elseif $objUser->getUser_funct_id() == 2}Modérateur
+                                {elseif $objUser->getUser_funct_id() == 3}Administrateur
+                                {/if}
+                            </span>
+                        {/if}
+
+                        {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id() || $smarty.session.user.user_id == $objUser->getId()}
+                            <a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
+                        {/if}
+
+                        {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id() || $smarty.session.user.user_id == $objUser->getId()}
+                            <a href="index.php?ctrl=user&action=deleteAccount&id={$objUser->getId()}"
+                                class="btn btn-sm btn-outline-danger px-5"
+                                onclick="return confirm('Vous allez supprimer le film {$objUser->getPseudo()|escape:'javascript'}')">
+                                Supprimer
+                            </a>
+                        {/if}
                     </div>
                 </div>
             {/foreach}

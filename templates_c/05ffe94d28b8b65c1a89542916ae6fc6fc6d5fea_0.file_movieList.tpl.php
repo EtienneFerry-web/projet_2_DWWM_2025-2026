@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.7.0, created on 2026-02-11 15:08:40
+/* Smarty version 5.7.0, created on 2026-02-16 14:30:20
   from 'file:views/_partial/movieList.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.7.0',
-  'unifunc' => 'content_698c9b787b3ed5_15070642',
+  'unifunc' => 'content_699329fc182a41_34647507',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '05ffe94d28b8b65c1a89542916ae6fc6fc6d5fea' => 
     array (
       0 => 'views/_partial/movieList.tpl',
-      1 => 1769785504,
+      1 => 1771251736,
       2 => 'file',
     ),
   ),
@@ -20,12 +20,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_698c9b787b3ed5_15070642 (\Smarty\Template $_smarty_tpl) {
+function content_699329fc182a41_34647507 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/MAMP/htdocs/Projet2/views/_partial';
 ?><div class="row py-2">
     <div class="col-4 text-center my-auto">
         <a href="index.php?ctrl=movie&action=movie&id=<?php echo $_smarty_tpl->getValue('objMovie')->getId();?>
-"><img src="<?php echo $_smarty_tpl->getValue('objMovie')->getUrl();?>
+"><img src="<?php echo $_smarty_tpl->getValue('objMovie')->getPhoto();?>
 " alt="" class="img-fluid"></a>
     </div>
     <div class="col-8 text-start">

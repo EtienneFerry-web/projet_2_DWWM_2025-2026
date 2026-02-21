@@ -1,10 +1,16 @@
 <?php
-    require'entities/movie_entity.php';
-    require'entities/comment_entity.php';
-    require'entities/person_entity.php';
-    require'models/movie_model.php';
-    require'models/comment_model.php';
-    require'models/person_model.php';
+    namespace App\Controllers;
+
+    //Entities
+    use App\Entities\MovieEntity;
+    use App\Entities\CommentEntity;
+    use App\Entities\PersonEntity;
+    //Models
+    use App\Models\MovieModel;
+    use App\Models\CommentModel;
+    use App\Models\PersonModel;
+
+
 
     /**
      * @author Marco Schmitt
@@ -68,7 +74,7 @@
         */
 
         public function deletePerson() {
-			
+
            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
@@ -90,7 +96,7 @@
          * 06/02/2026
          * Version 0.1
         */
-        
+
         public function settingsPerson() {
             if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
@@ -98,28 +104,28 @@
 			}
             $objPersonModel = new PersonModel();
             var_dump($_POST);
-            $objPerson = new PersonEntity();            
+            $objPerson = new PersonEntity();
             $objPerson->hydrate($_POST);
-      
+
             //Testing Form
             $arrError = [];
             if (count($_POST) > 0) {
                 if ($objPerson->getName() == ""){
                     $arrError['name'] = "Le nom est obligatoire";
-                }   
+                }
                 if ($objPerson->getFirstname() == ""){
                     $arrError['firstname'] = "Le prénom est obligatoire";
-                }   
+                }
                 if ($objPerson->getBirthdate() == ""){
                     $arrError['birthdate'] = "La date de naissance est obligatoire";
-                }   
+                }
                 if ($objPerson->getCountry() == ""){
                     $arrError['country'] = "La nationalité est obligatoire";
-                }   
+                }
                 if ($objPerson->getBio() == ""){
                     $arrError['bio'] = "La biographie est obligatoire";
                 }
-                
+
                 $arrTypeAllowed	= array('image/jpeg', 'image/png');
 				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
 					$arrError['photo'] = "L'image est obligatoire";
@@ -155,7 +161,7 @@
 
             $arrPerson      = $objPersonModel->findPerson($_GET['id']);
             $arrCountry     = $objPersonModel->allCountry();
-                 
+
 
             $arrCountryToDisplay    = array();
 
@@ -165,52 +171,52 @@
 
                 $arrCountryToDisplay[]  = $objPerson;
             }
-          
+
             //Preparing hydrate
-           
-			$objPerson->hydrate($arrPerson);           
+
+			$objPerson->hydrate($arrPerson);
             var_dump($objPerson);
 
 
-            //If the form is correct, we update the user's info				
-				
+            //If the form is correct, we update the user's info
+
             $this->_arrData['objPerson']            = $objPerson;
             $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;
-            $this->_arrData['arrError']             = $arrError;    
+            $this->_arrData['arrError']             = $arrError;
             $this->_display("settingsPerson");
-             
-        
+
+
         }
-        
+
         public function allPerson(){
 
             $search = $_GET['search'] ?? NULL;
             $filter = $_GET['filter'] ?? 'all';
             $sort   = $_GET['sort'] ?? 'ASC';
-      
-			$objPersonModel 	= new PersonModel;                            
+
+			$objPersonModel 	= new PersonModel;
 			$arrPerson   	= $objPersonModel->findPersonWithFilters($search, $filter, $sort);
 
-      
+
 			// Initialisation d'un tableau => objets
 			$arrPersonToDisplay	= array();
-      
+
 			// Boucle de transformation du tableau de tableau en tableau d'objets
 			foreach($arrPerson as $arrDetPerson){
 
 				$objPerson = new PersonEntity();
 				$objPerson->hydrate($arrDetPerson);
-                            
+
 				$arrPersonToDisplay[]	= $objPerson;
-			} 
-      
+			}
+
 			// Donner les infos pour l'affichage
-      
+
 			$this->_arrData['arrPersonToDisplay']	= $arrPersonToDisplay;
             $this->_arrData['search']               = $search;
             $this->_arrData['filter']               = $filter;
             $this->_arrData['sort']                 = $sort;
-      
+
 			$this->_display("allPerson");
 		}
     }

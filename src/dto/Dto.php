@@ -1,4 +1,5 @@
 <?php
+    namespace App\Dto;
 	class Dto {
 
 		protected int $_id;

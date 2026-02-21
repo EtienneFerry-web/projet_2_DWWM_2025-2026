@@ -17,17 +17,17 @@ if (searchBar.value.trim() !== '') {
   saveSearch(searchBar.value)
 }
 searchForm.addEventListener('click', function (e) {
-  e.stopPropagation(); // Ajoute bien les parenthèses !
+  e.stopPropagation();
   console.log('input');
 });
-// 2. Fermer si on clique n'importe où ailleurs
+
 document.addEventListener('click', () => {
   searchBar.style.borderRadius = '24px';
   sugesContainer.style.display = 'none';
   console.log('document');
 });
 
-// 3. Gérer le focus (pour afficher l'historique)
+
 searchBar.addEventListener('focus', () => {
 
     if (searchBar.value.trim() === '') {
@@ -122,9 +122,37 @@ function saveSearch(keyword) {
 
 
 function searchData(){
-  fetch(`index.php?ctrl=search&action=autoComplete&keywords=${encodeURIComponent(searchBar.value)}`) //encodeURIComponent Permet d'encode les espace ou caractére spécial & = %26 et php pourra le décoder et remettre &
+  fetch(`index.php?ctrl=search&action=autoComplete&keywords=${encodeURIComponent(searchBar.value)}`)
     .then(res => res.json())
     .then(data => {
       affichSuggestion(data);
     });
+}
+
+
+async function searchData() {
+  const keywords = searchBar.value;
+  try {
+        const response = await fetch(`index.php?ctrl=search&action=autoComplete`, {
+            method: 'POST', // methode Post
+            headers: {
+                'Content-Type': 'application/json' // On précise qu'on envoie du JSON
+            },
+            body: JSON.stringify({ keywords: keywords }) // La valeur est encapsulée ici
+        });
+        console.log("rq envoyer");
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+
+
+        const data = await response.json();
+
+
+        affichSuggestion(data);
+
+    } catch (error) {
+        // Capture toutes les erreurs (réseau, encodage, syntaxe JSON, etc.)
+        console.error("Une erreur est survenue lors de la recherche :", error.message);
+    }
 }

@@ -1,6 +1,7 @@
-
 <?php
-    require_once("mother_entity.php");
+    namespace App\Entities;
+    use DateTime;
+    use IntlDateFormatter;
 
 	/**
 	* Classe d'un objet Article
@@ -40,6 +41,9 @@
 
             return $age .' ans';
 		}
+
+
+
 
 		public function getDeathDateFormat(string $strFormat = "fr_FR"){
       		if (empty($this->_deathdate)) {

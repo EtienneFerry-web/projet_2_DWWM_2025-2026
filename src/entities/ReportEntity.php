@@ -1,5 +1,7 @@
 <?php
-    require_once("mother_entity.php");
+    namespace App\Entities;
+
+    use DateTime;
 
     /**
     * Classe d'un objet Report
@@ -16,9 +18,11 @@
         private string  $_date;
         private int     $_reporter_user_id;
         private string  $_reason;
-        private ?string  $_pseudo;
-        private ?string  $_photo;
+        private ?string $_pseudo;
+        private ?string $_photo;
         private string  $_title;
+        private int     $_spoiler;
+        private ?bool    $_user_ban = NULL;
 
 
         /**
@@ -41,6 +45,10 @@
 
         public function getReportedComId():?int{
             return $this->_reported_com_id;
+        }
+
+        public function getSpoiler():?string{
+            return $this->_spoiler;
         }
 
         public function getPseudo():?string{
@@ -79,10 +87,25 @@
             return $this->_reason;
         }
 
+        public function getUserBan():bool{
+            $curdate = new DateTime;
+
+            if($this->_user_ban >= $curdate){
+                return true;
+            } else{
+                return false;
+            }
+
+        }
+
         // Setters
 
         public function setPseudo(?string $pseudo){
              $this->_pseudo = $pseudo;
+        }
+
+        public function setSpoiler(?string $strSpoiler){
+             $this->_spoiler = $strSpoiler;
         }
 
         public function setPhoto(?string $photo){
@@ -127,5 +150,9 @@
 
         public function setReason(string $reason){
             $this->_reason = $reason;
+        }
+
+        public function setUser_ban(?string $strBan){
+            $this->_user_ban = $strBan;
         }
     }

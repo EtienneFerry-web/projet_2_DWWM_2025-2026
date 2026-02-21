@@ -1,6 +1,8 @@
-
 <?php
-	require_once("mother_entity.php");
+    namespace App\Entities;
+
+    use DateTime;
+    use IntlDateFormatter;
 
 	/**
 	* Classe d'un objet Movie
@@ -26,12 +28,14 @@
 		private int	    $_user_liked;
 		private ?float	$_note_user;
 		private int     $_reported;
+		private int 	$_nb_comments = 0;
 
 
 		/**
 		* Constructeur
 		*/
-		
+
+
 		public function __construct(string $prefixe = ""){
 			// Préfixe de la table pour hydratation
 			$this->_prefixe = $prefixe;
@@ -53,7 +57,14 @@
 		public function setTitle(string $strTitle){
 			$this->_title = $this->clean($strTitle);
 		}
-		
+
+
+		/**
+		* Mise à jour du titre
+		* @param string le nouveau titre
+		*/
+
+
 		public function getNoteUser():float{
 			return $this->_note_user;
 		}
@@ -261,5 +272,13 @@
 
 		public function getUser_liked(){
 			return $this->_user_liked;
+		}
+
+		public function getNbComments(): int {
+			return $this->_nb_comments;
+		}
+
+		public function setNb_comments(int $IntNb) {
+			$this->_nb_comments = $IntNb;
 		}
 	}

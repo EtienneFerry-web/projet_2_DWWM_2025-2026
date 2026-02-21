@@ -1,7 +1,7 @@
-
 <?php
-    require_once("mother_entity.php");
-
+    namespace App\Entities;
+    use DateTime;
+    use IntlDateFormatter;
 	/**
 	* Classe d'un objet Article
 	* @author Marco

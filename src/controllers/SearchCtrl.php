@@ -1,6 +1,8 @@
 <?php
-    require'dto/search_dto.php';
-    require'models/search_model.php';
+    namespace App\Controllers;
+
+    use App\Dto\SearchDto;
+    use App\Models\SearchModel;
 
     /**
      * @author Marco Schmitt
@@ -13,9 +15,11 @@
         public function autoComplete(){
 
             header('Content-Type: application/json');
+            $keywords = file_get_contents("php://input");
+			$data = json_decode($keywords, true);
 
             $objSearch = new SearchDto();
-            $objSearch->setSearch($_GET['keywords']);
+            $objSearch->setSearch($data['keywords']);
 
             $objSearchModel 	= new SearchModel;
 			$arrResult		    = $objSearchModel->searchContent($objSearch, 0, 10);

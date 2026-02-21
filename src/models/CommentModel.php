@@ -1,6 +1,10 @@
 <?php
+    namespace App\Models;
 
-    require_once'models/mother_model.php';
+    use PDO;
+	use PDOException;
+
+    //require_once'models/mother_model.php';
 
     class CommentModel extends Connect{
 
@@ -20,7 +24,7 @@
                             EXISTS(
                             SELECT 1 FROM reports
                             WHERE rep_reported_com_id = comments.com_id
-                            AND rep_reporter_user_id = $idConnectUser
+                            AND rep_reporter_user_id = :user_id
                             ) AS 'com_reported',
 
                             EXISTS(
@@ -72,7 +76,14 @@
                         WHERE rep_reported_com_id = comments.com_id
                         AND rep_reporter_user_id = $idConnectUser
                         AND rep_pseudo_user IS NULL
-                        ) AS 'com_reported'
+                        ) AS 'com_reported',
+
+                        EXISTS(
+                        SELECT 1 FROM liked
+                        WHERE lik_user_id = $idConnectUser
+                        AND lik_mov_id IS NULL
+                        AND lik_com_id = comments.com_id
+                        ) AS com_user_liked
 
                         FROM users
                         INNER JOIN ratings ON users.user_id = ratings.rat_user_id
@@ -147,7 +158,7 @@
             // 1. Insertion du commentaire (Cela fonctionne car on peut commenter plusieurs fois)
             $sql1 = "   UPDATE comments
                         SET com_comment = :comment,
-                        com_datetime = NOW()
+                        com_update_at = NOW()
                         WHERE com_id = :id AND com_user_id = :userId";
 
             $rq1 = $this->_db->prepare($sql1);
@@ -191,7 +202,13 @@
 
         public function deleteComment(object $objComment):bool{
 
-            $strRq = "DELETE FROM comments WHERE com_id = :comId AND com_user_id = :userId ";
+            $strRq = "  DELETE FROM comments
+                        WHERE com_id = :comId
+                        AND (com_user_id = :userId
+                        OR :userId IN ( SELECT user_id
+                                        FROM users
+                                        WHERE user_id = :userId
+                                        AND (user_funct_id = 2 OR user_funct_id = 3)))";
 
             $rq = $this->_db->prepare($strRq);
 
@@ -259,15 +276,15 @@
             		return $rqPrep->execute();
 		}
 
-        public function likeComment($intUserId, $intItemId){
+        public function likeComment($intUserId, $intComId){
 
-            $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_item_id, lik_type, lik_created_at)
-                VALUES (:user_id, :item_id, 'comment', NOW())";
+            $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_com_id)
+                VALUES (:user_id, :com_id)";
 
 			$rqPrep	= $this->_db->prepare($strRq);
 
 				$rqPrep->bindValue(":user_id", $intUserId, PDO::PARAM_INT);
-				$rqPrep->bindValue(":item_id", $intItemId, PDO::PARAM_INT);
+				$rqPrep->bindValue(":com_id", $intComId, PDO::PARAM_INT);
 
 			$rqPrep->execute();
 
@@ -278,11 +295,11 @@
             } else {
 
                 $deleteRq = "   DELETE FROM liked
-                                WHERE lik_item_id   = :item_id
+                                WHERE lik_com_id   = :com_id
                                 AND lik_user_id     = :user_id";
 
                 $prepDelete = $this->_db->prepare($deleteRq);
-                $prepDelete->bindValue(':item_id', $intItemId, PDO::PARAM_INT);
+                $prepDelete->bindValue(':com_id', $intComId, PDO::PARAM_INT);
                 $prepDelete->bindValue(':user_id', $intUserId, PDO::PARAM_INT);
 
                 $prepDelete->execute();
@@ -291,4 +308,10 @@
 
             }
 		}
+
+        public function countAllComments() {
+            $strRq = "SELECT COUNT(*)
+                        FROM comments";
+            return $this->_db->query($strRq)->fetchColumn();
+        }
     }

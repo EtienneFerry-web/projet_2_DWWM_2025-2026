@@ -1,11 +1,14 @@
 <?php
-    require'entities/report_entity.php';
-    require'entities/user_entity.php';
-    require'models/user_model.php';
-    require'entities/movie_entity.php';
-    require'models/movie_model.php';
-    require'entities/comment_entity.php';
-    require'models/comment_model.php';
+    namespace App\Controllers;
+    //Entities
+    use App\Entities\MovieEntity;
+    use App\Entities\CommentEntity;
+    use App\Entities\ReportEntity;
+    use App\Entities\UserEntity;
+    //models
+    use App\Models\MovieModel;
+    use App\Models\CommentModel;
+    use App\Models\UserModel;
 
     /**
     * Log in
@@ -132,6 +135,8 @@
             //e.ferry607123@gmail.com
             //1234567890AZERTYUIOP!a
                 $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
+
+                /*
                 if ($objUser->getPwd() == ""){
                     $arrError['pwd'] = "Le mot de passe est obligatoire";
                 }else if (!preg_match($strRegex, $objUser->getPwd())){
@@ -139,7 +144,38 @@
                 }else if($objUser->getPwd() != $strPwdConfirm){
                     $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
                 }
+                */
 
+                $password = $objUser->getPwd();
+
+
+                if ($password == "") {
+                    $arrError['pwd'] = "Le mot de passe est obligatoire";
+                } else {
+                    if(strlen($password) < 16) {
+                        $arrError['pwd'] = "Le mot de passe doit au moins avoir 16 caractères";
+                    }
+
+                    if (!preg_match('/[A-Z]/', $password)) {
+                        $arrError['pwd'] = "Il manque une majuscule";
+                    }
+
+                    if (!preg_match('/[a-z]/', $password)) {
+                        $arrError['pwd'] = "Il manque une minuscule";
+                    }
+
+                    if (!preg_match('/[0-9]/', $password)) {
+                        $arrError['pwd'] = "Il manque au moins un chiffre";
+                    }
+
+                    if (!preg_match('/[#?!@$%^&*-]/', $password)) {
+                        $arrError['pwd'] = "Il manque un caractère spécial (#?!@$%^&*-)";
+                    }
+
+                    if ($password != $strPwdConfirm){
+                        $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
+                    }
+                }
 
             //If form is correctly filled
                 if (count($arrError) == 0){
@@ -253,6 +289,36 @@
                     }
                 }
 
+                $password = $objUser->getPwd();
+                $strPwdConfirm = $objUser->getPwdConfirm();
+
+                if ($password != "") {
+
+                    if(strlen($password) < 16) {
+                        $arrError['pwd'] = "Le mot de passe doit au moins avoir 16 caractères";
+                    }
+
+                    if (!preg_match('/[A-Z]/', $password)) {
+                        $arrError['pwd'] = "Il manque une majuscule";
+                    }
+
+                    if (!preg_match('/[a-z]/', $password)) {
+                        $arrError['pwd'] = "Il manque une minuscule";
+                    }
+
+                    if (!preg_match('/[0-9]/', $password)) {
+                        $arrError['pwd'] = "Il manque au moins un chiffre";
+                    }
+
+                    if (!preg_match('/[#?!@$%^&*-]/', $password)) {
+                        $arrError['pwd'] = "Il manque un caractère spécial (#?!@$%^&*-)";
+                    }
+
+                    if ($password != $strPwdConfirm){
+                        $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
+                    }
+                }
+
                 if(count($arrError) == 0){
                     $boolUpdate = $objUserModel->settingsUser($objUser);
 
@@ -266,6 +332,7 @@
                         $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
                     }
                 }
+
             }
 
             $this->_arrData['arrError'] = $arrError;
@@ -297,13 +364,12 @@
             $objComment = new CommentEntity;
             $arrError = [];
 
-            if (isset($_POST['deleteComment'])) {
+            if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
                 $objComment->setId((int)$_POST['deleteComment']);
-                $objComment->setUser_id($_GET['id']);
+                $objComment->setUser_id($_SESSION['user']['user_id']);
 
-                if ($_GET['id'] == $_SESSION['user']['user_id'] || $_SESSION['user']['user_funct_id'] != 1) {
-                    $result = $objCommentModel->deleteComment($objComment);
-                }
+                $result = $objCommentModel->deleteComment($objComment);
+
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";
@@ -353,7 +419,21 @@
                     }
             }
 
+        	if(isset($_POST['likeReviewBtn'])&&(isset($_SESSION['user']))){
 
+					$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeReviewBtn']);
+
+					if ($repResult === 1) {
+						$_SESSION['success'] = "Votre like a bien été pris en compte !";
+                        header("Location: index.php?ctrl=user&action=user&id=" . $intId);
+                        exit;
+					} else if($repResult === 2) {
+						$_SESSION['success'] = "Votre like a bien été était supprimer !";
+					}
+
+    			}elseif(isset($_POST['likeReviewBtn']) && !isset($_SESSION['user'])){
+    				$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
+    			}
 
 
 
@@ -432,34 +512,90 @@
                 exit;
             }
 
-            if (isset($_GET['id']) && ((int)$_GET['id']) == ($_SESSION['user']['user_id'])){
-                $_SESSION['success'] = "Vous ne pouvez pas supprimer votre compte";
-                header("Location:index.php?ctrl=admin&action=dashboard");
-                exit;
-            }
-
-            if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
-
             $objUserModel = new UserModel();
-            $success = $objUserModel->deleteUser($_GET['id'] ?? $_SESSION['user']['user_id']);
+            $myId         = (int)$_SESSION['user']['user_id'];
+            $myRank       = (int)$_SESSION['user']['user_funct_id'];
 
-            // Si on a supprimé, on nettoie tout
-            if($success && !isset($_GET['id'])){
-            unset($_SESSION['user']);
-            $_SESSION['success'] = "Votre compte à bien été supprimé";
-            header("Location:index.php");
-            exit;
-            }else{
-                $_SESSION['success'] = "Le compte à bien été supprimé";
-                header("Location:index.php?ctrl=admin&action=dashboard");
+
+            if (isset($_GET['id']) && !empty($_GET['id'])) {
+
+                $intTargetId = (int)$_GET['id'];
+
+                if ($myRank != 2 && $myRank != 3){
+                    header("Location:index.php?ctrl=error&action=err403");
+                    exit;
+                }
+
+
+                if ($intTargetId == $myId){
+                    $_SESSION['error'] = "Pour supprimer votre propre compte, ne passez pas par la gestion admin.";
+                    header("Location:index.php?ctrl=admin&action=dashboard");
+                    exit;
+                }
+
+
+                $arrTargetData = $objUserModel->findUser($intTargetId);
+
+                if(!$arrTargetData) {
+                    $_SESSION['error'] = "Cet utilisateur n'existe pas.";
+                    header("location:index.php?ctrl=user&action=allUser");
+                    exit;
+                }
+
+
+                $objTargetUser = new UserEntity();
+                $objTargetUser->hydrate($arrTargetData);
+                $targetRank = (int)$objTargetUser->getUser_funct_id();
+
+
+                if($targetRank == 3) {
+                    $_SESSION['error'] = "ACTION REFUSÉE : Impossible de supprimer un Administrateur.";
+                    header("location:index.php?ctrl=user&action=allUser");
+                    exit;
+                }
+
+
+                if($myRank <= $targetRank) {
+                    $_SESSION['error'] = "Vous n'avez pas le grade suffisant pour supprimer cet utilisateur.";
+                    header("location:index.php?ctrl=user&action=allUser");
+                    exit;
+                }
+
+                if($objUserModel->deleteUser($intTargetId)) {
+                    $_SESSION['success'] = "L'utilisateur a bien été supprimé.";
+                } else {
+                    $_SESSION['error'] = "Erreur technique lors de la suppression.";
+                }
+
+
+                header("Location:index.php?ctrl=user&action=allUser");
                 exit;
+
             }
 
+            else {
+
+                if($objUserModel->deleteUser($myId)){
+
+                    unset($_SESSION['user']);
+                    session_destroy();
+                    session_start();
+                    $_SESSION['success'] = "Votre compte a bien été supprimé. Au revoir !";
+
+                    header("Location:index.php");
+                    exit;
+                } else {
+                    $_SESSION['error'] = "Erreur lors de la suppression de votre compte.";
+                    header("Location:index.php");
+                    exit;
+                }
+            }
         }
+
         public function allUser(){
+
+            $search = $_GET['search'] ?? NULL;
+            $filter = $_GET['filter'] ?? 'all';
 
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
@@ -468,6 +604,7 @@
 
 			$objUserModel 	= new UserModel;
 			$arrUsers 		= $objUserModel->findAllUsers();
+            $arrUsers       = $objUserModel->findAllUsersWithFilters($search, $filter);
 
 			// Initialisation d'un tableau => objets
 			$arrUserToDisplay	= array();
@@ -476,13 +613,106 @@
 			foreach($arrUsers as $arrDetUser){
 				$objUser = new UserEntity;
 				$objUser->hydrate($arrDetUser);
-
 				$arrUserToDisplay[]	= $objUser;
 			}
 
 			$this->_arrData['arrUserToDisplay']	    = $arrUserToDisplay;
+            $this->_arrData['searchTerm']           = $search;
+            $this->_arrData['filter']               = $filter;
 
 			$this->_display("allUser");
 		}
 
+        public function settingsAllUser() {
+
+            if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+            header("Location:index.php?ctrl=error&action=error_403");
+            exit;
+            }
+
+            $objUserModel	= new UserModel;
+            $arrUser		= $objUserModel->userPage($_GET['id']??$_SESSION['user']['user_id']);
+
+            $objUser	= new UserEntity;
+            $objUser->hydrate($arrUser);
+
+            $arrError = [];
+            var_dump($objUser);
+            var_dump($_FILES);
+
+            if (count($_POST) > 0) {
+                $objUser->hydrate($_POST);
+                $arrError	= $this->verifInfos($objUser);
+
+                if($_FILES['photo']['error'] != 4) {
+
+                    $arrTypeFile = array('image/jpeg', 'image/png');
+
+                    if(!in_array($_FILES['photo']['type'], $arrTypeFile)){
+                        $arrError['photo'] = "Le type de fichier n'est pas autorisé (veuillez utiliser un fichier JPEG ou PNG).";
+                    }
+
+                    if(!isset($arrError['photo'])){
+                        $strImageName = uniqid();
+
+                        switch($_FILES['photo']['type']){
+                            case 'image/jpeg' : $strImageName .= '.jpg'; break;
+                            case 'image/png' : $strImageName .= '.png'; break;
+                        }
+
+                        $strDest = 'assets/img/users/' . $strImageName;
+
+                        if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
+                            $objUser->setPhoto($strImageName);
+                        } else {
+                            $arrError['photo'] = "Erreur lors du téléchargement";
+                        }
+                    }
+                }
+
+                if(count($arrError) == 0){
+                    $boolUpdate = $objUserModel->settingsAllUser($objUser);
+
+                    if($boolUpdate){
+                        if($objUser->getPseudo() == $_SESSION['user']['user_pseudo']){
+
+                        $_SESSION['success'] = "Le profil à bien été mis à jour";
+                        header("Location:index.php?ctrl=user&action=settingsAllUser");
+                        exit;
+                        }
+                    }else{
+                        $arrError[] = "Erreur lors de la mise a jours, veuillez reessayer";
+                    }
+                }
+
+            }
+
+            $this->_arrData['arrError'] = $arrError;
+            $this->_arrData['objUser']  = $objUser;
+            $this->_display("settingsAllUser");
+
+        }
+
+        public function updateGrade() {
+            if(!isset($_SESSION['user']) || ($_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3)) {
+                header("Location:index.php?ctrl=error&action=err403");
+                exit;
+            }
+
+            $intIdUser      = $_GET['id']?? null;
+            $intNewGrade = $_POST['user_funct_id'] ?? null;
+
+            if($intIdUser && $intNewGrade) {
+                $objUserModel = new UserModel();
+                $success = $objUserModel->updateGrade((int)$intIdUser, (int)$intNewGrade);
+
+                if($success){
+                    $_SESSION['success'] = "Le grade a bien été mis à jour.";
+                } else {
+                    $_SESSION['error'] = "Erreur lors de la mise à jour";
+                }
+            }
+
+            header("Location: index.php?ctrl=user&action=allUser");
+        }
 }

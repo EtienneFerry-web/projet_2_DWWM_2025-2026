@@ -1,12 +1,16 @@
 <?php
-    require'entities/movie_entity.php';
-    require'entities/report_entity.php';
-    require'entities/comment_entity.php';
-    require'entities/person_entity.php';
-    require'models/movie_model.php';
-    require'models/comment_model.php';
-    require'models/person_model.php';
-	require'models/user_model.php';
+    namespace App\Controllers;
+
+    // Modèles
+    use App\Models\MovieModel;
+    use App\Models\CommentModel;
+    use App\Models\PersonModel;
+    use App\Models\UserModel;
+    // Entités
+    use App\Entities\MovieEntity;
+    use App\Entities\ReportEntity;
+    use App\Entities\CommentEntity;
+    use App\Entities\PersonEntity;
 
     /**
      * @author Marco Schmitt
@@ -17,6 +21,7 @@
     class MovieCtrl extends MotherCtrl{
 
         public function home(){
+            //var_dump($_SERVER['REMOTE_ADDR']); Pour l'id
 
             $objContentModel 	= new MovieModel;
 			$arrMovie		    = $objContentModel->newMovie();
@@ -133,6 +138,26 @@
             $this->_display("list");
         }
 
+        public function note(){
+
+            $objMovieModel = new MovieModel;
+
+            header('Content-Type: application/json');
+            $intNoteJson = file_get_contents("php://input");
+			$data = json_decode($intNoteJson, true);
+
+		    $insetResult = $objMovieModel->insertUpdateNote($_SESSION['user']['user_id'], $_GET['id'], $data['intNote']);
+
+
+			if($insetResult){
+			    echo json_encode($insetResult);
+				exit;
+			}   else{
+  		        echo json_encode("ca marche pas");
+                exit;
+			}
+        }
+
 
 
         public function movie(){
@@ -140,16 +165,16 @@
 
 			$objCommentModel	= new CommentModel;
 			$objMovieModel = new MovieModel;
-			
+
 			$intNoteJson = file_get_contents("php://input");
-			
+
 			if(!empty($intNoteJson) && isset($_GET['note'])){
 			     header('Content-Type: application/json');
 			     $data = json_decode($intNoteJson, true);
-			
+
 			    $insetResult = $objMovieModel->insertUpdateNote($_SESSION['user']['user_id'], $_GET['id'], $data['intNote']);
-				
-							
+
+
 				if($insetResult){
 				    echo json_encode($insetResult);
 					exit;
@@ -158,6 +183,22 @@
                     exit;
 				}
 			}
+
+
+
+			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
+			    $objCommentDelete = new CommentEntity('com_');
+                $objCommentDelete->setId((int)$_POST['deleteComment']);
+                $objCommentDelete->setUser_id($_SESSION['user']['user_id']);
+
+                $result = $objCommentModel->deleteComment($objCommentDelete);
+
+                if ($result) {
+                    $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+                } else {
+                    $arrError[] = "erreur lors de la suppression veulliez réssayer !";
+                }
+            }
 
 			if(isset($_POST['likeMovieBtn']) && (isset($_SESSION['user']))){
 
@@ -168,7 +209,7 @@
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
 				}
-				
+
 				}elseif(!isset($_SESSION['user'])&& isset($_POST['likeMovieBtn'])){
 					$arrError[''] = "Vous devez etre connecté pour liker un film";
 				}
@@ -186,7 +227,7 @@
     			}elseif(isset($_POST['likeMovieBtn']) && !isset($_SESSION['user'])){
     				$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
     			}
-    
+
     			if (isset($_POST['repMovie']) && $_POST['repMovie'] != '' && isset($_SESSION['user']['user_id'])) {
 
                 $arrData = array_merge([
@@ -393,7 +434,7 @@
 
 			$objMovie  = new MovieEntity('mov_');
 			$objMovie->hydrate($arrMovie);
-			
+
 
 			$objPersonModel = new PersonModel;
 			$arrPerson      = $objPersonModel->findAllPerson($_GET['id']);
@@ -441,20 +482,20 @@
 			// 1. Initialisation des objets et variables
 			$objMovie = new MovieEntity('mov_');
 			$objMovieModel = new MovieModel();
-			
+
 			var_dump($_FILES);
 			if (isset($_GET['id'])){
 				$arrMovie= [];
 				$arrMovie = $objMovieModel->findOneMovie($_GET['id']);
-				$objMovie->hydrate($arrMovie);		
+				$objMovie->hydrate($arrMovie);
 			}
-			
-			
+
+
 			$arrError = [];
 			// 2. Validation des données
 			if (count($_POST)>0){
 				$objMovie->hydrate($_POST);
-				
+
 				if (empty($objMovie->getTitle())) {
 					$arrError['title'] = "Le titre est obligatoire";
 				}
@@ -475,16 +516,16 @@
 				}
 				if (empty($objMovie->getTrailer())) {
 					$arrError['countryId'] = "La durée est obligatoire";
-				}			
-				
+				}
+
 
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
-				if ($_FILES['photo']['error'] != 4){ 
-			
+				if ($_FILES['photo']['error'] != 4){
+
 					if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
 					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
-				}else{					
+				}else{
 					switch ($_FILES['photo']['error']){
 						case 0 :
 							$strImageName	= uniqid().".webp";
@@ -493,7 +534,7 @@
 
 							$objMovie->setPhoto($strImageName);
 							break;
-					
+
 						case 1 :
 							$arrError['photo'] = "Le fichier est trop volumineux";
 							break;
@@ -513,19 +554,19 @@
 				}
 
 				// 3. Logique d'insertion
-				
+
 			}elseif(!isset($_GET['id'])){
 
 				// Est-ce que le fichier existe ?
-				if (is_null($objMovie->getPhoto())){ 
+				if (is_null($objMovie->getPhoto())){
 					$arrError['img'] = "L'image est obligatoire";
 				}
 			}
-			
+
 			// Si le formulaire est rempli correctement
-			if (count($arrError) == 0){			
-		
-				if (!isset($_GET['id'])){			
+			if (count($arrError) == 0){
+
+				if (!isset($_GET['id'])){
 					$boolResultMovie = $objMovieModel->addMovie($objMovie);
 				}else{
 					$boolResultMovie = $objMovieModel->updateMovie($objMovie);
@@ -536,24 +577,24 @@
 							// Création du chemin de destination
 							$strDest    = $_ENV['IMG_PATH'].$strImageName;
 							// Récupération de la source de l'image
-							$strSource	= $_FILES['photo']['tmp_name'];							
+							$strSource	= $_FILES['photo']['tmp_name'];
 						}
 						if ($boolResultMovie === true){
-						
+
 							//suppression de l'ancienne image
 							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
-							
-							if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {                          
-								if (!empty($strOldImg)) {                 
-									$strOldFile = $_ENV['IMG_PATH'] . $strOldImg;                 
-									if (file_exists($strOldFile)) { 
-										unlink($strOldFile); 
-									} 
-								} 
+
+							if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
+								if (!empty($strOldImg)) {
+									$strOldFile = $_ENV['IMG_PATH'] . $strOldImg;
+									if (file_exists($strOldFile)) {
+										unlink($strOldFile);
+									}
+								}
 								$this->_resize($strDest,280, 400);
 							}
 
-							
+
 							if (is_null($objMovie->getId())){
 								$_SESSION['success'] 	= "Le film a bien été créé";
 								header("Location:index.php?");
@@ -562,7 +603,7 @@
 								$_SESSION['success'] 	= "Le film a bien été modifié";
 								//header("Location:index.php?ctrl=movie&action=allMovie");
 							//exit;
-							}							
+							}
 						}else{
 							$arrError['img'] = "Erreur dans le traitement de l'image";
 						}
@@ -571,7 +612,7 @@
 					}
 				}
 			}
-			
+
 			$arrCategory = $objMovieModel->allCategories();
 				$arrCatToDisplay	= array();
 
@@ -660,7 +701,7 @@
 
 				$arrCatToDisplay[]	= $objContent;
 			}
-				
+
 			$this->_arrData['arrMovieToDisplay']	= $arrMovieToDisplay;
 			$this->_arrData['arrCatToDisplay']	    = $arrCatToDisplay;
             $this->_arrData['search']               = $search;
@@ -669,6 +710,5 @@
 
 			$this->_display("allMovie");
 		}
-		
-		
+
     }
