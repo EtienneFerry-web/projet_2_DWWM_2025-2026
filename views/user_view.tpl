@@ -133,6 +133,24 @@
     </div>
 </section>
 
+<section class="container">
+    <div class="mt-4">
+        <h2 class="fw-bold text-uppercase mb-3">Vos Signalement</h2>
+        <ul class="list-group list-group-flush border-top border-dark">
+
+            <li class="list-group-item d-flex justify-content-center align-items-center p-2">
+                <a class="text-decoration-none col-4 text-dark fw-bold" href="index.php?ctrl=movie&action=movie&id=">
+                    Avatar
+                </a>
+                <span class="col-4 text-center fw-bold">Raison</span>
+                <span class="col-4 text-end fw-bold">Traitement</span>
+            </li>
+
+                <li class="list-group-item text-center">Aucun film trouvé.</li>
+
+        </ul>
+    </div>
+</section>
 
 {/block}
 

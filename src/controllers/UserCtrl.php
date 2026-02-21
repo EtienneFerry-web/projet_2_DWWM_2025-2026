@@ -10,6 +10,8 @@
     use App\Models\CommentModel;
     use App\Models\UserModel;
 
+    use DateTime;
+
     /**
     * Log in
     * @author Etienne
@@ -24,6 +26,21 @@
     */
 
     class UserCtrl extends MotherCtrl{
+
+        public function userActivity(){
+
+
+            $time = new DateTime;
+
+            if($_SESSION['last_activity'] > $time){
+                $_SESSION['last_activity']    = new DateTime('+30 minutes');
+            } else{
+                $_SESSION['last_activity'] = 0;
+                echo('logout');
+                exit;
+            }
+
+        }
 
         public function login(){
             // Treating login form
@@ -60,9 +77,10 @@
                                 $_SESSION['pwdError']['restrict'] = new DateTime('+5 minutes');
                             }
                         }else{
-                            session_start();
+
                             $_SESSION['user']       = $arrResult;
                             $_SESSION['success']    = "Bienvenue, vous êtes bien connecté";
+                            $_SESSION['last_activity']    = new DateTime('+30 minutes');
 
                             $arrData = array (
                                 'userId'  => $_SESSION['user']['user_id'],
@@ -97,10 +115,22 @@
 
             $objUserModel->addLogs($arrData);
             // Cleaning session from User
-            unset($_SESSION['user']);
-            $_SESSION['success']    = "Vous êtes bien déconnecté";
-            header("Location:index.php");
-            exit;
+
+
+            if($_SESSION['last_activity'] == 0){
+                $_SESSION['success']  = "Vous avez êtes déconnecté pour inactivité !";
+                unset($_SESSION['user']);
+                unset($_SESSION['last_activity']);
+                header("Location:index.php?ctrl=user&action=login");
+                exit;
+            } else {
+                $_SESSION['success']  = "Vous êtes bien déconnecté";
+                unset($_SESSION['user']);
+                unset($_SESSION['last_activity']);
+                header("Location:index.php");
+                exit;
+            }
+
         }
         /**
         * Create account

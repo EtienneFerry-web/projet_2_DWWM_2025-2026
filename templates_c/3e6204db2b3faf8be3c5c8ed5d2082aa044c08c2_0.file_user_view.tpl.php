@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-02-20 21:10:22
+/* Smarty version 5.8.0, created on 2026-02-21 13:19:32
   from 'file:views/user_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6998cdbe4b0f79_83608069',
+  'unifunc' => 'content_6999b0e42afca1_04049956',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3e6204db2b3faf8be3c5c8ed5d2082aa044c08c2' => 
     array (
       0 => 'views/user_view.tpl',
-      1 => 1771621267,
+      1 => 1771679970,
       2 => 'file',
     ),
   ),
@@ -22,38 +22,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/reviewMovie.tpl' => 1,
   ),
 ))) {
-function content_6998cdbe4b0f79_83608069 (\Smarty\Template $_smarty_tpl) {
+function content_6999b0e42afca1_04049956 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9532563626998cdbe496712_00391593', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15243075386999b0e42938d6_01233558', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14982329606998cdbe498529_11542330', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1123151966998cdbe499351_93515546', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6552884866999b0e4295790_07233616', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_3247457666998cdbe49a045_16671186', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9510356716999b0e4296665_21637584', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2320400836998cdbe4b0489_89539965', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_7298606116999b0e4297387_38695339', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5469762836999b0e42af071_19867795', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_9532563626998cdbe496712_00391593 extends \Smarty\Runtime\Block
+class Block_15243075386999b0e42938d6_01233558 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -64,7 +64,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_14982329606998cdbe498529_11542330 extends \Smarty\Runtime\Block
+class Block_6552884866999b0e4295790_07233616 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -74,7 +74,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_1123151966998cdbe499351_93515546 extends \Smarty\Runtime\Block
+class Block_9510356716999b0e4296665_21637584 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -87,7 +87,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_3247457666998cdbe49a045_16671186 extends \Smarty\Runtime\Block
+class Block_7298606116999b0e4297387_38695339 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -245,13 +245,31 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     </div>
 </section>
 
+<section class="container">
+    <div class="mt-4">
+        <h2 class="fw-bold text-uppercase mb-3">Vos Signalement</h2>
+        <ul class="list-group list-group-flush border-top border-dark">
+
+            <li class="list-group-item d-flex justify-content-center align-items-center p-2">
+                <a class="text-decoration-none col-4 text-dark fw-bold" href="index.php?ctrl=movie&action=movie&id=">
+                    Avatar
+                </a>
+                <span class="col-4 text-center fw-bold">Raison</span>
+                <span class="col-4 text-end fw-bold">Traitement</span>
+            </li>
+
+                <li class="list-group-item text-center">Aucun film trouvé.</li>
+
+        </ul>
+    </div>
+</section>
 
 <?php
 }
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_2320400836998cdbe4b0489_89539965 extends \Smarty\Runtime\Block
+class Block_5469762836999b0e42af071_19867795 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
