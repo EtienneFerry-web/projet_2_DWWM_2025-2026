@@ -39,15 +39,18 @@
 			}
         }
 
-        protected function _resize($img, $intX=250, $intY=250){
-    		$filename = $img;
-
+        protected function _resize($img, $intX=280, $intY=400){
+            $filename = $img;
             $width = $intX;
             $height = $intY;
 
             list($width_orig, $height_orig) = getimagesize($filename);
 
             $image_p = imagecreatetruecolor($width, $height);
+
+            // --- LE MINIMUM POUR LA QUALITÉ : Gérer la transparence ---
+            imagealphablending($image_p, false);
+            imagesavealpha($image_p, true);
 
             $data = file_get_contents($filename);
             $image = imagecreatefromstring($data);
@@ -56,23 +59,23 @@
                 $image_p,
                 $image,
                 0, 0, 0, 0,
-                $width, $height,
+                $width, $height, // Ici on force tes dimensions $intX et $intY
                 $width_orig, $height_orig
             );
 
-            $extension = pathinfo($img, PATHINFO_EXTENSION);
+            $extension = strtolower(pathinfo($img, PATHINFO_EXTENSION));
 
+            // --- LE MINIMUM POUR LA QUALITÉ : Augmenter les paliers ---
             if ($extension == 'jpg' || $extension == 'jpeg') {
-                imagejpeg($image_p, $img, 80);
+                imagejpeg($image_p, $img, 90); // 90 au lieu de 80
             } elseif ($extension == 'png') {
-                imagepng($image_p, $img);
+                imagepng($image_p, $img, 8);  // Compression mieux gérée
             } elseif ($extension == 'webp') {
-                imagewebp($image_p, $img);
+                imagewebp($image_p, $img, 85); // Qualité optimale pour le web
             }
 
             imagedestroy($image);
             imagedestroy($image_p);
-
         }
         //Function pour les access
         protected function _checkAccess(int $grade){

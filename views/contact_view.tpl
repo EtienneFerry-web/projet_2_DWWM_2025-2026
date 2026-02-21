@@ -19,7 +19,7 @@
                     <input type="text"
                            name="name"
                            class="form-control {if isset($arrError['name'])}is-invalid{/if}"
-                           value="{$smarty.session.user.user_name|cat:' '|cat:$smarty.session.user.user_firstname|default:''}"
+                           value="{if isset($smarty.session.user)}{$smarty.session.user.user_name|cat:' '|cat:$smarty.session.user.user_firstname}{/if}"
                            placeholder="Votre nom">
                     {if isset($arrError['name'])}<div class="invalid-feedback">{$arrError['name']}</div>{/if}
                 </div>

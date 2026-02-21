@@ -63,6 +63,15 @@
                             session_start();
                             $_SESSION['user']       = $arrResult;
                             $_SESSION['success']    = "Bienvenue, vous êtes bien connecté";
+
+                            $arrData = array (
+                                'userId'  => $_SESSION['user']['user_id'],
+                                'event'   => 'LOGIN',
+                                'ip'      => $_SERVER['REMOTE_ADDR'],
+                                'agent'   => $_SERVER['HTTP_USER_AGENT'] ?? 'Inconnu'
+                            );
+
+                            $objUserModel->addLogs($arrData);
                             header("Location:index.php");
                             exit;
                     }
@@ -76,7 +85,17 @@
         }
 
         public function logout(){
-            session_start();
+
+            $objUserModel       = new UserModel;
+
+            $arrData = array (
+                'userId'  => $_SESSION['user']['user_id'],
+                'event'   => 'LOGOUT',
+                'ip'      => $_SERVER['REMOTE_ADDR'],
+                'agent'   => $_SERVER['HTTP_USER_AGENT'] ?? 'Inconnu'
+            );
+
+            $objUserModel->addLogs($arrData);
             // Cleaning session from User
             unset($_SESSION['user']);
             $_SESSION['success']    = "Vous êtes bien déconnecté";

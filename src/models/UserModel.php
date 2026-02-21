@@ -434,4 +434,17 @@
 		return $rqPrep->execute();
 		}
 
+		public function addLogs(array $arrData){
+            $strRq = "  INSERT INTO logs_users (log_user_id, log_event, log_ip, log_agent)
+                        VALUES (:userId, :event, :ip, :agent)";
+
+            $rqPrep = $this->_db->prepare($strRq);
+            $rqPrep->bindValue(":userId", $arrData['userId'], PDO::PARAM_INT);
+            $rqPrep->bindValue(":event", $arrData['event'], PDO::PARAM_STR);
+            $rqPrep->bindValue(":ip", $arrData['ip'], PDO::PARAM_STR);
+            $rqPrep->bindValue(":agent", $arrData['agent'], PDO::PARAM_STR);
+
+
+            return $rqPrep->execute();
+		}
     }

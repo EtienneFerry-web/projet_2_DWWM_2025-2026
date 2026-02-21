@@ -5,7 +5,7 @@
 
     class SearchModel extends Connect{
 
-        public function searchContent(object $objSearch, int $searchBy=0, int $limite): array {
+        public function searchContent(object $objSearch, int $limite, int $searchBy=0): array {
 
             $strRq = "SELECT sear_id, sear_name, sear_content, sear_photo, sear_rating, sear_like, sear_type
                       FROM (";

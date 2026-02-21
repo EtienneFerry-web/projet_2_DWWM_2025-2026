@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 20 fév. 2026 à 20:29
+-- Généré le : sam. 21 fév. 2026 à 13:00
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -57,7 +57,10 @@ DECLARE nbr INT DEFAULT 0;
         WHEN 4 THEN
             UPDATE users 
             	SET user_ban_at = CURDATE() + INTERVAL 999 YEAR, 
-                user_reason_ban = reason 
+                	user_reason_ban = reason,
+                    user_pseudo = '',
+                    user_photo = '',
+                    user_bio = ''
             WHERE user_id = id AND user_funct_id != 3;
     END CASE;
 END$$
@@ -90,7 +93,11 @@ INSERT INTO `belongs` (`belong_cat_id`, `belong_mov_id`) VALUES
 (5, 17),
 (8, 18),
 (9, 19),
-(10, 20);
+(10, 20),
+(10, 21),
+(10, 22),
+(10, 24),
+(10, 25);
 
 -- --------------------------------------------------------
 
@@ -143,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
@@ -168,7 +175,8 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL, 1, NULL, NULL),
 (28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0, NULL, NULL),
 (29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0, NULL, NULL),
-(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0, NULL, NULL);
+(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0, NULL, NULL),
+(91, 'dqdzqdqzdzqdzqdqzd', '2026-02-20 21:52:05', 17, 25, NULL, 0, NULL, '2026-02-20 21:52:11');
 
 --
 -- Déclencheurs `comments`
@@ -286,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `history_comments` (
   `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   `hist_userid` int NOT NULL,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `history_comments`
@@ -297,7 +305,15 @@ INSERT INTO `history_comments` (`hist_id`, `hist_table`, `hist_event`, `hist_ele
 (2, 'comments', 'UPDATE', 89, '2026-02-20 10:41:45', 'com_comment', 'C nulllllldqzdqzdqzdzqzddqzdzzdq', 'dzqdqzdqzdqzdzq', 17),
 (3, 'comments', 'DELETE', 89, '2026-02-20 10:42:28', 'com_comment', 'dzqdqzdqzdqzdzq', NULL, 17),
 (4, 'comments', 'UPDATE', 22, '2026-02-20 21:09:11', 'com_spoiler', '0', '1', 3),
-(5, 'comments', 'UPDATE', 22, '2026-02-20 21:09:14', 'com_spoiler', '1', '0', 3);
+(5, 'comments', 'UPDATE', 22, '2026-02-20 21:09:14', 'com_spoiler', '1', '0', 3),
+(6, 'comments', 'INSERT', 90, '2026-02-20 21:51:54', NULL, NULL, NULL, 17),
+(7, 'comments', 'UPDATE', 90, '2026-02-20 21:51:58', 'com_spoiler', '0', '1', 17),
+(8, 'comments', 'UPDATE', 90, '2026-02-20 21:52:00', 'com_spoiler', '1', '0', 17),
+(9, 'comments', 'DELETE', 90, '2026-02-20 21:52:03', 'com_comment', 'dzqdzqd', NULL, 17),
+(10, 'comments', 'INSERT', 91, '2026-02-20 21:52:05', NULL, NULL, NULL, 17),
+(11, 'comments', 'UPDATE', 91, '2026-02-20 21:52:11', 'com_comment', 'dqdzqdqz', 'dqdzqdqzdzqdzqdqzd', 17),
+(12, 'comments', 'UPDATE', 23, '2026-02-20 21:54:22', 'com_spoiler', '0', '1', 9),
+(13, 'comments', 'UPDATE', 23, '2026-02-20 21:54:23', 'com_spoiler', '1', '0', 9);
 
 -- --------------------------------------------------------
 
@@ -335,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `history_users` (
   `hist_oldvalue` text COLLATE utf8mb4_unicode_ci,
   `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `history_users`
@@ -356,7 +372,13 @@ INSERT INTO `history_users` (`hist_id`, `hist_table`, `hist_event`, `hist_elemen
 (12, 'users', 'UPDATE', '5', '2026-02-20 21:01:03', 'user_ban_at', NULL, '2026-03-07 00:00:00'),
 (13, 'users', 'UPDATE', '5', '2026-02-20 21:08:37', 'user_ban_at', '2026-03-07 00:00:00', NULL),
 (14, 'users', 'UPDATE', '5', '2026-02-20 21:09:24', 'user_ban_at', NULL, '2026-04-21 00:00:00'),
-(15, 'users', 'UPDATE', '5', '2026-02-20 21:09:30', 'user_ban_at', '2026-04-21 00:00:00', NULL);
+(15, 'users', 'UPDATE', '5', '2026-02-20 21:09:30', 'user_ban_at', '2026-04-21 00:00:00', NULL),
+(16, 'users', 'UPDATE', '9', '2026-02-20 21:53:22', 'user_ban_at', '2026-03-07 00:00:00', '2026-03-22 00:00:00'),
+(17, 'users', 'UPDATE', '9', '2026-02-20 21:54:18', 'user_ban_at', '2026-03-22 00:00:00', '2026-04-21 00:00:00'),
+(18, 'users', 'UPDATE', '9', '2026-02-20 21:54:20', 'user_ban_at', '2026-04-21 00:00:00', NULL),
+(19, 'users', 'UPDATE', '24', '2026-02-20 22:11:38', 'user_funct_id', '1', '2'),
+(20, 'users', 'UPDATE', '3', '2026-02-20 22:31:12', 'user_ban_at', NULL, '2026-03-07 00:00:00'),
+(21, 'users', 'UPDATE', '3', '2026-02-20 22:31:16', 'user_ban_at', '2026-03-07 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -453,7 +475,36 @@ INSERT INTO `liked` (`lik_user_id`, `lik_mov_id`, `lik_com_id`, `lik_created_at`
 (4, NULL, 28, '2026-02-15 19:50:38'),
 (5, NULL, 28, '2026-02-15 19:50:38'),
 (6, NULL, 28, '2026-02-15 19:50:38'),
-(17, 25, NULL, '2026-02-20 07:39:15');
+(17, NULL, 90, '2026-02-20 20:51:56'),
+(17, NULL, 91, '2026-02-20 21:10:10'),
+(17, NULL, 19, '2026-02-20 21:40:35');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `logs_users`
+--
+
+DROP TABLE IF EXISTS `logs_users`;
+CREATE TABLE IF NOT EXISTS `logs_users` (
+  `log_id` int NOT NULL AUTO_INCREMENT,
+  `log_user_id` int NOT NULL,
+  `log_event` varchar(10) DEFAULT NULL,
+  `log_ip` varchar(45) NOT NULL,
+  `log_agent` text,
+  `log_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`log_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `logs_users`
+--
+
+INSERT INTO `logs_users` (`log_id`, `log_user_id`, `log_event`, `log_ip`, `log_agent`, `log_date`) VALUES
+(1, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 10:21:23'),
+(2, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 10:22:44'),
+(3, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 11:06:54'),
+(4, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 11:19:21');
 
 -- --------------------------------------------------------
 
@@ -770,14 +821,14 @@ INSERT INTO `photos` (`pho_id`, `pho_photo`, `pho_type`, `pho_mov_id`, `pho_user
 (4, 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg', 'Affiche', 14, NULL),
 (5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15, NULL),
 (6, 'https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png', 'Affiche', 16, NULL),
-(7, 'https://m.media-amazon.com/images/I/61LkggMExBL._AC_UF894,1000_QL80_.jpg', 'Affiche', 17, NULL),
+(7, '6998d8822beed.webp', 'Affiche', 17, NULL),
 (8, 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Eraserhead.jpg/960px-Eraserhead.jpg', 'Affiche', 18, NULL),
 (9, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQcyCI04HaeBW7oH00JXR8QkcOgROgMbOQsM2uNIgCjzlpZJlNI', 'Affiche', 19, NULL),
 (10, 'https://fr.web.img4.acsta.net/pictures/22/10/27/16/38/1152463.jpg', 'Affiche', 20, NULL),
-(11, 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg', 'Affiche', 21, NULL),
+(11, '6999936d5b186.webp', 'Affiche', 21, NULL),
 (12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22, NULL),
 (14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24, NULL),
-(15, 'https://m.media-amazon.com/images/M/MV5BMzFjZjQ4ZmYtZmVkZC00MTU4LWI5N2MtNDA1NjI5Njg1MGY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg', 'Affiche', 25, NULL),
+(15, '699994a114858.webp', 'Affiche', 25, NULL),
 (17, '698dda1f43162.png', 'Content', 22, 24);
 
 -- --------------------------------------------------------
@@ -866,7 +917,7 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (16, 24, 0.5),
 (17, 15, 4.0),
 (17, 16, 3.0),
-(17, 17, 4.5),
+(17, 17, 1.0),
 (17, 21, 5.0),
 (17, 22, 1.0),
 (17, 23, 3.0),
@@ -894,7 +945,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
   KEY `fk_rep_reported_user` (`rep_reported_user_id`),
   KEY `fk_rep_reported_mov` (`rep_reported_movie_id`),
   KEY `fk_rep_reported_com` (`rep_reported_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reports`
@@ -903,8 +954,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
 INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`) VALUES
 (36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test'),
 (70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger'),
-(76, 3, NULL, 22, 'L\'expérience la plus sonore et visuelle de ma vie.', NULL, NULL, '2026-02-20 20:19:45', 24, 'qdzdzqdqzdqzd'),
-(77, 9, NULL, 23, 'Trop bizarre pour moi, j\'ai arrêté.', NULL, NULL, '2026-02-20 20:19:49', 24, 'dqzdzqdqzd');
+(76, 3, NULL, 22, 'L\'expérience la plus sonore et visuelle de ma vie.', NULL, NULL, '2026-02-20 20:19:45', 24, 'qdzdzqdqzdqzd');
 
 -- --------------------------------------------------------
 
@@ -946,17 +996,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `user_email`, `user_birthdate`, `user_creadate`, `user_com_id`, `user_nat_id`, `user_funct_id`, `user_bio`, `user_photo`, `user_pwd`, `user_delete_at`, `user_update_at`, `user_ban_at`, `user_reason_ban`) VALUES
 (1, 'Dubois', 'Thomas', 'tom_dubois', 'thomas.dubois@exemple.com', '1990-05-15', '2024-01-10 09:00:00', NULL, NULL, 3, NULL, NULL, '', '2026-02-07 16:32:25', NULL, NULL, NULL),
 (2, 'Leroy', 'Marie', 'mary_l', 'marie.leroy@exemple.com', '1985-11-20', '2024-01-12 10:30:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-10 17:04:20', NULL, NULL, NULL),
-(3, 'Martin', 'Lucas', 'luke_sky', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-11 18:12:50', NULL, NULL, NULL),
+(3, 'Martin', 'Lucas', 'luke_sky', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-11 18:12:50', NULL, NULL, 'dzqdq'),
 (4, 'Bernard', 'Sophie', 'sophie_b', 'sophie.bernard@exemple.com', '1992-07-22', '2024-02-01 11:00:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, '2026-02-20 00:00:00', 'dzqdzqdqzdqzdqz'),
 (5, 'Petit', 'Kevin', 'keke_99', 'kevin.petit@exemple.com', '1999-12-01', '2024-02-10 16:45:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL, 'Parce que!'),
 (6, 'Robert', 'Camille', 'cam_rob', 'camille.robert@exemple.com', '1995-09-14', '2024-02-20 08:20:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL),
 (7, 'Richard', 'Antoinedzqdqz', 'tony_ric', 'antoine.richard@exemple.com', '1988-02-28', '2024-03-05 13:10:00', NULL, NULL, 3, '', 'defaultImgUser.jpg', '', NULL, '2026-02-19 22:34:05', NULL, NULL),
 (8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, '2026-03-07 00:00:00', 'test'),
+(9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, 'e édqdzq'),
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL),
 (17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, 'dzqdzqdqzdzqdqzdzqdzqdqzdqzddzqdzqdz', '6991c05b884fb.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-15 13:47:38', '3025-02-19 00:00:00', NULL),
 (23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL, NULL),
-(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 1, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-10 17:07:08', NULL, NULL),
+(24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 2, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-20 22:11:38', NULL, NULL),
 (25, 'dqzzdq', 'dzqdzq', 'user', 'user@gmail.com', '2222-02-22', '2026-02-13 11:12:08', NULL, NULL, 1, NULL, NULL, '$2y$12$VMEuNAGgcYnmr13mM7Sy3.naxE/pgFRbal1ujYj6hsHKF.nEUAz8G', NULL, NULL, NULL, NULL),
 (26, 'dzqdzq', 'dzqdqz', 'Testdzqdzq', 'zaezaedzqd@gmail.com', '2222-02-22', '2026-02-20 08:33:57', NULL, NULL, 1, NULL, NULL, '$2y$10$D0EWAzxywtwK7iv6wdBn0.Q62/fr4fUtHMhMhtZpOG30JCLPmJEU2', NULL, NULL, NULL, NULL);
 

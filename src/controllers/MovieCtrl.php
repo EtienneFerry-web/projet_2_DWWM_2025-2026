@@ -591,7 +591,7 @@
 										unlink($strOldFile);
 									}
 								}
-								$this->_resize($strDest,280, 400);
+								$this->_resize($strDest,280, 450);
 							}
 
 

@@ -22,7 +22,7 @@
             $objSearch->setSearch($data['keywords']);
 
             $objSearchModel 	= new SearchModel;
-			$arrResult		    = $objSearchModel->searchContent($objSearch, 0, 10);
+			$arrResult		    = $objSearchModel->searchContent($objSearch, 10, 0);
 
             $arrResultToDisplay	= array();
 
@@ -59,7 +59,7 @@
                 $searchBy = $_POST['searchBy']??0;
 
                 $objSearchModel 	= new SearchModel;
-    			$arrResult		    = $objSearchModel->searchContent($objSearch, $searchBy, 20);
+    			$arrResult		    = $objSearchModel->searchContent($objSearch, 20, $searchBy);
 
     			$arrResultToDisplay	= array();
 
