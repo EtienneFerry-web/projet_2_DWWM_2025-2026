@@ -6,6 +6,7 @@
     use App\Entities\ReportEntity;
     use App\Entities\UserEntity;
     //models
+    use App\Models\ReportModel;
     use App\Models\MovieModel;
     use App\Models\CommentModel;
     use App\Models\UserModel;
@@ -231,7 +232,7 @@
             //Database add
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
-                    var_dump($boolInsert);
+
 
                     if($boolInsert['user_email'] == $objUser->getEmail()){
                         $arrError[] = 'email probleme change';
@@ -243,7 +244,7 @@
                     if ($boolInsert != false && !is_array($boolInsert)){
 
                             $_SESSION['success']    = "Le compte compte a bien été crée";
-                            var_dump($boolInsert);
+
                            /* header("Location:index.php?ctrl=user&action=login");
                             exit;*/
                     }else{
@@ -252,13 +253,13 @@
                 }
             }
 
-            $this->_arrData['name'] = $strName;
-            $this->_arrData['firstname'] = $strFirstname;
-            $this->_arrData['pseudo'] = $strPseudo;
-            $this->_arrData['birthdate'] = $strBirthdate;
-            $this->_arrData['strEmail'] = $strEmail;
-            $this->_arrData['arrError'] = $arrError;
-            $this->_arrData['objUser']  = $objUser;
+            $this->_arrData['name']         = $strName;
+            $this->_arrData['firstname']    = $strFirstname;
+            $this->_arrData['pseudo']       = $strPseudo;
+            $this->_arrData['birthdate']    = $strBirthdate;
+            $this->_arrData['strEmail']     = $strEmail;
+            $this->_arrData['arrError']     = $arrError;
+            $this->_arrData['objUser']      = $objUser;
             // Afficher
             $this->_display("createAccount");
         }
@@ -292,11 +293,8 @@
         }
 
         public function settingsUser() {
+            $this->_checkAccess();
 
-            if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
-            header("Location:index.php?ctrl=error&action=error_403");
-            exit;
-            }
 
             $objUserModel	= new UserModel;
             $arrUser		= $objUserModel->userPage($_GET['id']??$_SESSION['user']['user_id']);
@@ -305,8 +303,7 @@
             $objUser->hydrate($arrUser);
 
             $arrError = [];
-            var_dump($objUser);
-            var_dump($_FILES);
+
 
             if (count($_POST) > 0) {
                 $objUser->hydrate($_POST);
@@ -413,6 +410,16 @@
             $objComment = new CommentEntity;
             $arrError = [];
 
+            if (isset($_POST['deleteImage']) && isset($_SESSION['user'])) {
+                $result = $objUserModel->deletephotoMovieOfUser($_POST['deleteImage'], $_SESSION['user']['user_id']);
+
+                if ($result) {
+                    $_SESSION['success'] = "L'image à bien était supprimer !";
+                } else {
+                    $arrError[] = "erreur lors de la suppression veulliez réssayer !";
+                }
+            }
+
             if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
                 $objComment->setId((int)$_POST['deleteComment']);
                 $objComment->setUser_id($_SESSION['user']['user_id']);
@@ -454,7 +461,8 @@
                 }  else {
                     $arrError[] = "erreur";
                 }
-            }   elseif(isset($_POST['repComDelete']) && $_POST['repComDelete'] != ''){
+            }
+            elseif(isset($_POST['repComDelete']) && $_POST['repComDelete'] != ''){
 
                     $objReport = new ReportEntity;
     				$objReport->setReported_com_id($_POST['repComDelete']);
@@ -526,7 +534,28 @@
 
             }
 
+            if(isset($_SESSION['user']) && $_GET['id'] == $_SESSION['user']['user_id']){
+
+
+                $objReportModel = new ReportModel;
+
+                $arrReport = $objReportModel->repOfConnectUser($_SESSION['user']['user_id']);
+
+                $arrReportToDisplay = array();
+
+                foreach ($arrReport as $arrDetReport) {
+                    $objReport = new ReportEntity;
+                    $objReport->hydrate($arrDetReport);
+                    $arrReportToDisplay[] = $objReport;
+                }
+
+                $this->_arrData['arrReportToDisplay'] = $arrReportToDisplay;
+            }
+
+
+
             $objLikeModel = new MovieModel;
+            $arrImage = $objUserModel->photoMovieOfUser($intId);
             $arrLike = $objLikeModel->userLike($intId);
             $arrMovieToDisplay = array();
 
@@ -534,6 +563,14 @@
                 $objMovie = new MovieEntity('mov_');
                 $objMovie->hydrate($arrDetMovie);
                 $arrMovieToDisplay[] = $objMovie;
+            }
+
+            $arrImageToDisplay = array();
+
+            foreach ($arrImage as $arrDetImage) {
+                $objMovieImg = new MovieEntity('pho_');
+                $objMovieImg->hydrate($arrDetImage);
+                $arrImageToDisplay[] = $objMovieImg;
             }
 
             $arrComment = $objCommentModel->reviewUser($intId, $_SESSION['user']['user_id'] ?? 0);
@@ -545,8 +582,10 @@
                 $arrCommentToDisplay[] = $objComment;
             }
 
+
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser'] = $objUser;
+            $this->_arrData['arrImageToDisplay'] = $arrImageToDisplay;
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 
@@ -686,8 +725,7 @@
             $objUser->hydrate($arrUser);
 
             $arrError = [];
-            var_dump($objUser);
-            var_dump($_FILES);
+
 
             if (count($_POST) > 0) {
                 $objUser->hydrate($_POST);

@@ -75,6 +75,13 @@
                 </div>
             </form>
         </div>
+        <div class="col-12 col-sm-auto">
+            <form method="post" class="{if $objMovie->getNoteUser() == 0 }d-none{/if}" id="deleteNoteForm">
+                <button class="border-0" type="submit" name="deleteNoteUser" style="cursor: pointer;">
+                    <i class="bi bi-trash fs-4"></i>
+                </button>
+            </form>
+        </div>
     </div>
 
 
@@ -119,7 +126,7 @@
 </div>
 </section>
 
-{if count($arrImagesToDisplay) > 0}
+{if count($arrImagesToDisplay) > 0 || isset($smarty.session.user)}
 <section  id="imgMovie" class="container py-5 text-center">
     <h2>Image du film</h2>
     {if count($arrImagesToDisplay) < 20 && isset($smarty.session.user)}

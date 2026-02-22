@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 21 fév. 2026 à 13:00
+-- Généré le : dim. 22 fév. 2026 à 18:20
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
@@ -175,8 +175,7 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL, 1, NULL, NULL),
 (28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0, NULL, NULL),
 (29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0, NULL, NULL),
-(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0, NULL, NULL),
-(91, 'dqdzqdqzdzqdzqdqzd', '2026-02-20 21:52:05', 17, 25, NULL, 0, NULL, '2026-02-20 21:52:11');
+(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0, NULL, NULL);
 
 --
 -- Déclencheurs `comments`
@@ -294,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `history_comments` (
   `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   `hist_userid` int NOT NULL,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `history_comments`
@@ -313,7 +312,12 @@ INSERT INTO `history_comments` (`hist_id`, `hist_table`, `hist_event`, `hist_ele
 (10, 'comments', 'INSERT', 91, '2026-02-20 21:52:05', NULL, NULL, NULL, 17),
 (11, 'comments', 'UPDATE', 91, '2026-02-20 21:52:11', 'com_comment', 'dqdzqdqz', 'dqdzqdqzdzqdzqdqzd', 17),
 (12, 'comments', 'UPDATE', 23, '2026-02-20 21:54:22', 'com_spoiler', '0', '1', 9),
-(13, 'comments', 'UPDATE', 23, '2026-02-20 21:54:23', 'com_spoiler', '1', '0', 9);
+(13, 'comments', 'UPDATE', 23, '2026-02-20 21:54:23', 'com_spoiler', '1', '0', 9),
+(14, 'comments', 'DELETE', 91, '2026-02-21 14:06:00', 'com_comment', 'dqdzqdqzdzqdzqdqzd', NULL, 17),
+(15, 'comments', 'INSERT', 92, '2026-02-21 22:54:15', NULL, NULL, NULL, 17),
+(16, 'comments', 'DELETE', 92, '2026-02-21 22:58:50', 'com_comment', 'dqzdzqd', NULL, 17),
+(17, 'comments', 'INSERT', 93, '2026-02-21 22:59:12', NULL, NULL, NULL, 17),
+(18, 'comments', 'DELETE', 93, '2026-02-21 22:59:16', 'com_comment', 'dqdqzd', NULL, 17);
 
 -- --------------------------------------------------------
 
@@ -449,7 +453,6 @@ INSERT INTO `liked` (`lik_user_id`, `lik_mov_id`, `lik_com_id`, `lik_created_at`
 (2, 17, NULL, '2026-02-15 19:50:38'),
 (5, 17, NULL, '2026-02-15 19:50:38'),
 (8, 17, NULL, '2026-02-15 19:50:38'),
-(17, 17, NULL, '2026-02-15 19:50:38'),
 (3, 18, NULL, '2026-02-15 19:50:38'),
 (4, 18, NULL, '2026-02-15 19:50:38'),
 (9, 18, NULL, '2026-02-15 19:50:38'),
@@ -477,7 +480,8 @@ INSERT INTO `liked` (`lik_user_id`, `lik_mov_id`, `lik_com_id`, `lik_created_at`
 (6, NULL, 28, '2026-02-15 19:50:38'),
 (17, NULL, 90, '2026-02-20 20:51:56'),
 (17, NULL, 91, '2026-02-20 21:10:10'),
-(17, NULL, 19, '2026-02-20 21:40:35');
+(17, 14, NULL, '2026-02-22 14:41:07'),
+(17, 20, NULL, '2026-02-22 15:18:31');
 
 -- --------------------------------------------------------
 
@@ -494,7 +498,7 @@ CREATE TABLE IF NOT EXISTS `logs_users` (
   `log_agent` text,
   `log_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `logs_users`
@@ -504,7 +508,45 @@ INSERT INTO `logs_users` (`log_id`, `log_user_id`, `log_event`, `log_ip`, `log_a
 (1, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 10:21:23'),
 (2, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 10:22:44'),
 (3, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 11:06:54'),
-(4, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 11:19:21');
+(4, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 11:19:21'),
+(5, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 13:02:42'),
+(6, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 13:03:00'),
+(7, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 13:05:10'),
+(8, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 13:15:38'),
+(9, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:01:52'),
+(10, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:02:38'),
+(11, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:11:26'),
+(12, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:11:36'),
+(13, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:13:26'),
+(14, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:13:57'),
+(15, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:17:58'),
+(16, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 14:18:07'),
+(17, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:27:33'),
+(18, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:27:39'),
+(19, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:29:38'),
+(20, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:29:46'),
+(21, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:37:57'),
+(22, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:38:12'),
+(23, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:38:12'),
+(24, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:39:02'),
+(25, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:45:08'),
+(26, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:48:19'),
+(27, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:48:40'),
+(28, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:49:18'),
+(29, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:49:19'),
+(30, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:51:53'),
+(31, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:52:00'),
+(32, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 15:52:34'),
+(33, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 16:36:27'),
+(34, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 19:55:14'),
+(35, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 20:35:59'),
+(36, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 20:43:58'),
+(37, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 21:42:00'),
+(38, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-21 21:51:16'),
+(39, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-22 10:00:36'),
+(40, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-22 12:56:10'),
+(41, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-22 14:17:29'),
+(42, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-22 17:28:02');
 
 -- --------------------------------------------------------
 
@@ -810,7 +852,7 @@ CREATE TABLE IF NOT EXISTS `photos` (
   PRIMARY KEY (`pho_id`),
   UNIQUE KEY `uk_mov_user_id` (`pho_mov_id`,`pho_user_id`),
   KEY `fk_pho_mov_id` (`pho_mov_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `photos`
@@ -818,13 +860,13 @@ CREATE TABLE IF NOT EXISTS `photos` (
 
 INSERT INTO `photos` (`pho_id`, `pho_photo`, `pho_type`, `pho_mov_id`, `pho_user_id`) VALUES
 (3, 'https://fr.web.img6.acsta.net/medias/nmedia/18/36/25/34/18465555.jpg', 'Affiche', 13, NULL),
-(4, 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg', 'Affiche', 14, NULL),
+(4, '699b1f71abdce.webp', 'Affiche', 14, NULL),
 (5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15, NULL),
 (6, 'https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png', 'Affiche', 16, NULL),
 (7, '6998d8822beed.webp', 'Affiche', 17, NULL),
 (8, 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Eraserhead.jpg/960px-Eraserhead.jpg', 'Affiche', 18, NULL),
 (9, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQcyCI04HaeBW7oH00JXR8QkcOgROgMbOQsM2uNIgCjzlpZJlNI', 'Affiche', 19, NULL),
-(10, 'https://fr.web.img4.acsta.net/pictures/22/10/27/16/38/1152463.jpg', 'Affiche', 20, NULL),
+(10, '699b1f3a635cd.webp', 'Affiche', 20, NULL),
 (11, '6999936d5b186.webp', 'Affiche', 21, NULL),
 (12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22, NULL),
 (14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24, NULL),
@@ -917,11 +959,9 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (16, 24, 0.5),
 (17, 15, 4.0),
 (17, 16, 3.0),
-(17, 17, 1.0),
-(17, 21, 5.0),
-(17, 22, 1.0),
+(17, 17, 4.5),
 (17, 23, 3.0),
-(17, 25, 5.0);
+(17, 25, 0.5);
 
 -- --------------------------------------------------------
 
@@ -941,20 +981,22 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `rep_date` datetime DEFAULT NULL,
   `rep_reporter_user_id` int UNSIGNED DEFAULT NULL,
   `rep_reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rep_delete_at` datetime DEFAULT NULL,
   PRIMARY KEY (`rep_id`),
   KEY `fk_rep_reported_user` (`rep_reported_user_id`),
   KEY `fk_rep_reported_mov` (`rep_reported_movie_id`),
   KEY `fk_rep_reported_com` (`rep_reported_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reports`
 --
 
-INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`) VALUES
-(36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test'),
-(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger'),
-(76, 3, NULL, 22, 'L\'expérience la plus sonore et visuelle de ma vie.', NULL, NULL, '2026-02-20 20:19:45', 24, 'qdzdzqdqzdqzd');
+INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`, `rep_delete_at`) VALUES
+(36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test', '2026-02-21 21:09:38'),
+(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger', NULL),
+(76, 3, NULL, 22, 'L\'expérience la plus sonore et visuelle de ma vie.', NULL, NULL, '2026-02-20 20:19:45', 24, 'qdzdzqdqzdqzd', NULL),
+(83, NULL, 17, NULL, NULL, NULL, NULL, '2026-02-21 21:45:52', 17, 'c de la merde\r\n', '2026-02-22 11:50:35');
 
 -- --------------------------------------------------------
 

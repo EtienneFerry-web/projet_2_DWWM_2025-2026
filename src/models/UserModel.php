@@ -427,11 +427,11 @@
            					SET user_ban_at	= NULL
                	        WHERE user_id 		= :id";
 
-        $rqPrep = $this->_db->prepare($strRq);
+            $rqPrep = $this->_db->prepare($strRq);
 
-		$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
+    		$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
 
-		return $rqPrep->execute();
+    		return $rqPrep->execute();
 		}
 
 		public function addLogs(array $arrData){
@@ -446,5 +446,36 @@
 
 
             return $rqPrep->execute();
+		}
+
+		public function photoMovieOfUser(int $intId){
+            $strRq = "  SELECT pho_id, pho_photo
+           	            FROM photos
+               	        WHERE pho_user_id = :id AND pho_type = 'Content'";
+
+            $rqPrep = $this->_db->prepare($strRq);
+
+    		$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
+
+            $rqPrep->execute();
+
+            return $rqPrep->fetchAll();
+		}
+
+		public function deletephotoMovieOfUser(int $intPhotoId, int $intUserId){
+		$strRq = "  DELETE FROM photos
+                        WHERE pho_id = :phoId
+                        AND (pho_user_id = :userId
+                        OR :userId IN ( SELECT user_id
+                                        FROM users
+                                        WHERE user_id = :userId
+                                        AND (user_funct_id = 2 OR user_funct_id = 3)))";
+
+            $rq = $this->_db->prepare($strRq);
+
+            $rq->bindValue(":phoId",  $intPhotoId, PDO::PARAM_INT);
+            $rq->bindValue(":userId", $intUserId, PDO::PARAM_INT);
+
+            return $rq->execute();
 		}
     }

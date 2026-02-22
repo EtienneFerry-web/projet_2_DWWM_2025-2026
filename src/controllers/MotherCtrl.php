@@ -39,16 +39,34 @@
 			}
         }
 
-        protected function _resize($img, $intX=280, $intY=400){
+        protected function _resize($img, $intX = 280, $intY = 400, $keepRatio = false) {
             $filename = $img;
+
+            // Récupération des dimensions d'origine
+            list($width_orig, $height_orig) = getimagesize($filename);
+
             $width = $intX;
             $height = $intY;
 
-            list($width_orig, $height_orig) = getimagesize($filename);
+            // Si il faut garder le ratio de limage
+            if ($keepRatio) {
+                $ratio = $width_orig / $height_orig;
+
+
+                $height = $intY;
+
+                $width = $intY * $ratio;
+
+
+                if ($width > $intX) {
+                    $width = $intX;
+                    $height = $intX / $ratio;
+                }
+            }
 
             $image_p = imagecreatetruecolor($width, $height);
 
-            // --- LE MINIMUM POUR LA QUALITÉ : Gérer la transparence ---
+            // Gestion de la transparence
             imagealphablending($image_p, false);
             imagesavealpha($image_p, true);
 
@@ -59,33 +77,27 @@
                 $image_p,
                 $image,
                 0, 0, 0, 0,
-                $width, $height, // Ici on force tes dimensions $intX et $intY
+                (int)$width, (int)$height,
                 $width_orig, $height_orig
             );
 
             $extension = strtolower(pathinfo($img, PATHINFO_EXTENSION));
 
-            // --- LE MINIMUM POUR LA QUALITÉ : Augmenter les paliers ---
             if ($extension == 'jpg' || $extension == 'jpeg') {
-                imagejpeg($image_p, $img, 90); // 90 au lieu de 80
+                imagejpeg($image_p, $img, 90);
             } elseif ($extension == 'png') {
-                imagepng($image_p, $img, 8);  // Compression mieux gérée
+                imagepng($image_p, $img, 8);
             } elseif ($extension == 'webp') {
-                imagewebp($image_p, $img, 85); // Qualité optimale pour le web
+                imagewebp($image_p, $img, 85);
             }
 
             imagedestroy($image);
             imagedestroy($image_p);
         }
         //Function pour les access
-        protected function _checkAccess(int $grade){
+        protected function _checkAccess(int $grade=1){
 
-            if(!isset($_SESSION['user'])){
-                header("Location:index.php?ctrl=error&action=err403");
-                exit;
-            }
-
-            if($grade > $_SESSION['user']['user_funct_id']){
+            if(!isset($_SESSION['user']) && $grade > $_SESSION['user']['user_funct_id']){
                 header("Location:index.php?ctrl=error&action=err403");
                 exit;
             }

@@ -20,9 +20,10 @@
         private string  $_reason;
         private ?string $_pseudo;
         private ?string $_photo;
-        private string  $_title;
+        private ?string  $_title = NULL;
+        private ?string  $_delete_at = NULL;
         private int     $_spoiler;
-        private ?bool    $_user_ban = NULL;
+        private ?bool   $_user_ban = NULL;
 
 
         /**
@@ -34,6 +35,14 @@
         }
 
         // Getters
+
+        public function getDeleteAt():string{
+            if(is_null($this->_delete_at)){
+                return 'En cours de traitement';
+            } else{
+                return 'Traiter';
+            }
+        }
 
         public function getReportedUserId():?int{
             return $this->_reported_user_id;
@@ -55,7 +64,7 @@
             return $this->_pseudo;
         }
 
-        public function getTitle():string{
+        public function getTitle():?string{
             return $this->_title;
         }
 
@@ -136,11 +145,15 @@
             $this->_bio_user = $bio_user;
         }
 
+        public function setDelete_at(?string $strDelete){
+            $this->_delete_at = $strDelete;
+        }
+
         public function setDate(string $date){
             $this->_date = $date;
         }
 
-        public function setTitle(string $strTitle){
+        public function setTitle(?string $strTitle){
             $this->_title = $strTitle;
         }
 

@@ -2,6 +2,11 @@
     namespace App\Models;
     use PDO;
 
+    /**
+	* @todo Une Image par personne sur chaque film
+	*
+	*
+	*/
 
     class MovieModel extends Connect{
 
@@ -152,6 +157,7 @@
                                 SELECT 1 FROM reports
                                 WHERE rep_reporter_user_id = :user_id
                                 AND rep_reported_movie_id = movies.mov_id
+                                AND rep_delete_at IS NULL
 
                             ) AS mov_reported,
 
@@ -198,6 +204,35 @@
             return $this->_db->query($strRq)->fetch();
         }
 
+        public function deleteNoteUser(int $intUserId, int $intMovieId ){
+
+            $strRq = "  SELECT COUNT(*) AS 'nbr'
+                        FROM comments
+                        WHERE com_user_id = :userId AND com_movie_id = :movieId ";
+
+            $rqPrep = $this->_db->prepare($strRq);
+
+            $rqPrep->bindValue(":userId", $intUserId, PDO::PARAM_INT);
+			$rqPrep->bindValue(":movieId", $intMovieId, PDO::PARAM_INT);
+
+			$rqPrep->execute();
+
+			$count =  $rqPrep->fetch();
+
+            if($count['nbr'] == 0){
+                $strRq = "  DELETE FROM ratings
+                            WHERE rat_user_id = :userId
+                            AND rat_mov_id = :movieId";
+
+                $rqPrep = $this->_db->prepare($strRq);
+
+                $rqPrep->bindValue(":userId", $intUserId, PDO::PARAM_INT);
+    			$rqPrep->bindValue(":movieId", $intMovieId, PDO::PARAM_INT);
+
+    			return $rqPrep->execute();
+            }
+
+        }
 
 
 		public function updateMovie(object $objNewMovie):bool{
@@ -401,7 +436,7 @@
 			return $rqPrep->execute();
         }
 
-            public function LikeMovie($intUserId, $intMovId){
+        public function likeMovie($intUserId, $intMovId){
 
             $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_mov_id)
                 VALUES (:user_id, :mov_id)";
@@ -436,32 +471,48 @@
 
 		public function addImageOfMovies(string $img, int $intMovId, int $intUserId){
 
-            $strRqCount = " SELECT COUNT(*)
+
+                $strRqCheck = "SELECT pho_photo,
+                            (SELECT COUNT(*) FROM photos WHERE pho_mov_id = :movId AND pho_type = 'Content') as total
                             FROM photos
-                            WHERE pho_mov_id = :movId AND pho_type = 'Content'";
+                            WHERE pho_mov_id = :movId AND pho_user_id = :userId AND pho_type = 'Content'
+                            LIMIT 1";
 
-            $rqPrepCount = $this->_db->prepare($strRqCount);
-            $rqPrepCount->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+                $rqPrepCheck = $this->_db->prepare($strRqCheck);
+                $rqPrepCheck->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+                $rqPrepCheck->bindValue(':userId', $intUserId, PDO::PARAM_INT);
+                $rqPrepCheck->execute();
 
-            $rqPrepCount->execute();
-
-            $nbrImg = $rqPrepCount->fetch();
-
-
-    		if($nbrImg['COUNT(*)'] < 20){
-                $strRq = "INSERT INTO photos (pho_photo, pho_type, pho_mov_id, pho_user_id)
-    				  VALUES (:img, 'Content', :movId, :userId)";
-
-                $rqPrep = $this->_db->prepare($strRq);
-                $rqPrep->bindValue(':img', $img, PDO::PARAM_STR);
-                $rqPrep->bindValue(':movId', $intMovId, PDO::PARAM_INT);
-                $rqPrep->bindValue(':userId', $intUserId, PDO::PARAM_INT);
-
-                return $rqPrep->execute();
-            }
+                $result = $rqPrepCheck->fetch();
+                $oldImg = $result['pho_photo'] ?? null;
+                $totalExisting = $result['total'] ?? 0;
 
 
-		}
+                if ($totalExisting < 20 || $oldImg !== null) {
+
+                    $strRq = "INSERT INTO photos (pho_photo, pho_type, pho_mov_id, pho_user_id)
+                            VALUES (:img, 'Content', :movId, :userId)
+                            ON DUPLICATE KEY UPDATE pho_photo = :img";
+
+                    $rqPrep = $this->_db->prepare($strRq);
+                    $rqPrep->bindValue(':img', $img, PDO::PARAM_STR);
+                    $rqPrep->bindValue(':movId', $intMovId, PDO::PARAM_INT);
+                    $rqPrep->bindValue(':userId', $intUserId, PDO::PARAM_INT);
+
+                    if ($rqPrep->execute()) {
+
+                        return [
+                                'success' => true,
+                                'oldImg'  => $oldImg
+                            ];
+                    }
+                }
+
+                return [ 'success' => false ] ;
+        }
+
+
+
 
 		public function selectImageMovie($intMovId){
 
@@ -580,40 +631,6 @@
 			return $prep->fetchAll();
 		}
 
-
-		// public function insertUpdateNote(int $intIdUser, int $movId, string $intNote){
-
-  //           $strRq = "  INSERT INTO ratings (rat_user_id, rat_mov_id, rat_score)
-  //                       VALUES (:userId, :movieId, :rating)
-  //                       ON DUPLICATE KEY UPDATE rat_score = :rating";
-
-  //           $rqPrep = $this->_db->prepare($strRq);
-  //           $rqPrep->bindValue(":userId",  $intIdUser, PDO::PARAM_INT);
-  //           $rqPrep->bindValue(":movieId", $movId, PDO::PARAM_INT);
-  //           $rqPrep->bindValue(":rating",  $intNote,  PDO::PARAM_STR);
-
-  //           $bool = $rqPrep->execute();
-
-  //           if($bool){
-  //               $strRq = "  SELECT AVG(rat_score) AS 'average'
-  //                           FROM ratings
-  //                           WHERE rat_mov_id = :movieId
-  //                           GROUP BY rat_mov_id";
-
-  //               $rqPrep2 = $this->_db->prepare($strRq);
-
-  //               $rqPrep2->bindValue(":movieId", $movId, PDO::PARAM_INT);
-
-  //               $rqPrep2->execute();
-
-  //               return $rqPrep2->fetch();
-
-
-  //           } else{
-  //               return false;
-  //           }
-
-		// }
 
         public function countAllLikes() {
 			$strRq = "SELECT COUNT(*)

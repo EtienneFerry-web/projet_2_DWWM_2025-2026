@@ -1,4 +1,3 @@
 /vendor/
-/templates_c/
-/.env/
-/env/
+templates_c/
+.env

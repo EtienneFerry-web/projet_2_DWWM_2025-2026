@@ -73,7 +73,7 @@
             //Delete Reports
             if (isset($_POST['deleteRep'])){
 
-                $boolResult = $objReportModel->deleteReport($_POST['deleteRep']);
+                $boolResult = $objReportModel->validateReport($_POST['deleteRep']);
 
                 if($boolResult){
                     $_SESSION['success'] = "Le reports à bien était supprimer !";

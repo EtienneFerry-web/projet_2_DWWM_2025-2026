@@ -200,9 +200,19 @@
                 }
             }
 
+            if(isset($_POST['deleteNoteUser'])){
+                $repResult = $objMovieModel->deleteNoteUser($_SESSION['user']['user_id'], $_GET['id']);
+
+                if ($repResult) {
+                    $_SESSION['success'] = "La note à bien était supprimer !";
+                } else {
+                    $arrError[] = "Erreur lors de la suppression, si vous avez un review vous devez la supprimer pour pouvoir supprimer la note !";
+                }
+            }
+
 			if(isset($_POST['likeMovieBtn']) && (isset($_SESSION['user']))){
 
-				$repResult = $objMovieModel->LikeMovie($_SESSION['user']['user_id'], $_GET['id']);
+				$repResult = $objMovieModel->likeMovie($_SESSION['user']['user_id'], $_GET['id']);
 
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Votre like a bien été pris en compte !";
@@ -314,22 +324,25 @@
 
 				if(count($arrError) == 0){
 
+                    $resultInsert = $objMovieModel->addImageOfMovies($strImageName, $_GET['id'], $_SESSION['user']['user_id']);
 
-					$boolInsert = $objMovieModel->addImageOfMovies($strImageName, $_GET['id'], $_SESSION['user']['user_id']);
+                    if($resultInsert['success']){
 
-					if($boolInsert){
-    					 $strDest = 'assets/img/movie/' . $strImageName;
+                        if(!empty($resultInsert['oldImg']) && file_exists('assets/img/movie/'. $resultInsert['oldImg'])){
+                            unlink('assets/img/movie/' . $resultInsert['oldImg']);
+                        }
+
+                        $strDest = 'assets/img/movie/' . $strImageName;
 
                         if(move_uploaded_file($_FILES['images']['tmp_name'], $strDest)){
-                        $this->_resize($strDest, 400, 400);
+                            $this->_resize($strDest, 400, 400, true);
 
-                        $_SESSION['success'] = "ajoute de l'image";
-
-                    } else {
-                        $arrError['photo'] = "Erreur lors du téléchargement";
+                            $_SESSION['success'] = "ajoute de l'image";
+                        } else {
+                            $arrError['photo'] = "Erreur lors du téléchargement";
+                        }
                     }
-					}
-				}
+                }
 			}
 
 

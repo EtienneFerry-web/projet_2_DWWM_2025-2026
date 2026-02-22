@@ -120,14 +120,14 @@ function saveSearch(keyword) {
 
 }
 
-
+/*
 function searchData(){
   fetch(`index.php?ctrl=search&action=autoComplete&keywords=${encodeURIComponent(searchBar.value)}`)
     .then(res => res.json())
     .then(data => {
       affichSuggestion(data);
     });
-}
+}*/
 
 
 async function searchData() {
@@ -136,23 +136,20 @@ async function searchData() {
         const response = await fetch(`index.php?ctrl=search&action=autoComplete`, {
             method: 'POST', // methode Post
             headers: {
-                'Content-Type': 'application/json' // On précise qu'on envoie du JSON
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ keywords: keywords }) // La valeur est encapsulée ici
+            body: JSON.stringify({ keywords: keywords })
         });
         console.log("rq envoyer");
         if (!response.ok) {
             throw new Error(`Erreur HTTP : ${response.status}`);
         }
 
-
         const data = await response.json();
-
-
         affichSuggestion(data);
 
     } catch (error) {
-        // Capture toutes les erreurs (réseau, encodage, syntaxe JSON, etc.)
+
         console.error("Une erreur est survenue lors de la recherche :", error.message);
     }
 }

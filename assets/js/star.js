@@ -1,6 +1,7 @@
 const stars = document.querySelectorAll('.rating i');
 const inputNote = document.querySelectorAll('#note');
 const noteAverage = document.getElementById('average');
+const noteForm = document.getElementById('deleteNoteForm');
 let antiSpam = false
 let time;
 
@@ -44,7 +45,7 @@ stars.forEach(star => {
   star.addEventListener('click', (e) => {
 
     clearTimeout(time);
-
+    noteForm.classList.remove('d-none', 'd-block');
     const rect = star.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const isHalf = x < rect.width / 2;
@@ -88,9 +89,9 @@ async function insertNote(value) {
         const response = await fetch(`index.php?ctrl=movie&action=note&id=${movieId}`, {
             method: 'POST', // methode Post
             headers: {
-                'Content-Type': 'application/json' // On précise qu'on envoie du JSON
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ intNote: value }) // La valeur est encapsulée ici
+            body: JSON.stringify({ intNote: value })
         });
         console.log("rq envoyer");
         if (!response.ok) {

@@ -25,3 +25,8 @@
         </div>
     </nav>
     {include file="views/_partial/message.tpl"}
+    <a href="index.php?ctrl=page&action=contact"
+        class="btn btn-light position-fixed bottom-0 end-0 m-4 rounded-circle shadow-lg d-flex align-items-center justify-content-center"
+        style="width: 50px; height: 50px; z-index: 999;">
+        <i class="bi bi-chat-dots-fill fs-3"></i>
+    </a>

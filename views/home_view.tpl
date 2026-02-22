@@ -7,13 +7,7 @@
 {/block}
 
 {block name="content"}
-        <a href="index.php?ctrl=page&action=contact"
-            class="btn btn-light position-fixed bottom-0 end-0 m-4 rounded-circle shadow-lg d-flex align-items-center justify-content-center"
-            style="width: 50px; height: 50px; z-index: 999;">
 
-        <i class="bi bi-chat-dots-fill fs-3"></i>
-
-    </a>
     <section id="hero" class=" container  row mx-auto py-5">
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
             {if !isset($smarty.session.user)}

@@ -1,18 +1,17 @@
 let lastUpdate = 0;
-const bufferTime = 10000; // 5 minutes
+const bufferTime = 60000;
 
 function pingServer() {
     const now = Date.now();
 
     if (now - lastUpdate > bufferTime) {
-        // 1. On lance l'appel
+
         fetch('index.php?ctrl=user&action=userActivity')
-            .then(response => response.text()) // 2. On récupère le texte du "echo"
+            .then(response => response.text())
             .then(data => {
               console.log(data);
                 if (data=== "logout") {
                   alert("Votre session a expiré pour inactivité. Vous allez être redirigé.");
-                  // La redirection ne s'exécute qu'APRÈS le clic sur OK
                   window.location.href = "index.php?ctrl=user&action=logout";
                 } else {
                     console.log("Session prolongée");

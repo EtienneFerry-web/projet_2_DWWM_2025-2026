@@ -119,7 +119,34 @@
         </div>
     </div>
 </section>
+<section  id="imgMovie" class="container py-5 text-center">
+    <h2>Image Partager Par l'utilisateur</h2>
+    <div class="splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+            {foreach from=$arrImageToDisplay item=objImage}
+                {if isset($smarty.session.user) && $smarty.session.user === $smarty.get.id}
+                <li class="splide__slide position-relative overlay-container">
+                    <img src="assets/img/movie/{$objImage->getPhoto()}" class="img-fluid" />
 
+                    <form method="POST" class="delete-overlay">
+                        <input type="hidden" name="deleteImage" value="{$objImage->getId()}">
+                        <button type="submit" class="border-0 bg-transparent p-3">
+                            <i class="bi bi-trash fs-1 text-white"></i>
+                        </button>
+                    </form>
+                </li>
+                {else}
+                <li class="splide__slide">
+                    <img src="assets/img/movie/{$objImage->getPhoto()}" />
+                </li>
+                {/if}
+
+            {/foreach}
+            </ul>
+        </div>
+    </div>
+</section>
 <section id="review" class="container text-center">
     <h2>Vos review / {$objUser->getPseudo()}</h2>
     <div class="col-12 col-md-10 mx-auto py-1 scrollList">
@@ -132,26 +159,22 @@
         {/foreach}
     </div>
 </section>
-
-<section class="container">
+{if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
+<section class="container py-5">
     <div class="mt-4">
-        <h2 class="fw-bold text-uppercase mb-3">Vos Signalement</h2>
+        <h2 class="fw-bold text-uppercase mb-3 text-center">Vos Signalement</h2>
         <ul class="list-group list-group-flush border-top border-dark">
 
-            <li class="list-group-item d-flex justify-content-center align-items-center p-2">
-                <a class="text-decoration-none col-4 text-dark fw-bold" href="index.php?ctrl=movie&action=movie&id=">
-                    Avatar
-                </a>
-                <span class="col-4 text-center fw-bold">Raison</span>
-                <span class="col-4 text-end fw-bold">Traitement</span>
-            </li>
-
-                <li class="list-group-item text-center">Aucun film trouvé.</li>
+            {foreach from=$arrReportToDisplay item=objReport}
+                {include file='views/_partial/reportUser.tpl'}
+            {foreachelse}
+                <li class="list-group-item text-center">Aucun Signalements trouvé.</li>
+            {/foreach}
 
         </ul>
     </div>
 </section>
-
+{/if}
 {/block}
 
 {block name="js"}
