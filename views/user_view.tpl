@@ -22,9 +22,12 @@
             <div class="row align-items-center g-2">
                 <div class="col-auto">
                     <span class="spanMovie border-0">
-                        {$objUser->getFunction()}
-                    </span>
+                        {$objUser->getFunction()} 
+                        <a href="index.php?ctrl=user&action=permissions" class="btn btn-outline-secondary rounded-circle mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits">?</a> 
+                    </span>   
+                                  
                 </div>
+                
 
                 {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
                     <div class="col-auto ms-auto">
@@ -139,7 +142,9 @@
 {block name="js"}
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/Projet2/assets/js/moviePage.js"></script>
     <script src="/Projet2/assets/js/comment.js"></script>
     <script src="/Projet2/assets/js/star.js"> </script>
+    <script src="/Projet2/assets/js/permission.js"> </script>
 {/block}

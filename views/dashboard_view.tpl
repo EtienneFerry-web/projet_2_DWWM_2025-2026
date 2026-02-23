@@ -38,7 +38,7 @@
         </div>
 
         <div class="mt-4">
-            <h5 class="fw-bold text-uppercase mb-3">Les plus liké</h5>
+            <h5 class="fw-bold text-uppercase mb-3">Les plus likés</h5>
             <ul class="list-group list-group-flush border-top border-dark">
                 {foreach from=$arrTopLikes item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
@@ -55,7 +55,7 @@
         </div>
 
         <div class="mt-4">
-            <h5 class="fw-bold text-uppercase mb-3">Les plus commenté</h5>
+            <h5 class="fw-bold text-uppercase mb-3">Les plus commentés</h5>
             <ul class="list-group list-group-flush border-top border-dark">
                 {foreach from=$arrTopComments item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
@@ -72,7 +72,7 @@
         </div>
 
         <div class="mt-4">
-            <h5 class="fw-bold text-uppercase mb-3">Dernier ajouts</h5>
+            <h5 class="fw-bold text-uppercase mb-3">Derniers ajouts</h5>
             <ul class="list-group list-group-flush border-top border-dark">
                 {foreach from=$arrLastMovies item=objMovie}
                 <li class="list-group-item d-flex justify-content-center align-items-center px-0">
