@@ -46,17 +46,9 @@
 		 */
 
 
-		/**
-		 * @return string The user's last name.
-		 */
-
 		public function getName():string{
 			return $this->_name;
 		}
-
-		/**
-		 * @param string $strNewName The raw last name.
-		 */
 
 		public function setName(string $strNewName){
 			$this->_name = $this->clean($strNewName);
