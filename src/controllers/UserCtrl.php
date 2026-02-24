@@ -227,26 +227,25 @@
                     }
                 }
 
-            //If form is correctly filled
+                //If form is correctly filled
                 if (count($arrError) == 0){
-            //Database add
+                    //Database add
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
 
-
-                    if($boolInsert['user_email'] == $objUser->getEmail()){
-                        $arrError[] = 'email probleme change';
+                    if($boolInsert != true && $boolInsert['user_email'] == $objUser->getEmail()){
+                        $arrError[] = 'Adresse mail ou Mots de passe Invalide !';
                     }
-                    if($boolInsert['user_pseudo'] == $objUser->getPseudo()){
+                    if($boolInsert != true  && $boolInsert['user_pseudo'] == $objUser->getPseudo()){
                        $arrError[] = 'pseudo probleme change';
                     }
 
-                    if ($boolInsert != false && !is_array($boolInsert)){
+                    if ($boolInsert != false && count($arrError) == 0){
 
                             $_SESSION['success']    = "Le compte compte a bien été crée";
 
-                           /* header("Location:index.php?ctrl=user&action=login");
-                            exit;*/
+                            header("Location:index.php?ctrl=user&action=login");
+                            exit;
                     }else{
                         $arrError[] = '';
                     }

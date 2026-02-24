@@ -21,7 +21,6 @@
     class MovieCtrl extends MotherCtrl{
 
         public function home(){
-            //var_dump($_SERVER['REMOTE_ADDR']); Pour l'id
 
             $objContentModel 	= new MovieModel;
 			$arrMovie		    = $objContentModel->newMovie();
@@ -166,7 +165,7 @@
 			$objCommentModel	= new CommentModel;
 			$objMovieModel = new MovieModel;
 
-			$intNoteJson = file_get_contents("php://input");
+			/*$intNoteJson = file_get_contents("php://input");
 
 			if(!empty($intNoteJson) && isset($_GET['note'])){
 			     header('Content-Type: application/json');
@@ -182,7 +181,7 @@
      		        echo json_encode("ntm");
                     exit;
 				}
-			}
+			}*/
 
 
 

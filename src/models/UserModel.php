@@ -9,11 +9,6 @@
 
     class UserModel extends Connect{
 
-        // Methods
-		public function __construct(){
-				parent::__construct();
-		}
-
         /**
          *Retrieves a user by their ID.
 		 *
@@ -139,11 +134,10 @@
 
 
 			// Verify password hash
-			if($arrUser != null){
+			if(!empty($arrUser)){
 				if (password_verify($strPwd, $arrUser['user_pwd'])){
-
-				unset($arrUser['user_pwd']);
-				return $arrUser;
+					unset($arrUser['user_pwd']);
+					return $arrUser;
 				}else{
 					return false;
 				}

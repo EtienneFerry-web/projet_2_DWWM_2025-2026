@@ -5,8 +5,6 @@
      * 16/01/2026
      * Version 1
      */
-
-
     class ErrorCtrl extends MotherCtrl{
 
         //Page Error not found

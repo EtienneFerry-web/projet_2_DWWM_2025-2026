@@ -77,7 +77,7 @@
         </div>
         <div class="col-12 col-sm-auto">
             <form method="post" class="{if $objMovie->getNoteUser() == 0 }d-none{/if}" id="deleteNoteForm">
-                <button class="border-0" type="submit" name="deleteNoteUser" style="cursor: pointer;">
+                <button class="border-0 bg-transparent" type="submit" name="deleteNoteUser" style="cursor: pointer;">
                     <i class="bi bi-trash fs-4"></i>
                 </button>
             </form>

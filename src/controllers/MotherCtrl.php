@@ -42,13 +42,13 @@
         protected function _resize($img, $intX = 280, $intY = 400, $keepRatio = false) {
             $filename = $img;
 
-            // Récupération des dimensions d'origine
+          
             list($width_orig, $height_orig) = getimagesize($filename);
 
             $width = $intX;
             $height = $intY;
 
-            // Si il faut garder le ratio de limage
+            
             if ($keepRatio) {
                 $ratio = $width_orig / $height_orig;
 
@@ -66,7 +66,7 @@
 
             $image_p = imagecreatetruecolor($width, $height);
 
-            // Gestion de la transparence
+            
             imagealphablending($image_p, false);
             imagesavealpha($image_p, true);
 
@@ -94,7 +94,7 @@
             imagedestroy($image);
             imagedestroy($image_p);
         }
-        //Function pour les access
+        
         protected function _checkAccess(int $grade=1){
 
             if(!isset($_SESSION['user']) && $grade > $_SESSION['user']['user_funct_id']){

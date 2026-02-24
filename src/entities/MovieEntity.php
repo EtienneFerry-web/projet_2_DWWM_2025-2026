@@ -278,7 +278,7 @@
 			return $this->_nb_comments;
 		}
 
-		public function setNb_comments(int $IntNb) {
-			$this->_nb_comments = $IntNb;
+		public function setNb_comments(int $intNb) {
+			$this->_nb_comments = $intNb;
 		}
 	}
