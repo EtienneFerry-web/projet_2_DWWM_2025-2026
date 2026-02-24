@@ -21,7 +21,6 @@
     class MovieCtrl extends MotherCtrl{
 
         public function home(){
-            //var_dump($_SERVER['REMOTE_ADDR']); Pour l'id
 
             $objContentModel 	= new MovieModel;
 			$arrMovie		    = $objContentModel->newMovie();
@@ -471,28 +470,26 @@
         }
 
         /**
-		* @author Audrey
-		* Page d'ajout / édition d'un Film
+		* @author Audrey Sonntag
+		* Add or edit movie page
 		*/
         public function addEditMovie(){
-			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+			if (!isset($_SESSION['user'])){ // User not authenticated
 				header("Location:index.php?ctrl=error&action=error_403");
 				exit;
 			}
-			// 1. Initialisation des objets et variables
+			// 1. Object and variable initialization
 			$objMovie = new MovieEntity('mov_');
 			$objMovieModel = new MovieModel();
 
-			var_dump($_FILES);
 			if (isset($_GET['id'])){
 				$arrMovie= [];
 				$arrMovie = $objMovieModel->findOneMovie($_GET['id']);
 				$objMovie->hydrate($arrMovie);
 			}
 
-
 			$arrError = [];
-			// 2. Validation des données
+			// 2. Data validation
 			if (count($_POST)>0){
 				$objMovie->hydrate($_POST);
 
@@ -518,8 +515,6 @@
 					$arrError['countryId'] = "La durée est obligatoire";
 				}
 
-
-
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
 				if ($_FILES['photo']['error'] != 4){
 
@@ -529,7 +524,7 @@
 					switch ($_FILES['photo']['error']){
 						case 0 :
 							$strImageName	= uniqid().".webp";
-						//Récupère le nom de l'image avant changement
+						//Getting the original image name
 							$strOldImg	= $objMovie->getPhoto();
 
 							$objMovie->setPhoto($strImageName);
@@ -553,17 +548,17 @@
 					}
 				}
 
-				// 3. Logique d'insertion
+			// 3. Data insertion logic
 
 			}elseif(!isset($_GET['id'])){
 
-				// Est-ce que le fichier existe ?
+				// Check if the file exists
 				if (is_null($objMovie->getPhoto())){
 					$arrError['img'] = "L'image est obligatoire";
 				}
 			}
 
-			// Si le formulaire est rempli correctement
+			// If the form is correctly completed
 			if (count($arrError) == 0){
 
 				if (!isset($_GET['id'])){
@@ -571,17 +566,17 @@
 				}else{
 					$boolResultMovie = $objMovieModel->updateMovie($objMovie);
 				}
-				// Si aucune erreur, on tente l'insertion
+				// If no errors, attempting the insertion
 				if ($boolResultMovie === true) {
 					if (isset($strImageName)){
-							// Création du chemin de destination
+							// Setting the destination path
 							$strDest    = $_ENV['IMG_PATH'].$strImageName;
-							// Récupération de la source de l'image
+							// Fetching the source file path
 							$strSource	= $_FILES['photo']['tmp_name'];
 						}
 						if ($boolResultMovie === true){
 
-							//suppression de l'ancienne image
+							//Removing the old image
 							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
 
 							if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
@@ -601,8 +596,6 @@
 							exit;
 							}else{
 								$_SESSION['success'] 	= "Le film a bien été modifié";
-								//header("Location:index.php?ctrl=movie&action=allMovie");
-							//exit;
 							}
 						}else{
 							$arrError['img'] = "Erreur dans le traitement de l'image";
@@ -612,7 +605,8 @@
 					}
 				}
 			}
-
+			
+			// Loading categories for the select input
 			$arrCategory = $objMovieModel->allCategories();
 				$arrCatToDisplay	= array();
 
@@ -623,7 +617,8 @@
 
 				$arrCatToDisplay[]	= $objContent;
 			}
-
+			
+			// Loading nationalites for the select input
 			$arrNationality = $objMovieModel->allCountry();
 			$arrNatToDisplay	= array();
 
@@ -644,19 +639,18 @@
         }
 
 		 /**
-		* @author Audrey
-		* Supression d'un Film
+		* @author Audrey Sonntag
+		* Movie deletion
 		*/
 		public function deleteMovie() {
-			//contrôle des droits
-           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+			//Permission control
+           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // just administrator and moderator can delete a movie
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
             $objMovieModel = new MovieModel();
             $success = $objMovieModel->deleteMovie($_GET['id']);
 
-            // Si on a supprimé, on nettoie tout
             if($success){
 
                 $_SESSION['success'] = "Le film a bien été supprimé";
@@ -666,24 +660,30 @@
             }
 
 		}
-
+		
+		 /**
+		* @author Audrey Sonntag
+		* Dashboard page for the movie list
+		*/
 		public function allMovie(){
 			$search = $_GET['search'] ?? NULL;
             $filter = $_GET['filter'] ?? '0';
 			$sort   = $_GET['sort'] ?? 'ASC';
-
+			
+			// Check if user is authenticated and has correct permission
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
-
+			
+			// Initialize model and fetch movies based on filters
 			$objMovieModel 	= new MovieModel;
 			$arrMovie   	= $objMovieModel->findMovieWithFilters($search, $filter,$sort);
 
-			// Initialisation d'un tableau => objets
+			
 			$arrMovieToDisplay	= array();
 
-			// Boucle de transformation du tableau de tableau en tableau d'objets
+			// Converting the multidimensional array into an object array for the list of Movie
 			foreach($arrMovie as $arrDetMovie){
 				$objMovie = new MovieEntity("mov_");
 				$objMovie->hydrate($arrDetMovie);
@@ -691,7 +691,7 @@
 				$arrMovieToDisplay[]= $objMovie;
 			}
 
-			// Récupération des catégories pour le menu déroulant
+			// Loading categories for the select input
 			$arrCategory 		= $objMovieModel->allCategories();
 			$arrCatToDisplay	= array();
 
@@ -701,6 +701,7 @@
 
 				$arrCatToDisplay[]	= $objContent;
 			}
+
 
 			$this->_arrData['arrMovieToDisplay']	= $arrMovieToDisplay;
 			$this->_arrData['arrCatToDisplay']	    = $arrCatToDisplay;

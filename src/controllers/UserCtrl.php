@@ -496,10 +496,24 @@
                 $arrCommentToDisplay[] = $objComment;
             }
 
+            //Badge user
+            $objModelUser = new MovieModel;
+            $like = $objModelUser->countAllLikesFromOneUser($_GET['id']);   
+            
+           
+            if ($like>=10){
+                $badge = "gold";
+            } elseif ($like>=5){
+                $badge = "silver";
+            } elseif ($like>=3){
+                $badge = "bronze";
+            }
+
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser'] = $objUser;
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
+            $this->_arrData['badge'] = $badge;
 
             $this->_display("user");
         }
@@ -623,6 +637,8 @@
 			$this->_display("allUser");
 		}
 
+
+
         public function settingsAllUser() {
 
             if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
@@ -637,9 +653,7 @@
             $objUser->hydrate($arrUser);
 
             $arrError = [];
-            var_dump($objUser);
-            var_dump($_FILES);
-
+           
             if (count($_POST) > 0) {
                 $objUser->hydrate($_POST);
                 $arrError	= $this->verifInfos($objUser);
@@ -715,6 +729,11 @@
 
             header("Location: index.php?ctrl=user&action=allUser");
         }
+
+         /**
+		* @author Audrey
+		* Affichage de la page permission en fonction de son grade
+		*/
 
         public function permissions() {
             if(!isset($_SESSION['user']) || ($_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3)) {

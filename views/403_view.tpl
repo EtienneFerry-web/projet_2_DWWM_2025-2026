@@ -9,7 +9,7 @@
 {block name="content"}
 <section class="container text-center py-5">
     <h1>403 - Accées Refusé</h1>
-    <p>Fléche du haut saute Fléche du bas accroupi bonne chance !</p>
+    <p>Flèche du haut pour sauter et Flèche du bas pour t'accroupir bonne chance !</p>
 
     <div id="game-container">
         <div id="player">403</div>

@@ -15,10 +15,18 @@
             <img src="assets/img/users/{$objUser->getPhoto()}" alt="image de profil" class="img-fluid">
         </div>
         <div class="col-12 col-md-9 col-lg-10 ">
-            <div>
+        <div class="row">
+            <div class="col-10">
                 <h1>{$objUser->getPseudo()}</h1>
                 <p>{$objUser->getBio()}</p>
             </div>
+             <div class="col-2">
+                <div class="bg-dark-subtle img-thumbnail p-1 m-4">
+                    <img src="assets/img/badge_{$badge}.png" alt="Badge " class="img-fluid">
+                </div>
+            </div>
+
+        </div>
             <div class="row align-items-center g-2">
                 <div class="col-auto">
                     <span class="spanMovie border-0">
@@ -61,13 +69,13 @@
                             </div>
 
                             <div class="modal-body">
-                                <p>Pour que votre signalement sois prit en charge veuillez renseigner la raison !</p>
+                                <p>Pour que votre signalement soit prit en charge veuillez renseigner la raison !</p>
                                 <textarea name="repUser" class="form-control" placeholder="Raison du signalement..."></textarea>
                             </div>
 
                             <div class="modal-footer border-0 mx-auto">
                                 <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
-                                <button type="submit" class="btn btn-outline-success px-3">Validez</button>
+                                <button type="submit" class="btn btn-outline-success px-3">Valider</button>
                             </div>
 
                         </form>
@@ -87,7 +95,7 @@
                             </div>
 
                             <div class="modal-body">
-                                <p>Voulez vous vraiment supprimer votre signalement ?</p>
+                                <p>Voulez-vous vraiment supprimer votre signalement ?</p>
                             </div>
 
                             <div class="modal-footer border-0 mx-auto">
@@ -107,14 +115,14 @@
 
     <div class="col-12 py-2">
         <div class="like py-3 col-12">
-            <span class="spanMovie d-block col-12">Film Liker</span>
+            <span class="spanMovie d-block col-12">Films Likés</span>
             <div class="splide py-2">
               <div class="splide__track">
                 <ul class="splide__list">
                     {foreach from=$arrMovieToDisplay item=objLike}
                         {include file="views/_partial/likeUser.tpl"}
                     {foreachelse}
-                        <h3 class="mx-auto py-2">Cette utilisateur ne posséde aucun like !</h3>
+                        <h3 class="mx-auto py-2">Cet utilisateur ne posséde aucun like !</h3>
                     {/foreach}
                 </ul>
               </div>
@@ -130,7 +138,7 @@
             {include file="views/_partial/reviewMovie.tpl"}
         {foreachelse}
         <div class="col-12 text-center py-3">
-            <h3 class="border-0">Cette Utilisateur n'a pas de review</h3>
+            <h3 class="border-0">Cet Utilisateur n'a pas de review</h3>
         </div>
         {/foreach}
     </div>

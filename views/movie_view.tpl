@@ -1,6 +1,6 @@
 {extends file="views/layout_view.tpl"}
 {block name="title" prepend}{$objMovie->getTitle()}{/block}
-{block name="description"}bienvenue sur notre accueil !!!!{/block}
+{block name="description"}Bienvenue sur notre accueil !!!!{/block}
 
 {block name="css_variation"}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
@@ -184,7 +184,7 @@
     </section>
      {/if}
     <section id="userComment" class="container py-5">
-        <h3 class="py-3">Avis utilisateur</h3>
+        <h3 class="py-3">Avis utilisateurs</h3>
         <div class="allComment">
                 {if count($arrCommentToDisplay) === 0}
                     <h3 class='text-center py-3'>aucun commentaire</h3>
@@ -197,8 +197,8 @@
     </section>
 {else}
     <section class="container text-center py-3">
-        <h2>Les commentaire ne sont pas disponible</h2>
-        <p class="mx-auto">Les commentaire seront disponible lorsque le film sera sortie!</p>
+        <h2>Les commentaires ne sont pas disponibles</h2>
+        <p class="mx-auto">Les commentaires seront disponible lorsque le film sera sorti!</p>
     </section>
 
 {/if}

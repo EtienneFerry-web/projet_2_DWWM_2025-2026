@@ -68,21 +68,20 @@
         }
 
         /**
-        * @author Audrey Sonntag
+         * @author Audrey Sonntag
+         * Person deletion (actor, realisator, producer)
          * 06/02/2026
-         * Version 0.1
         */
 
         public function deletePerson() {
-
-           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+            // Check if user is authenticated and has correct permission
+            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
             $objPersonModel = new PersonModel();
             $success = $objPersonModel->deletePerson($_GET['id']);
 
-            // Si on a supprimé, on nettoie tout
             if($success){
                 $_SESSION['success'] = "La célébrité a bien été supprimée";
                 header("Location:index.php?ctrl=admin&action=dashboard");
@@ -92,12 +91,13 @@
 
 
         /**
-        * @author Audrey Sonntag
+         * @author Audrey Sonntag
          * 06/02/2026
-         * Version 0.1
+         * person Modification
         */
 
         public function settingsPerson() {
+            // Check if user is authenticated and has correct permission
             if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;

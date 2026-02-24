@@ -1,6 +1,6 @@
 {extends file="views/layout_view.tpl"}
 {block name="title" prepend}Accueil{/block}
-{block name="description"}bienvenue sur notre accueil !!!!{/block}
+{block name="description"}Bienvenue sur notre accueil !!!!{/block}
 
 {block name="css_variation"}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
@@ -18,7 +18,7 @@
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
             {if !isset($smarty.session.user)}
             <h1>Bienvenue sur give me five</h1>
-            <p class="py-3">N'hésitez a vous connecter ou vous créer un compte pour accéder a plus de fonctionnalité donnez votre avis sur nos film !</p>
+            <p class="py-3">Connectez-vous ou créez un compte pour accéder à toutes nos fonctionnalités et partager votre avis sur vos films préférés !</p>
             <div>
                 <a href="index.php?ctrl=user&action=login" class="btnCustom ">Se connecter</a>
                 <a href="index.php?ctrl=user&action=createAccount" class="btnCustom ">S'incrire</a>
@@ -26,7 +26,7 @@
             {else}
             <h1>Bienvenue {$pseudo} </h1>
 
-            <p class="py-3">On veut connaître vos goûts ! Sentez-vous libres de présenter et noter vos films favoris.</p>
+            <p class="py-3">Faites-nous découvrir votre univers ! Partagez vos pépites et donnez une note à vos classiques favoris.</p>
             {/if}
         </div>
 

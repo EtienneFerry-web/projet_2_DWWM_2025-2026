@@ -16,25 +16,25 @@
         <div class="col-lg-10">
             
 
-            <h2 class="mb-4 text-center">Droits et fonctionnalités GiveMeFive</h2>
+            <h2 class="mb-4 text-center">Droits et fonctionnalités</h2>
 
             <section class="mb-4">
                 {if $smarty.session.user.user_funct_id == 1}
-                <h4>Lorsque tu es utilisateur</h4>
+                <h4>En tant qu'utilisateur, tu peux :</h4>
                 {/if}
 
                 {if $smarty.session.user.user_funct_id == 2}
-                <h4>Lorsque tu es modérateur, tu peux en plus :</h4>
+                <h4>En tant que modérateur, tu peux :</h4>
                 {/if} 
 
                 {if $smarty.session.user.user_funct_id == 3}
-                <h4>Lorsque tu es administrateur, tu peux tout faire !! You're the GOAT!</h4>
+                <h4>En tant qu'administrateur, tu peux tout faire !! You're the GOAT!</h4>
                 {/if} 
 
                 <!--User-->
                 <ul>
-                    <li>Ajouter un film :Prospose ton film s'il n'est pas dans notre base de données</li>
-                    <li>Modifier/Supprimer ton compte : A tout moment tu peux modifier ou supprimer ton compte</li>
+                    <li>Ajouter un film : prospose ton film s'il n'est pas dans notre base de données</li>
+                    <li>Modifier/Supprimer ton compte : à tout moment tu peux modifier ou supprimer ton compte</li>
                     <li>Liker des films</li>
                     <li>Noter des films</li>
                     <li>Commenter des films</li>

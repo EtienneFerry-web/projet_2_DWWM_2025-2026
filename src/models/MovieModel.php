@@ -338,7 +338,12 @@
 
         }
 
-
+        /**
+         * Add Movie
+         * @author Audrey
+         * @param $objNewMovie;
+         * return boolean
+         */
         public function addMovie(object $objNewMovie):bool{
 
 		// Request construction
@@ -538,12 +543,12 @@
 
 		}
         /**
-     *
-     * @author Audrey
-     * @param object $
-     * return Array
-     */
-    public function findMovieWithFilters(?string $strSearch, string $strFilter,string $strSort): array {
+         * 
+         * @author Audrey
+         * @param object $
+         * return Array
+         */
+        public function findMovieWithFilters(?string $strSearch, string $strFilter,string $strSort): array {
 
 			$strRq = "SELECT mov_id, mov_title, cat_name AS mov_category
 						FROM movies
@@ -618,6 +623,14 @@
         public function countAllLikes() {
 			$strRq = "SELECT COUNT(*)
 						FROM liked";
+
+			return $this->_db->query($strRq)->fetchColumn();
+		}
+
+        public function countAllLikesFromOneUser(int $intUserId) {
+			$strRq = "SELECT COUNT(*)
+						FROM liked
+                        WHERE lik_user_id =  $intUserId";
 
 			return $this->_db->query($strRq)->fetchColumn();
 		}
