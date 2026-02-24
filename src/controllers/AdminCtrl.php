@@ -31,7 +31,7 @@
         */
         
 		public function dashboard(){
-			if (!isset($_SESSION['user']) || $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
+			if (!isset($_SESSION['user']) || $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ 
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}

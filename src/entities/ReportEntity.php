@@ -1,11 +1,12 @@
 <?php
     namespace App\Entities;
-    //require_once("mother_entity.php");
 
     /**
-    * Classe d'un objet Report
+    * ReportEntity Class
+    * Handles data mapping for reports on movies, comments, and users
     * @author Marco
     */
+
     class ReportEntity extends Entity{
         // Attributs
         private ?int    $_reported_user_id;
@@ -24,116 +25,212 @@
 
 
         /**
-        * Constructeur
+        * Constructor
+        * Sets the table prefix for hydration
         */
         public function __construct(string $prefixe = ""){
-            // Préfixe de la table pour hydratation
             $this->_prefixe = "rep_";
         }
 
-        // Getters
+        /**
+         * @return int|null The ID of the user being reported
+         */
 
         public function getReportedUserId():?int{
             return $this->_reported_user_id;
-        }
-
-        public function getReportedMovieId():?int{
-            return $this->_reported_movie_id;
-        }
-
-        public function getReportedComId():?int{
-            return $this->_reported_com_id;
-        }
-        
-        public function getSpoiler():?string{
-            return $this->_spoiler;
-        }
-
-        public function getPseudo():?string{
-            return $this->_pseudo;
-        }
-
-        public function getTitle():string{
-            return $this->_title;
-        }
-
-        public function getPhoto():?string{
-            return $this->_photo;
-        }
-
-        public function getComContent():?string{
-            return $this->_com_content;
-        }
-
-        public function getPseudoUser():?string{
-            return $this->_pseudo_user;
-        }
-
-        public function getBioUser():?string{
-            return $this->_bio_user;
-        }
-
-        public function getDate():string{
-            return $this->_date;
-        }
-
-        public function getReporterUserId():int{
-            return $this->_reporter_user_id;
-        }
-
-        public function getReason():string{
-            return $this->_reason;
-        }
-
-        // Setters
-
-        public function setPseudo(?string $pseudo){
-             $this->_pseudo = $pseudo;
-        }
-        
-        public function setSpoiler(?string $strSpoiler){
-             $this->_spoiler = $strSpoiler;
-        }
-
-        public function setPhoto(?string $photo){
-             $this->_photo = $photo??'defaultImgUser.jpg';
         }
 
         public function setReported_user_id(?int $reported_user_id){
             $this->_reported_user_id = $reported_user_id;
         }
 
+
+        /**
+         * @return int|null The ID of the movie being reported
+         */
+
+        public function getReportedMovieId():?int{
+            return $this->_reported_movie_id;
+        }
+
+        /**
+         * @param int|null $reported_movie_id The ID of the reported movie
+         */
+
         public function setReported_movie_id(?int $reported_movie_id){
             $this->_reported_movie_id = $reported_movie_id;
         }
 
+        /**
+         * @return int|null The ID of the comment being reported
+         */
+        public function getReportedComId():?int{
+            return $this->_reported_com_id;
+        }
+
+        /**
+         * @param int|null $reported_com_id The ID of the reported comment
+         */
+
         public function setReported_com_id(?int $reported_com_id){
             $this->_reported_com_id = $reported_com_id;
         }
-
-        public function setCom_content(?string $com_content){
-            $this->_com_content = $com_content;
+        
+        /**
+         * @return string|null The spoiler status (0 or 1 as string)
+         */
+        
+        public function getSpoiler():?string{
+            return $this->_spoiler;
         }
 
-        public function setPseudo_user(?string $pseudo_user){
-            $this->_pseudo_user = $pseudo_user;
+        /**
+         * @param string|null $strSpoiler The spoiler status (0 or 1)
+         */
+
+        public function setSpoiler(?string $strSpoiler){
+             $this->_spoiler = $strSpoiler;
         }
 
-        public function setBio_user(?string $bio_user){
-            $this->_bio_user = $bio_user;
+        /**
+         * @return string|null The pseudo associated with the report
+         */
+
+        public function getPseudo():?string{
+            return $this->_pseudo;
         }
 
-        public function setDate(string $date){
-            $this->_date = $date;
+        /**
+         * @param string|null $pseudo The pseudo to assign
+         */
+
+        public function setPseudo(?string $pseudo){
+             $this->_pseudo = $pseudo;
         }
+
+        /**
+         * @return string The title of the reported content
+         */
+
+        public function getTitle():string{
+            return $this->_title;
+        }
+
+        /**
+         * @param string $strTitle The title to assign
+         */
 
         public function setTitle(string $strTitle){
             $this->_title = $strTitle;
         }
 
+        /**
+         * @return string|null The filename of the associated image
+         */
+
+        public function getPhoto():?string{
+            return $this->_photo;
+        }  
+
+        /**
+         * @param string|null $photo The image filename (defaults to defaultImgUser.jpg)
+         */
+        
+        public function setPhoto(?string $photo){
+             $this->_photo = $photo??'defaultImgUser.jpg';
+        }
+
+        /**
+         * @return string|null The text content of the reported comment
+         */
+
+        public function getComContent():?string{
+            return $this->_com_content;
+        }
+
+        /**
+         * @param string|null $com_content The comment text to assign
+         */
+
+        public function setCom_content(?string $com_content){
+            $this->_com_content = $com_content;
+        }
+
+        /**
+         * @return string|null The pseudo of the reported user
+         */
+
+        public function getPseudoUser():?string{
+            return $this->_pseudo_user;
+        }
+
+        /**
+         * @param string|null $pseudo_user The reported user's pseudo
+         */
+
+        public function setPseudo_user(?string $pseudo_user){
+            $this->_pseudo_user = $pseudo_user;
+        }
+
+        /**
+         * @return string|null The biography of the reported user
+         */
+
+        public function getBioUser():?string{
+            return $this->_bio_user;
+        }  
+        
+        /**
+         * @param string|null $bio_user The reported user's bio
+         */
+        
+        public function setBio_user(?string $bio_user){
+            $this->_bio_user = $bio_user;
+        }
+
+        /**
+         * @return string The date when the report was submitted
+         */
+
+        public function getDate():string{
+            return $this->_date;
+        }
+
+        /**
+         * @param string $date The report date string
+         */
+
+        public function setDate(string $date){
+            $this->_date = $date;
+        }
+
+        /**
+         * @return int The ID of the user who filed the report
+         */
+
+        public function getReporterUserId():int{
+            return $this->_reporter_user_id;
+        }
+
+        /**
+         * @param int $reporter_user_id The ID of the user filing the report
+         */
+        
         public function setReporter_user_id(int $reporter_user_id){
             $this->_reporter_user_id = $reporter_user_id;
         }
+
+        /**
+         * @return string The reason for the report
+         */
+
+        public function getReason():string{
+            return $this->_reason;
+        }
+
+        /**
+         * @param string $reason The description of why the content is being reported
+         */
 
         public function setReason(string $reason){
             $this->_reason = $reason;
