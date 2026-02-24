@@ -20,6 +20,11 @@
 
     class PersonCtrl extends MotherCtrl{
 
+        /**
+        * Single person details page
+        * @return void retrieves personal info, associated jobs, and the movie filmography for a specific person
+        */
+
         public function person(){
 
             $objMovieModel 	    = new MovieModel;
@@ -69,8 +74,10 @@
 
         /**
         * @author Audrey Sonntag
-         * 06/02/2026
-         * Version 0.1
+        * 06/02/2026
+        * Version 0.1
+        * Deleting a person from the database
+        * @return void redirects to the admin dashboard with a success message upon deletion
         */
 
         public function deletePerson() {
@@ -82,7 +89,7 @@
             $objPersonModel = new PersonModel();
             $success = $objPersonModel->deletePerson($_GET['id']);
 
-            // Si on a supprimé, on nettoie tout
+            
             if($success){
                 $_SESSION['success'] = "La célébrité a bien été supprimée";
                 header("Location:index.php?ctrl=admin&action=dashboard");
@@ -93,8 +100,10 @@
 
         /**
         * @author Audrey Sonntag
-         * 06/02/2026
-         * Version 0.1
+        * 06/02/2026
+        * Version 0.1
+        * Updating person details and profile picture
+        * @return void validates form data, handles image upload, and updates the person in the database
         */
 
         public function settingsPerson() {
@@ -102,12 +111,12 @@
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
+
             $objPersonModel = new PersonModel();
             var_dump($_POST);
             $objPerson = new PersonEntity();
             $objPerson->hydrate($_POST);
 
-            //Testing Form
             $arrError = [];
             if (count($_POST) > 0) {
                 if ($objPerson->getName() == ""){
@@ -127,7 +136,7 @@
                 }
 
                 $arrTypeAllowed	= array('image/jpeg', 'image/png');
-				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
+				if ($_FILES['photo']['error'] == 4){ 
 					$arrError['photo'] = "L'image est obligatoire";
 				}else if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
 					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
@@ -153,7 +162,6 @@
                         $arrError['photo'] = "Erreur lors du téléchargement";
                     }
 
-					// update of the person info
 					$boolUpdate 	= $objPersonModel->updatePerson($objPerson);
                 }
 
@@ -172,13 +180,7 @@
                 $arrCountryToDisplay[]  = $objPerson;
             }
 
-            //Preparing hydrate
-
 			$objPerson->hydrate($arrPerson);
-            var_dump($objPerson);
-
-
-            //If the form is correct, we update the user's info
 
             $this->_arrData['objPerson']            = $objPerson;
             $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;
@@ -188,23 +190,24 @@
 
         }
 
+        /**
+        * Management page for all celebrities
+        * @return void retrieves a list of all persons from the database and displays the admin list
+        */
+
         public function allPerson(){
 
 			$objPersonModel 	= new PersonModel;
 			$arrPerson   	= $objPersonModel->listPerson();
 
-			// Initialisation d'un tableau => objets
 			$arrPersonToDisplay	= array();
 
-			// Boucle de transformation du tableau de tableau en tableau d'objets
 			foreach($arrPerson as $arrDetPerson){
 				$objPerson = new PersonEntity();
 				$objPerson->hydrate($arrDetPerson);
 
 				$arrPersonToDisplay[]	= $objPerson;
 			}
-
-			// Donner arrUsersToDisplay à maman pour l'affichage
 
 			$this->_arrData['arrPersonToDisplay']	= $arrPersonToDisplay;
 

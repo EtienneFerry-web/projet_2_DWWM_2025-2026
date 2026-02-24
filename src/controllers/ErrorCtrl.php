@@ -9,11 +9,20 @@
 
     class ErrorCtrl extends MotherCtrl{
 
-        //Page Error not found
+        /**
+        * Page not found error page
+        * @return displays the 404 error view
+        */
+
         public function err404(){
             $this->_display("404");
         }
-        //Page Access denied
+
+        /**
+        * Forbidden access error page
+        * @return displays the 403 error view
+        */
+
         public function err403(){
             $this->_display("403");
         }

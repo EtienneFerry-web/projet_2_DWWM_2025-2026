@@ -9,13 +9,14 @@
     use App\Models\CommentModel;
     use App\Models\UserModel;
 
-    /**
-    * Reports
-    * @author Marco
-    * @todo Faire la rq du ban(Faire Procedure avec historique des ban + trigger) et merge les edit movie et user
-    */
-
     class ReportCtrl extends MotherCtrl{
+
+        /**
+         * @author Marco
+         * 
+         * Management page for all user, comment, and movie reports
+         * @return void handles moderation actions like spoilers, deletions, and bans, then displays all active reports
+         */
 
         public function allReport(){
             $this->_checkAccess(2);
@@ -25,7 +26,6 @@
             $objUserModel = new UserModel;
             $objComment = new CommentEntity;
             
-			//Add spoiler on comment
 			if(isset($_POST['addRemoveSpoiler'])){
 
 			    if($objCommentModel->addSpoiler($_POST['addRemoveSpoiler'])){
@@ -33,7 +33,6 @@
 				}
 			}
 			
-			//Delete Comment
 			if (isset($_POST['deleteComment'])) {
 			
                 $objComment->setId((int)$_POST['deleteComment']);
@@ -47,8 +46,7 @@
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
             }
-            
-            //Delete Reports
+
             if (isset($_POST['deleteRep'])){
                 
                 $boolResult = $objReportModel->deleteReport($_POST['deleteRep']);
@@ -60,7 +58,6 @@
                 }
             }
             
-            //User ban
             if (isset($_POST['userBan'])){
             
                 $boolResult = $objUserModel->banUser($_POST['userBan']);

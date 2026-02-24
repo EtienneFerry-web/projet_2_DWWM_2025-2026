@@ -13,13 +13,19 @@
 
         protected array $_arrData = [];
 
+        /**
+        * Rendering the view using the Smarty template engine
+        * @param string $strView the name of the template file to display
+        * @return void assigns data to Smarty and renders the final view
+        */
+
         protected function _display($strView){
 
             $objSmarty	= new Smarty();
-            // Ajouter le var_dump au modificateur de smarty : vardump est le nom appelé après le |
+
             $objSmarty->registerPlugin('modifier', 'vardump', 'var_dump');
 
-            // Récupérer les variables
+
             foreach($this->_arrData as $key=>$value){
                 $objSmarty->assign($key, $value);
             }
@@ -36,6 +42,14 @@
             $objSmarty->display("views/".$strView."_view.tpl");
 
         }
+
+        /**
+        * Resizing an image to specific dimensions
+        * @param string $img the path to the image file
+        * @param int $intX the target width in pixels (default 250)
+        * @param int $intY the target height in pixels (default 250)
+        * @return void processes and overwrites the image with the new size
+        */
 
         protected function _resize($img, $intX=250, $intY=250){
     		$filename = $img;
@@ -72,7 +86,13 @@
             imagedestroy($image_p);
 
         }
-        //Function pour les access
+
+        /**
+        * Checking user access permissions
+        * @param int $grade the minimum required function ID level
+        * @return void redirects to 403 error page if access is denied
+        */
+
         protected function _checkAccess(int $grade){
 
             if(!isset($_SESSION['user'])){

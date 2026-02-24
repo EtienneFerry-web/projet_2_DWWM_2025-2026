@@ -20,6 +20,11 @@
 
     class MovieCtrl extends MotherCtrl{
 
+		/**
+        * Main home page of the application
+        * @return void retrieves the latest movies and displays the homepage view
+        */
+
         public function home(){
             var_dump($_SERVER['REMOTE_ADDR']);
 
@@ -39,6 +44,11 @@
 
             $this->_display("home");
         }
+
+		/**
+        * Filtering and displaying the movie list
+        * @return void handles search filters and hydrates entities for actors, directors, producers, and movies
+        */
 
         public function list(){
             $objContentModel 	= new MovieModel;
@@ -138,7 +148,10 @@
             $this->_display("list");
         }
 
-
+		/**
+        * Single movie details page
+        * @return void manages ratings, likes, comments, reports, and image uploads for a specific movie
+        */
 
         public function movie(){
 			$arrError = [];
@@ -249,10 +262,10 @@
 					if (!in_array($_FILES['images']['type'], $arrTypeAllowed)){
 						$arrError['images'] = "Le type de fichier n'est pas autorisé";
 					}else{
-						// Vérification des codes d'erreur
+
 						switch ($_FILES['images']['error']){
 							case 0 :
-								// Renommage de l'image
+
 								$strImageName	= uniqid();
 
 								switch ($_FILES['images']['type']){
@@ -310,35 +323,27 @@
 				}
 			}
 
-
-
-			/**
-			 * @author Etienne
-			 *
-			 */
-				// 1. Check if the form has been submitted
 				if(!empty($_POST) && isset($_POST['com_comment']) ) {
 
-				// 2. Ensure the user is logged in
 					if(isset($_SESSION['user'])) {
 
-				// 3. Validation: Check if the comment is empty (after trimming whitespace)
+
 						if ((trim($_POST['com_comment'])== "")){
 							$arrError['com_comment'] = "Vous devez remplir le champ commentaire pour laisser un avis";
 						}
-				// 4. Validation: Check if a rating has been selected
+				
 						if (empty($_POST['rating'])){
 							$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
 						}
-				/// 5. Final Verdict: If no errors were found, proceed with insertion
+
 						if(count($arrError)===0) {
-				// Instantiate and hydrate the CommentEntity
+
 							$objComment = new CommentEntity;
 							$objComment->setComment($_POST['com_comment']);
 							$objComment->setUser_id($_SESSION['user']['user_id']);
 							$objComment->setRating($_POST['rating']);
 							$objComment->setmovieId($_GET['id']);
-				// Insert into DB and set success notification
+
 							$comment = $objCommentModel->commentInsert($objComment);
 
 							if(!$comment){
@@ -451,40 +456,37 @@
             $this->_display("movie");
         }
 
+		/**
+        * Adding a new movie to the catalog
+        * @return void handles form validation, file upload, and database insertion
+        */
+
         public function addMovie(){
-			// 1. Initialisation des objets et variables
+
 			$objMovie = new MovieEntity();
-			$objMovie->hydrate($_POST); // On remplit l'objet avec ce que l'utilisateur a tapé
+			$objMovie->hydrate($_POST); 
 			$objMovieModel = new MovieModel();
 
 			$arrError = [];
 
-			// 2. Validation des données
 			if (count($_POST)>0){
 				if (empty($objMovie->getTitle())) {
 					$arrError['title'] = "Le titre est obligatoire";
 				}
-				// if (empty($objMovie->getCategorieId())) {
-				// 	$arrError['categorie'] = "La catégorie est obligatoire";
-				// }
+
 				if (empty($objMovie->getLength())) {
 					$arrError['length'] = "La durée est obligatoire";
 				}
 				if (empty($objMovie->getDescription())) {
 					$arrError['description'] = "Le synopsis est obligatoire";
 				}
-				// if (empty($objMovie->getphoto())) {
-				// 	$arrError['photo'] = "L'affiche du film est obligatoire";
-				// }
-
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png');
-				if ($_FILES['photo']['error'] == 4){ // Est-ce que le fichier existe ?
+				if ($_FILES['photo']['error'] == 4){ 
 					$arrError['photo'] = "L'image est obligatoire";
 				}else if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
 					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
 				}
-
 
 				if (count($arrError) == 0) {
 				$strImageName	= uniqid();
@@ -547,6 +549,11 @@
             $this->_display("addMovie");
         }
 
+		/**
+        * Deleting a movie from the database
+        * @return void redirects to the dashboard with a success message upon deletion
+        */
+
 		public function deleteMovie() {
 
            if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
@@ -556,7 +563,7 @@
             $objMovieModel = new MovieModel();
             $success = $objMovieModel->deleteMovie($_GET['id']);
 
-            // Si on a supprimé, on nettoie tout
+
             if($success){
 
                 $_SESSION['success'] = "Le film a bien été supprimé";
@@ -567,6 +574,11 @@
 
 		}
 
+		/**
+        * Management page for all movies
+        * @return void retrieves all movies from the database and displays the administration list
+        */
+
 		public function allMovie(){
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
@@ -576,10 +588,10 @@
 			$objMovieModel 	= new MovieModel;
 			$arrMovie   	= $objMovieModel->findAllMovies();
 
-			// Initialisation d'un tableau => objets
+
 			$arrMovieToDisplay	= array();
 
-			// Boucle de transformation du tableau de tableau en tableau d'objets
+			
 			foreach($arrMovie as $arrDetMovie){
 				$objMovie = new MovieEntity("mov_");
 				$objMovie->hydrate($arrDetMovie);

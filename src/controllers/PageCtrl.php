@@ -9,11 +9,20 @@
 
     class PageCtrl extends MotherCtrl{
         
-        //Page Mention
+       /**
+        * Legal mentions page
+        * @return void displays the legal mentions and credits view
+        */
+
         public function mention(){
             $this->_display("mention");
         }
-        //Page Policy
+
+        /**
+        * Privacy policy page
+        * @return void displays the data protection and privacy policy view
+        */
+        
         public function policy(){
             $this->_display("policy");
         }
