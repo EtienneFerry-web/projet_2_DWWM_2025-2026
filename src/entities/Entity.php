@@ -6,11 +6,14 @@
 		protected string $_prefixe = '';
 
 		/**
-		* Hydratation de l'objet en utilisant les setters
-		*/
+        * Hydrating the object with data from an array
+        * @param array $arrData the raw data (usually from the database)
+        * @return void dynamically calls setters based on array keys
+        */
+
 		public function hydrate(array $arrData){
 			foreach($arrData as $key=>$value){
-				// nom de la méthode
+				
 				$strMethodName = "set".ucfirst(str_replace($this->_prefixe, '', $key));
 				if (method_exists($this, $strMethodName)){
 					$this->$strMethodName($value);
@@ -19,21 +22,29 @@
 		}
 
 		/**
-		* Récupération de l'identifiant
-		* @return int l'identifiant de l'objet
-		*/
-		public function getId():?int{
+        * Getting the identifier
+        * @return int the entity ID
+        */
+
+		public function getId():int{
 			return $this->_id;
 		}
+
 		/**
-		* Mise à jour de l'identifiant
-		* @param int le nouvel identifiant
-		*/
+        * Updating the identifier
+        * @param int $intId the new ID
+        */
+	
 		public function setId(int $intId){
 			$this->_id = $intId;
 		}
 
-		// Méthodes
+		/**
+        * Sanitizing string input
+        * @param string $strText the raw text to clean
+        * @return string the trimmed and filtered text
+        */
+
 		protected function clean(string $strText){
 			$strText	= trim($strText);
 			$strText	= str_replace("<script>", "", $strText);

@@ -35,12 +35,11 @@
 		 */
 
         public function findAllUsers():array{
-			// Writing request
+
 			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
 						FROM users
 						WHERE user_delete_at IS NULL";
 
-			// Launching request and collecting results
 			return $this->_db->query($strRq)->fetchAll();
 		}
 
@@ -57,14 +56,14 @@
 
 		public function findAllUsersWithFilters(?string $strSearch, string $strFilter): array {
 
-		// Base query
+
 
 			$strRq = "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
 						FROM users
 						WHERE user_delete_at IS NULL";
 
 			$params = [];
-		//Text search management
+
 			if (!empty($strSearch)) {
 
 				$strRq .= " AND user_pseudo LIKE :search";
@@ -72,11 +71,10 @@
 				$params[':search'] = "%" . $strSearch . "%";
 			}
 
-		// Default sorting (newest first)
 			$orderBy = " ORDER BY user_id DESC";
-		// Apply filters or modify sort order
+
 			switch($strFilter) {
-				// Filter by Role
+
 				case 'admin':
 					$strRq .= " AND user_funct_id = 3";
 					break;
@@ -86,8 +84,7 @@
 				case 'user':
 					$strRq .= " AND user_funct_id = 1";
 					break;
-				// Sorting filters (Alphabetical order)
-				// Note: Use '=' instead of '.=' to override the default sort
+
 				case 'asc':
 					$orderBy = " ORDER BY user_pseudo ASC";
 					break;
@@ -97,13 +94,12 @@
 				default:
 					break;
 			}
+			
 
-			// Final sort concatenation
 			$strRq .= $orderBy;
 
 			$prep = $this->_db->prepare($strRq);
 
-			// Bind dynamic parameters
 			foreach($params as $key => $val) {
 				$prep->bindValue($key, $val, PDO::PARAM_STR);
 			}
@@ -128,8 +124,7 @@
 			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd, user_funct_id, user_email
 						FROM users
 						WHERE user_email = '".$strEmail."'";
-			// Fetch user details
-			// Execute request and process results
+
 			$arrUser 	= $this->_db->query($strRq)->fetch();
 
 
@@ -157,7 +152,7 @@
 		 */
 
 		public function insert(object $objUser){
-			//Check for duplicates
+	
 		    $strRq1 = " SELECT user_email, user_pseudo
                         FROM users
                         WHERE user_email = :email OR user_pseudo = :pseudo ";
@@ -169,12 +164,12 @@
 
 			$arrInsertRequest = $rqPrep1->fetch();
 
-			// If a user already exists, return their info (to handle the error in the controller)
+			
 			if(isset($arrInsertRequest['user_email'])){
 			   return $arrInsertRequest;
 				exit;
 			} else{
-			//Insert new user
+
     			$strRq2 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
     						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
 
@@ -288,7 +283,7 @@
 			$strRq .="		WHERE user_id			= :id";
 
 			$rqPrep	= $this->_db->prepare($strRq);
-				// Donne les informations
+
 				$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);
@@ -301,9 +296,7 @@
 			if(!empty($objUser->getPwd())){
 					$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
 			}
-
-
-			// Executer la requête
+				
 			return $rqPrep->execute();
 		}
 
@@ -343,6 +336,7 @@
 
 			return $rqPrep->execute();
 		}
+		
 		/**
 		 *@author Marco
 		 *

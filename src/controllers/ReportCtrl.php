@@ -9,13 +9,14 @@
     use App\Models\CommentModel;
     use App\Models\UserModel;
 
-    /**
-    * Reports
-    * @author Marco
-    * @todo Faire la rq du ban(Faire Procedure avec historique des ban + trigger) et merge les edit movie et user
-    */
-
     class ReportCtrl extends MotherCtrl{
+
+        /**
+         * @author Marco
+         * 
+         * Management page for all user, comment, and movie reports
+         * @return void handles moderation actions like spoilers, deletions, and bans, then displays all active reports
+         */
 
         public function allReport(){
             $this->_checkAccess(2);

@@ -1,9 +1,13 @@
 <?php
     namespace App\Models;
     use PDO;
-    //require_once'models/mother_model.php';
 
     class ReportModel extends connect{
+
+        /**
+         * Fetches all active reports targeting user accounts.
+         * @return array A list of reported users with their bio, pseudo, and photo.
+         */
 
         public function allUserReport(){
             $strRq = "  SELECT rep_id ,rep_bio_user, rep_pseudo_user, rep_reported_user_id, rep_reason, user_photo AS 'rep_photo', user_ban_at AS 'rep_user_ban'
@@ -15,6 +19,11 @@
             return $this->_db->query($strRq)->fetchAll();
         }
 
+        /**
+         * Fetches all active reports targeting movies.
+         * @return array A list of reported movies including their titles and the reason for the report.
+         */
+
         public function allMovieReport(){
             $strRq = "  SELECT rep_id , rep_reported_movie_id, rep_reason, mov_title AS 'rep_title'
                         FROM reports
@@ -24,6 +33,11 @@
 
             return $this->_db->query($strRq)->fetchAll();
         }
+
+        /**
+         * Fetches all reports targeting specific comments.
+         * @return array A detailed list including comment content, user pseudo, and spoiler status.
+         */
 
         public function allCommentReport(){
             $strRq = "  SELECT rep_id, rep_reported_com_id, rep_com_content, rep_reason, rep_reported_user_id,user_pseudo AS 'rep_pseudo', user_photo AS 'rep_photo', com_spoiler AS 'rep_spoiler', user_ban_at AS 'rep_user_ban'
@@ -47,6 +61,12 @@
     		return $rqPrep->execute();
         }
         //Report annuler par l'utilisateur
+        /**
+         * Deletes a specific report by its ID.
+         * @param int $intId The unique identifier of the report record.
+         * @return bool True if the report was successfully removed.
+         */
+
         public function deleteReport(int $intId){
             $strRq = "  DELETE FROM reports
                         WHERE rep_id = :id";

@@ -4,9 +4,14 @@
     use PDO;
 	use PDOException;
 
-    //require_once'models/mother_model.php';
-
     class CommentModel extends Connect{
+
+        /**
+        * Retrieving all comments for a specific movie
+        * @param int $idMovie the identifier of the movie
+        * @param int $idConnectUser the ID of the currently logged-in user (for personalized flags)
+        * @return array the list of comments including user info, ratings, like counts, and report status
+        */
 
         public function commentOfMovie(int $idMovie=0, $idConnectUser=0){
 
@@ -58,6 +63,13 @@
 		    return $stmt->fetchAll();
 
         }
+
+        /**
+        * Retrieving all reviews and ratings posted by a specific user
+        * @param int $idUser the identifier of the user whose reviews are being fetched
+        * @param int $idConnectUser the ID of the currently logged-in user (to check for interaction flags)
+        * @return array a collection of reviews including movie titles, posters, ratings, and social interactions
+        */
 
         public function reviewUser(int $idUser=0, int $idConnectUser=0){
 
@@ -155,8 +167,15 @@
             return ($success1 && $success2);
         }
 
+        /**
+        * Modifying an existing comment and its associated rating
+        * @param object $objComment the CommentEntity containing the updated data
+        * @param int $comId the identifier of the user performing the modification
+        * @return bool|array returns true if all updates succeed, or an error array if the row wasn't found
+        */
+
         public function commentModify(object $objComment, int $comId): bool {
-            // 1. Insertion du commentaire (Cela fonctionne car on peut commenter plusieurs fois)
+            
             $sql1 = "   UPDATE comments
                         SET com_comment = :comment,
                         com_update_at = NOW()
@@ -201,6 +220,12 @@
 
         }
 
+        /**
+        * Deleting a comment from the database
+        * @param object $objComment the CommentEntity containing the ID and the requester's user ID
+        * @return bool returns true if the deletion was successful (authorized by ownership or rank)
+        */
+
         public function deleteComment(object $objComment):bool{
 
             $strRq = "  DELETE FROM comments
@@ -220,6 +245,12 @@
 
         }
 
+        /**
+        * Toggling the spoiler status of a comment
+        * @param int $idComment the identifier of the comment to update
+        * @return bool returns true if the toggle was successful
+        */
+
         public function addSpoiler(int $idComment):bool{
             $strRq = "  UPDATE comments
                         SET com_spoiler = NOT com_spoiler
@@ -231,6 +262,13 @@
 
             return $rq->execute();
         }
+
+        /**
+        * Reporting a comment for moderation
+        * @param object $objReport the ReportEntity containing the comment ID and reason
+        * @param int $reporterId the ID of the user filing the report
+        * @return bool returns true if the report was successfully created, false if the comment was not found
+        */
 
         public function reportComment(object $objReport, int $reporterId): bool {
 
@@ -264,6 +302,13 @@
             return false;
         }
 
+        /**
+        * Removing a specific comment report
+        * @param object $objReport the ReportEntity containing the reported comment identifier
+        * @param int $intId the identifier of the reporter who filed the report
+        * @return bool returns true if the specific comment report was successfully deleted
+        */
+
         public function deleteRepCom(object $objReport, int $intId ){
 
                   $strRq = "  DELETE FROM reports
@@ -276,6 +321,13 @@
 
             		return $rqPrep->execute();
 		}
+
+        /**
+        * Toggling a like on a comment
+        * @param int $intUserId the identifier of the user liking the comment
+        * @param int $intComId the identifier of the comment being liked
+        * @return int returns 1 if a like was added, 2 if a like was removed
+        */
 
         public function likeComment($intUserId, $intComId){
 
@@ -309,6 +361,11 @@
 
             }
 		}
+        
+        /**
+        * Getting the total number of comments in the database
+        * @return int the total count of all user comments
+        */
 
         public function countAllComments() {
             $strRq = "SELECT COUNT(*)

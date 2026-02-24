@@ -12,6 +12,11 @@
 
     class SearchCtrl extends MotherCtrl{
 
+        /**
+        * AJAX endpoint for search autocompletion
+        * @return void encodes search suggestions as a JSON array for real-time frontend display
+        */
+
         public function autoComplete(){
 
             header('Content-Type: application/json');
@@ -48,6 +53,11 @@
 
             echo json_encode($arrSearchResultToDisplay);
         }
+
+        /**
+        * Search results page
+        * @return void processes search criteria, fetches matching content, and displays results
+        */
 
         public function searchPage(){
 

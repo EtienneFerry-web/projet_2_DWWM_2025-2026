@@ -13,10 +13,16 @@
 
         protected array $_arrData = [];
 
+        /**
+        * Rendering the view using the Smarty template engine
+        * @param string $strView the name of the template file to display
+        * @return void assigns data to Smarty and renders the final view
+        */
+        
         protected function _display(string $strView, bool $boolDisplay = true){
 
             $objSmarty	= new Smarty();
-            // Ajouter le var_dump au modificateur de smarty : vardump est le nom appelé après le |
+
             $objSmarty->registerPlugin('modifier', 'vardump', 'var_dump');
             $objSmarty->registerPlugin('modifier', 'is_null', 'is_null');
             // Récupérer les variables
@@ -94,10 +100,16 @@
             imagedestroy($image);
             imagedestroy($image_p);
         }
-        
+
+        /**
+        * Checking user access permissions
+        * @param int $grade the minimum required function ID level
+        * @return void redirects to 403 error page if access is denied
+        */
+
         protected function _checkAccess(int $grade=1){
 
-            if(!isset($_SESSION['user']) && $grade > $_SESSION['user']['user_funct_id']){
+            if(!isset($_SESSION['user']) || $grade > $_SESSION['user']['user_funct_id']){
                 header("Location:index.php?ctrl=error&action=err403");
                 exit;
             }

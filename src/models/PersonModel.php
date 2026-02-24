@@ -1,13 +1,18 @@
 <?php
     namespace App\Models;
     use PDO;
-    //require_once'models/mother_model.php';
+
 
     class PersonModel extends Connect{
 
     public ?string $strSearch = null;
     public int $intJob = 0;
 
+    /**
+    * Retrieving the complete cast and crew for a specific movie
+    * @param int $idMovie the identifier of the movie
+    * @return array a list of all persons (actors, directors, etc.) and their nationality
+    */
 
     public function findAllPerson(int $idMovie=0){
 
@@ -19,10 +24,13 @@
                     WHERE mov_id = $idMovie
                     GROUP BY pers_id";
 
-
         return $this->_db->query($strRq)->fetchAll();
     }
 
+    /**
+    * Retrieving a simplified list of all persons in the database
+    * @return array a collection of all individuals with their IDs and full names
+    */
 
     public function listPerson(){
 
@@ -32,8 +40,11 @@
         return $this->_db->query($strRq)->fetchAll();
     }
 
+    /**
+    * Retrieving a list of all individuals registered as Actors
+    * @return array a collection of people who have held the 'Actor' role (Job ID 3)
+    */
 
-    //Search of Actor
     public function findActor(){
 
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
@@ -49,6 +60,12 @@
 
     }
 
+    /**
+    * Retrieving a specific individual's profile
+    * @param int $idPerson the unique identifier of the person
+    * @return array|bool the complete person data including nationality, or false if not found
+    */
+
    	public function findPerson(int $idPerson=0){
 
         $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
@@ -56,12 +73,14 @@
                     INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
                     WHERE pers_id = $idPerson";
 
-
-
         return $this->_db->query($strRq)->fetch();
     }
 
-    //Search of realisator
+    /**
+    * Retrieving a list of all individuals registered as Directors
+    * @return array a collection of people who have held the 'Director' role (Job ID 1)
+    */
+ 
     public function findReal(){
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
                     FROM persons
@@ -75,7 +94,11 @@
         return $this->_db->query($strRq)->fetchAll();
     }
 
-    //Search of Producer
+    /**
+    * Retrieving a list of all individuals registered as Producers
+    * @return array a collection of people who have held the 'Producer' role (Job ID 2)
+    */
+  
     public function findProducer(){
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
                     FROM persons
@@ -89,6 +112,12 @@
         return $this->_db->query($strRq)->fetchAll();
     }
 
+    /**
+    * Retrieving all professional roles (jobs) held by a specific person
+    * @param int $idPerson the identifier of the person
+    * @return array a collection of job IDs and names associated with the person
+    */
+
     public function findJobsOfPerson(int $idPerson=0):array{
         $strRq	= " SELECT job_id AS 'pers_id',  job_name AS 'pers_NameJob'
                     FROM jobs
@@ -100,12 +129,22 @@
         return $this->_db->query($strRq)->fetchAll();
     }
 
+    /**
+     * Retrieving the master list of all possible professional roles (Director, Actor, etc.)
+     * @return array a collection of all jobs with consistent 'pers_' aliasing
+     */
+
     public function findAllJobs():array{
         $strRq	= " SELECT job_id AS 'pers_id',  job_name AS 'pers_NameJob'
                     FROM jobs";
 
         return $this->_db->query($strRq)->fetchAll();
     }
+
+    /**
+     * Retrieving the master list of all available nationalities
+     * @return array a collection of all countries with consistent 'pers_' aliasing
+     */
 
    public function allCountry(){
 
@@ -116,10 +155,10 @@
 	}
 
     /**
-     * Insert Person
+     * Insert a new person into the database
      * @author Audrey
-     * @param object $objPerson l'objet Person
-     * return boolean
+     * @param object $objPerson The Person entity containing profile details
+     * @return bool Returns true if the insertion was successful, false otherwise
      */
 
     public function insertPerson(object $objPerson){
@@ -137,11 +176,11 @@
         return $rqPrep->execute();
     }
 
-     /**
-     * Update Person
+    /**
+     * Update an existing person's details in the database
      * @author Audrey
-     * @param object $objPerson l'objet Person
-     * return boolean
+     * @param object $objPerson The Person entity containing the updated information
+     * @return bool Returns true if the update was successful, false otherwise
      */
     public function updatePerson(object $objPerson){
         $strRq = "UPDATE persons
@@ -159,13 +198,14 @@
 
         return $rqPrep->execute();
     }
-
+    
     /**
-     * Delete Person
+     * Delete a person from the database
      * @author Audrey
-     * @param $intId = $_GET['id'];
-     * return boolean
+     * @param int $intId The unique identifier of the person to be deleted
+     * @return bool Returns true if the deletion was successful
      */
+
     public function deletePerson(int $intId){
         $strRq = "DELETE FROM persons
                     WHERE pers_id = :id";
