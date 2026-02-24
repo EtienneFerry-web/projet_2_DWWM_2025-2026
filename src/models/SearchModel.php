@@ -1,7 +1,6 @@
 <?php
     namespace App\Models;
     use PDO;
-    //require_once'models/mother_model.php';
 
     class SearchModel extends Connect{
 
@@ -69,7 +68,7 @@
             $rqPrep->bindValue(":fullSearch", "%".$objSearch->getSearch() ."%", PDO::PARAM_STR);
             $rqPrep->bindValue(":startSearch", $objSearch->getSearch()."%", PDO::PARAM_STR);
             $rqPrep->bindValue(":search", $objSearch->getSearch(), PDO::PARAM_STR);
-            //Si le if est présent dans la rq préparer
+            
             if (strpos($strRq, ':job') !== false) {
                 $rqPrep->bindValue(":job", $searchBy, PDO::PARAM_INT);
             }
