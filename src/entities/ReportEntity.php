@@ -1,10 +1,7 @@
 <?php
     namespace App\Entities;
-<<<<<<< HEAD
 
     use DateTime;
-=======
->>>>>>> etienne
 
     /**
     * ReportEntity Class

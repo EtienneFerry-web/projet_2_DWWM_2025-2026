@@ -14,17 +14,15 @@
     use DateTime;
 
     /**
-    * Log in
-    * @author Etienne
-    *
-    * 1. Collect information from the form
-    * 2. Test if the form is correctly filled
-    * 3. If the form is correctly filled, add of the information in the database, else ERROR
-    *
-    * @todo Green alert when connected/account created
-    *
-    *
-    */
+     * User authentication
+     * @author Etienne
+     *
+     * 1. Collect credentials from the POST request
+     * 2. Validate if the email and password fields are filled
+     * 3. If valid, verify credentials against the database
+     * 4. If authenticated, start session and redirect; else, manage failed attempts and lockout timer
+     */
+
 
     class UserCtrl extends MotherCtrl{
 
@@ -42,18 +40,6 @@
             }
 
         }
-    class UserCtrl extends MotherCtrl{
-
-
-        /**
-         * User authentication
-         * @author Etienne
-         *
-         * 1. Collect credentials from the POST request
-         * 2. Validate if the email and password fields are filled
-         * 3. If valid, verify credentials against the database
-         * 4. If authenticated, start session and redirect; else, manage failed attempts and lockout timer
-         */
 
         public function login(){
 
