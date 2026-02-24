@@ -4,7 +4,7 @@
 {block name="content"}
     <section class="container py-5 my-auto">
 	    <h1 class="text-center">Inscription</h1>
-		<p class="mx-auto text-center py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quae pariatur sint, atque sed soluta numquam! Doloremque voluptatem odit temporibus.</p>
+		<p class="mx-auto text-center py-2">Créez votre compte en quelques secondes et débloquez des fonctionnalités exclusives : notes personnalisées, listes de favoris et bien plus encore !</p>
 		<form method="post">
             <div class="form-group py-2">
                 <label  class="form-label">Nom :</label>
@@ -15,7 +15,7 @@
                         placeholder="Nom">
             </div>
             <div class="form-group py-2">
-                <label  class="form-label">Prenom :</label>
+                <label  class="form-label">Prénom :</label>
                 <input  type="text"
                         name="firstname"
                         class="form-control {if (isset($arrError['firstname']))} is-invalid {/if}"  
@@ -44,7 +44,7 @@
                 </small>
             </div>
             <div class="form-group py-2">
-                <label class="form-label">Adresse Mail :</label>
+                <label class="form-label">Adresse e-mail :</label>
                 <input  type="email" 
                         name="email"
                         class="form-control {if (isset($arrError['email']))} is-invalid{/if}" 
@@ -52,7 +52,7 @@
                         placeholder="Email">
             </div>
             <div class="form-group py-2">
-                <label class="form-label" >Mots de passe :</label>
+                <label class="form-label" >Mot de passe :</label>
                 <input  type="password" 
                         name="pwd"
                         class="form-control {if (isset($arrError['pwd']))} is-invalid {/if}"  

@@ -27,7 +27,7 @@
                 <select class="form-select" name="order">
                     <option value="">Date</option>
                     <option value="ASC" {if $order === "ASC"}selected{/if}>Croissant</option>
-                    <option value="DESC" {if $order === "DESC"}selected{/if}>Decroissant</option>
+                    <option value="DESC" {if $order === "DESC"}selected{/if}>Décroissant</option>
                 </select>
             </div>
 

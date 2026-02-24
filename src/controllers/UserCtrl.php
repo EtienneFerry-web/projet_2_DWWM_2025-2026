@@ -310,7 +310,6 @@
 
             $arrError = [];
 
-
             if (count($_POST) > 0) {
                 $objUser->hydrate($_POST);
                 $arrError	= $this->verifInfos($objUser);
@@ -600,17 +599,27 @@
                 $arrCommentToDisplay[] = $objComment;
             }
 
+            //Badge user
+            $objModelUser = new MovieModel;
+            $like = $objModelUser->countAllLikesFromOneUser($_GET['id']);   
+            
+           
+            if ($like>=10){
+                $badge = "gold";
+            } elseif ($like>=5){
+                $badge = "silver";
+            } elseif ($like>=3){
+                $badge = "bronze";
+            }
 
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser'] = $objUser;
-            $this->_arrData['arrImageToDisplay'] = $arrImageToDisplay;
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
+            $this->_arrData['badge'] = $badge;
 
             $this->_display("user");
-            var_dump($objUser);
         }
-
         /**
          * Delete user account (Self-service or Administrative)
          * @author Etienne
@@ -865,5 +874,19 @@
             }
 
             header("Location: index.php?ctrl=user&action=allUser");
+        }
+
+         /**
+		* @author Audrey
+		* Affichage de la page permission en fonction de son grade
+		*/
+
+        public function permissions() {
+            if(!isset($_SESSION['user']) || ($_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3)) {
+                header("Location:index.php?ctrl=error&action=err403");
+                exit;
+            }
+
+            $this->_display("permissions");
         }
 }

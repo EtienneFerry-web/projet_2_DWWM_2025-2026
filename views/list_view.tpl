@@ -1,10 +1,10 @@
 {extends file="views/layout_view.tpl"}
 {block name="title" prepend}Catalogue{/block}
-{block name="description"}Notre liste de film, par categorie, réalisateur ...{/block}
+{block name="description"}Notre liste de films, par catégorie, réalisateur ...{/block}
 
 {block name="content"}
 <section id="listFilter" class="container text-center text-lg-start row py-5 mx-auto">
-	<h1 >Liste film</h1>
+	<h1 >Liste des films</h1>
 	<div class="col-12 col-lg-3 p-3 ">
 
         <div class="accordion d-block d-lg-none" id="filtersAccordion">

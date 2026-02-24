@@ -107,6 +107,7 @@
         */
 
         public function settingsPerson() {
+            // Check if user is authenticated and has correct permission
             if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;

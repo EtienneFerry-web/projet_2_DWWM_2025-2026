@@ -9,7 +9,7 @@
      <h2>Profil Utilisateur</h2>
      <form method="post" enctype="multipart/form-data" class="row">
         <div class="form-group py-2">
-            <label  class="form-label">Changez le prenom :</label>
+            <label  class="form-label">Changer le prenom :</label>
             <input  type="text"
                     name="firstname"
                     class="form-control {if (isset($arrError['firstname']))} is-invalid {/if}"  
@@ -25,7 +25,7 @@
                     placeholder="Nom">
         </div>
           <div class="form-group py-2">
-             <label for="" class="form-label">Changez le pseudo</label>
+             <label for="" class="form-label">Changer le pseudo</label>
              <input type="text" 
                     name="pseudo"  
                     value="{$objUser->getPseudo()}" 

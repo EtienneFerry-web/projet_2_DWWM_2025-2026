@@ -4,7 +4,6 @@
     use DateTime;
     use IntlDateFormatter;
 
-
 	class MovieEntity extends Entity{
 		// Attributs
 		private string  $_title ='';

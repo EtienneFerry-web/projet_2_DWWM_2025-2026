@@ -17,7 +17,7 @@
 
             <div class="d-block text-start p-2">
                 <input type="radio" class="btn-check" name="searchBy" value="2" id="filter-producer" onchange="this.form.submit()">
-                <label class="nav-link text-uppercase" for="filter-producer">Producer</label>
+                <label class="nav-link text-uppercase" for="filter-producer">Producteur</label>
             </div>
 
             <div class="d-block text-start p-2">

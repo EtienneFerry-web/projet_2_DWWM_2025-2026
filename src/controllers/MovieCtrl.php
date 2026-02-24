@@ -223,6 +223,22 @@
                 }
             }
 
+
+
+			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
+			    $objCommentDelete = new CommentEntity('com_');
+                $objCommentDelete->setId((int)$_POST['deleteComment']);
+                $objCommentDelete->setUser_id($_SESSION['user']['user_id']);
+
+                $result = $objCommentModel->deleteComment($objCommentDelete);
+
+                if ($result) {
+                    $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+                } else {
+                    $arrError[] = "erreur lors de la suppression veulliez réssayer !";
+                }
+            }
+
 			if(isset($_POST['likeMovieBtn']) && (isset($_SESSION['user']))){
 
 				$repResult = $objMovieModel->likeMovie($_SESSION['user']['user_id'], $_GET['id']);
@@ -499,16 +515,14 @@
 			$objMovie->hydrate($_POST); 
 			$objMovieModel = new MovieModel();
 
-			var_dump($_FILES);
 			if (isset($_GET['id'])){
 				$arrMovie= [];
 				$arrMovie = $objMovieModel->findOneMovie($_GET['id']);
 				$objMovie->hydrate($arrMovie);
 			}
 
-
 			$arrError = [];
-			// 2. Validation des données
+			// 2. Data validation
 			if (count($_POST)>0){
 				$objMovie->hydrate($_POST);
 
@@ -545,7 +559,7 @@
 					switch ($_FILES['photo']['error']){
 						case 0 :
 							$strImageName	= uniqid().".webp";
-						//Récupère le nom de l'image avant changement
+						//Getting the original image name
 							$strOldImg	= $objMovie->getPhoto();
 
 							$objMovie->setPhoto($strImageName);
@@ -579,7 +593,7 @@
 				}
 			}
 
-			// Si le formulaire est rempli correctement
+			// If the form is correctly completed
 			if (count($arrError) == 0){
 
 				if (!isset($_GET['id'])){
@@ -587,17 +601,17 @@
 				}else{
 					$boolResultMovie = $objMovieModel->updateMovie($objMovie);
 				}
-				// Si aucune erreur, on tente l'insertion
+				// If no errors, attempting the insertion
 				if ($boolResultMovie === true) {
 					if (isset($strImageName)){
-							// Création du chemin de destination
+							// Setting the destination path
 							$strDest    = $_ENV['IMG_PATH'].$strImageName;
-							// Récupération de la source de l'image
+							// Fetching the source file path
 							$strSource	= $_FILES['photo']['tmp_name'];
 						}
 						if ($boolResultMovie === true){
 
-							//suppression de l'ancienne image
+							//Removing the old image
 							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
 
 							if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
@@ -628,7 +642,8 @@
 					}
 				}
 			}
-
+			
+			// Loading categories for the select input
 			$arrCategory = $objMovieModel->allCategories();
 				$arrCatToDisplay	= array();
 
@@ -639,7 +654,8 @@
 
 				$arrCatToDisplay[]	= $objContent;
 			}
-
+			
+			// Loading nationalites for the select input
 			$arrNationality = $objMovieModel->allCountry();
 			$arrNatToDisplay	= array();
 
@@ -665,14 +681,13 @@
         */
 
 		public function deleteMovie() {
-			//contrôle des droits
-           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
+			//Permission control
+           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // just administrator and moderator can delete a movie
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
             $objMovieModel = new MovieModel();
             $success = $objMovieModel->deleteMovie($_GET['id']);
-
 
             if($success){
 
@@ -693,19 +708,21 @@
 			$search = $_GET['search'] ?? NULL;
             $filter = $_GET['filter'] ?? '0';
 			$sort   = $_GET['sort'] ?? 'ASC';
-
+			
+			// Check if user is authenticated and has correct permission
 			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
 				header("Location:index.php?ctrl=error&action=err403");
 				exit;
 			}
-
+			
+			// Initialize model and fetch movies based on filters
 			$objMovieModel 	= new MovieModel;
 			$arrMovie   	= $objMovieModel->findMovieWithFilters($search, $filter,$sort);
 
-
+			
 			$arrMovieToDisplay	= array();
 
-			
+			// Converting the multidimensional array into an object array for the list of Movie
 			foreach($arrMovie as $arrDetMovie){
 				$objMovie = new MovieEntity("mov_");
 				$objMovie->hydrate($arrDetMovie);
@@ -713,7 +730,7 @@
 				$arrMovieToDisplay[]= $objMovie;
 			}
 
-			// Récupération des catégories pour le menu déroulant
+			// Loading categories for the select input
 			$arrCategory 		= $objMovieModel->allCategories();
 			$arrCatToDisplay	= array();
 

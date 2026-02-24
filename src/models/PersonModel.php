@@ -2,7 +2,6 @@
     namespace App\Models;
     use PDO;
 
-
     class PersonModel extends Connect{
 
     public ?string $strSearch = null;

@@ -56,7 +56,7 @@
              <input name="email" id="" placeholder="Email" value="{$objUser->getEmail()}"class="form-control"> 
          </div>
          <div class="form-group py-2">
-             <label for="" class="form-label">Mots de Passe</label>
+             <label for="" class="form-label">Mot de Passe</label>
              <input type="text" name="pwd" value="" class="form-control">
          </div>
          <div class="form-group py-2">

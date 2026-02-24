@@ -35,7 +35,6 @@
 		 */
 
         public function findAllUsers():array{
-
 			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
 						FROM users
 						WHERE user_delete_at IS NULL";
@@ -57,13 +56,11 @@
 		public function findAllUsersWithFilters(?string $strSearch, string $strFilter): array {
 
 
-
 			$strRq = "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
 						FROM users
 						WHERE user_delete_at IS NULL";
 
 			$params = [];
-
 			if (!empty($strSearch)) {
 
 				$strRq .= " AND user_pseudo LIKE :search";
@@ -84,7 +81,6 @@
 				case 'user':
 					$strRq .= " AND user_funct_id = 1";
 					break;
-
 				case 'asc':
 					$orderBy = " ORDER BY user_pseudo ASC";
 					break;
@@ -124,7 +120,6 @@
 			$strRq	= "SELECT user_id, user_name, user_firstname, user_pseudo ,user_pwd, user_funct_id, user_email
 						FROM users
 						WHERE user_email = '".$strEmail."'";
-
 			$arrUser 	= $this->_db->query($strRq)->fetch();
 
 
@@ -169,7 +164,6 @@
 			   return $arrInsertRequest;
 				exit;
 			} else{
-
     			$strRq2 	=   "INSERT INTO users (user_name, user_firstname, user_pseudo, user_email, user_birthdate, user_pwd, user_creadate)
     						            VALUES (:name, :firstname, :pseudo, :email, :birthdate,:pwd, NOW())";
 
@@ -283,7 +277,6 @@
 			$strRq .="		WHERE user_id			= :id";
 
 			$rqPrep	= $this->_db->prepare($strRq);
-
 				$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
 				$rqPrep->bindValue(":pseudo", $objUser->getPseudo(), PDO::PARAM_STR);

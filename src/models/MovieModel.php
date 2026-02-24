@@ -2,11 +2,6 @@
     namespace App\Models;
     use PDO;
 
-    /**
-	* @todo Une Image par personne sur chaque film
-	*
-	*
-	*/
 
     class MovieModel extends Connect{
 
@@ -663,14 +658,15 @@
 
                 return false;
             }
+
 		}
         /**
-     *
-     * @author Audrey
-     * @param object $
-     * return Array
-     */
-    public function findMovieWithFilters(?string $strSearch, string $strFilter,string $strSort): array {
+         * 
+         * @author Audrey
+         * @param object $
+         * return Array
+         */
+        public function findMovieWithFilters(?string $strSearch, string $strFilter,string $strSort): array {
 
 			$strRq = "SELECT mov_id, mov_title, cat_name AS mov_category
 						FROM movies
@@ -724,6 +720,13 @@
         * Getting the total number of movies in the catalog
         * @return int the total count of all movie records
         */
+        public function countAllLikesFromOneUser(int $intUserId) {
+			$strRq = "SELECT COUNT(*)
+						FROM liked
+                        WHERE lik_user_id =  $intUserId";
+
+			return $this->_db->query($strRq)->fetchColumn();
+		}
 
         public function countAllMovies() {
 			$strRq = "SELECT COUNT(*)

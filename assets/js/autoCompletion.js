@@ -153,3 +153,31 @@ async function searchData() {
         console.error("Une erreur est survenue lors de la recherche :", error.message);
     }
 }
+
+
+// async function searchData() {
+//   const keywords = searchBar.value;
+//   try {
+//         const response = await fetch(`index.php?ctrl=search&action=autoComplete`, {
+//             method: 'POST', // methode Post
+//             headers: {
+//                 'Content-Type': 'application/json' // On précise qu'on envoie du JSON
+//             },
+//             body: JSON.stringify({ keywords: keywords }) // La valeur est encapsulée ici
+//         });
+//         console.log("rq envoyer");
+//         if (!response.ok) {
+//             throw new Error(`Erreur HTTP : ${response.status}`);
+//         }
+
+
+//         const data = await response.json();
+
+
+//         affichSuggestion(data);
+
+//     } catch (error) {
+//         // Capture toutes les erreurs (réseau, encodage, syntaxe JSON, etc.)
+//         console.error("Une erreur est survenue lors de la recherche :", error.message);
+//     }
+// }

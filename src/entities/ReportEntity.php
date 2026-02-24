@@ -124,7 +124,7 @@
          * @return string The title of the reported content
          */
 
-        public function getTitle():string{
+        public function getTitle():?string{
             return $this->_title;
         }
 
@@ -132,7 +132,7 @@
          * @param string $strTitle The title to assign
          */
 
-        public function setTitle(string $strTitle){
+        public function setTitle(?string $strTitle){
             $this->_title = $strTitle;
         }
 
@@ -246,6 +246,17 @@
 
         public function setReason(string $reason){
             $this->_reason = $reason;
+        }
+
+        public function getUserBan():bool{
+            $curdate = new DateTime;
+
+            if($this->_user_ban >= $curdate){
+                return true;
+            } else{
+                return false;
+            }
+
         }
 
         public function setUser_ban(?string $strBan){
