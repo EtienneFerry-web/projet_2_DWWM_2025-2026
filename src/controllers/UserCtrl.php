@@ -517,6 +517,7 @@
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 
             $this->_display("user");
+            var_dump($objUser);
         }
 
         /**
