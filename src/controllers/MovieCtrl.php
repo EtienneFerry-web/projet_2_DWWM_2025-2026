@@ -225,8 +225,12 @@
 
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+					header("Location: index.php?ctrl=movie&action=movie&id=" . $_GET['id']);
+    				exit;
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+					header("Location: index.php?ctrl=movie&action=movie&id=" . $_GET['id']);
+    				exit;
 				}
 
 				}elseif(!isset($_SESSION['user'])&& isset($_POST['likeMovieBtn'])){

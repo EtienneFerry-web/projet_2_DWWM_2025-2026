@@ -47,8 +47,7 @@
 
 		protected function clean(string $strText){
 			$strText	= trim($strText);
-			$strText	= str_replace("<script>", "", $strText);
-			$strText	= str_replace("</script>", "", $strText);
+			$strText = strip_tags($strText);
 			return $strText;
 		}
 
