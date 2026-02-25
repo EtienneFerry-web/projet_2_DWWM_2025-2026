@@ -1,5 +1,6 @@
+vendor/
 
-/vendor/
 templates_c/
+
 .env
 
