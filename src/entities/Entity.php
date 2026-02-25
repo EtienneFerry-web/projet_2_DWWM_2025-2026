@@ -26,7 +26,7 @@
         * @return int the entity ID
         */
 
-		public function getId():int{
+		public function getId():?int{
 			return $this->_id;
 		}
 
@@ -35,7 +35,7 @@
         * @param int $intId the new ID
         */
 	
-		public function setId(int $intId){
+		public function setId(?int $intId){
 			$this->_id = $intId;
 		}
 

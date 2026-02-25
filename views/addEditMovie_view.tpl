@@ -89,7 +89,7 @@
 				<input name="trailer_url" type="text" class="form-control" value="{$objMovie->getTrailer()}"
 					placeholder="Collez le lien du trailer">
 			</div>
-
+			<input type="hidden" name="csrf_token" value="{$form_token}">
 			<input class="w-100 btnCustom my-2" type="submit">
 
 	</form>

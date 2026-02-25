@@ -2,7 +2,7 @@
 {if $objContent->getType() === "movie"}
     <div class="row py-2">
         <div class="col-4 text-center my-auto">
-            <a href="index.php?ctrl=movie&action=movie&id={$objContent->getId()}"><img src="{$objContent->getPhoto()}" alt="" class="img-fluid"></a>
+            <a href="index.php?ctrl=movie&action=movie&id={$objContent->getId()}"><img src="assets/img/movie/{$objContent->getPhoto()}" alt="" class="img-fluid"></a>
         </div>
         <div class="col-8 text-start">
             <a href="index.php?ctrl=movie&action=movie&id={$objContent->getId()}" class="link"><h2>{$objContent->getName()}</h2></a>

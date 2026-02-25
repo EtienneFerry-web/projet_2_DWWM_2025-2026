@@ -91,6 +91,7 @@
                     }
                 }
             }
+            
             $this->_arrData['objUser'] = $objUser;
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['strEmail'] = $strEmail;
@@ -165,6 +166,9 @@
             $arrError = [];
 
             if (count($_POST) > 0) {
+
+               
+
                 if ($objUser->getName() == ""){
                     $arrError['name'] = "Le nom est obligatoire";
                 }
@@ -183,7 +187,7 @@
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
 
-                $strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
+                //$strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
 
 
 
@@ -235,14 +239,14 @@
 
                             $_SESSION['success']    = "Le compte compte a bien été crée";
 
-                            header("Location:index.php?ctrl=user&action=login");
-                            exit;
+                            // header("Location:index.php?ctrl=user&action=login");
+                            // exit;
                     }else{
                         $arrError[] = '';
                     }
                 }
             }
-
+            
             $this->_arrData['name']         = $strName;
             $this->_arrData['firstname']    = $strFirstname;
             $this->_arrData['pseudo']       = $strPseudo;
@@ -611,7 +615,7 @@
             } elseif ($like>=3){
                 $badge = "bronze";
             }
-
+            
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser'] = $objUser;
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;

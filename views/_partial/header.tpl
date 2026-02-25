@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{block name="description"}{/block}">
+    <meta name="csrf-token" content="{$smarty.session.csrf_token}">
+    <link rel="shortcut icon" href="./assets/img/iconSite.png" type="image/x-icon">
 	<title>{block name="title"} - Give Me Five{/block}</title>
     {block name="css_variation"}{/block}
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

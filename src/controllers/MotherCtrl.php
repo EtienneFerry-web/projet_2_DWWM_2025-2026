@@ -13,6 +13,23 @@
 
         protected array $_arrData = [];
 
+        public function __construct() {
+        
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+               
+                if (!$this->_verifyCsrfToken($_POST['csrf_token'])) {
+                    
+                    $_SESSION['csrf_token_expiration'] = time() + (30 * 60);
+                    header("Location: index.php?ctrl=error&action=err403");
+                    exit;
+                }
+            }
+            $now = time();
+            if (empty($_SESSION['csrf_token']) || $now > $_SESSION['csrf_token_expiration']) {
+                $this->_generateCsrfToken();
+            }
+        }
+
         /**
         * Rendering the view using the Smarty template engine
         * @param string $strView the name of the template file to display
@@ -115,4 +132,32 @@
             }
 
         }
+
+        /** 
+		* Générer et stocker le token CSRF dans la session avec une expiration
+		* @return string $token le jeton généré
+		*/
+		protected function _generateCsrfToken():string {
+			$token = bin2hex(random_bytes(32)); // Génère un token aléatoire
+			$_SESSION['csrf_token'] = $token;
+			// Définir une expiration (par exemple, 30 minutes à partir de maintenant)
+			$_SESSION['csrf_token_expiration'] = time() + (30 * 60); // 30 minutes en secondes
+			return $token;
+		}
+		
+		/**
+		* Vérifier le token CSRF et son expiration
+		* @param string $token Le token à vérifier
+		* @return boolean le token est ok ou pas
+		*/
+		protected function _verifyCsrfToken(string $token):bool {
+			if ($_ENV['CSRF_TOKEN'] == 1){
+				return isset($_SESSION['csrf_token'])
+					&& $_SESSION['csrf_token'] === $token
+					&& isset($_SESSION['csrf_token_expiration'])
+					&& $_SESSION['csrf_token_expiration'] >= time(); // Vérifie si le token n'a pas expiré
+			}else{
+				return true;
+			}
+		}
     }

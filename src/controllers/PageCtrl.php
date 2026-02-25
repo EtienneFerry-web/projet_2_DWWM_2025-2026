@@ -6,8 +6,9 @@
      * Version 0.1
      */
 
-     use PHPMailer\PHPMailer\PHPMailer;
-     use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
 
     class PageCtrl extends MotherCtrl{
         
@@ -67,7 +68,7 @@
 
                     // Connection au serveur de mail
                     $objMail->SMTPAuth   	= TRUE;
-                    $objMail->SMTPSecure 	= "tls";
+                    $objMail->SMTPSecure 	= "ssl";
                     $objMail->Port       	= $_ENV['MAIL_PORT'];
                     $objMail->Host       	= "smtp.gmail.com";
                     $objMail->Username 		= $_ENV['MAIL_USERNAME'];
@@ -93,6 +94,7 @@
 
                     // Envoyer le mail
                     if($objMail->Send()){
+                        $_SESSION['success'] = "mail envoyer !";
                         header("location: index.php?ctrl=page&action=contact");
                         exit;
                     }

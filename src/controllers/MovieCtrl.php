@@ -179,26 +179,6 @@
 			$objCommentModel	= new CommentModel;
 			$objMovieModel = new MovieModel;
 
-			/*$intNoteJson = file_get_contents("php://input");
-
-			if(!empty($intNoteJson) && isset($_GET['note'])){
-			     header('Content-Type: application/json');
-			     $data = json_decode($intNoteJson, true);
-
-			    $insetResult = $objMovieModel->insertUpdateNote($_SESSION['user']['user_id'], $_GET['id'], $data['intNote']);
-
-
-				if($insetResult){
-				    echo json_encode($insetResult);
-					exit;
-				}   else{
-     		        echo json_encode("ntm");
-                    exit;
-				}
-			}*/
-
-
-
 			if (isset($_POST['deleteComment']) && isset($_SESSION['user'])) {
 			    $objCommentDelete = new CommentEntity('com_');
                 $objCommentDelete->setId((int)$_POST['deleteComment']);
@@ -509,7 +489,7 @@
         * @return void handles form validation, file upload, and database insertion
         */
 
-        public function addMovie(){
+        public function addEditMovie(){
 
 			$objMovie = new MovieEntity('mov_');
 			$objMovie->hydrate($_POST); 
@@ -524,7 +504,12 @@
 			$arrError = [];
 			// 2. Data validation
 			if (count($_POST)>0){
-				$objMovie->hydrate($_POST);
+
+				if (!$this->_verifyCsrfToken($_POST['crsf_token'])){
+					header("Location:index.php?ctrl=error&action=err403");
+					exit;					
+				}
+				
 
 				if (empty($objMovie->getTitle())) {
 					$arrError['title'] = "Le titre est obligatoire";
@@ -535,7 +520,7 @@
 				if ($objMovie->getCountryId() == 0) {
 					$arrError['countryId'] = "Le pays d'origine est obligatoire";
 				}
-				if (empty($objMovie->getRelease_date())) {
+				if ($objMovie->getRelease_date() == '') {
 					$arrError['countryId'] = "La durée est obligatoire";
 				}
 				if (empty($objMovie->getLength())) {
@@ -548,7 +533,7 @@
 					$arrError['countryId'] = "La durée est obligatoire";
 				}
 
-
+				$objMovie->hydrate($_POST);
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
 				if ($_FILES['photo']['error'] != 4){
@@ -621,13 +606,13 @@
 										unlink($strOldFile);
 									}
 								}
-								$this->_resize($strDest,280, 450);
+								$this->_resize($strDest,280, 450, true);
 							}
 
 
 							if (is_null($objMovie->getId())){
 								$_SESSION['success'] 	= "Le film a bien été créé";
-								header("Location:index.php?");
+								//header("Location:index.php?");
 							exit;
 							}else{
 								$_SESSION['success'] 	= "Le film a bien été modifié";
@@ -666,7 +651,7 @@
 
 				$arrNatToDisplay[]	= $objNat;
 			}
-
+			//$this->_arrData['form_token']	= $this->_generateCsrfToken();
 			$this->_arrData['objMovie']		   = $objMovie;
 			$this->_arrData['arrError']		   = $arrError;
 			$this->_arrData['arrCatToDisplay'] = $arrCatToDisplay;

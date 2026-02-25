@@ -311,11 +311,11 @@
 
 		/**
         * Updating the country ID
-        * @param string $strCountryId the new identifier
+        * @param string $intCountryId the new identifier
         */
 
-		public function setCountryId(string $strCountryId){
-			$this->_countryId = $strCountryId;
+		public function setCountryId(int $intCountryId){
+			$this->_countryId = (int)$intCountryId;
 		}
 
 		/**
