@@ -7,7 +7,7 @@
 {block name="css_variation"}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/Projet2/assets/css/style.css">
+    <link rel="stylesheet" href="{$smarty.env.BASE_URL}assets/css/style.css">
 {/block}
 
 {block name="content"}
@@ -17,11 +17,11 @@
         <h1>DashBoard</h1>
         <nav class="py-2 row g-2">
             <div class="py-2 row g-2">
-                <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
-                <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
-                <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2">Films</a>
-                <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2">Célébrités</a>
-                <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2  active">Signalement</a>
+                <a id="user" href="{$smarty.env.BASE_URL}admin/dashboard" class="nav-link col-2">Home</a>
+                <a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2">Utilisateurs</a>
+                <a id="addMovie" href="{$smarty.env.BASE_URL}movie/allMovie" class="nav-link col-2">Films</a>
+                <a id="person" href="{$smarty.env.BASE_URL}person/allPerson" class="nav-link col-2">Célébrités</a>
+                <a id="report" href="{$smarty.env.BASE_URL}report/allReport" class="nav-link col-2  active">Signalement</a>
             </div>
         </nav>
 
@@ -35,8 +35,8 @@
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
-                        <a class="text-decoration-none text-dark d-flex align-items-center" href="index.php?ctrl=user&action=user&id={$objReport->getReportedUserId()}">
-                            <img src="assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                        <a class="text-decoration-none text-dark d-flex align-items-center" href="{$smarty.env.BASE_URL}user/userPage/{$objReport->getReportedUserId()}">
+                            <img src="{$smarty.env.BASE_URL}assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
                             <span class="fw-bold">{$objReport->getPseudo()}</span>
                         </a>
                     </div>
@@ -74,8 +74,8 @@
                 <div class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedUserId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
-                        <a class="text-decoration-none text-dark d-flex align-items-center" href="index.php?ctrl=user&action=user&id={$objReport->getReportedUserId()}">
-                            <img src="assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
+                        <a class="text-decoration-none text-dark d-flex align-items-center" href="{$smarty.env.BASE_URL}user/userPage/{$objReport->getReportedUserId()}">
+                            <img src="{$smarty.env.BASE_URL}assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
                                  class="rounded-circle border me-2"
                                  style="width: 40px; height: 40px; object-fit: cover;" alt="Photo">
                             <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
@@ -137,13 +137,13 @@
             {foreach from=$arrRepMovieToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedMovieId()}</div>
-                    <a href="index.php?ctrl=movie&action=movie&id={$objReport->getReportedMovieId()}"class="col-md-3 d-flex align-items-center text-decoration-none text-dark">
+                    <a href="{$smarty.env.BASE_URL}movie&action=movie&id={$objReport->getReportedMovieId()}"class="col-md-3 d-flex align-items-center text-decoration-none text-dark">
                         <span class="fw-bold">{$objReport->getTitle()}</span>
                     </a>
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>
                     <div class="col-md-4 d-flex justify-content-end gap-2">
-                         <a href="index.php?ctrl=movie&action=deleteMovie&id={$objReport->getReportedMovieId()}" class="btn btn-outline-danger btn-sm px-3" onclick="return confirm('Vous allez supprimer le film {$objReport->getTitle()|escape:'javascript'}')">Supprimer</a>
-                         <a href="index.php?ctrl=movie&action=addEditMovie&id={$objReport->getReportedMovieId()}" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
+                         <a href="{$smarty.env.BASE_URL}movie/deleteMovie/{$objReport->getReportedMovieId()}" class="btn btn-outline-danger btn-sm px-3" onclick="return confirm('Vous allez supprimer le film {$objReport->getTitle()|escape:'javascript'}')">Supprimer</a>
+                         <a href="{$smarty.env.BASE_URL}movie/addEditMovie/{$objReport->getReportedMovieId()}" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
                          <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
                     </div>
                 </form>
@@ -157,5 +157,5 @@
 
 {block name="js"}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/popUp.js"></script>
+    <script src="{$smarty.env.BASE_URL}assets/js/popUp.js"></script>
 {/block}

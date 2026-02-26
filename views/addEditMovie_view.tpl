@@ -78,7 +78,7 @@
 				</label>
 				<div>
 					{*if isset($_GET['id'])*}
-					<img src="assets/img/movie/{$objMovie->getPhoto()}" alt="Affiche du film {$objMovie->getTitle()}">
+					<img src="{$smarty.env.BASE_URL}assets/img/movie/{$objMovie->getPhoto()}" alt="Affiche du film {$objMovie->getTitle()}">
 					{*/if*}
 				</div>
 				<input name="photo" id="photo" type="file" class="form-control " value="{$objMovie->getPhoto()}">

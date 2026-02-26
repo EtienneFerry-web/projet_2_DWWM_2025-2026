@@ -201,7 +201,7 @@
                             ) AS 'user_reported'
                         FROM users
                         INNER JOIN functions ON users.user_funct_id = functions.funct_id
-                        WHERE user_id = $idUser AND user_delete_at IS NULL";
+                        WHERE user_id = $idUser AND user_delete_at IS NULL AND (user_ban_at IS NULL OR user_ban_at < NOW())";
 
             return $this->_db->query($strRq)->fetch();
         }

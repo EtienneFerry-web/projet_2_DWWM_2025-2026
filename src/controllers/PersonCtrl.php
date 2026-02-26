@@ -21,11 +21,12 @@
     class PersonCtrl extends MotherCtrl{
 
         /**
+         * @author Marco
         * Single person details page
         * @return void retrieves personal info, associated jobs, and the movie filmography for a specific person
         */
 
-        public function person(){
+        public function personPage(){
 
             $objMovieModel 	    = new MovieModel;
 

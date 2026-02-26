@@ -14,11 +14,11 @@
     <h1>DashBoard</h1>
 
     <div class="py-2 row g-2">
-        <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
-        <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2 active">Utilisateurs</a>
-        <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2">Films</a>
-        <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2">Célébrités</a>
-        <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2">Signalement</a>
+        <a id="user" href="{$smarty.env.BASE_URL}admin/dashboard" class="nav-link col-2">Home</a>
+        <a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2 active">Utilisateurs</a>
+        <a id="addMovie" href="{$smarty.env.BASE_URL}movie/allMovie" class="nav-link col-2">Films</a>
+        <a id="person" href="{$smarty.env.BASE_URL}person/allPerson" class="nav-link col-2">Célébrités</a>
+        <a id="report" href="{$smarty.env.BASE_URL}report/allReport" class="nav-link col-2">Signalement</a>
     </div>
 
     <div id="ficheMovie" class="d-flex flex-column">
@@ -52,12 +52,12 @@
                         <span class="spanMovie fw-bold">#{$objUser->getId()}</span>
                     </div>
                     <div class="col-10 col-md-5">
-                    <a class="text-decoration-none" href="index.php?ctrl=user&action=user&id={$objUser->getId()}"><span class="spanMovie">{$objUser->getPseudo()}</span></a>
+                    <a class="text-decoration-none" href="{$smarty.env.BASE_URL}user/userPage/{$objUser->getId()}"><span class="spanMovie">{$objUser->getPseudo()}</span></a>
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
 
                         {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id()}
-                        <form action="index.php?ctrl=user&action=updateGrade&id={$objUser->getId()}" method="post">
+                        <form action="{$smarty.env.BASE_URL}user/updateGrade/{$objUser->getId()}" method="post">
                             <select name="user_funct_id" class="form-select form-select-sm" onchange="this.form.submit()">
                                 <option value="1" {if $objUser->getUser_funct_id() ==1}selected{/if} >Utilisateur</option>
                                 <option value="2" {if $objUser->getUser_funct_id() ==2}selected{/if} >Modérateur</option>
@@ -77,11 +77,11 @@
                         {/if}
 
                         {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id() || $smarty.session.user.user_id == $objUser->getId()}
-                            <a href="index.php?ctrl=user&action=settingsAllUser&id={$objUser->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
+                            <a href="{$smarty.env.BASE_URL}user/settingsAllUser/{$objUser->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
                         {/if}
 
                         {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id() || $smarty.session.user.user_id == $objUser->getId()}
-                            <a href="index.php?ctrl=user&action=deleteAccount&id={$objUser->getId()}"
+                            <a href="{$smarty.env.BASE_URL}user/deleteAccount/{$objUser->getId()}"
                                 class="btn btn-sm btn-outline-danger px-5"
                                 onclick="return confirm('Vous allez supprimer le film {$objUser->getPseudo()|escape:'javascript'}')">
                                 Supprimer

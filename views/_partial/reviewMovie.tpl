@@ -8,8 +8,8 @@
     {/if}
 
     <div class="col-3 my-auto">
-        <a id="movie" data-movie="{$review->getMovieId()}" href="index.php?ctrl=movie&action=movie&id={$review->getMovieId()}">
-            <img src="assets/img/movie/{$review->getPhoto()}" alt="couverture de film" class="img-fluid border-0">
+        <a id="movie" data-movie="{$review->getMovieId()}" href="{$smarty.env.BASE_URL}movie/movie/{$review->getMovieId()}">
+            <img src="{$smarty.env.BASE_URL}assets/img/movie/{$review->getPhoto()}" alt="couverture de film" class="img-fluid border-0">
         </a>
     </div>
 
@@ -70,6 +70,7 @@
                         </button>
                     </div>
                 {else}
+
                     {if $review->getReported() == 0}
                         <button class="border-0 bg-transparent text-end col-6 pe-3" data-bs-toggle="modal" data-bs-target="#reportModal-review-{$review->getId()}">
                             <i class="bi bi-flag fs-3 ms-auto"></i>
@@ -122,6 +123,7 @@
                             </div>
                         </div>
                     {/if}
+                    
                 {/if}
             </div>
         </div>

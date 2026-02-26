@@ -3,7 +3,7 @@
 {block name="description"}Erreur 404 page intropuvable{/block}
 
 {block name="css_variation"}
-    <link rel="stylesheet" href="/Projet2/assets/css/404.css">
+    <link rel="stylesheet" href="{$smarty.env.BASE_URL}assets/css/404.css">
 {/block}
 
 {block name="content"}
@@ -26,5 +26,5 @@
 {/block}
 
 {block name="js"}
-    <script src="/Projet2/assets/js/404.js"> </script>
+    <script src="{$smarty.env.BASE_URL}assets/js/404.js"> </script>
 {/block}

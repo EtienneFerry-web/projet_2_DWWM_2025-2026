@@ -13,7 +13,7 @@
 
                     <tr>
                         <td align="center" style="padding: 30px 20px;">
-                            <img src="http://marco.schmitt.servd16161.odns.fr/Projet2/assets/img/logo_givemefive.png" alt="Give Me Five" width="200" style="display: block;">
+                            <img src="http://marco.schmitt.servd16161.odns.fr/GiveMeFive/assets/img/logo_givemefive.png" alt="Give Me Five" width="200" style="display: block;">
                             <h1 style="color: #2c3e50; font-size: 20px; margin-top: 15px;">Give Me Five</h1>
                         </td>
                     </tr>

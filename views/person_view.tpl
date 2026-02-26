@@ -42,7 +42,7 @@
                 </select>
             </div>
 
-            <a href="/Projet2/index.php?ctrl=person&action=person&id={$objPerson->getId()}" class="col-12 col-md-2 p-1 nav-link">
+            <a href="{$smarty.env.BASE_URL}person/personPage/{$objPerson->getId()}" class="col-12 col-md-2 p-1 nav-link">
                 Réinitialiser
             </a>
             <button type="submit" class="col-12 col-md-2 p-1 nav-link">
@@ -60,5 +60,5 @@
 
 {/block}
 {block name="js"}
-    <script src="/Projet2/assets/js/person.js"> </script>
+    <script src="{$smarty.env.BASE_URL}assets/js/person.js"> </script>
 {/block}

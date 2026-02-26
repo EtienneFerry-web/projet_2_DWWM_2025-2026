@@ -5,13 +5,13 @@
 {block name="css_variation"}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/Projet2/assets/css/style.css">
+    <link rel="stylesheet" href="{$smarty.env.BASE_URL}assets/css/style.css">
 {/block}
 
 
 {block name="content"}
 <div class="container my-5">
-<div class="py-3"><a href="index.php?ctrl=user&action=user&id={$smarty.session.user.user_id}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>    <div class="row justify-content-center">
+<div class="py-3"><a href="{$smarty.env.BASE_URL}user/userPage/{$smarty.session.user.user_id}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>    <div class="row justify-content-center">
         <div class="col-lg-10">
             
 

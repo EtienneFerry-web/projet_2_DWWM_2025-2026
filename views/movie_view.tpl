@@ -4,14 +4,14 @@
 
 {block name="css_variation"}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
-<link rel="stylesheet" href="/Projet2/assets/css/slideMovie.css">
+<link rel="stylesheet" href="{$smarty.env.BASE_URL}assets/css/slideMovie.css">
 {/block}
 
 {block name="content"}
 <section class="container row mx-auto" id="movie">
     <div class="col-12 col-md-4 py-1 py-md-5 text-center">
         <h1 class="d-block d-md-none">{$objMovie->getTitle()}</h1>
-        <img src="assets/img/movie/{$objMovie->getPhoto()}" alt="" class="img-fluid w-75 w-md-50">
+        <img src="{$smarty.env.BASE_URL}assets/img/movie/{$objMovie->getPhoto()}" alt="" class="img-fluid w-75 w-md-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
         <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
             <span class="stars d-inline-block"></span>
@@ -36,7 +36,7 @@
         <div class="row g-2 justify-content-center justify-content-md-start">
             {foreach from=$arrPersToDisplay item=objPerson}
                 <div class="col-6 col-sm-4 col-md-3">
-                    <a class="spanMovie d-block text-truncate" href="index.php?ctrl=person&action=person&id={$objPerson->getId()}">
+                    <a class="spanMovie d-block text-truncate" href="{$smarty.env.BASE_URL}person/personPage/{$objPerson->getId()}">
                         {$objPerson->getFullName()}
                     </a>
                 </div>
@@ -142,7 +142,7 @@
         <ul class="splide__list">
         {foreach from=$arrImagesToDisplay item=objImage}
             <li class="splide__slide">
-                <img src="assets/img/movie/{$objImage->getPhoto()}" />
+                <img src="{$smarty.env.BASE_URL}assets/img/movie/{$objImage->getPhoto()}" />
             </li>
           {/foreach}
         </ul>
@@ -214,6 +214,6 @@
 {block name="js"}
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <script src="/Projet2/assets/js/moviePage.js"></script>
-    <script src="/Projet2/assets/js/star.js"> </script>
+    <script src="{$smarty.env.BASE_URL}assets/js/moviePage.js"></script>
+    <script src="{$smarty.env.BASE_URL}assets/js/star.js"> </script>
 {/block}

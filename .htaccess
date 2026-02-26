@@ -9,6 +9,9 @@ Options -Indexes
 # Activation de la réécriture d'URL
 RewriteEngine On
 
+# Pour gérer ctrl/action/id
+RewriteRule ^([^/]+)/([^/]+)/([0-9]+)/?$ index.php?ctrl=$1&action=$2&id=$3 [QSA,L]
+
 # si pas répertoire
 RewriteCond %{REQUEST_FILENAME} !-d
 # si pas fichier

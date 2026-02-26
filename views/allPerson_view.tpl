@@ -5,7 +5,7 @@
 {block name="css_variation"}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/Projet2/assets/css/style.css">
+    <link rel="stylesheet" href="{$smarty.env.BASE_URL}assets/css/style.css">
 {/block}
 
 
@@ -14,11 +14,11 @@
     <h1>DashBoard</h1>
 
     <div class="py-2 row g-2">
-        <a id="user" href="index.php?ctrl=admin&action=dashboard" class="nav-link col-2">Home</a>
-        <a id="user" href="index.php?ctrl=user&action=allUser" class="nav-link col-2">Utilisateurs</a>
-        <a id="addMovie" href="index.php?ctrl=movie&action=allMovie" class="nav-link col-2">Films</a>
-        <a id="person" href="index.php?ctrl=person&action=allPerson" class="nav-link col-2 active">Célébrités</a>
-        <a id="report" href="index.php?ctrl=report&action=allReport" class="nav-link col-2">Signalement</a>
+        <a id="user" href="{$smarty.env.BASE_URL}admin/dashboard" class="nav-link col-2">Home</a>
+        <a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2">Utilisateurs</a>
+        <a id="addMovie" href="{$smarty.env.BASE_URL}movie/allMovie" class="nav-link col-2">Films</a>
+        <a id="person" href="{$smarty.env.BASE_URL}person/allPerson" class="nav-link col-2 active">Célébrités</a>
+        <a id="report" href="{$smarty.env.BASE_URL}report/allReport" class="nav-link col-2">Signalement</a>
     </div>
 
     <div id="ficheMovie" class="d-flex flex-column">
@@ -57,12 +57,12 @@
                         <span class="spanMovie fw-bold">#{$objPerson->getId()}</span>
                     </div>
                     <div class="col-10 col-md-5">
-                         <a class="text-decoration-none" href="index.php?ctrl=person&action=person&id={$objPerson->getId()}"><span class="spanMovie">{$objPerson->getFullName()}</span></a>
+                         <a class="text-decoration-none" href="{$smarty.env.BASE_URL}person/personPage/{$objPerson->getId()}"><span class="spanMovie">{$objPerson->getFullName()}</span></a>
 
                     </div>
                     <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
-                        <a href="index.php?ctrl=person&action=settingsPerson&id={$objPerson->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
-                        <a href="index.php?ctrl=movie&action=deletePerson&id={$objPerson->getId()}"
+                        <a href="{$smarty.env.BASE_URL}person/settingsPerson/{$objPerson->getId()}" class="btn btn-sm btn-outline-dark px-5">Modifier</a>
+                        <a href="{$smarty.env.BASE_URL}movie/deletePerson/{$objPerson->getId()}"
                         class="btn btn-sm btn-outline-danger px-5"
                         onclick="return confirm('Vous allez supprimer le film {$objPerson->getFullName()|escape:'javascript'}')">
                             Supprimer

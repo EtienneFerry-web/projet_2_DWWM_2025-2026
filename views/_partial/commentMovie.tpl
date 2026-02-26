@@ -9,12 +9,12 @@
 
     <div class="row align-items-center">
         <div class="rounded-circle col-auto">
-            <img src="assets/img/{$comment->getPhoto()}"
+            <img src="{$smarty.env.BASE_URL}assets/img/{$comment->getPhoto()}"
                 class="rounded-circle border"
                 style="width: 40px; height: 40px; object-fit: cover;"
                 alt="Avatar">
         </div>
-        <span class="spanMovie col-auto p-0"><a href="{$smarty.env.BASE_URL}user/userPage&id={$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
+        <span class="spanMovie col-auto p-0"><a href="{$smarty.env.BASE_URL}user/userPage/{$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
         <span class="pageMovieNote spanMovie col-auto ms-auto" data-note="{$comment->getRating()}">
             <span class="stars d-block"></span>
         </span>

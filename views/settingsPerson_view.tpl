@@ -51,7 +51,7 @@
 				<label for="country" class="form-label">Photo*</label>
 				</label>
 				<div>
-					<img src="assets/img/person/{$objPerson->getPhoto()}" alt="Photo de {$objPerson->getName()}">
+					<img src="{$smarty.env.BASE_URL}assets/img/person/{$objPerson->getPhoto()}" alt="Photo de {$objPerson->getName()}">
 				</div>
 				<input name="photo" type="file" class="form-control ">
 			</div>

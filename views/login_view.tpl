@@ -7,7 +7,7 @@
         <!-- include messages  -->
         <h1 class="text-center">Connexion</h1>
         <p class="mx-auto text-center py-2">Si vous n'avez pas de compte vous pouvez en créer un sur la page d'<a
-                href="/Projet2/page/create_account.html" class="text-dark">inscription</a> !</p>
+                href="{$smarty.env.BASE_URL}page/create_account.html" class="text-dark">inscription</a> !</p>
         <form method="post">
             <div class="form-group py-3">
                 <label class="form-label">Adresse e-mail</label>

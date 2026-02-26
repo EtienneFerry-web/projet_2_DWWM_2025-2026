@@ -1,9 +1,9 @@
 <div class="row py-2">
     <div class="col-4 text-center my-auto">
-        <a href="{$smarty.env.BASE_URL}Movie/Movie?id={$objMovie->getId()}"><img src="assets/img/movie/{$objMovie->getPhoto()}" alt="" class="img-fluid"></a>
+        <a href="{$smarty.env.BASE_URL}movie/moviePage/{$objMovie->getId()}"><img src="{$smarty.env.BASE_URL}assets/img/movie/{$objMovie->getPhoto()}" alt="" class="img-fluid"></a>
     </div>
     <div class="col-8 text-start">
-        <a href="{$smarty.env.BASE_URL}Movie/Movie?id={$objMovie->getId()}" class="link"><h2>{$objMovie->getTitle()}</h2></a>
+        <a href="{$smarty.env.BASE_URL}movie/moviePage/{$objMovie->getId()}" class="link"><h2>{$objMovie->getTitle()}</h2></a>
         <p>{$objMovie->getDescription()}</p>
         <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
             <span class="stars d-inline-block"></span>

@@ -6,7 +6,7 @@
     <h1>Resultat</h1>
     <p>Résultat a la recherche "{$arrSearch->getSearch()}".</p>
     <div class="py-2 col-12 col-lg-4">
-        <form method="post" action="index.php?ctrl=search&action=searchPage">
+        <form method="post" action="{$smarty.env.BASE_URL}search/searchPage">
             <input type="hidden" name="search" value="{$arrSearch->getSearch()}">
             <label class="form-label w-100 border-bottom border-dark">Résultat Par :</label>
 
@@ -55,5 +55,5 @@
 </section>
 {/block}
 {block name="js"}
-    <script src="/Projet2/assets/js/search.js"> </script>
+    <script src="{$smarty.env.BASE_URL}assets/js/search.js"> </script>
 {/block}

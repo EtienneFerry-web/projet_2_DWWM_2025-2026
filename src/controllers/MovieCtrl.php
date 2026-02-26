@@ -173,7 +173,7 @@
         * @return void manages ratings, likes, comments, reports, and image uploads for a specific movie
         */
 
-        public function movie(){
+        public function moviePage(){
 			$arrError = [];
 
 			$objCommentModel	= new CommentModel;

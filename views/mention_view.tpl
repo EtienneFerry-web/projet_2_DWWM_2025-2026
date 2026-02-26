@@ -18,7 +18,7 @@
                         <li>Nom / Raison sociale : <strong>Groupe 2</strong></li>
                         <li>Statut : <strong>Best Group Ever</strong></li>
                         <li>Adresse : <strong>4 rue du Rhin 68000 COLMAR</strong></li>
-                        <li>Email : <strong><a href="index.php?ctrl=page&action=contact">contact@givemefive.fr</a></strong>
+                        <li>Email : <strong><a href="{$smarty.env.BASE_URL}page/contact">contact@givemefive.fr</a></strong>
                         </li>
                         <li>Téléphone : <strong>03 68 67 20 00</strong></li>
                     </ul>
@@ -81,7 +81,7 @@
                     <p>
                         Conformément au RGPD, vous disposez d’un droit d’accès, de rectification et
                         de suppression de vos données en contactant : <strong><a
-                                href="index.php?ctrl=page&action=contact">contact@givemefive.fr</a></strong>.
+                                href="{$smarty.env.BASE_URL}page/contact">contact@givemefive.fr</a></strong>.
                     </p>
                 </section>
 

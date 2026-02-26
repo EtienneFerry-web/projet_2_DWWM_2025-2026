@@ -4,7 +4,7 @@
 
 {block name="css_variation"}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
-    <link rel="stylesheet" href="/Projet2/assets/css/slideMovie.css">
+    <link rel="stylesheet" href="{$smarty.env.BASE_URL}assets/css/slideMovie.css">
 {/block}
 
 {block name="content"}
@@ -12,7 +12,7 @@
 <section id="user" class="container py-2">
     <div class="col-12 row text-center align-items-center text-md-start py-2 mx-auto">
         <div class="col-6 col-md-3 col-lg-2 mx-auto ">
-            <img src="assets/img/users/{$objUser->getPhoto()}" alt="image de profil" class="img-fluid">
+            <img src="{$smarty.env.BASE_URL}assets/img/users/{$objUser->getPhoto()}" alt="image de profil" class="img-fluid">
         </div>
         <div class="col-12 col-md-9 col-lg-10 ">
         <div class="row">
@@ -32,7 +32,7 @@
                     <span class="spanMovie border-0 d-flex align-items-center">
                         {$objUser->getFunction()} 
                         {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
-                            <a href="index.php?ctrl=user&action=permissions" class="text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits"><i class="bi bi-question-circle fs-3"></i></a> 
+                            <a href="{$smarty.env.BASE_URL}user/permissions" class="text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits"><i class="bi bi-question-circle fs-3"></i></a> 
                         {/if}
                     </span>              
                 </div>
@@ -40,7 +40,7 @@
 
                 {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
                     <div class="col-auto ms-auto">
-                        <a href="index.php?ctrl=user&action=settingsUser" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
+                        <a href="{$smarty.env.BASE_URL}user/settingsUser" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
                             <i class="bi bi-gear fs-5"></i><span>Gestion du compte</span>
                         </a>
                     </div>
@@ -50,7 +50,7 @@
                     && $smarty.session.user.user_id == $smarty.get.id
                     && $smarty.session.user.user_funct_id != 1}
                     <div class="col-auto">
-                        <a href="index.php?ctrl=admin&action=dashboard" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-1">
+                        <a href="{$smarty.env.BASE_URL}admin/dashboard" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-1">
                             <i class="bi bi-speedometer2 fs-5"></i><span>Dashboard</span>
                         </a>
                     </div>
@@ -83,37 +83,37 @@
                     </div>
                 </div>
                 {else}
-                <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
-                    {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
-                </button>
-                <div class="modal fade" id="reportModal" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form method="POST" class="modal-content">
+                    <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
+                        {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
+                    </button>
+                    <div class="modal fade" id="reportModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form method="POST" class="modal-content">
 
-                            <div class="modal-header border-0"">
-                                <h5 class="modal-title">Signaler : {$objUser->getPseudo()}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
+                                <div class="modal-header border-0"">
+                                    <h5 class="modal-title">Signaler : {$objUser->getPseudo()}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
 
-                            <div class="modal-body">
-                                <p>Voulez-vous vraiment supprimer votre signalement ?</p>
-                            </div>
+                                <div class="modal-body">
+                                    <p>Voulez-vous vraiment supprimer votre signalement ?</p>
+                                </div>
 
-                            <div class="modal-footer border-0 mx-auto">
-                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
-                                <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-3">Supprimer</button>
-                            </div>
+                                <div class="modal-footer border-0 mx-auto">
+                                    <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-3">Supprimer</button>
+                                </div>
 
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 {/if}
                 </div>
-                {/if}
+            {/if}
             </div>
         </div>
     </div>
-
+{if count($arrMovieToDisplay) > 0}
     <div class="col-12 py-2">
         <div class="like py-3 col-12">
             <span class="spanMovie d-block col-12">Films Likés</span>
@@ -122,8 +122,6 @@
                 <ul class="splide__list">
                     {foreach from=$arrMovieToDisplay item=objLike}
                         {include file="views/_partial/likeUser.tpl"}
-                    {foreachelse}
-                        <h3 class="mx-auto py-2">Cet utilisateur ne posséde aucun like !</h3>
                     {/foreach}
                 </ul>
               </div>
@@ -131,6 +129,7 @@
         </div>
     </div>
 </section>
+{/if}
 {if count($arrImageToDisplay) > 0}
     <section  id="imgMovie" class="container py-5 text-center">
         <h2>Image Partager Par l'utilisateur</h2>
@@ -140,7 +139,7 @@
                 {foreach from=$arrImageToDisplay item=objImage}
                     {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
                     <li class="splide__slide position-relative overlay-container">
-                        <img src="assets/img/movie/{$objImage->getPhoto()}" class="img-fluid" />
+                        <img src="{$smarty.env.BASE_URL}assets/img/movie/{$objImage->getPhoto()}" class="img-fluid" />
 
                         <form method="POST" class="delete-overlay">
                             <input type="hidden" name="deleteImage" value="{$objImage->getId()}">
@@ -151,7 +150,7 @@
                     </li>
                     {else}
                     <li class="splide__slide">
-                        <img src="assets/img/movie/{$objImage->getPhoto()}" />
+                        <img src="{$smarty.env.BASE_URL}assets/img/movie/{$objImage->getPhoto()}" />
                     </li>
                     {/if}
 
@@ -197,8 +196,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/Projet2/assets/js/moviePage.js"></script>
-    <script src="/Projet2/assets/js/comment.js"></script>
-    <script src="/Projet2/assets/js/star.js"> </script>
-    <script src="/Projet2/assets/js/permission.js"> </script>
+    <script src="{$smarty.env.BASE_URL}assets/js/moviePage.js"></script>
+    <script src="{$smarty.env.BASE_URL}assets/js/comment.js"></script>
+    <script src="{$smarty.env.BASE_URL}assets/js/star.js"> </script>
+    <script src="{$smarty.env.BASE_URL}assets/js/permission.js"> </script>
 {/block}

@@ -16,7 +16,7 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a href="{$smarty.env.BASE_URL}index.php"><img src="{$smarty.env.BASE_URL}assets/img/iconSite.png" alt="icon du site" class="iconHeader"></a>
+            <a href="{$smarty.env.BASE_URL}"><img src="{$smarty.env.BASE_URL}assets/img/iconSite.png" alt="icon du site" class="iconHeader"></a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                 <img src="{$smarty.env.BASE_URL}assets/img/menu.svg" alt="menu burger" class="iconHeader">
             </button>

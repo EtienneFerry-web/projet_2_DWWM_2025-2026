@@ -41,5 +41,5 @@
 {/block}
 
 {block name="js"}
-        <script src="/Projet2/assets/js/search.js"> </script>
+        <script src="{$smarty.env.BASE_URL}assets/js/search.js"> </script>
 {/block}

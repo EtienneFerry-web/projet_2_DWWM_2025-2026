@@ -40,7 +40,7 @@
          <div class="col-12 p-2">
             <label class="form-label">Modifier la photo de profil</label>
             <div class="mb-2">
-                <img src="assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
+                <img src="{$smarty.env.BASE_URL}assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
             </div>
              <input     name="photo"
                         type="file" 

@@ -101,7 +101,7 @@
 
         /**
          * Terminate user session
-         * @author Etienne
+         * @author Marco & Etienne
          *
          * 1. Initialize session access
          * 2. Remove user data from the session
@@ -393,7 +393,7 @@
 
         /**
          * Display and manage user profile interactions
-         * @author Etienne
+         * @author Marco & Etienne
          *
          * 1. Retrieve profile data and verify if the user exists (404 if not)
          * 2. Handle comment management: deletion, modification, and reporting
@@ -403,7 +403,7 @@
          *
          */
 
-        public function user() {
+        public function userPage() {
 
             $intId = $_GET['id'];
             $objUserModel = new UserModel;

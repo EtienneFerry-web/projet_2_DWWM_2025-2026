@@ -4,7 +4,7 @@
 {block name="content"}
 <section id="settingsUser" class="container py-5">
 <h1>Gestion de compte</h1>
-<div class="py-3"><a href="index.php?ctrl=user&action=user&id={$smarty.session.user.user_id}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>
+<div class="py-3"><a href="{$smarty.env.BASE_URL}user/userPage/{$smarty.session.user.user_id}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
@@ -41,7 +41,7 @@
          <div class="col-12 p-2">
             <label class="form-label">Photo de profil</label>
             <div class="mb-2">
-                <img src="assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
+                <img src="{$smarty.env.BASE_URL}assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
             </div>
              <input     name="photo"
                         type="file" 
@@ -67,13 +67,13 @@
      </form>
      <div class="row justify-content-center mt-3">
          <div class="col-auto">
-             <a href="index.php?ctrl=user&action=logout" class="nav-link">
+             <a href="{$smarty.env.BASE_URL}user/logout" class="nav-link">
                  Se déconnecter
              </a>
          </div>
 
          <div class="col-auto">
-             <form action="index.php?ctrl=user&action=deleteAccount" method="POST" class="nav-link col-auto"
+             <form action="{$smarty.env.BASE_URL}user/deleteAccount" method="POST" class="nav-link col-auto"
       onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
         <button type="submit" class="border-0 bg-transparent">
             Supprimer mon compte
