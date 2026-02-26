@@ -27,7 +27,7 @@
 			<div class="col-md-12">
 				<label for="categories" class="form-label">Genre</label>
 				<select class="form-control" id="categories" name="categoriesId">
-					<option>Tous les genres</option>
+					<option value="0">Tous les genres</option>
 
 					{foreach from=$arrCatToDisplay item=arrDetCategory}
 					<option class="form-control" value="{$arrDetCategory->getId()}" {if $arrDetCategory->getId() ==
@@ -41,7 +41,7 @@
 			<div class="col-md-12">
 				<label for="country" class="form-label">Pays d'origine*</label>
 				<select class="form-control" id="country" name="countryId">
-					<option>Pays d'origine</option>
+					<option value="0">Pays d'origine</option>
 
 					{foreach from=$arrNatToDisplay item=arrDetNat}
 					<option class="form-control" value="{$arrDetNat->getId()}" {if $arrDetNat->getId() ==
@@ -61,7 +61,7 @@
 
 			<div class="form-group py-2">
 				<label class="form-label">Titre original</label>
-				<input name="originalTitle" type="text" class="form-control" id="original_title"
+				<input name="original_title" type="text" class="form-control" id="original_title"
 					value="{$objMovie->getOriginalTitle()}" placeholder="">
 			</div>
 			<div class="form-group py-2">

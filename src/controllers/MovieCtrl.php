@@ -487,36 +487,38 @@
 				$arrMovie = $objMovieModel->findOneMovie($_GET['id']);
 				$objMovie->hydrate($arrMovie);
 			}
-
+var_dump($objMovie);
+//var_dump($_POST);
 			$arrError = [];
 			// 2. Data validation
 			if (count($_POST)>0){
-				
+				$objMovie->hydrate($_POST);
 
-				if (empty($_POST['title'])) {
+				if (empty($objMovie->getTitle())) {
 					$arrError['title'] = "Le titre est obligatoire";
 				}
-				if ($_POST['categoriesId'] == 0) {
+				if ($objMovie->getCategoriesId() == 0) {
 					$arrError['categoriesId'] = "Le genre est obligatoire";
 				}
-				if ($_POST['countryId'] == 0) {
+				if ($objMovie->getCountryId() == 0) {
 					$arrError['countryId'] = "Le pays d'origine est obligatoire";
 				}
-				if (empty($_POST['countryId'])) {
-					$arrError['countryId'] = "La durée est obligatoire";
+				if ($objMovie->getRelease_date() == '') {
+					$arrError['release_date'] = "La durée est obligatoire";
 				}
-				if (empty($_POST['length'])) {
+				if (empty($objMovie->getLength())) {
 					$arrError['length'] = "La durée est obligatoire";
 				}
-				if (empty($_POST['description'])) {
+				if (empty($objMovie->getDescription())) {
 					$arrError['description'] = "Le synopsis est obligatoire";
 				}
-				if (empty($_POST['trailer_url'])) {
+				if (empty($objMovie->getTrailer())) {
 					$arrError['trailer_url'] = "La durée est obligatoire";
 				}
 								
-				$objMovie->hydrate($_POST);
-			
+				
+				
+
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
 				if ($_FILES['photo']['error'] != 4){
 
@@ -561,7 +563,7 @@
 					$arrError['img'] = "L'image est obligatoire";
 				}
 			}
-
+			
 			// If the form is correctly completed
 			if (count($arrError) == 0){
 
@@ -573,40 +575,33 @@
 				// If no errors, attempting the insertion
 				if ($boolResultMovie === true) {
 					if (isset($strImageName)){
-							// Setting the destination path
-							$strDest    = $_ENV['IMG_PATH'].$strImageName;
-							// Fetching the source file path
-							$strSource	= $_FILES['photo']['tmp_name'];
-						}
-						if ($boolResultMovie === true){
-
-							//Removing the old image
-							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
-
-							if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
-								if (!empty($strOldImg)) {
-									$strOldFile = $_ENV['IMG_PATH'] . $strOldImg;
-									if (file_exists($strOldFile)) {
-										unlink($strOldFile);
-									}
+						
+						$strDest = $_ENV['IMG_PATH'] . $strImageName;
+						
+						var_dump($strImageName);		
+						if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
+							if (!empty($strOldImg)) {
+								$strOldFile = $_ENV['IMG_PATH'].$strOldImg;
+								if (file_exists($strOldFile)) {
+								 	unlink($strOldFile);
 								}
-								$this->_resize($strDest,280, 400);
+								var_dump($strOldImg);
 							}
+							$this->_resize($strDest,280, 400);
+						}
+					}
 
-
-							if (is_null($objMovie->getId())){
-								$_SESSION['success'] 	= "Le film a bien été créé";
-								header("Location:index.php?");
-							exit;
-							}else{
-								$_SESSION['success'] 	= "Le film a bien été modifié";
-							}
+						if (is_null($objMovie->getId())){
+							$_SESSION['success'] 	= "Le film a bien été créé";
+							header("Location:index.php?");
+						exit;
 						}else{
-							$arrError['img'] = "Erreur dans le traitement de l'image";
+							$_SESSION['success'] 	= "Le film a bien été modifié";
 						}
 					}else{
-						$arrError[] = "Erreur lors de l'ajout";
+						$arrError['img'] = "Erreur dans le traitement de l'image";
 					}
+					
 				}
 			}
 			
