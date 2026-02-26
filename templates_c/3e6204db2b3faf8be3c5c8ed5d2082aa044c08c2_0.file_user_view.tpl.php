@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-02-24 16:20:55
+/* Smarty version 5.8.0, created on 2026-02-25 16:34:02
   from 'file:views/user_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_699dcfe718ac18_88287683',
+  'unifunc' => 'content_699f247a76c916_76473200',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3e6204db2b3faf8be3c5c8ed5d2082aa044c08c2' => 
     array (
       0 => 'views/user_view.tpl',
-      1 => 1771950053,
+      1 => 1772000816,
       2 => 'file',
     ),
   ),
@@ -20,41 +20,40 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
     'file:views/_partial/likeUser.tpl' => 1,
     'file:views/_partial/reviewMovie.tpl' => 1,
-    'file:views/_partial/reportUser.tpl' => 1,
   ),
 ))) {
-function content_699dcfe718ac18_88287683 (\Smarty\Template $_smarty_tpl) {
+function content_699f247a76c916_76473200 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_188567056699dcfe715cac0_19173547', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1838815080699f247a6e7ca0_59251311', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1737120636699dcfe715e788_30554224', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_128652922699dcfe715f657_10754394', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1316053046699f247a6ea797_32750227', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1491028826699dcfe7160489_33546333', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_546735347699f247a6eb993_73360552', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1947594795699dcfe7189bf1_06717151', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1964214751699f247a6eccf3_83680201', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1964617758699f247a76b144_72284119', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_188567056699dcfe715cac0_19173547 extends \Smarty\Runtime\Block
+class Block_1838815080699f247a6e7ca0_59251311 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -65,7 +64,7 @@ Ajouter un film<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1737120636699dcfe715e788_30554224 extends \Smarty\Runtime\Block
+class Block_1316053046699f247a6ea797_32750227 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -75,7 +74,7 @@ Ici vous pouvez ajouter un film !<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_128652922699dcfe715f657_10754394 extends \Smarty\Runtime\Block
+class Block_546735347699f247a6eb993_73360552 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -88,7 +87,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_1491028826699dcfe7160489_33546333 extends \Smarty\Runtime\Block
+class Block_1964214751699f247a6eccf3_83680201 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -110,12 +109,10 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 </p>
             </div>
              <div class="col-2">
-                <?php if ($_smarty_tpl->getValue('like') >= 3) {?>
-                <div class="bg-dark-subtle img-thumbnail p-1 m-4">                    
+                <div class="bg-dark-subtle img-thumbnail p-1 m-4">
                     <img src="assets/img/badge_<?php echo $_smarty_tpl->getValue('badge');?>
-.png" alt="Badge " class="img-fluid">                          
+.png" alt="Badge " class="img-fluid">
                 </div>
-                <?php }?>
             </div>
 
         </div>
@@ -183,7 +180,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 
                             <div class="modal-header border-0"">
                                 <h5 class="modal-title">Signaler : <?php echo $_smarty_tpl->getValue('objUser')->getPseudo();?>
-</h5>
+ </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
@@ -234,59 +231,22 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 </section>
-<section  id="imgMovie" class="container py-5 text-center">
-    <h2>Image Partager Par l'utilisateur</h2>
-    <div class="splide">
-        <div class="splide__track">
-            <ul class="splide__list">
-            <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrImageToDisplay'), 'objImage');
-$foreach1DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('objImage')->value) {
-$foreach1DoElse = false;
-?>
-                <?php if ((true && (true && null !== ($_SESSION['user'] ?? null))) && $_SESSION['user'] === $_GET['id']) {?>
-                <li class="splide__slide position-relative overlay-container">
-                    <img src="assets/img/movie/<?php echo $_smarty_tpl->getValue('objImage')->getPhoto();?>
-" class="img-fluid" />
 
-                    <form method="POST" class="delete-overlay">
-                        <input type="hidden" name="deleteImage" value="<?php echo $_smarty_tpl->getValue('objImage')->getId();?>
-">
-                        <button type="submit" class="border-0 bg-transparent p-3">
-                            <i class="bi bi-trash fs-1 text-white"></i>
-                        </button>
-                    </form>
-                </li>
-                <?php } else { ?>
-                <li class="splide__slide">
-                    <img src="assets/img/movie/<?php echo $_smarty_tpl->getValue('objImage')->getPhoto();?>
-" />
-                </li>
-                <?php }?>
-
-            <?php
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-            </ul>
-        </div>
-    </div>
-</section>
 <section id="review" class="container text-center">
     <h2>Vos review / <?php echo $_smarty_tpl->getValue('objUser')->getPseudo();?>
 </h2>
     <div class="col-12 col-md-10 mx-auto py-1 scrollList">
         <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrCommentToDisplay'), 'review');
-$foreach2DoElse = true;
+$foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('review')->value) {
-$foreach2DoElse = false;
+$foreach1DoElse = false;
 ?>
             <?php $_smarty_tpl->renderSubTemplate("file:views/_partial/reviewMovie.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
         <?php
 }
-if ($foreach2DoElse) {
+if ($foreach1DoElse) {
 ?>
         <div class="col-12 text-center py-3">
             <h3 class="border-0">Cet Utilisateur n'a pas de review</h3>
@@ -296,38 +256,14 @@ if ($foreach2DoElse) {
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     </div>
 </section>
-<?php if ((true && (true && null !== ($_SESSION['user'] ?? null))) && $_SESSION['user']['user_id'] == $_GET['id']) {?>
-<section class="container py-5">
-    <div class="mt-4">
-        <h2 class="fw-bold text-uppercase mb-3 text-center">Vos Signalement</h2>
-        <ul class="list-group list-group-flush border-top border-dark">
 
-            <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('arrReportToDisplay'), 'objReport');
-$foreach3DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('objReport')->value) {
-$foreach3DoElse = false;
-?>
-                <?php $_smarty_tpl->renderSubTemplate('file:views/_partial/reportUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
-?>
-            <?php
-}
-if ($foreach3DoElse) {
-?>
-                <li class="list-group-item text-center">Aucun Signalements trouvé.</li>
-            <?php
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
-        </ul>
-    </div>
-</section>
-<?php }
+<?php
 }
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_1947594795699dcfe7189bf1_06717151 extends \Smarty\Runtime\Block
+class Block_1964617758699f247a76b144_72284119 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

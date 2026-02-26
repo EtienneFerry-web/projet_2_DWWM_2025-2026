@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-02-24 14:41:34
+/* Smarty version 5.8.0, created on 2026-02-25 16:33:30
   from 'file:views/home_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_699db89e918c80_06177450',
+  'unifunc' => 'content_699f245a5558c5_70740515',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '27394379dc99c228fc92f3598fcd7ef3d3eaa5ad' => 
     array (
       0 => 'views/home_view.tpl',
-      1 => 1771943991,
+      1 => 1772000816,
       2 => 'file',
     ),
   ),
@@ -21,38 +21,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:views/_partial/newMovie.tpl' => 1,
   ),
 ))) {
-function content_699db89e918c80_06177450 (\Smarty\Template $_smarty_tpl) {
+function content_699f245a5558c5_70740515 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1322052540699db89e90db96_29316259', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1283183817699f245a53d592_90680132', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1193258105699db89e90f3d0_67252540', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1460366235699db89e9101a3_82884739', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_262621290699f245a53f0f1_39451100', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_841439068699db89e910f88_15768236', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_251703239699f245a53fff9_87009820', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1294967870699db89e9181d2_70272111', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1237314477699f245a540d35_06959211', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_887019321699f245a554d47_40322981', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1322052540699db89e90db96_29316259 extends \Smarty\Runtime\Block
+class Block_1283183817699f245a53d592_90680132 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -63,7 +63,7 @@ Accueil<?php
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1193258105699db89e90f3d0_67252540 extends \Smarty\Runtime\Block
+class Block_262621290699f245a53f0f1_39451100 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -73,7 +73,7 @@ Bienvenue sur notre accueil !!!!<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_1460366235699db89e9101a3_82884739 extends \Smarty\Runtime\Block
+class Block_251703239699f245a53fff9_87009820 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -85,13 +85,19 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_841439068699db89e910f88_15768236 extends \Smarty\Runtime\Block
+class Block_1237314477699f245a540d35_06959211 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 ?>
 
-    
+        <a href="index.php?ctrl=page&action=contact"
+            class="btn btn-light position-fixed bottom-0 end-0 m-4 rounded-circle shadow-lg d-flex align-items-center justify-content-center"
+            style="width: 50px; height: 50px; z-index: 999;">
+
+        <i class="bi bi-chat-dots-fill fs-3"></i>
+
+    </a>
     <section id="hero" class=" container  row mx-auto py-5">
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center text-center text-md-start  py-5">
             <?php if (!(true && (true && null !== ($_SESSION['user'] ?? null)))) {?>
@@ -142,7 +148,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_1294967870699db89e9181d2_70272111 extends \Smarty\Runtime\Block
+class Block_887019321699f245a554d47_40322981 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-02-24 14:41:29
+/* Smarty version 5.8.0, created on 2026-02-25 16:33:27
   from 'file:views/_partial/message.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_699db899ca7ba6_45066349',
+  'unifunc' => 'content_699f24577b0498_09186555',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1cf628e4b0f2c94e049e984ad7a5340453caa826' => 
     array (
       0 => 'views/_partial/message.tpl',
-      1 => 1771943991,
+      1 => 1772000816,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_699db899ca7ba6_45066349 (\Smarty\Template $_smarty_tpl) {
+function content_699f24577b0498_09186555 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views\\_partial';
 ?>
 

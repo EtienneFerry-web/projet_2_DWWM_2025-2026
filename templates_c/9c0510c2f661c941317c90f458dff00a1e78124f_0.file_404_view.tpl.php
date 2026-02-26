@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-02-24 14:41:29
+/* Smarty version 5.8.0, created on 2026-02-25 16:33:26
   from 'file:views/404_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_699db8997aa0b2_23516728',
+  'unifunc' => 'content_699f2456c81bb7_68523028',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9c0510c2f661c941317c90f458dff00a1e78124f' => 
     array (
       0 => 'views/404_view.tpl',
-      1 => 1771943990,
+      1 => 1772000816,
       2 => 'file',
     ),
   ),
@@ -20,38 +20,38 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_699db8997aa0b2_23516728 (\Smarty\Template $_smarty_tpl) {
+function content_699f2456c81bb7_68523028 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1545368231699db89979d0b7_37553064', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1576219915699f2456bb0fd7_08700529', "title");
 ?>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1489868845699db8997a6cc9_40839187', "description");
-?>
-
-
-<?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1704107210699db8997a7c41_40127498', "css_variation");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_388143964699f2456c7e703_08940766', "description");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_932616970699db8997a8998_15769965', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1183436211699f2456c7f696_84726054', "css_variation");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_767395144699db8997a9660_16118231', "js");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1523742335699f2456c80364_51610856', "content");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1320281240699f2456c80fe0_23194314', "js");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "views/layout_view.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1545368231699db89979d0b7_37553064 extends \Smarty\Runtime\Block
+class Block_1576219915699f2456bb0fd7_08700529 extends \Smarty\Runtime\Block
 {
 public $prepend = 'true';
 public function callBlock(\Smarty\Template $_smarty_tpl) {
@@ -62,7 +62,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "title"} */
 /* {block "description"} */
-class Block_1489868845699db8997a6cc9_40839187 extends \Smarty\Runtime\Block
+class Block_388143964699f2456c7e703_08940766 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -72,7 +72,7 @@ Erreur 404 page intropuvable<?php
 }
 /* {/block "description"} */
 /* {block "css_variation"} */
-class Block_1704107210699db8997a7c41_40127498 extends \Smarty\Runtime\Block
+class Block_1183436211699f2456c7f696_84726054 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -84,7 +84,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "css_variation"} */
 /* {block "content"} */
-class Block_932616970699db8997a8998_15769965 extends \Smarty\Runtime\Block
+class Block_1523742335699f2456c80364_51610856 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
@@ -111,7 +111,7 @@ $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';
 }
 /* {/block "content"} */
 /* {block "js"} */
-class Block_767395144699db8997a9660_16118231 extends \Smarty\Runtime\Block
+class Block_1320281240699f2456c80fe0_23194314 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\wamp64\\www\\Projet2\\views';

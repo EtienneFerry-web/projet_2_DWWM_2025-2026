@@ -491,30 +491,32 @@
 			$arrError = [];
 			// 2. Data validation
 			if (count($_POST)>0){
-				$objMovie->hydrate($_POST);
+				
 
-				if (empty($objMovie->getTitle())) {
+				if (empty($_POST['title'])) {
 					$arrError['title'] = "Le titre est obligatoire";
 				}
-				if ($objMovie->getCategoriesId() == 0) {
+				if ($_POST['categoriesId'] == 0) {
 					$arrError['categoriesId'] = "Le genre est obligatoire";
 				}
-				if ($objMovie->getCountryId() == 0) {
+				if ($_POST['countryId'] == 0) {
 					$arrError['countryId'] = "Le pays d'origine est obligatoire";
 				}
-				if (empty($objMovie->getRelease_date())) {
+				if (empty($_POST['countryId'])) {
 					$arrError['countryId'] = "La durée est obligatoire";
 				}
-				if (empty($objMovie->getLength())) {
+				if (empty($_POST['length'])) {
 					$arrError['length'] = "La durée est obligatoire";
 				}
-				if (empty($objMovie->getDescription())) {
+				if (empty($_POST['description'])) {
 					$arrError['description'] = "Le synopsis est obligatoire";
 				}
-				if (empty($objMovie->getTrailer())) {
-					$arrError['countryId'] = "La durée est obligatoire";
+				if (empty($_POST['trailer_url'])) {
+					$arrError['trailer_url'] = "La durée est obligatoire";
 				}
-
+								
+				$objMovie->hydrate($_POST);
+			
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
 				if ($_FILES['photo']['error'] != 4){
 
@@ -547,6 +549,8 @@
 							break;
 					}
 				}
+				
+				
 
 			// 3. Data insertion logic
 
