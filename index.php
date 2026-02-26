@@ -44,6 +44,6 @@
 	}
 
 	if($boolError){
-	        header("Location:index.php?ctrl=error&action=err404");
+	        header("Location:".$_ENV['BASE_URL']."error/err_404");
             exit;
 	}

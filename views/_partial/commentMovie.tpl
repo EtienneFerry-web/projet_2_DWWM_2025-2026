@@ -14,7 +14,7 @@
                 style="width: 40px; height: 40px; object-fit: cover;"
                 alt="Avatar">
         </div>
-        <span class="spanMovie col-auto p-0"><a href="index.php?ctrl=user&action=user&id={$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
+        <span class="spanMovie col-auto p-0"><a href="{$smarty.env.BASE_URL}user/userPage&id={$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
         <span class="pageMovieNote spanMovie col-auto ms-auto" data-note="{$comment->getRating()}">
             <span class="stars d-block"></span>
         </span>
@@ -27,6 +27,7 @@
     <div class="row align-items-center">
         <span class="spanMovie d-block col-auto">{$comment->getDateFormat()}</span>
         <div class="col-auto">
+            {if isset($smarty.session.user)}
             <form method="post" class="js-like-form m-0">
                 <input type="hidden" name="likeCommentBtn" value="{$comment->getId()}">
                 <button {if isset($smarty.session.user)} type="submit" {/if} class="border-0 bg-transparent p-0 text-decoration-none">
@@ -40,10 +41,13 @@
                     </label>
                 </button>
             </form>
+            {else}
+            <label class="form-label m-0 d-flex align-items-center gap-1" style="cursor:pointer;">
+                    <i class="bi bi-heart fs-4"></i>
+                <span class="like-count"> {$comment->getLike()}</span>
+            </label>
+            {/if}
         </div>
-
-       
-
         <div class="col d-flex justify-content-end align-items-center">
             {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 1}
                 {if $comment->getReported() == 0}

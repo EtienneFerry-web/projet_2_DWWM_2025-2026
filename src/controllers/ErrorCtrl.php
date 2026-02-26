@@ -12,7 +12,7 @@
         * @return displays the 404 error view
         */
 
-        public function err404(){
+        public function err_404(){
             $this->_display("404");
         }
 
@@ -21,7 +21,7 @@
         * @return displays the 403 error view
         */
 
-        public function err403(){
+        public function err_403(){
             $this->_display("403");
         }
 

@@ -94,6 +94,6 @@
 
      <div class="py-3 text-center">
          <button type="submit" class="btnCustom">Filtrer</button>
-         <a href="/Projet2/index.php?ctrl=movie&action=list" class="btnCustom">Réinitialiser</button></a>
+         <a href="{$smarty.env.BASE_URL}Movie/List" class="btnCustom">Réinitialiser</button></a>
      </div>
 </form>

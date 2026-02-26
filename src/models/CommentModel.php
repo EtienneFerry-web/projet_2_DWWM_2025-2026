@@ -45,7 +45,7 @@
                         INNER JOIN movies ON comments.com_movie_id = movies.mov_id
                         LEFT JOIN liked ON liked.lik_com_id = comments.com_id AND liked.lik_mov_id IS NULL
                         LEFT JOIN ratings ON ratings.rat_mov_id = movies.mov_id AND ratings.rat_user_id = users.user_id
-                        WHERE movies.mov_id = :id
+                        WHERE movies.mov_id = :id AND user_ban_at < NOW() AND user_delete_at IS NULL
                         GROUP BY
                             comments.com_id,
                             comments.com_user_id,
@@ -104,7 +104,7 @@
                         INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN liked ON liked.lik_com_id = comments.com_id AND liked.lik_mov_id IS NULL
-                        WHERE users.user_id = $idUser
+                        WHERE users.user_id = $idUser AND user_ban_at < NOW() AND user_delete_at IS NULL
 
                         GROUP BY
                             comments.com_id,
