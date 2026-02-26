@@ -17,17 +17,20 @@
         
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                
-                if (!$this->_verifyCsrfToken($_POST['csrf_token'])) {
-                    
-                    $_SESSION['csrf_token_expiration'] = time() + (30 * 60);
+                if (!$this->_verifyCsrfToken($_POST['csrf_token'])) {   
                     header("Location: index.php?ctrl=error&action=err403");
                     exit;
+                }else{
+                    $_SESSION['csrf_token_expiration'] = time() + (30 * 60);
                 }
             }
+
             $now = time();
+
             if (empty($_SESSION['csrf_token']) || $now > $_SESSION['csrf_token_expiration']) {
                 $this->_generateCsrfToken();
             }
+
         }
 
         /**
@@ -138,10 +141,10 @@
 		* @return string $token le jeton généré
 		*/
 		protected function _generateCsrfToken():string {
-			$token = bin2hex(random_bytes(32)); // Génère un token aléatoire
+			$token = bin2hex(random_bytes(32)); 
 			$_SESSION['csrf_token'] = $token;
-			// Définir une expiration (par exemple, 30 minutes à partir de maintenant)
-			$_SESSION['csrf_token_expiration'] = time() + (30 * 60); // 30 minutes en secondes
+		
+			$_SESSION['csrf_token_expiration'] = time() + (30 * 60); 
 			return $token;
 		}
 		
@@ -160,4 +163,14 @@
 				return true;
 			}
 		}
+
+        protected function _selfRedirect(){
+            header("Location:".$_SERVER['REQUEST_URI']);
+            exit;
+        }
+
+        protected function _redirect($url){
+             header("Location:".$url);
+            exit;
+        }
     }

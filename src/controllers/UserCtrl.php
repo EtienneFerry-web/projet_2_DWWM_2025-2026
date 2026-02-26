@@ -187,10 +187,6 @@
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
 
-                //$strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
-
-
-
                 $password = $objUser->getPwd();
 
 
@@ -239,8 +235,7 @@
 
                             $_SESSION['success']    = "Le compte compte a bien été crée";
 
-                            // header("Location:index.php?ctrl=user&action=login");
-                            // exit;
+                            $this->_redirect('index.php?ctrl=user&action=login');
                     }else{
                         $arrError[] = '';
                     }
@@ -618,6 +613,7 @@
             
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser'] = $objUser;
+            $this->_arrData['arrImageToDisplay'] = $arrImageToDisplay;
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
             $this->_arrData['badge'] = $badge;

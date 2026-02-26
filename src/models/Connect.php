@@ -25,8 +25,7 @@
 					$_ENV['DB_PASSWORD'],
 					array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC)
 				);
-				// Disabling ONLY_FULL_GROUP_BY to allow flexible GROUP BY queries
-				$this->_db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+				
 
 				// Setting character encoding to UTF-8
 				$this->_db->exec("SET CHARACTER SET utf8");

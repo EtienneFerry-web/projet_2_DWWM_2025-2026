@@ -11,8 +11,7 @@
 
 {block name="content"}
 <div class="container my-5">
- <a href="index.php?ctrl=user&action=user&id={$smarty.session.user.user_id}" class="btn btn-outline-secondary m-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits">< Retour</a>
-    <div class="row justify-content-center">
+<div class="py-3"><a href="index.php?ctrl=user&action=user&id={$smarty.session.user.user_id}" class="spanMovie"><i class="bi bi-arrow-left fs-1"></i></a></div>    <div class="row justify-content-center">
         <div class="col-lg-10">
             
 
@@ -20,15 +19,15 @@
 
             <section class="mb-4">
                 {if $smarty.session.user.user_funct_id == 1}
-                <h4>En tant qu'utilisateur, tu peux :</h4>
+                    <h4>En tant qu'utilisateur, tu peux :</h4>
                 {/if}
 
                 {if $smarty.session.user.user_funct_id == 2}
-                <h4>En tant que modérateur, tu peux :</h4>
+                    <h4>En tant que modérateur, tu peux :</h4>
                 {/if} 
 
                 {if $smarty.session.user.user_funct_id == 3}
-                <h4>En tant qu'administrateur, tu peux tout faire !! You're the GOAT!</h4>
+                    <h4>En tant qu'administrateur, tu peux tout faire !! You're the GOAT!</h4>
                 {/if} 
 
                 <!--User-->

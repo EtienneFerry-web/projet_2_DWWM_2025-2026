@@ -214,6 +214,7 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+					$this->_selfRedirect();
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
@@ -225,12 +226,10 @@
 
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Votre like a bien été pris en compte !";
-					header("Location: index.php?ctrl=movie&action=movie&id=" . $_GET['id']);
-    				exit;
+					$this->_selfRedirect();
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
-					header("Location: index.php?ctrl=movie&action=movie&id=" . $_GET['id']);
-    				exit;
+					$this->_selfRedirect();
 				}
 
 				}elseif(!isset($_SESSION['user'])&& isset($_POST['likeMovieBtn'])){
@@ -243,8 +242,10 @@
 
 					if ($repResult === 1) {
 						$_SESSION['success'] = "Votre like a bien été pris en compte !";
+						$this->_selfRedirect();
 					} else if($repResult === 2) {
 						$_SESSION['success'] = "Votre like a bien été était supprimer !";
+						$this->_selfRedirect();
 					}
 
     			}elseif(isset($_POST['likeMovieBtn']) && !isset($_SESSION['user'])){
@@ -266,6 +267,7 @@
 
                 if ($repResult) {
                     $_SESSION['success'] = "Le signalement a bien été envoyé !";
+					$this->_selfRedirect();
                 }  else {
                     $arrError[] = "erreur";
                 }
@@ -509,10 +511,10 @@
 			// 2. Data validation
 			if (count($_POST)>0){
 
-				if (!$this->_verifyCsrfToken($_POST['crsf_token'])){
-					header("Location:index.php?ctrl=error&action=err403");
-					exit;					
-				}
+				// if (!$this->_verifyCsrfToken($_POST['crsf_token'])){
+				// 	header("Location:index.php?ctrl=error&action=err403");
+				// 	exit;					
+				// }
 				
 
 				if (empty($objMovie->getTitle())) {

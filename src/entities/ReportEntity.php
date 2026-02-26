@@ -48,6 +48,10 @@
             }
         }
 
+        public function setDelete_at(?string $strDate){
+            $this->_delete_at = $strDate;
+        }
+
         public function getReportedUserId():?int{
             return $this->_reported_user_id;
         }

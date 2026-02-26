@@ -150,7 +150,7 @@
 		 */
 
 		public function setBio(?string $strBio){
-			$this->_bio = $this->clean($strBio)??"";
+			$this->_bio = $this->clean($strBio??'')??"";
 		}
 
 		/**

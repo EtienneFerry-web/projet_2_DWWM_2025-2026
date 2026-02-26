@@ -29,11 +29,12 @@
         </div>
             <div class="row align-items-center g-2">
                 <div class="col-auto">
-                    <span class="spanMovie border-0">
+                    <span class="spanMovie border-0 d-flex align-items-center">
                         {$objUser->getFunction()} 
-                        <a href="index.php?ctrl=user&action=permissions" class="btn btn-outline-secondary rounded-circle mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits">?</a> 
-                    </span>   
-                                  
+                        {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
+                            <a href="index.php?ctrl=user&action=permissions" class="text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits"><i class="bi bi-question-circle fs-3"></i></a> 
+                        {/if}
+                    </span>              
                 </div>
                 
 
@@ -130,34 +131,37 @@
         </div>
     </div>
 </section>
-<section  id="imgMovie" class="container py-5 text-center">
-    <h2>Image Partager Par l'utilisateur</h2>
-    <div class="splide">
-        <div class="splide__track">
-            <ul class="splide__list">
-            {foreach from=$arrImageToDisplay item=objImage}
-                {if isset($smarty.session.user) && $smarty.session.user === $smarty.get.id}
-                <li class="splide__slide position-relative overlay-container">
-                    <img src="assets/img/movie/{$objImage->getPhoto()}" class="img-fluid" />
+{if count($arrImageToDisplay) > 0}
+    <section  id="imgMovie" class="container py-5 text-center">
+        <h2>Image Partager Par l'utilisateur</h2>
+        <div class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                {foreach from=$arrImageToDisplay item=objImage}
+                    {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
+                    <li class="splide__slide position-relative overlay-container">
+                        <img src="assets/img/movie/{$objImage->getPhoto()}" class="img-fluid" />
 
-                    <form method="POST" class="delete-overlay">
-                        <input type="hidden" name="deleteImage" value="{$objImage->getId()}">
-                        <button type="submit" class="border-0 bg-transparent p-3">
-                            <i class="bi bi-trash fs-1 text-white"></i>
-                        </button>
-                    </form>
-                </li>
-                {else}
-                <li class="splide__slide">
-                    <img src="assets/img/movie/{$objImage->getPhoto()}" />
-                </li>
-                {/if}
+                        <form method="POST" class="delete-overlay">
+                            <input type="hidden" name="deleteImage" value="{$objImage->getId()}">
+                            <button type="submit" class="border-0 bg-transparent p-3">
+                                <i class="bi bi-trash fs-1 text-white"></i>
+                            </button>
+                        </form>
+                    </li>
+                    {else}
+                    <li class="splide__slide">
+                        <img src="assets/img/movie/{$objImage->getPhoto()}" />
+                    </li>
+                    {/if}
 
-            {/foreach}
-            </ul>
+                {/foreach}
+                </ul>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+{/if}
+{if !empty($arrCommentToDisplay)}
 <section id="review" class="container text-center">
     <h2>Vos review / {$objUser->getPseudo()}</h2>
     <div class="col-12 col-md-10 mx-auto py-1 scrollList">
@@ -170,6 +174,7 @@
         {/foreach}
     </div>
 </section>
+{/if}
 {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
 <section class="container py-5">
     <div class="mt-4">
