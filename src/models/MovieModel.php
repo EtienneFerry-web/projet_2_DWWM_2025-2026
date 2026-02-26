@@ -627,20 +627,30 @@
 			return $this->_db->query($strRq)->fetchColumn();
 		}
 
-        public function countAllLikesFromOneUser(int $intUserId) {
-			$strRq = "SELECT COUNT(*)
-						FROM liked
-                        WHERE lik_user_id =  $intUserId";
-
-			return $this->_db->query($strRq)->fetchColumn();
-		}
-
         public function countAllMovies() {
 			$strRq = "SELECT COUNT(*)
 						FROM movies";
 
 			return $this->_db->query($strRq)->fetchColumn();
 		}
+
+        public function countStatUser(int $intUserId) {
+		    $strRq = "SELECT
+                        (
+                            SELECT count(*)  
+    						FROM comments
+                            WHERE com_user_id = $intUserId
+                        ) AS 'mov_nb_comments',
+                        (
+                            SELECT count(*) 
+    						FROM liked
+                            WHERE lik_user_id = $intUserId
+                        )AS 'mov_user_liked'";
+
+            return $this->_db->query($strRq)->fetchAll();
+		}
+
+        
 
         public function findLastMovies() {
             $strRq = "SELECT movies.mov_id, movies.mov_title, movies.mov_release_date,

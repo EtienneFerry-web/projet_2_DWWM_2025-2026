@@ -487,8 +487,7 @@
 				$arrMovie = $objMovieModel->findOneMovie($_GET['id']);
 				$objMovie->hydrate($arrMovie);
 			}
-var_dump($objMovie);
-//var_dump($_POST);
+
 			$arrError = [];
 			// 2. Data validation
 			if (count($_POST)>0){

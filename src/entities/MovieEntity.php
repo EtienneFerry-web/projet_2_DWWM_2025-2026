@@ -25,7 +25,7 @@
 		private int     $_like;
 		private float   $_rating;
 		private string  $_nationality;
-		private int	    $_user_liked;
+		private int	    $_user_liked = 0;
 		private ?float	$_note_user;
 		private int     $_reported;
 		private int 	$_nb_comments = 0;

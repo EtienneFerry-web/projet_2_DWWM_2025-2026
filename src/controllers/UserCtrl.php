@@ -495,25 +495,22 @@
                 $objComment->hydrate($arrDetComment);
                 $arrCommentToDisplay[] = $objComment;
             }
-
-            //Badge user
-            $objModelUser = new MovieModel;
-            $like = $objModelUser->countAllLikesFromOneUser($_GET['id']);   
             
+            //contribution user
+            $objStatModel = new MovieModel();
+            $arrStat = $objStatModel->countStatUser($_GET['id']);   
+            $objStat = new MovieEntity('mov_');
+            $objStat->hydrate($arrStat[0]);
            
-            if ($like>=10){
-                $badge = "gold";
-            } elseif ($like>=5){
-                $badge = "silver";
-            } elseif ($like>=3){
-                $badge = "bronze";
-            }
+            
+
+           
 
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser'] = $objUser;
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
-            $this->_arrData['badge'] = $badge;
+            $this->_arrData['objStat'] = $objStat;
 
             $this->_display("user");
         }
@@ -712,7 +709,7 @@
                 header("Location:index.php?ctrl=error&action=err403");
                 exit;
             }
-
+            var_dump($_SESSION['user']);
             $intIdUser      = $_GET['id']?? null;
             $intNewGrade = $_POST['user_funct_id'] ?? null;
 
@@ -736,7 +733,7 @@
 		*/
 
         public function permissions() {
-            if(!isset($_SESSION['user']) || ($_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3)) {
+            if(!isset($_SESSION['user'])) {
                 header("Location:index.php?ctrl=error&action=err403");
                 exit;
             }
