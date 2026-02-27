@@ -223,7 +223,7 @@
 
 			// Comment envoyer le mail
 			$this->_objMail->IsHTML(true); // en HTML
-			$this->_objMail->setFrom($_ENV['MAIL_USERNAME'], 'Mon BLOG'); // Expéditeur
+			$this->_objMail->setFrom($_ENV['MAIL_USERNAME'], 'GiveMeFive'); // Expéditeur
 
 			if($this->_objMail->Send()) {
                 $this->_objMail->clearAddresses();

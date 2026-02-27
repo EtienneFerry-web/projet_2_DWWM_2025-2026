@@ -188,6 +188,7 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+					$this->_selfRedirect();
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
@@ -198,6 +199,7 @@
 
                 if ($repResult) {
                     $_SESSION['success'] = "La note à bien était supprimer !";
+					$this->_selfRedirect();
                 } else {
                     $arrError[] = "Erreur lors de la suppression, si vous avez un review vous devez la supprimer pour pouvoir supprimer la note !";
                 }
@@ -232,27 +234,27 @@
 					$this->_selfRedirect();
 				}
 
-				}elseif(!isset($_SESSION['user'])&& isset($_POST['likeMovieBtn'])){
-					$arrError[''] = "Vous devez etre connecté pour liker un film";
+			}
+
+			if(isset($_POST['likeCommentBtn'])&&(isset($_SESSION['user']))){
+
+				$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+
+				if ($repResult === 1) {
+					$_SESSION['success'] = "Votre like a bien été pris en compte !";
+					$this->_selfRedirect();
+				} else if($repResult === 2) {
+					$_SESSION['success'] = "Votre like a bien été était supprimer !";
+					$this->_selfRedirect();
 				}
 
-				if(isset($_POST['likeCommentBtn'])&&(isset($_SESSION['user']))){
+    		}
 
-					$repResult = $objCommentModel->LikeComment($_SESSION['user']['user_id'], $_POST['likeCommentBtn']);
+    		if (isset($_POST['repMovie']) && isset($_SESSION['user']['user_id'])) {
 
-					if ($repResult === 1) {
-						$_SESSION['success'] = "Votre like a bien été pris en compte !";
-						$this->_selfRedirect();
-					} else if($repResult === 2) {
-						$_SESSION['success'] = "Votre like a bien été était supprimer !";
-						$this->_selfRedirect();
-					}
-
-    			}elseif(isset($_POST['likeMovieBtn']) && !isset($_SESSION['user'])){
-    				$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
-    			}
-
-    			if (isset($_POST['repMovie']) && $_POST['repMovie'] != '' && isset($_SESSION['user']['user_id'])) {
+				if($_POST['repMovie'] == "" && trim($_POST['repMovie'])== ""){
+					$arrError ="Veulliez écrire la raison de report !";
+				}
 
                 $arrData = array_merge([
                     'reported_movie_id' => $_GET['id'],
@@ -285,6 +287,7 @@
 
                 if ($repResult) {
                     $_SESSION['success'] = "Votre signalement a bien était supprimer ! !";
+					$this->_selfRedirect();
                 }  else {
                     $arrError[] = "erreur";
                 }
@@ -353,6 +356,7 @@
                             $this->_resize($strDest, 400, 400, true);
 
                             $_SESSION['success'] = "ajoute de l'image";
+							$this->_selfRedirect();
                         } else {
                             $arrError['photo'] = "Erreur lors du téléchargement";
                         }
@@ -360,44 +364,42 @@
                 }
 			}
 
-				if(!empty($_POST) && isset($_POST['com_comment']) ) {
+			if(!empty($_POST) && isset($_POST['com_comment']) ) {
 
-					if(isset($_SESSION['user'])) {
+				if(isset($_SESSION['user'])) {
 
-
-						if ((trim($_POST['com_comment'])== "")){
+					if ((trim($_POST['com_comment'])== "")){
 							$arrError['com_comment'] = "Vous devez remplir le champ commentaire pour laisser un avis";
-						}
-				
-						if (empty($_POST['rating'])){
-							$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
-						}
-
-						if(count($arrError)===0) {
-
-							$objComment = new CommentEntity;
-							$objComment->setComment($_POST['com_comment']);
-							$objComment->setUser_id($_SESSION['user']['user_id']);
-							$objComment->setRating($_POST['rating']);
-							$objComment->setmovieId($_GET['id']);
-
-							$comment = $objCommentModel->commentInsert($objComment);
-
-							if(!$comment){
-							    $arrError[] 	= "Echec de l'ajout du commentaire !";
-							} elseif(isset($comment['error'])){
-							    $arrError[] 	= $comment['error'];
-							}else{
-			                    $_SESSION['success'] 	= "Votre commentaire à bien etait publié";
-								$this->_selfRedirect();
-							}
-
-
-						}
-					} else{
-						$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 					}
+				
+					if (empty($_POST['rating'])){
+						$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
+					}
+
+					if(count($arrError)===0) {
+
+						$objComment = new CommentEntity;
+						$objComment->setComment($_POST['com_comment']);
+						$objComment->setUser_id($_SESSION['user']['user_id']);
+						$objComment->setRating($_POST['rating']);
+						$objComment->setmovieId($_GET['id']);
+
+						$comment = $objCommentModel->commentInsert($objComment);
+
+						if(!$comment){
+							$arrError[] 	= "Echec de l'ajout du commentaire !";
+						} elseif(isset($comment['error'])){
+							$arrError[] 	= $comment['error'];
+						}else{
+							$_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+							$this->_selfRedirect();
+						}
+					}
+
+				} else{
+					$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
 				}
+			}
 
 			if(isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1){
 
@@ -405,6 +407,7 @@
 					$_SESSION['success'] = "Spoiler Update !";
 					$this->_selfRedirect();
 				}
+				
 			}
 
 			if (isset($_POST['commentReport']) && $_POST['commentReport'] != '' && isset($_SESSION['user']['user_id'])) {
@@ -494,6 +497,7 @@
 		/**
         * Adding a new movie to the catalog
         * @return void handles form validation, file upload, and database insertion
+		* @todo récupérer la partie d'audrey
         */
 
         public function addEditMovie(){
@@ -614,12 +618,11 @@
 
 							if (is_null($objMovie->getId())){
 								$_SESSION['success'] 	= "Le film a bien été créé";
-								//header("Location:index.php?");
+								$this->_redirect($_ENV['BASE_URL']);
 							exit;
 							}else{
 								$_SESSION['success'] 	= "Le film a bien été modifié";
-								//header("Location:index.php?ctrl=movie&action=allMovie");
-							//exit;
+								$this->_redirect($_ENV['BASE_URL']."movie/allMovie");
 							}
 						}else{
 							$arrError['img'] = "Erreur dans le traitement de l'image";
@@ -669,18 +672,15 @@
 
 		public function deleteMovie() {
 			//Permission control
-           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // just administrator and moderator can delete a movie
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
+			$this->_checkAccess(2);
+
             $objMovieModel = new MovieModel();
             $success = $objMovieModel->deleteMovie($_GET['id']);
 
             if($success){
 
                 $_SESSION['success'] = "Le film a bien été supprimé";
-                header("Location:index.php?ctrl=movie&action=allMovie");
-                exit;
+                $this->_redirect($_ENV['BASE_URL']."movie/allMovie");
 
             }
 
@@ -692,15 +692,13 @@
         */
 
 		public function allMovie(){
+			
 			$search = $_GET['search'] ?? NULL;
             $filter = $_GET['filter'] ?? '0';
 			$sort   = $_GET['sort'] ?? 'ASC';
 			
 			// Check if user is authenticated and has correct permission
-			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
+			$this->_checkAccess(2);
 			
 			// Initialize model and fetch movies based on filters
 			$objMovieModel 	= new MovieModel;

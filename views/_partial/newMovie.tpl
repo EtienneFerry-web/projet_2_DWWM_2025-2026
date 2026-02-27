@@ -1,5 +1,5 @@
 <li class="splide__slide hoverMovie">
-    <a href="{$smarty.env.BASE_URL}movie/movie/{$objMovie->getId()}">
+    <a href="{$smarty.env.BASE_URL}movie/moviePage/{$objMovie->getId()}">
         <img src="{$smarty.env.BASE_URL}assets/img/movie/{$objMovie->getPhoto()}" loading="eager" alt="Couverture de film"/>
 
         <span class="movieNote spanMovie" data-note="{$objMovie->getRating()}">
