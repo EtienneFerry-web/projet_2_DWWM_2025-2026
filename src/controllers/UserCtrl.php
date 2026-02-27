@@ -876,4 +876,93 @@
 
             $this->_display("permissions");
         }
+
+        public function forgotPwd(){
+			$objUser 	= new UserEntity();
+            $arrError = [];
+
+            $this->_arrData['objUser'] = $objUser;
+
+			
+			if (count($_POST) >0) {
+				
+				$strMail 	= $_POST['email'];
+				$objUser->setEmail($strMail);
+				
+				$objModel	= new UserModel();
+				$arrUser 	= $objModel->findUserByMail($objUser->getEmail());
+
+                $_SESSION['success'] = "Si vous êtes inscrit sur notre site, vous allez recevoir un mail contenant un lien pour redéfinir votre mot de passe.";
+				
+				if ($arrUser !== false){
+					$strToken 	= bin2hex(random_bytes(64)); // Génère un token aléatoire
+					$boolOk		= $objModel->updateForgotInfos($strToken, $arrUser['user_id']);
+					if ($boolOk){
+                        //Construction lien
+                        $link = "http://localhost/GiveMeFive/index.php?ctrl=user&action=recover_pwd&token=" . $strToken;
+
+						// Destinataire(s)
+						$this->_objMail->addAddress($arrUser['user_email'], $arrUser['user_name'].' '.$arrUser['user_firstname']);
+						$this->_objMail->Subject    = "Mot de passe oublié";
+				
+						
+						$this->_arrData['link']  = $link;
+						$this->_arrData['user_name']  = $arrUser['user_name'];
+
+						$this->_objMail->Body      	= $this->_display("mail_forgot_pwd", false);
+
+                        if($this->_sendMail()){
+                            $_SESSION['success'] = "Ca marche !";
+                        }
+                    }
+				}
+			}
+			
+			$this->_display("forgot_pwd");
+        }
+		/**
+		* Page de modification du mot de passe si oublié
+		*/
+		public function recoverPwd(){
+            var_dump($_POST);
+            $strToken = $_GET['token'] ?? '';
+            $arrError = [];
+            if(empty($strToken)){
+                $_SESSION['error'] = "Token manquant.";
+                header("Location:index.php?ctrl=user&action=login");
+                exit;
+            }
+
+			$objModel	= new UserModel();
+			$arrUser 	= $objModel->findUserByToken($_GET['token']);
+
+            if($arrUser === false) {
+                $_SESSION['error'] = "Ce lien de réinitialisation est invalide ou expiré.";
+                header("Location:index.php?ctrl=user&action=forgot_pwd");
+                exit;
+            }
+			
+			if (count($_POST) > 0){
+				$objUser 	= new UserEntity();
+				$objUser->setId($arrUser['user_id']);
+				$objUser->setPwd($_POST['pwd'] ?? '');
+
+                $arrError 	= $this->_verifPwd($objUser, $_POST['pwdConfirm']);
+
+				if (count($arrError) == 0){
+					$boolOk	= $objModel->updatePwd($objUser);
+					if ($boolOk){
+						$_SESSION['success'] = "Votre mot de passe a bien été changé";
+						header("Location:index.php?ctrl=user&action=login");
+						exit;
+					}else{
+						$arrError[]	= "Erreur lors du changement de mot de passe.";
+					}
+				}
+			}			
+			
+			$this->_arrData['arrError']	= $arrError;
+			
+			$this->_display("recover_pwd");
+		}
 }

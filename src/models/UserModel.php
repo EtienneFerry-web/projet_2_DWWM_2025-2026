@@ -178,6 +178,56 @@
     			return $rqPrep2->execute();
 			}
 		}
+		
+		/**
+		* Fonction permettant de récupérer un utilisateur avec son mail
+		* @param string $strMail Mail à trouver
+		* @return array|bool soit un tableau de l'utilisateur soit false
+		*/
+		public function findUserByMail(string $strMail):array|bool{
+			$strRq 		= "SELECT user_id, user_email, user_name, user_firstname
+							FROM users
+							WHERE user_email = :email
+								AND user_delete_at IS NULL";
+			$rqPrepare 	= $this->_db->prepare($strRq);
+			$rqPrepare->bindValue(":email", $strMail, PDO::PARAM_STR);
+			$rqPrepare->execute();
+			$arrUser	= $rqPrepare->fetch();
+			return $arrUser;
+		}
+		
+		/**
+		* Fonction permettant de récupérer un utilisateur avec son token
+		* @param string $strToken token à trouver
+		* @return array|bool soit un tableau de l'utilisateur soit false
+		*/
+		public function findUserByToken(string $strToken):array|bool{
+			$strRq 		= "SELECT user_id
+							FROM users
+							WHERE user_reset_token = :token
+								AND user_reset_expires > NOW()
+								AND user_delete_at IS NULL";
+			$rqPrepare 	= $this->_db->prepare($strRq);
+			$rqPrepare->bindValue(":token", $strToken, PDO::PARAM_STR);
+			$rqPrepare->execute();
+			$arrUser	= $rqPrepare->fetch();
+			return $arrUser;
+		}
+		
+		/**
+		 * Met à jour le token de réinitialisation et sa date d'expiration 
+		 */
+
+		public function updateForgotInfos(string $strToken, int $intId):bool {
+			$strRq = "UPDATE users
+						SET user_reset_token 	= :token,
+							user_reset_expires 	= DATE_ADD(NOW(), INTERVAL 30 MINUTE)
+						WHERE user_id = :id";
+			$prep = $this->_db->prepare($strRq);
+			$prep->bindValue(":token", $strToken, PDO::PARAM_STR);
+			$prep->bindValue(":id", $intId, PDO::PARAM_INT);
+			return $prep->execute();
+		}
 
 		/**
 		 * @author Marco
