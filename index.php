@@ -1,7 +1,6 @@
 <?php
 	session_start();
 	
-	
 	require'vendor/autoload.php';
 
 	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -44,6 +43,6 @@
 	}
 
 	if($boolError){
-	        header("Location:".$_ENV['BASE_URL']."error/err_404");
+	        header("Location:".$_ENV['BASE_URL']."error/err404");
             exit;
 	}

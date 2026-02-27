@@ -46,8 +46,6 @@
             $strEmail       = $_POST['email']??"";
             $strPwd         = $_POST['pwd']??"";
 
-            $this->_arrData['strPage']  = "login";
-
             $objUser            = new UserEntity;
             $objUserModel       = new UserModel;
             $objUser->hydrate($_POST);
@@ -86,8 +84,7 @@
                             );
 
                             $objUserModel->addLogs($arrData);
-                            header("Location:index.php");
-                            exit;
+                            $this->_redirect($_ENV['BASE_URL']);
                     }
                 }
             }
@@ -128,14 +125,13 @@
                 $_SESSION['success']  = "Vous avez êtes déconnecté pour inactivité !";
                 unset($_SESSION['user']);
                 unset($_SESSION['last_activity']);
-                header("Location:index.php?ctrl=user&action=login");
-                exit;
+                $this->_redirect($_ENV['BASE_URL']."user/login");
+               
             } else {
                 $_SESSION['success']  = "Vous êtes bien déconnecté";
                 unset($_SESSION['user']);
                 unset($_SESSION['last_activity']);
-                header("Location:index.php");
-                exit;
+                $this->_redirect($_ENV['BASE_URL']);
             }
 
         }
@@ -234,8 +230,8 @@
                     if ($boolInsert != false && count($arrError) == 0){
 
                             $_SESSION['success']    = "Le compte compte a bien été crée";
+                            $this->_redirect($_ENV['BASE_URL']."user/login");
 
-                            $this->_redirect('index.php?ctrl=user&action=login');
                     }else{
                         $arrError[] = '';
                     }
@@ -376,8 +372,7 @@
                         $_SESSION['user']['user_pseudo'] = $objUser->getPseudo();
 
                         $_SESSION['success'] = "Le profil à bien été mis à jour";
-                        header("Location:index.php?ctrl=user&action=settingsUser");
-                        exit;
+                        $this->_selfRedirect();
                     }else{
                         $arrError[] = "Erreur lors de la mise a jours, veuilez reessayer";
                     }
@@ -409,18 +404,14 @@
             $objUserModel = new UserModel;
 			$arrUser		= $objUserModel->userPage($intId, $_SESSION['user']['user_id']??0);
 
-            if(!isset($arrUser['user_id'])){
-				header("Location:index.php?Ctrl=error&action=err404");
-				exit;
-			}
+            if (!$arrUser) {
+                $this->_redirect($_ENV['BASE_URL']."error/err404");
+            }
 
 			$objUser       = new UserEntity('mov_');
 			$objUser->hydrate($arrUser);
 
-            if (!$arrUser) {
-                header("Location:index.php?Ctrl=error&action=err404");
-                exit;
-            }
+            
 
             $objCommentModel = new CommentModel;
             $objComment = new CommentEntity;
@@ -456,8 +447,7 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était modifier !";
-                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
-                    exit;
+                    $this->_selfRedirect();
                 } else {
                     $arrError[] = "erreur lors de la modification";
                 }
@@ -634,10 +624,7 @@
 
         public function deleteAccount(){
 
-            if(!isset($_SESSION['user']['user_id'])){
-                header("Location:index.php?ctrl=user&action=login");
-                exit;
-            }
+            $this->_checkAccess();
 
             $objUserModel = new UserModel();
             $myId         = (int)$_SESSION['user']['user_id'];

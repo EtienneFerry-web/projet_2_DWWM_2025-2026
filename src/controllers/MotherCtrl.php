@@ -15,21 +15,21 @@
 
         public function __construct() {
         
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                
-                if (!$this->_verifyCsrfToken($_POST['csrf_token'])) {   
-                    header("Location: index.php?ctrl=error&action=err403");
-                    exit;
-                }else{
-                    $_SESSION['csrf_token_expiration'] = time() + (30 * 60);
-                }
-            }
+            //     if (!$this->_verifyCsrfToken($_POST['csrf_token'])) {   
+            //         header("Location: index.php?ctrl=error&action=err403");
+            //         exit;
+            //     }else{
+            //         $_SESSION['csrf_token_expiration'] = time() + (30 * 60);
+            //     }
+            // }
 
-            $now = time();
+            // $now = time();
 
-            if (empty($_SESSION['csrf_token']) || $now > $_SESSION['csrf_token_expiration']) {
-                $this->_generateCsrfToken();
-            }
+            // if (empty($_SESSION['csrf_token']) || $now > $_SESSION['csrf_token_expiration']) {
+            //     $this->_generateCsrfToken();
+            // }
 
         }
 
@@ -127,7 +127,7 @@
         * @return void redirects to 403 error page if access is denied
         */
 
-        protected function _checkAccess(int $grade=1){
+        protected function _checkAccess(int $grade=1):void{
 
             if(!isset($_SESSION['user']) || $grade > $_SESSION['user']['user_funct_id']){
                 header("Location:index.php?ctrl=error&action=err403");

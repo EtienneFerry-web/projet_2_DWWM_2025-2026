@@ -389,6 +389,7 @@
 							    $arrError[] 	= $comment['error'];
 							}else{
 			                    $_SESSION['success'] 	= "Votre commentaire à bien etait publié";
+								$this->_selfRedirect();
 							}
 
 
@@ -402,6 +403,7 @@
 
 			    if($objCommentModel->addSpoiler($_POST['spoiler'])){
 					$_SESSION['success'] = "Spoiler Update !";
+					$this->_selfRedirect();
 				}
 			}
 
@@ -414,8 +416,7 @@
 
                 if ($repResult) {
                     $_SESSION['success'] = "Le signalement a bien été envoyé !";
-                    header("Location: index.php?ctrl=movie&action=movie&id=" . $_GET['id']);
-                    exit;
+					$this->_selfRedirect();
                 }  else {
                     $arrError[] = "erreur";
                 }
@@ -428,6 +429,7 @@
 
                     if ($repResult) {
                         $_SESSION['success'] = "Votre signalement a bien était supprimer ! !";
+						$this->_selfRedirect();
                     }  else {
                         $arrError[] = "erreur";
                     }
@@ -438,9 +440,8 @@
 			$arrMovie = $objMovieModel->findMovie($_GET['id'], $_SESSION['user']['user_id']??0);
 			$arrMovieImages = $objMovieModel->selectImageMovie($_GET['id']);
 
-			if(!$arrMovie['mov_id']){
-				header("Location:index.php?Ctrl=error&action=err404");
-				exit;
+			if(!$arrMovie){
+				$this->redirect($_ENV['BASE_URL']."error/err404");
 			}
 
 			$arrImagesToDisplay = array();
@@ -502,20 +503,15 @@
 			$objMovieModel = new MovieModel();
 
 			if (isset($_GET['id'])){
+				$this->_checkAccess(2);
 				$arrMovie= [];
 				$arrMovie = $objMovieModel->findOneMovie($_GET['id']);
 				$objMovie->hydrate($arrMovie);
 			}
 
 			$arrError = [];
-			// 2. Data validation
+			
 			if (count($_POST)>0){
-
-				// if (!$this->_verifyCsrfToken($_POST['crsf_token'])){
-				// 	header("Location:index.php?ctrl=error&action=err403");
-				// 	exit;					
-				// }
-				
 
 				if (empty($objMovie->getTitle())) {
 					$arrError['title'] = "Le titre est obligatoire";

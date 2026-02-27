@@ -208,10 +208,8 @@
 
 		/**
 		 * @author Etienne
-		 *
 		 * Soft deletes a user.
 		 * Does not remove the row from the database, but sets the 'user_delete_at' timestamp.
-		 *
 		 * @param int $intId The ID to delete.
 		 * @return bool
 		 */

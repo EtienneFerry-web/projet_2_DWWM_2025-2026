@@ -24,17 +24,15 @@
     class AdminCtrl extends MotherCtrl{
 
         /**
+         * 
         * Administrator & Moderator dashboard page
         * Displays statistics and latest lists for the admin panel
-        * @return void displays site statistics and allows quick actions to rank or delete another user,
+        * @return displays displays site statistics and allows quick actions to rank or delete another user,
         * as well as managing reports and restrictions for other users
         */
         
 		public function dashboard(){
-			if (!isset($_SESSION['user']) || $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ 
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
+			$this->_checkAccess(2);
 
             $objMovieModel      = new MovieModel;
             $objCommentModel    = new CommentModel;

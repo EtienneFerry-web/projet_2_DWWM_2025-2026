@@ -2,7 +2,7 @@
     namespace App\Controllers;
     /**
      * @author Marco Schmitt
-     * 16/01/2026
+     * 24/02/2026
      * Version 1
      */
     class ErrorCtrl extends MotherCtrl{
@@ -12,7 +12,7 @@
         * @return displays the 404 error view
         */
 
-        public function err_404(){
+        public function err404(){
             $this->_display("404");
         }
 
@@ -21,7 +21,7 @@
         * @return displays the 403 error view
         */
 
-        public function err_403(){
+        public function err403(){
             $this->_display("403");
         }
 
