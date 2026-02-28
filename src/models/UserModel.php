@@ -507,4 +507,19 @@
 
             return $rq->execute();
 		}
+
+		public function updatePwd(object $objUser):bool{
+			// Construire la requête
+			$strRq 	= "UPDATE users 
+						SET user_pwd = :pwd
+						WHERE user_id = :id";
+			// Préparer la requête
+			$rqPrep	= $this->_db->prepare($strRq);
+			// Donne les informations
+			$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}
     }

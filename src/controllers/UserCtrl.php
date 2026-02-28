@@ -899,7 +899,12 @@
 					$boolOk		= $objModel->updateForgotInfos($strToken, $arrUser['user_id']);
 					if ($boolOk){
                         //Construction lien
-                        $link = "http://localhost/GiveMeFive/index.php?ctrl=user&action=recover_pwd&token=" . $strToken;
+                        /*
+                        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+                        $domainName = $_SERVER['HTTP_HOST']; 
+
+                        $link = $protocol . $domainName . "/givemefive/index.php?ctrl=user&action=recoverPwd&token=" . $strToken;*/
+                        $link = "http://localhost:8888/givemefive/index.php?ctrl=user&action=recoverPwd&token=" . $strToken;
 
 						// Destinataire(s)
 						$this->_objMail->addAddress($arrUser['user_email'], $arrUser['user_name'].' '.$arrUser['user_firstname']);
@@ -909,7 +914,7 @@
 						$this->_arrData['link']  = $link;
 						$this->_arrData['user_name']  = $arrUser['user_name'];
 
-						$this->_objMail->Body      	= $this->_display("mail_forgot_pwd", false);
+						$this->_objMail->Body      	= $this->_display("mailForgotPwd", false);
 
                         if($this->_sendMail()){
                             $_SESSION['success'] = "Ca marche !";
@@ -918,7 +923,7 @@
 				}
 			}
 			
-			$this->_display("forgot_pwd");
+			$this->_display("forgotPwd");
         }
 		/**
 		* Page de modification du mot de passe si oublié
@@ -938,7 +943,7 @@
 
             if($arrUser === false) {
                 $_SESSION['error'] = "Ce lien de réinitialisation est invalide ou expiré.";
-                header("Location:index.php?ctrl=user&action=forgot_pwd");
+                header("Location:index.php?ctrl=user&action=forgotPwd");
                 exit;
             }
 			
@@ -963,6 +968,47 @@
 			
 			$this->_arrData['arrError']	= $arrError;
 			
-			$this->_display("recover_pwd");
+			$this->_display("recoverPwd");
 		}
+
+        /**
+         * Vérification de la complexité du mot de passe
+         * @param UserEntity $objUser
+         * @param string $strPwdConfirm
+         * @return array
+         */
+        private function _verifPwd(UserEntity $objUser, string $strPwdConfirm): array {
+            $arrError = [];
+            $password = $objUser->getPwd();
+
+            if ($password == "") {
+                $arrError['pwd'] = "Le mot de passe est obligatoire";
+            } else {
+                if (strlen($password) < 16) {
+                    $arrError['pwd'] = "Le mot de passe doit au moins avoir 16 caractères";
+                }
+
+                if (!preg_match('/[A-Z]/', $password)) {
+                    $arrError['pwd'] = "Il manque une majuscule";
+                }
+
+                if (!preg_match('/[a-z]/', $password)) {
+                    $arrError['pwd'] = "Il manque une minuscule";
+                }
+
+                if (!preg_match('/[0-9]/', $password)) {
+                    $arrError['pwd'] = "Il manque au moins un chiffre";
+                }
+
+                if (!preg_match('/[#?!@$%^&*-]/', $password)) {
+                    $arrError['pwd'] = "Il manque un caractère spécial (#?!@$%^&*-)";
+                }
+
+                if ($password != $strPwdConfirm) {
+                    $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
+                }
+            }
+
+            return $arrError;
+        }
 }
