@@ -24,9 +24,9 @@
     <div id="ficheMovie" class="d-flex flex-column">
         <h2>Tous les Célébrités</h2>
 
-        <form class="row g-1 align-items-center py-3">
-            <input type="hidden" name="ctrl" value="person">
-            <input type="hidden" name="action" value="allPerson">
+        <form class="row g-1 align-items-center py-3" method="get">
+            
+            
             <div class="col-12 col-md-3 p-0">
                 <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="{$search|default:''}">
             </div>

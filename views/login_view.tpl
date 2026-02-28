@@ -9,6 +9,7 @@
         <p class="mx-auto text-center py-2">Si vous n'avez pas de compte vous pouvez en créer un sur la page d'<a
                 href="{$smarty.env.BASE_URL}user/createAccount" class="text-dark">inscription</a> !</p>
         <form method="post">
+            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
             <div class="form-group py-3">
                 <label class="form-label">Adresse e-mail</label>
                 <input type="email" name="email" class="form-control {if (isset($arrError['email']))} is-invalid{/if}"

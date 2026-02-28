@@ -17,15 +17,15 @@
 		private int     $_categoriesId = 0;
 		private string  $_categories;
 		private string  $_length='';
-		private string  $_func;
+		//private string  $_func;
 		private int     $_like;
 		private float   $_rating;
-		private string  $_nationality;
+		//private string  $_nationality;
 		private int	    $_user_liked;
 		private ?float	$_note_user;
 		private int     $_reported;
 		private int 	$_nb_comments = 0;
-
+		private ?string $_published_at = NULL;
 		/**
          * Constructor.
          * @param string $prefixe table prefix for hydration (default empty)
@@ -370,5 +370,18 @@
 
 		public function setNb_comments(int $IntNb) {
 			$this->_nb_comments = $IntNb;
+		}
+
+		public function getPublished(): ?string {
+			return $this->_published_at;
+		}
+
+		/**
+        * Updating the total comments count
+        * @param int $IntNb the new comment total
+        */
+
+		public function setPublished_at(?string $IntNb) {
+			$this->_published_at = $IntNb;
 		}
 	}

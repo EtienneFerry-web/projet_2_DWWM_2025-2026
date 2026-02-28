@@ -59,11 +59,13 @@
                 <button type="submit" class="movieLikes d-flex align-items-center gap-2 spanMovie border-0 bg-transparent p-0 mx-auto mx-md-0" style="cursor: pointer;">
                     Liker : {if $objMovie->getUser_liked()}<i class="bi bi-heart-fill fs-4"></i>{else} <i class="bi bi-heart fs-4"></i>{/if}
                 </button>
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
             </form>
         </div>
 
         <div class="col-12 col-sm-auto">
             <form method="post">
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                 <div class="rating user-select-none d-flex align-items-center justify-content-center justify-content-md-start gap-1">
                     <span class="spanMovie me-2">Votre Note :</span>
                     <i class="bi bi-star fs-4" data-value="1"></i>
@@ -77,6 +79,7 @@
         </div>
         <div class="col-12 col-sm-auto">
             <form method="post" class="{if $objMovie->getNoteUser() == 0 }d-none{/if}" id="deleteNoteForm">
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                 <button class="border-0 bg-transparent" type="submit" name="deleteNoteUser" style="cursor: pointer;">
                     <i class="bi bi-trash fs-4"></i>
                 </button>
@@ -98,6 +101,7 @@
     <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <form method="POST" class="modal-content">
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                 <div class="modal-header border-0">
                     <h5 class="modal-title">Signaler : {$objMovie->getTitle()}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -131,6 +135,7 @@
     <h2>Image du film</h2>
     {if count($arrImagesToDisplay) < 20 && isset($smarty.session.user)}
     <form method="post" class="row text-center" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
         <div class="col-10 p-2 mx-auto">
             <input type="file" class="form-control" accept="image/*" name="images">
         </div>
@@ -156,6 +161,7 @@
         <h2>Avis</h2>
         <div class="text-start py-2">
             <form method="post">
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                 <div class="py-2">
                     <label for="comment" class="form-label fw-bold">Donnez votre avis</label>
                     <textarea

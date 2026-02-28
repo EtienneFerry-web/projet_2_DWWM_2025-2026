@@ -483,9 +483,7 @@
                	        WHERE pho_user_id = :id AND pho_type = 'Content'";
 
             $rqPrep = $this->_db->prepare($strRq);
-
     		$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
-
             $rqPrep->execute();
 
             return $rqPrep->fetchAll();
@@ -507,4 +505,40 @@
 
             return $rq->execute();
 		}
+
+
+		public function countStatUser(int $intUserId):array {
+		    $strRq = "SELECT
+                        (
+                            SELECT count(*)  
+    						FROM comments
+                            WHERE com_user_id = :userId AND com_delete_at IS NULL
+                        ) AS user_nb_comments,
+                        (
+                            SELECT count(*) 
+    						FROM liked
+                            WHERE lik_user_id = :userId AND lik_com_id IS NULL
+                        )AS user_nb_liked";
+
+            $rqPrep = $this->_db->prepare($strRq);
+
+			$rqPrep->bindValue(':userId', $intUserId, PDO::PARAM_INT);
+
+			$rqPrep->execute();
+			return $rqPrep->fetch();
+
+		}
+
+		public function updatePwd(object $objUser):bool {
+			$strRq = "UPDATE users
+						SET user_pwd 			= :pwd,
+							user_reset_token 	= NULL,
+							user_reset_expires 	= NULL
+						WHERE user_id = :id";
+			$prep = $this->_db->prepare($strRq);
+			$prep->bindValue(":pwd", password_hash($objUser->getPwd(), PASSWORD_DEFAULT), PDO::PARAM_STR);
+			$prep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+			return $prep->execute();
+		}
+
     }

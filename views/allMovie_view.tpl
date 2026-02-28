@@ -21,12 +21,10 @@
             <a id="report" href="{$smarty.env.BASE_URL}report/allReport" class="nav-link col-2">Signalement</a>
         </div>
 
-        <div id="ficheMovie" class="d-flex flex-column">
-            <h2>Tous les films</h2>
+        <div id="" class="d-flex flex-column">
+            <h2>Tous les fidzqdqzdqlms</h2>
 
-            <form class="row g-1 align-items-center py-3">
-                <input type="hidden" name="ctrl" value="movie">
-                <input type="hidden" name="action" value="allMovie">
+            <form class="row g-1 align-items-center py-3" method="get">
                 <div class="col-12 col-md-3 p-0">
                     <input class="form-control" type="search" placeholder="Rechercher..." name="search"
                         value="{$search|default:''}">
@@ -53,7 +51,7 @@
                 </div>
             </form>
 
-            <div class="allMovie">
+            <div>
                 {foreach from=$arrMovieToDisplay item=objMovie}
                     <div class="row g-2 align-items-center py-2 border-bottom">
                         <div class="col-2 col-md-1">
@@ -77,7 +75,37 @@
                 {/foreach}
             </div>
         </div>
+        <div class="py-3">
+            <h2>Proposition des Utilisateurs</h2>
+                {foreach from=$arrMovieNotPublishedToDisplay item=objMovie}
+                    <div class="row g-2 align-items-center py-2 border-bottom">
+                        <div class="col-2 col-md-1">
+                            <span class="spanMovie fw-bold">#{$objMovie->getId()}</span>
+                        </div>
+                        <div class="col-10 col-md-5">
+                            <a class="text-decoration-none"
+                                href="{$smarty.env.BASE_URL}movie/moviePage/{$objMovie->getId()}"><span
+                                    class="spanMovie">{$objMovie->getTitle()}</span></a>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end gap-3">
+                            <a href="{$smarty.env.BASE_URL}movie/addEditMovie/{$objMovie->getId()}"
+                                class="btn btn-sm btn-outline-dark  px-5">Voir</a>
+                            <a href="{$smarty.env.BASE_URL}movie/deleteMovie/{$objMovie->getId()}"
+                                class="btn btn-sm btn-outline-danger px-5"
+                                onclick="return confirm('Vous allez supprimer le film {$objMovie->getTitle()|escape:'javascript'}')">
+                                Refuser
+                            </a>
+                            <a href="{$smarty.env.BASE_URL}movie/publishMovie/{$objMovie->getId()}"
+                                class="btn btn-sm btn-outline-success px-5"
+                                onclick="return confirm('Vous allez publié le film {$objMovie->getTitle()|escape:'javascript'}')">
+                                Valider
+                            </a>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
     </section>
+    
 {/block}
 
 {block name="js"}

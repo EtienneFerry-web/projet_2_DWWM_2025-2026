@@ -27,6 +27,7 @@
                 </span>
 
                 <form method="post" class="mt-2">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                     <input type="hidden"  name="likeReviewBtn" value="{$review->getId()}">
 
                     <button type="submit" class="border-0 bg-transparent p-0 text-decoration-none" name="">
@@ -46,10 +47,12 @@
                 <span class="spanMovie d-block col-6">{$review->getDateFormat()}</span>
                 {if isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1 && $smarty.session.user.user_id != $smarty.get.id}
                     <form method="post" class="d-block ms-auto col-auto">
+                        <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                         <input type="radio" class="btn-check" name="spoiler" value="{$review->getId()}" id="filter-spoiler-{$review->getId()}" onchange="this.form.submit()">
                         <label class="form-label m-0" for="filter-spoiler-{$review->getId()}"><i class="bi bi-eye{if $review->getSpoiler() == 1}-slash{/if} fs-2"></i></label>
                     </form>
                     <form method="post" class="d-block col-auto">
+                        <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                         <input type="radio" class="btn-check" name="deleteComment"
                                value="{$review->getId()}"
                                id="filter-delete-{$review->getId()}"
@@ -59,6 +62,7 @@
                 {elseif isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
                     <form method="post" class="d-block ms-auto col-auto"
                             onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?')">
+                        <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                         <button type="submit" name="deleteComment" value="{$review->getId()}"
                                 class="border-0 bg-transparent p-0">
                             <i class="bi bi-trash3 fs-3"></i>
@@ -78,6 +82,7 @@
                         <div class="modal fade m-auto" id="reportModal-review-{$review->getId()}" tabindex="-1">
                             <div class="modal-dialog">
                                 <form method="POST" class="modal-content">
+                                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                                     <input type="hidden" name="commentReportId" value="{$review->getId()} ">
                                     <div class="modal-header border-0"">
                                         <h5 class="modal-title">Signaler : {$review->getTitle()} </h5>
@@ -104,7 +109,7 @@
                         <div class="modal fade" id="reportModal-review-{$review->getId()}" tabindex="-1">
                             <div class="modal-dialog">
                                 <form method="POST" class="modal-content">
-
+                                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                                     <div class="modal-header border-0"">
                                         <h5 class="modal-title">Signaler : {$review->getTitle()} </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

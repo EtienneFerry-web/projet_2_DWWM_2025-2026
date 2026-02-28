@@ -61,12 +61,12 @@
 
         public function searchPage(){
 
-            if(isset($_POST['search']) && !empty(trim($_POST['search']))){
+            if(isset($_GET['search']) && !empty(trim($_GET['search']))){
 
                 $objSearch = new SearchDto();
-                $objSearch->setSearch($_POST['search']);
+                $objSearch->setSearch($_GET['search']);
 
-                $searchBy = $_POST['searchBy']??0;
+                $searchBy = $_GET['searchBy']??0;
 
                 $objSearchModel 	= new SearchModel;
     			$arrResult		    = $objSearchModel->searchContent($objSearch, 20, $searchBy);

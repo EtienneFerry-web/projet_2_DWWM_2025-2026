@@ -2,11 +2,12 @@ const stars = document.querySelectorAll('.rating i');
 const inputNote = document.querySelectorAll('#note');
 const noteAverage = document.getElementById('average');
 const noteForm = document.getElementById('deleteNoteForm');
+//var csrfToken = document.querySelector('meta[name="csrf_token"]').content;
 let antiSpam = false
 let time;
 
 const urlParams = new URLSearchParams(window.location.search);
-const movieId = urlParams.get('id');
+const movieId = window.location.pathname.split('/').pop();
 
 // Fonction pour initialiser les étoiles en fonction de la valeur des inputs
 function initializeStars() {
@@ -86,10 +87,11 @@ function updateNote(value) {
 
 async function insertNote(value) {
   try {
-        const response = await fetch(`index.php?ctrl=movie&action=note&id=${movieId}`, {
+        const response = await fetch(`http://localhost/GiveMeFive/movie/note/${movieId}`, {
             method: 'POST', // methode Post
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
             },
             body: JSON.stringify({ intNote: value })
         });

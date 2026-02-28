@@ -6,7 +6,7 @@
 	<h1 class="text-center">Modifier une célébrité</h1>
 	<p class="mx-auto text-center py-2"></p>
 	<form method="post" enctype="multipart/form-data">
-
+		<input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
 		<div class="row">
 			<div class="col-12 form-group py-2">
 				<label class="form-label">Nom*</label>

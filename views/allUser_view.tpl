@@ -24,9 +24,7 @@
     <div id="ficheMovie" class="d-flex flex-column">
         <h2>Tous les Utilisateurs</h2>
 
-        <form class="row g-1 align-items-center py-3" method="GET" action="index.php">
-            <input type="hidden" name="ctrl" value="user">
-            <input type="hidden" name="action" value="allUser">
+        <form class="row g-1 align-items-center py-3" method="GET">
             <div class="col-12 col-md-5 p-0">
                 <input class="form-control" type="search" placeholder="Rechercher..." name="search" value="{$searchTerm|default:''}">
             </div>
@@ -58,6 +56,7 @@
 
                         {if $smarty.session.user.user_funct_id > $objUser->getUser_funct_id()}
                         <form action="{$smarty.env.BASE_URL}user/updateGrade/{$objUser->getId()}" method="post">
+                            
                             <select name="user_funct_id" class="form-select form-select-sm" onchange="this.form.submit()">
                                 <option value="1" {if $objUser->getUser_funct_id() ==1}selected{/if} >Utilisateur</option>
                                 <option value="2" {if $objUser->getUser_funct_id() ==2}selected{/if} >Modérateur</option>

@@ -588,25 +588,19 @@
                 $arrCommentToDisplay[] = $objComment;
             }
 
-            //Badge user
-            $objModelUser = new MovieModel;
-            $like = $objModelUser->countAllLikesFromOneUser($_GET['id']);   
+          
             
-           
-            if ($like>=10){
-                $badge = "gold";
-            } elseif ($like>=5){
-                $badge = "silver";
-            } elseif ($like>=3){
-                $badge = "bronze";
-            }
+            $arrStat = $objUserModel->countStatUser($_GET['id']);   
+            $objStat = new UserEntity;
+            $objStat->hydrate($arrStat); 
             
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['objUser'] = $objUser;
+            $this->_arrData['objStat'] = $objStat;
             $this->_arrData['arrImageToDisplay'] = $arrImageToDisplay;
             $this->_arrData['arrMovieToDisplay'] = $arrMovieToDisplay;
             $this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
-            $this->_arrData['badge'] = $badge;
+            
 
             $this->_display("user");
         }
@@ -869,10 +863,7 @@
 		*/
 
         public function permissions() {
-            if(!isset($_SESSION['user']) || ($_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3)) {
-                header("Location:index.php?ctrl=error&action=err403");
-                exit;
-            }
+            $this->_checkAccess();
 
             $this->_display("permissions");
         }
@@ -899,7 +890,7 @@
 					$boolOk		= $objModel->updateForgotInfos($strToken, $arrUser['user_id']);
 					if ($boolOk){
                         //Construction lien
-                        $link = "http://localhost/GiveMeFive/index.php?ctrl=user&action=recover_pwd&token=" . $strToken;
+                        $link = $_ENV['BASE_URL']."user/recoverPwd?token=" . $strToken;
 
 						// Destinataire(s)
 						$this->_objMail->addAddress($arrUser['user_email'], $arrUser['user_name'].' '.$arrUser['user_firstname']);
@@ -909,7 +900,7 @@
 						$this->_arrData['link']  = $link;
 						$this->_arrData['user_name']  = $arrUser['user_name'];
 
-						$this->_objMail->Body      	= $this->_display("mail_forgot_pwd", false);
+						$this->_objMail->Body      	= $this->_display("mailForgot_pwd", false);
 
                         if($this->_sendMail()){
                             $_SESSION['success'] = "Ca marche !";
@@ -918,7 +909,7 @@
 				}
 			}
 			
-			$this->_display("forgot_pwd");
+			$this->_display("forgotPwd");
         }
 		/**
 		* Page de modification du mot de passe si oublié
@@ -963,6 +954,25 @@
 			
 			$this->_arrData['arrError']	= $arrError;
 			
-			$this->_display("recover_pwd");
+			$this->_display("recoverPwd");
+		}
+
+        /**
+		* Méthode permettant de vérifier le mot de passe de l'utilisateur
+		* @param object $objUser L'utilisateur à vérifier
+		* @param string $strPwdConfirm Confirmation du mot de passe
+		* @return array Le tableau des erreurs
+		*/
+		private function _verifPwd(object $objUser, string $strPwdConfirm):array{
+			$strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
+			if ($objUser->getPwd() == ""){
+				$arrError['pwd'] = "Le mot de passe est obligatoire";
+			}else if (!preg_match($strRegex, $objUser->getPwd())){
+				$arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
+			}else if($objUser->getPwd() != $strPwdConfirm){
+				$arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
+			}
+			
+			return $arrError??array();			
 		}
 }

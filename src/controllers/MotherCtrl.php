@@ -21,22 +21,26 @@
         public function __construct() {
 
             $this->_objMail = new PHPMailer(true); 
-        
-            // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-               
-            //     if (!$this->_verifyCsrfToken($_POST['csrf_token'])) {   
-            //         header("Location: index.php?ctrl=error&action=err403");
-            //         exit;
-            //     }else{
-            //         $_SESSION['csrf_token_expiration'] = time() + (30 * 60);
-            //     }
-            // }
 
-            // $now = time();
+            
+    
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+                $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? $_POST['csrf_token'] ?? '';
+                
+                if (!$this->_verifyCsrfToken($token)) {   
+                    $this->_redirect($_ENV['BASE_URL']."error/err403");
+                    exit; 
+                }
 
-            // if (empty($_SESSION['csrf_token']) || $now > $_SESSION['csrf_token_expiration']) {
-            //     $this->_generateCsrfToken();
-            // }
+            } else {
+                
+                if (!isset($_SESSION['csrf_token'])) {
+                    $this->_generateCsrfToken();
+                } else {
+                    $_SESSION['csrf_token_expiration'] = time() + (30 * 60); 
+                }
+            }
 
         }
 

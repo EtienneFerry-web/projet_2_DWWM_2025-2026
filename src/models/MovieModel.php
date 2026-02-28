@@ -201,7 +201,8 @@
                             nat_country AS 'mov_country',
                             belong_mov_id AS 'mov_belong_id',
                             cat_id AS 'mov_categoriesId',
-                            cat_name AS 'mov_categorie'
+                            cat_name AS 'mov_categorie',
+                            mov_published_at
                         FROM movies
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         INNER JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
@@ -244,7 +245,7 @@
         }
 
 
-		public function updateMovie(object $objNewMovie):bool{
+		public function updateMovie(object $objNewMovie){
 
 		// Request construction
 			$strRq 	=   "UPDATE movies
@@ -408,7 +409,7 @@
         * @return bool returns true if the movie, poster, and category were all successfully inserted
         */
 
-        public function addMovie(object $objNewMovie):bool{
+        public function addMovie(object $objNewMovie){
 		
 			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_length, mov_description, mov_release_date, mov_nat_id, mov_trailer_url)
 						        VALUES (:title, :originalTitle, :length, :description, :createDate, :idNationality, :trailer)";
@@ -467,6 +468,20 @@
 
 			return $rqPrep->execute();
         }
+
+        public function publishMovie(int $intId){
+			$strRq = "UPDATE movies
+                        SET mov_published_at = NOW()
+					  WHERE mov_id = :id";
+
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+
+			return $rqPrep->execute();
+        }
+
+
+
 
         /**
         * Toggling a like (favorite) on a movie
@@ -662,7 +677,7 @@
 		}
         /**
          * 
-         * @author Audrey
+         * @author Audrey 
          * @param object $
          * return Array
          */
@@ -672,7 +687,7 @@
 						FROM movies
                         INNER JOIN belongs ON belongs.belong_mov_id = movies.mov_id
                         INNER JOIN categories ON categories.cat_id = belongs.belong_cat_id
-                        WHERE 1 = 1";
+                        WHERE 1 = 1 AND mov_published_at IS NOT NULL";
 
 
 			$params = [];
@@ -787,6 +802,13 @@
                         GROUP BY movies.mov_id
                         ORDER BY mov_nb_comments DESC
                         LIMIT 5";
+            return $this->_db->query($strRq)->fetchAll();
+        }
+
+        public function movieNotPublished(){
+            $strRq = "  SELECT mov_title, mov_id
+                        FROM movies
+                        WHERE mov_published_at IS NULL";
             return $this->_db->query($strRq)->fetchAll();
         }
     }

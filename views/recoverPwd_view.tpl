@@ -8,14 +8,15 @@
         <h1 class="text-center">Mot de passe oublié</h1>
         <p class="mx-auto text-center py-2">Renseigner son mail pour changer son mot de passe</p>
         <form method="post">
-        <div class="form-group py-2">
-             <label for="" class="form-label">Mot de Passe</label>
-             <input type="text" name="pwd" value="" class="form-control">
-         </div>
-         <div class="form-group py-2">
-             <label for="" class="form-label">Confirmation du Mots de Passe</label>
-             <input type="text" name="pwdConfirm" value="" class="form-control">
-         </div>
+            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
+            <div class="form-group py-2">
+                <label for="" class="form-label">Mot de Passe</label>
+                <input type="text" name="pwd" value="" class="form-control">
+            </div>
+            <div class="form-group py-2">
+                <label for="" class="form-label">Confirmation du Mots de Passe</label>
+                <input type="text" name="pwdConfirm" value="" class="form-control">
+            </div>
             <input class="w-100 btnCustom" type="submit" value="Se connecter">
         </form>
     </section>

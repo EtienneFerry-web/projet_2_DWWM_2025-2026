@@ -13,12 +13,6 @@
 	// Flag pour afficher le 404 si besoin
 	$boolError		= false;
 
-	ob_start(function($buffer) {
-    // On cherche toutes les balises </form> et on insère le token juste avant
-		$tokenField = '<input type="hidden" name="csrf_token" value="' . $_SESSION['csrf_token'] . '">';
-		return str_replace('</form>', $tokenField . '</form>', $buffer);
-	});
-
 	// Construciton du nom du fichier du controller
 	$strFileName	= "src/Controllers/".ucfirst($strCtrl)."Ctrl.php";
 	if (file_exists($strFileName)){

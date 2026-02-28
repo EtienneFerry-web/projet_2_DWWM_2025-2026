@@ -2,9 +2,10 @@ console.log('rechargement');
 const searchForm = document.querySelector('#formSearch');
 const searchBar = document.getElementById('searchBar');
 const sugesContainer = document.getElementById('suggestions');
+var csrfToken = document.querySelector('meta[name="csrf_token"]').content;
 let historique = JSON.parse(localStorage.getItem('allSearch')) || [];
 let timer;
-
+console.log(csrfToken);
 searchForm.addEventListener('submit', function (e) {
   if (searchBar.value.trim() === '') {
     e.preventDefault();
@@ -33,9 +34,7 @@ searchBar.addEventListener('focus', () => {
     if (searchBar.value.trim() === '') {
 
         if (historique.length > 0) {
-
             affichSuggestion(historique);
-
         }
     } else {
       searchData()
@@ -101,7 +100,8 @@ function clickContent() {
   const divSug = sugesContainer.querySelectorAll('#divSugesstion');
   divSug.forEach(e => {
     e.addEventListener('click', () => {
-      searchBar.value = e.textContent;
+      const content = e.textContent;
+      searchBar.value = content.trim();
       searchForm.submit();
     });
   });
@@ -129,12 +129,10 @@ async function searchData() {
         const response = await fetch(`http://localhost/GiveMeFive/search/autoComplete`, {
             method: 'POST', // methode Post
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
             },
-            body: JSON.stringify({ 
-                                    keywords: keywords
-                                   
-                                })
+            body: JSON.stringify({ keywords: keywords })
         });
         console.log("rq envoyer");
         if (!response.ok) {

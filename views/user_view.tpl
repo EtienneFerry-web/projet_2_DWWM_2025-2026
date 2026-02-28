@@ -10,109 +10,112 @@
 {block name="content"}
 
 <section id="user" class="container py-2">
-    <div class="col-12 row text-center align-items-center text-md-start py-2 mx-auto">
-        <div class="col-6 col-md-3 col-lg-2 mx-auto ">
-            <img src="{$smarty.env.BASE_URL}assets/img/users/{$objUser->getPhoto()}" alt="image de profil" class="img-fluid">
-        </div>
-        <div class="col-12 col-md-9 col-lg-10 ">
-        <div class="row">
-            <div class="col-10">
-                <h1>{$objUser->getPseudo()}</h1>
-                <p>{$objUser->getBio()}</p>
+   <div class="col-12 row text-center align-items-center text-md-start py-2 mx-auto">
+    <div class="col-8 col-md-3 col-lg-2 mx-auto mb-3 mb-md-0">
+        <img src="{$smarty.env.BASE_URL}assets/img/users/{$objUser->getPhoto()}" alt="image de profil" class="img-fluid rounded-circle">
+    </div>
+    <div class="col-12 col-md-9 col-lg-10">
+        <div class="row gy-2">
+            <div class="col-12 col-md-10">
+                <h1 class="fs-2 fs-md-1">{$objUser->getPseudo()}</h1>
+                <p class="mb-1">{$objUser->getBio()}</p>
             </div>
-             <div class="col-2">
-                <div class="bg-dark-subtle img-thumbnail p-1 m-4">
-                    <img src="assets/img/badge_{$badge}.png" alt="Badge " class="img-fluid">
+            <div class="col-12 col-md-2 d-flex d-md-block justify-content-center">
+                <div class="row g-4">
+                    <div class="d-flex flex-column align-items-center border-end border-dark col-6">
+                        <span class="h5">{$objStat->getNbLike()}</span>
+                        <span class="h5">Like</span>
+                    </div>
+                    <div class="d-flex flex-column align-items-center col-6">
+                        <span class="h5">{$objStat->getNbComment()}</span>
+                        <span class="h5">Review</span>
+                    </div>
                 </div>
             </div>
-
         </div>
-            <div class="row align-items-center g-2">
-                <div class="col-auto">
-                    <span class="spanMovie border-0 d-flex align-items-center">
-                        {$objUser->getFunction()} 
-                        {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
-                            <a href="{$smarty.env.BASE_URL}user/permissions" class="text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits"><i class="bi bi-question-circle fs-3"></i></a> 
-                        {/if}
-                    </span>              
-                </div>
-                
 
-                {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
-                    <div class="col-auto ms-auto">
-                        <a href="{$smarty.env.BASE_URL}user/settingsUser" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
-                            <i class="bi bi-gear fs-5"></i><span>Gestion du compte</span>
+        <div class="row align-items-center g-2 mt-1 justify-content-center justify-content-md-start">
+            <div class="col-auto">
+                <span class="spanMovie border-0 d-flex align-items-center">
+                    {$objUser->getFunction()}
+                    {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
+                        <a href="{$smarty.env.BASE_URL}user/permissions" class="text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits">
+                            <i class="bi bi-question-circle fs-3"></i>
                         </a>
-                    </div>
-                {/if}
+                    {/if}
+                </span>
+            </div>
 
-                {if isset($smarty.session.user)
-                    && $smarty.session.user.user_id == $smarty.get.id
-                    && $smarty.session.user.user_funct_id != 1}
-                    <div class="col-auto">
-                        <a href="{$smarty.env.BASE_URL}admin/dashboard" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-1">
-                            <i class="bi bi-speedometer2 fs-5"></i><span>Dashboard</span>
-                        </a>
-                    </div>
-                {elseif isset($smarty.session.user) && $smarty.session.user.user_id != $smarty.get.id}
-                <div class="col-auto ms-auto">
-                {if $objUser->getReported() == 0}
-                <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
-                    {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
-                </button>
-                <div class="modal fade" id="reportModal" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form method="POST" class="modal-content">
-
-                            <div class="modal-header border-0"">
-                                <h5 class="modal-title">Signaler : {$objUser->getPseudo()} </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <div class="modal-body">
-                                <p>Pour que votre signalement soit prit en charge veuillez renseigner la raison !</p>
-                                <textarea name="repUser" class="form-control" placeholder="Raison du signalement..."></textarea>
-                            </div>
-
-                            <div class="modal-footer border-0 mx-auto">
-                                <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
-                                <button type="submit" class="btn btn-outline-success px-3">Valider</button>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-                {else}
-                    <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
-                        {if $objUser->getReported() == 0}<i class="bi bi-flag fs-3"></i>{else} <i class="bi bi-flag-fill fs-3"></i>{/if}
-                    </button>
-                    <div class="modal fade" id="reportModal" tabindex="-1">
-                        <div class="modal-dialog">
-                            <form method="POST" class="modal-content">
-
-                                <div class="modal-header border-0"">
-                                    <h5 class="modal-title">Signaler : {$objUser->getPseudo()}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <p>Voulez-vous vraiment supprimer votre signalement ?</p>
-                                </div>
-
-                                <div class="modal-footer border-0 mx-auto">
-                                    <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
-                                    <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-3">Supprimer</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                {/if}
+            {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
+                <div class="col-auto ms-md-auto">
+                    <a href="{$smarty.env.BASE_URL}user/settingsUser" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
+                        <i class="bi bi-gear fs-5"></i><span>Gestion du compte</span>
+                    </a>
                 </div>
             {/if}
-            </div>
+
+            {if isset($smarty.session.user)
+                && $smarty.session.user.user_id == $smarty.get.id
+                && $smarty.session.user.user_funct_id != 1}
+                <div class="col-auto">
+                    <a href="{$smarty.env.BASE_URL}admin/dashboard" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-1">
+                        <i class="bi bi-speedometer2 fs-5"></i><span>Dashboard</span>
+                    </a>
+                </div>
+
+            {elseif isset($smarty.session.user) && $smarty.session.user.user_id != $smarty.get.id}
+                <div class="col-auto ms-md-auto">
+                    {if $objUser->getReported() == 0}
+                        <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <i class="bi bi-flag fs-3"></i>
+                        </button>
+                        <div class="modal fade" id="reportModal" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <form method="POST" class="modal-content">
+                                    <div class="modal-header border-0">
+                                        <h5 class="modal-title">Signaler : {$objUser->getPseudo()}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Pour que votre signalement soit prit en charge veuillez renseigner la raison !</p>
+                                        <textarea name="repUser" class="form-control" placeholder="Raison du signalement..."></textarea>
+                                    </div>
+                                    <div class="modal-footer border-0 mx-auto">
+                                        <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="submit" class="btn btn-outline-success px-3">Valider</button>
+                                    </div>
+                                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
+                                </form>
+                            </div>
+                        </div>
+                    {else}
+                        <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <i class="bi bi-flag-fill fs-3"></i>
+                        </button>
+                        <div class="modal fade" id="reportModal" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <form method="POST" class="modal-content">
+                                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
+                                    <div class="modal-header border-0">
+                                        <h5 class="modal-title">Signaler : {$objUser->getPseudo()}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Voulez-vous vraiment supprimer votre signalement ?</p>
+                                    </div>
+                                    <div class="modal-footer border-0 mx-auto">
+                                        <button type="button" class="btn btn-outline-dark px-3" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="submit" name="repDelete" value="delete" class="btn btn-outline-danger px-3">Supprimer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+            {/if}
         </div>
     </div>
+</div>
 {if count($arrMovieToDisplay) > 0}
     <div class="col-12 py-2">
         <div class="like py-3 col-12">
@@ -146,6 +149,7 @@
                             <button type="submit" class="border-0 bg-transparent p-3">
                                 <i class="bi bi-trash fs-1 text-white"></i>
                             </button>
+                            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                         </form>
                     </li>
                     {else}

@@ -9,6 +9,7 @@
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
      <form method="post" enctype="multipart/form-data" class="row">
+        <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
         <div class="form-group py-2">
             <label  class="form-label">Changez le prenom :</label>
             <input  type="text"
@@ -74,11 +75,12 @@
 
          <div class="col-auto">
              <form action="{$smarty.env.BASE_URL}user/deleteAccount" method="POST" class="nav-link col-auto"
-      onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
-        <button type="submit" class="border-0 bg-transparent">
-            Supprimer mon compte
-        </button>
-</form>
+                onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
+                    <button type="submit" class="border-0 bg-transparent">
+                        Supprimer mon compte
+                    </button>
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
+            </form>
          </div>
      </div>
 </div>

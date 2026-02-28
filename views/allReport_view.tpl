@@ -33,10 +33,11 @@
         <div class="container-fluid p-3">
             {foreach from=$arrRepComToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                     <div class="col-md-1 fw-bold">#{$objReport->getId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <a class="text-decoration-none text-dark d-flex align-items-center" href="{$smarty.env.BASE_URL}user/userPage/{$objReport->getReportedUserId()}">
-                            <img src="{$smarty.env.BASE_URL}assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                            <img src="{$smarty.env.BASE_URL}assets/img/users/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
                             <span class="fw-bold">{$objReport->getPseudo()}</span>
                         </a>
                     </div>
@@ -75,7 +76,7 @@
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedUserId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <a class="text-decoration-none text-dark d-flex align-items-center" href="{$smarty.env.BASE_URL}user/userPage/{$objReport->getReportedUserId()}">
-                            <img src="{$smarty.env.BASE_URL}assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
+                            <img src="{$smarty.env.BASE_URL}assets/img/users/{$objReport->getPhoto()|default:'default-user.png'}"
                                  class="rounded-circle border me-2"
                                  style="width: 40px; height: 40px; object-fit: cover;" alt="Photo">
                             <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
@@ -95,6 +96,7 @@
                     {/if}
                         <a href="" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
                         <form method="post" class="m-0">
+                            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                            {if $objReport->getUserBan()} <button type="submit" name="unBanUser" value="{$objReport->getReportedUserId()}" class="btn btn-outline-success btn-sm px-3">Débannir</button>{/if}
                             <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
                         </form>
@@ -109,6 +111,7 @@
     <div class="modal fade" id="modalBan" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <form method="post" class="modal-content">
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                 <div class="modal-header">
                     <h5 class="modal-title">Bannir : <span id="modalPseudo"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -136,8 +139,9 @@
         <div class="container-fluid p-3">
             {foreach from=$arrRepMovieToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedMovieId()}</div>
-                    <a href="{$smarty.env.BASE_URL}movie&action=movie&id={$objReport->getReportedMovieId()}"class="col-md-3 d-flex align-items-center text-decoration-none text-dark">
+                    <a href="{$smarty.env.BASE_URL}movie/moviePage/{$objReport->getReportedMovieId()}"class="col-md-3 d-flex align-items-center text-decoration-none text-dark">
                         <span class="fw-bold">{$objReport->getTitle()}</span>
                     </a>
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>

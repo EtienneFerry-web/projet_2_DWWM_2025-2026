@@ -6,6 +6,7 @@
 	    <h1 class="text-center">Inscription</h1>
 		<p class="mx-auto text-center py-2">Créez votre compte en quelques secondes et débloquez des fonctionnalités exclusives : notes personnalisées, listes de favoris et bien plus encore !</p>
 		<form method="post">
+            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
             <div class="form-group py-2">
                 <label  class="form-label">Nom :</label>
                 <input  type="text" 

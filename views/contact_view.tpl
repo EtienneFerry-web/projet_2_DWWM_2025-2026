@@ -13,6 +13,7 @@
         </p>
 
         <form method="post">
+            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
             <div class="row">
                 <div class="col-md-6 form-group py-2">
                     <label class="form-label">Nom :</label>

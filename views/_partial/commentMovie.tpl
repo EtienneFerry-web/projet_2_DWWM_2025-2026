@@ -29,6 +29,7 @@
         <div class="col-auto">
             {if isset($smarty.session.user)}
             <form method="post" class="js-like-form m-0">
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                 <input type="hidden" name="likeCommentBtn" value="{$comment->getId()}">
                 <button {if isset($smarty.session.user)} type="submit" {/if} class="border-0 bg-transparent p-0 text-decoration-none">
                     <label class="form-label m-0 d-flex align-items-center gap-1" style="cursor:pointer;">
@@ -57,6 +58,7 @@
                     <div class="modal fade" id="reportModal-review-{$comment->getId()}" tabindex="-1">
                         <div class="modal-dialog">
                             <form method="POST" class="modal-content text-start">
+                                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                                 <input type="hidden" name="commentReportId" value="{$comment->getId()} ">
                                 <div class="modal-header border-0">
                                     <h5 class="modal-title">Signaler : {$comment->getPseudo()} </h5>
@@ -80,6 +82,7 @@
                     <div class="modal fade" id="reportModal-review-{$comment->getId()}" tabindex="-1">
                         <div class="modal-dialog">
                             <form method="POST" class="modal-content text-start">
+                                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                                 <div class="modal-header border-0">
                                     <h5 class="modal-title">Signaler : {$comment->getPseudo()} </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -97,10 +100,12 @@
                 {/if}
             {elseif isset($smarty.session.user) && $smarty.session.user.user_funct_id != 1}
                 <form method="post" class="d-inline-block m-0 me-2">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                     <input type="radio" class="btn-check" name="spoiler" value="{$comment->getId()}" id="filter-spoiler-{$comment->getId()}" onchange="this.form.submit()">
                     <label class="form-label m-0" for="filter-spoiler-{$comment->getId()}"><i class="bi bi-eye{if $comment->getSpoiler() == 1}-slash{/if} fs-2"></i></label>
                 </form>
                 <form method="post" class="d-inline-block m-0">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                     <input type="radio" class="btn-check" name="deleteComment"
                             value="{$comment->getId()}"
                             id="filter-delete-{$comment->getId()}"

@@ -30,6 +30,8 @@
 		private string 	$_pwdConfirm;
 		private int 	$_reported = 0;
 		private int 	$_funct_id = 1;
+		private int 	$_nb_comments = 0;
+		private int 	$_nb_likes = 0;
 
 
 		/**
@@ -44,6 +46,44 @@
 		/**
 		 * Getters & Setters
 		 */
+		/**
+		 * Getting the Lastname
+		 * @return string from the objectUser
+		 */
+
+		public function getNbComment():int{
+			return $this->_nb_comments;
+		}
+
+		/**
+		 * Updating the Lastname
+		 * @param string from the new name
+		 */
+
+		public function setNb_comments(int $intNbComment){
+			$this->_nb_comments = $intNbComment;
+		}
+
+
+
+
+		/**
+		 * Getting the Lastname
+		 * @return string from the objectUser
+		 */
+
+		public function getNbLike():int{
+			return $this->_nb_likes;
+		}
+
+		/**
+		 * Updating the Lastname
+		 * @param string from the new name
+		 */
+
+		public function setNb_liked(int $intNbLike){
+			$this->_nb_likes = $intNbLike;
+		}
 
 		/**
 		 * Getting the Lastname

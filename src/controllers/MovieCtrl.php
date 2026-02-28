@@ -228,10 +228,10 @@
 
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Votre like a bien été pris en compte !";
-					$this->_selfRedirect();
+					//$this->_selfRedirect();
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
-					$this->_selfRedirect();
+					//$this->_selfRedirect();
 				}
 
 			}
@@ -444,7 +444,7 @@
 			$arrMovieImages = $objMovieModel->selectImageMovie($_GET['id']);
 
 			if(!$arrMovie){
-				$this->redirect($_ENV['BASE_URL']."error/err404");
+				$this->_redirect($_ENV['BASE_URL']."error/err404");
 			}
 
 			$arrImagesToDisplay = array();
@@ -501,9 +501,9 @@
         */
 
         public function addEditMovie(){
-
+			
+			// 1. Object and variable initialization
 			$objMovie = new MovieEntity('mov_');
-			$objMovie->hydrate($_POST); 
 			$objMovieModel = new MovieModel();
 
 			if (isset($_GET['id'])){
@@ -514,8 +514,9 @@
 			}
 
 			$arrError = [];
-			
+			// 2. Data validation
 			if (count($_POST)>0){
+				$objMovie->hydrate($_POST);
 
 				if (empty($objMovie->getTitle())) {
 					$arrError['title'] = "Le titre est obligatoire";
@@ -527,7 +528,7 @@
 					$arrError['countryId'] = "Le pays d'origine est obligatoire";
 				}
 				if ($objMovie->getRelease_date() == '') {
-					$arrError['countryId'] = "La durée est obligatoire";
+					$arrError['release_date'] = "La durée est obligatoire";
 				}
 				if (empty($objMovie->getLength())) {
 					$arrError['length'] = "La durée est obligatoire";
@@ -536,10 +537,11 @@
 					$arrError['description'] = "Le synopsis est obligatoire";
 				}
 				if (empty($objMovie->getTrailer())) {
-					$arrError['countryId'] = "La durée est obligatoire";
+					$arrError['trailer_url'] = "La durée est obligatoire";
 				}
-
-				$objMovie->hydrate($_POST);
+								
+				
+				
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
 				if ($_FILES['photo']['error'] != 4){
@@ -573,17 +575,19 @@
 							break;
 					}
 				}
+				
+				
 
-				// 3. Logique d'insertion
+			// 3. Data insertion logic
 
 			}elseif(!isset($_GET['id'])){
 
-				// Est-ce que le fichier existe ?
+				// Check if the file exists
 				if (is_null($objMovie->getPhoto())){
 					$arrError['img'] = "L'image est obligatoire";
 				}
 			}
-
+			
 			// If the form is correctly completed
 			if (count($arrError) == 0){
 
@@ -595,41 +599,33 @@
 				// If no errors, attempting the insertion
 				if ($boolResultMovie === true) {
 					if (isset($strImageName)){
-							// Setting the destination path
-							$strDest    = $_ENV['IMG_PATH'].$strImageName;
-							// Fetching the source file path
-							$strSource	= $_FILES['photo']['tmp_name'];
-						}
-						if ($boolResultMovie === true){
-
-							//Removing the old image
-							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
-
-							if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
-								if (!empty($strOldImg)) {
-									$strOldFile = $_ENV['IMG_PATH'] . $strOldImg;
-									if (file_exists($strOldFile)) {
-										unlink($strOldFile);
-									}
+						
+						$strDest = $_ENV['IMG_PATH'] . $strImageName;
+						
+						var_dump($strImageName);		
+						if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
+							if (!empty($strOldImg)) {
+								$strOldFile = $_ENV['IMG_PATH'].$strOldImg;
+								if (file_exists($strOldFile)) {
+								 	unlink($strOldFile);
 								}
-								$this->_resize($strDest,280, 450, true);
+								var_dump($strOldImg);
 							}
+							$this->_resize($strDest,280, 400);
+						}
+					}
 
-
-							if (is_null($objMovie->getId())){
-								$_SESSION['success'] 	= "Le film a bien été créé";
-								$this->_redirect($_ENV['BASE_URL']);
-							exit;
-							}else{
-								$_SESSION['success'] 	= "Le film a bien été modifié";
-								$this->_redirect($_ENV['BASE_URL']."movie/allMovie");
-							}
+						if (is_null($objMovie->getId())){
+							$_SESSION['success'] 	= "Le film a bien été créé";
+							header("Location:index.php?");
+						exit;
 						}else{
-							$arrError['img'] = "Erreur dans le traitement de l'image";
+							$_SESSION['success'] 	= "Le film a bien été modifié";
 						}
 					}else{
-						$arrError[] = "Erreur lors de l'ajout";
+						$arrError['img'] = "Erreur dans le traitement de l'image";
 					}
+					
 				}
 			}
 			
@@ -656,7 +652,7 @@
 
 				$arrNatToDisplay[]	= $objNat;
 			}
-			//$this->_arrData['form_token']	= $this->_generateCsrfToken();
+
 			$this->_arrData['objMovie']		   = $objMovie;
 			$this->_arrData['arrError']		   = $arrError;
 			$this->_arrData['arrCatToDisplay'] = $arrCatToDisplay;
@@ -686,6 +682,20 @@
 
 		}
 
+		public function publishMovie(){
+			$this->_checkAccess(2);
+							
+			$objMovieModel = new MovieModel();
+            $success = $objMovieModel->publishMovie($_GET['id']);
+
+            if($success){
+
+                $_SESSION['success'] = "Le film a bien été publié";
+                $this->_redirect($_ENV['BASE_URL']."movie/allMovie");
+
+            }
+		}
+
 		/**
         * Management page for all movies
         * @return void retrieves all movies from the database and displays the administration list
@@ -703,6 +713,7 @@
 			// Initialize model and fetch movies based on filters
 			$objMovieModel 	= new MovieModel;
 			$arrMovie   	= $objMovieModel->findMovieWithFilters($search, $filter,$sort);
+			$arrNotPublished  	= $objMovieModel->movieNotPublished();
 
 			
 			$arrMovieToDisplay	= array();
@@ -713,6 +724,16 @@
 				$objMovie->hydrate($arrDetMovie);
 
 				$arrMovieToDisplay[]= $objMovie;
+			}
+
+			$arrMovieNotPublishedToDisplay	= array();
+
+			// Converting the multidimensional array into an object array for the list of Movie
+			foreach($arrNotPublished as $arrDetMovie){
+				$objMovieToPublish = new MovieEntity("mov_");
+				$objMovieToPublish->hydrate($arrDetMovie);
+
+				$arrMovieNotPublishedToDisplay[]= $objMovieToPublish;
 			}
 
 			// Loading categories for the select input
@@ -726,6 +747,7 @@
 				$arrCatToDisplay[]	= $objContent;
 			}
 
+			$this->_arrData['arrMovieNotPublishedToDisplay']	= $arrMovieNotPublishedToDisplay;
 			$this->_arrData['arrMovieToDisplay']	= $arrMovieToDisplay;
 			$this->_arrData['arrCatToDisplay']	    = $arrCatToDisplay;
             $this->_arrData['search']               = $search;

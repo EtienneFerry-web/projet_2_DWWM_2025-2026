@@ -7,7 +7,8 @@
 <!--Contenue bio pseudo Photo de profil -->
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
-     <form method="post" enctype="multipart/form-data" class="row">
+      <form method="post" enctype="multipart/form-data" class="row">
+      <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
         <div class="form-group py-2">
             <label  class="form-label">Changer le prenom :</label>
             <input  type="text"

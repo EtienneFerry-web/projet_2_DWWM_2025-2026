@@ -1,4 +1,5 @@
  <form method="post">
+    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
      <div class="row flex-sm-column g-2 text-start">
          <!-- Filtre Réalisateur -->
          <div class="col-md-3 w-100">
