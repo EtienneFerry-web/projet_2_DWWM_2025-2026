@@ -2,6 +2,12 @@
     namespace App\Models;
     use PDO;
 
+    /**
+     * @author Marco Schmitt
+     * 27/02/2026
+     * Version 1
+     */
+
     class PersonModel extends Connect{
 
     public ?string $strSearch = null;
@@ -13,7 +19,7 @@
     * @return array a list of all persons (actors, directors, etc.) and their nationality
     */
 
-    public function findAllPerson(int $idMovie=0){
+    public function findAllPerson(int $idMovie=0): array {
 
         $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
                     FROM persons
@@ -31,7 +37,7 @@
     * @return array a collection of all individuals with their IDs and full names
     */
 
-    public function listPerson(){
+    public function listPerson(): array {
 
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
                     FROM persons";
@@ -44,7 +50,7 @@
     * @return array a collection of people who have held the 'Actor' role (Job ID 3)
     */
 
-    public function findActor(){
+    public function findActor(): array {
 
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
                     FROM persons
@@ -65,14 +71,17 @@
     * @return array|bool the complete person data including nationality, or false if not found
     */
 
-   	public function findPerson(int $idPerson=0){
+   	public function findPerson(int $idPerson=0): array {
 
         $strRq	= " SELECT persons.*, nat_country AS 'pers_country'
                     FROM persons
                     INNER JOIN nationalities ON persons.pers_nat_id = nationalities.nat_id
-                    WHERE pers_id = $idPerson";
+                    WHERE pers_id = :idPerson";
 
-        return $this->_db->query($strRq)->fetch();
+        $rqPrep = $this->_db->prepare($strRq);
+        $rqPrep->bindValue(':idPerson', $idPerson, PDO::PARAM_INT);
+        $rqPrep->execute();
+        return $rqPrep->fetch();
     }
 
     /**
@@ -80,7 +89,7 @@
     * @return array a collection of people who have held the 'Director' role (Job ID 1)
     */
  
-    public function findReal(){
+    public function findReal(): array {
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
                     FROM persons
                     INNER JOIN participates ON persons.pers_id = participates.part_pers_id
@@ -98,7 +107,7 @@
     * @return array a collection of people who have held the 'Producer' role (Job ID 2)
     */
   
-    public function findProducer(){
+    public function findProducer(): array {
         $strRq	= " SELECT pers_id, pers_name, pers_firstname
                     FROM persons
                     INNER JOIN participates ON persons.pers_id = participates.part_pers_id
@@ -122,10 +131,13 @@
                     FROM jobs
                     WHERE job_id IN (	SELECT part_job_id
                                    	FROM participates
-                                   	WHERE part_pers_id = $idPerson
+                                   	WHERE part_pers_id = :idPerson
                                	) ";
 
-        return $this->_db->query($strRq)->fetchAll();
+        $rqPrep = $this->_db->prepare($strRq);
+        $rqPrep->bindValue(':idPerson', $idPerson, PDO::PARAM_INT);
+        $rqPrep->execute();
+        return $rqPrep->fetchAll();
     }
 
     /**
@@ -145,7 +157,7 @@
      * @return array a collection of all countries with consistent 'pers_' aliasing
      */
 
-   public function allCountry(){
+   public function allCountry(): array {
 
         $strRq	= " SELECT nat_id AS 'pers_id', nat_country AS 'pers_country'
                     FROM nationalities";
@@ -160,7 +172,7 @@
      * @return bool Returns true if the insertion was successful, false otherwise
      */
 
-    public function insertPerson(object $objPerson){
+    public function insertPerson(object $objPerson): bool {
         $strRq = "INSERT INTO persons (pers_name, pers_firstname, pers_birthdate, pers_deathdate, pers_nat_id)
                    VALUES (:name, :firstname, :birthdate, :deathdate, :nat_id)";
 
@@ -181,7 +193,7 @@
      * @param object $objPerson The Person entity containing the updated information
      * @return bool Returns true if the update was successful, false otherwise
      */
-    public function updatePerson(object $objPerson){
+    public function updatePerson(object $objPerson): bool{
         $strRq = "UPDATE persons
                    SET pers_name = :name, pers_firstname = :firstname, pers_birthdate = :birthdate, pers_deathdate = :deathdate, pers_nat_id = :nat_id, pers_photo = :photo
                    WHERE pers_id = :id";
@@ -205,7 +217,7 @@
      * @return bool Returns true if the deletion was successful
      */
 
-    public function deletePerson(int $intId){
+    public function deletePerson(int $intId): bool{
         $strRq = "DELETE FROM persons
                     WHERE pers_id = :id";
 
@@ -216,10 +228,15 @@
     }
 
     /**
-     * 
      * @author Audrey
-     * @param object $
-     * return Array
+     * Retrieves a list of persons based on search criteria, job filters, and sorting.
+     * * This method builds a dynamic SQL query to find people by their full name,
+     * filters them by a specific role (actor, producer, or director), 
+     * and sorts the results alphabetically.
+     * * @param string|null $strSearch The name or partial name to search for.
+     * @param string $strFilter The job category filter (actor, producer, or realisator).
+     * @param string $strSort The sorting direction ('asc' or 'desc').
+     * @return array The list of persons matching the criteria.
      */
     public function findPersonWithFilters(?string $strSearch, string $strFilter, string $strSort): array {
 

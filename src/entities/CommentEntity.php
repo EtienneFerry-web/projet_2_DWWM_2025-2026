@@ -17,7 +17,7 @@
 		private string  $_datetime;
 		private string  $_comment;
 		private string  $_title;
-		private ?string  $_photo = 'defaultImgUser.jpg';
+		private ?string $_photo = 'defaultImgUser.jpg';
 		private int     $_like;
 		private int     $_movieId;
 		private int     $_spoiler;

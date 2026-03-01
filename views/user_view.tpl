@@ -37,7 +37,7 @@
         <div class="row align-items-center g-2 mt-1 justify-content-center justify-content-md-start">
             <div class="col-auto">
                 <span class="spanMovie border-0 d-flex align-items-center">
-                    {$objUser->getFunction()}
+                    {if $objUser->getUser_funct_id() == 1}Utilisateur{elseif $objUser->getUser_funct_id() == 2}Modérateur{else}Administrateur{/if}
                     {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
                         <a href="{$smarty.env.BASE_URL}user/permissions" class="text-dark mx-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Consulter mes droits">
                             <i class="bi bi-question-circle fs-3"></i>

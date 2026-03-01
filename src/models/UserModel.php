@@ -452,15 +452,13 @@
 		}
 
 		public function unBanUser(int $intId){
-            $strRq = "  UPDATE users
-           					SET user_ban_at	= NULL
-               	        WHERE user_id 		= :id";
+            $strRq = "  CALL unban_user(:id)";
 
             $rqPrep = $this->_db->prepare($strRq);
 
     		$rqPrep->bindValue(":id", $intId, PDO::PARAM_INT);
 
-    		return $rqPrep->execute();
+    		$rqPrep->execute();
 		}
 
 		public function addLogs(array $arrData){

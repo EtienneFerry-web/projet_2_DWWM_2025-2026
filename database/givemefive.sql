@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 27 fév. 2026 à 10:32
+-- Généré le : sam. 28 fév. 2026 à 21:58
 -- Version du serveur : 8.4.7
--- Version de PHP : 8.4.16
+-- Version de PHP : 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,42 +27,73 @@ DELIMITER $$
 --
 DROP PROCEDURE IF EXISTS `auto_ban_users`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `auto_ban_users` (IN `id` INT, IN `reason` VARCHAR(255))   BEGIN
+    DECLARE nbr INT DEFAULT 0;
 
-DECLARE nbr INT DEFAULT 0;
-
-	SELECT COUNT(DISTINCT hist_id) INTO nbr
+    SELECT COUNT(DISTINCT hist_id) INTO nbr
     FROM history_users 
-    WHERE hist_event = 'UPDATE' AND hist_field = 'user_ban_at' AND hist_elementid = id;
-      CASE nbr 
-        WHEN 0 THEN
+    WHERE hist_event = 'UPDATE' AND hist_field = 'user_ban_at' AND hist_elementid = id AND hist_newValue IS NOT NULL;
+
+    
+    CASE 
+        WHEN nbr = 0 THEN
             UPDATE users 
-            	SET user_ban_at = CURDATE() + INTERVAL 15 DAY, 
+            SET user_ban_at = CURDATE() + INTERVAL 15 DAY, 
                 user_reason_ban = reason 
             WHERE user_id = id AND user_funct_id != 3;
-        WHEN 1 THEN
-           UPDATE users 
-            	SET user_ban_at = CURDATE() + INTERVAL 30 DAY, 
+            
+        WHEN nbr = 1 THEN
+            UPDATE users 
+            SET user_ban_at = CURDATE() + INTERVAL 30 DAY, 
                 user_reason_ban = reason 
             WHERE user_id = id AND user_funct_id != 3;
-        WHEN 2 THEN
+            
+        WHEN nbr = 2 THEN
             UPDATE users 
-            	SET user_ban_at = CURDATE() + INTERVAL 60 DAY, 
+            SET user_ban_at = CURDATE() + INTERVAL 60 DAY, 
                 user_reason_ban = reason 
             WHERE user_id = id AND user_funct_id != 3;
-        WHEN 3 THEN
+            
+        WHEN nbr = 3 THEN
             UPDATE users 
-            	SET user_ban_at = CURDATE() + INTERVAL 120 DAY, 
+            SET user_ban_at = CURDATE() + INTERVAL 120 DAY, 
                 user_reason_ban = reason 
             WHERE user_id = id AND user_funct_id != 3;
-        WHEN 4 THEN
+            
+        WHEN nbr >= 4 THEN
             UPDATE users 
-            	SET user_ban_at = CURDATE() + INTERVAL 999 YEAR, 
-                	user_reason_ban = reason,
-                    user_pseudo = '',
-                    user_photo = '',
-                    user_bio = ''
+            SET user_ban_at = CURDATE() + INTERVAL 999 YEAR, 
+                user_reason_ban = reason,
+                user_pseudo = NULL,
+                user_photo = NULL,
+                user_bio = NULL
             WHERE user_id = id AND user_funct_id != 3;
     END CASE;
+END$$
+
+DROP PROCEDURE IF EXISTS `unban_user`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `unban_user` (IN `target_id` INT)   BEGIN
+    
+    DECLARE exit handler FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+        
+        UPDATE users 
+        SET user_ban_at = NULL, 
+            user_reason_ban = NULL 
+        WHERE user_id = target_id;
+
+        
+        DELETE FROM history_users 
+        WHERE hist_elementId = target_id 
+          AND hist_field = 'user_ban_at'
+        ORDER BY hist_id DESC 
+        LIMIT 1;
+
+    COMMIT;
 END$$
 
 DELIMITER ;
@@ -97,7 +128,8 @@ INSERT INTO `belongs` (`belong_cat_id`, `belong_mov_id`) VALUES
 (10, 21),
 (10, 22),
 (10, 24),
-(10, 25);
+(10, 25),
+(1, 29);
 
 -- --------------------------------------------------------
 
@@ -150,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_com_user_id` (`com_user_id`),
   KEY `fk_com_movie_id` (`com_movie_id`),
   KEY `fk_com_mod_id` (`com_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comments`
@@ -159,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, `com_movie_id`, `com_mod_id`, `com_spoiler`, `com_delete_at`, `com_update_at`) VALUES
 (8, 'Difficile à regarder, trop de violence gratuite.', '2024-05-12 11:10:00', 7, 13, NULL, 1, NULL, NULL),
 (9, 'La musique de Beethoven n\'a jamais été aussi effrayante.', '2024-10-15 14:00:00', 2, 13, NULL, 0, NULL, NULL),
-(11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 1, NULL, NULL),
+(11, 'Moins fan de la partie au Vietnam.', '2024-07-04 15:00:00', 4, 14, NULL, 0, NULL, NULL),
 (12, 'Ce film est nul, je déteste tout !', '2024-09-01 10:30:00', 5, 14, 2, 1, NULL, NULL),
 (13, 'Une atmosphère onirique et envoûtante.', '2024-08-14 23:45:00', 10, 15, NULL, 0, NULL, NULL),
 (14, 'Je n\'ai pas tout compris, c\'est bizarre.', '2024-09-01 10:30:00', 5, 15, 3, 0, NULL, NULL),
@@ -175,8 +207,7 @@ INSERT INTO `comments` (`com_id`, `com_comment`, `com_datetime`, `com_user_id`, 
 (27, 'Je ne suis pas un animal, je suis un être humain !', '2024-04-14 20:00:00', 10, 19, NULL, 1, NULL, NULL),
 (28, 'La BO avec Rammstein et Bowie est folle.', '2024-06-18 22:15:00', 5, 20, NULL, 0, NULL, NULL),
 (29, 'L\'homme mystérieux me donne des frissons.', '2024-07-22 13:50:00', 10, 20, NULL, 0, NULL, NULL),
-(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0, NULL, NULL),
-(96, 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', '2026-02-26 14:44:35', 9, 21, NULL, 0, NULL, NULL);
+(30, 'Une boucle temporelle fascinante à analyser.', '2024-03-22 16:50:00', 4, 20, NULL, 0, NULL, NULL);
 
 --
 -- Déclencheurs `comments`
@@ -285,16 +316,16 @@ INSERT INTO `functions` (`funct_id`, `funct_name`) VALUES
 DROP TABLE IF EXISTS `history_comments`;
 CREATE TABLE IF NOT EXISTS `history_comments` (
   `hist_id` int NOT NULL AUTO_INCREMENT,
-  `hist_table` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `hist_event` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hist_table` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hist_event` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `hist_elementid` int NOT NULL,
   `hist_date` datetime DEFAULT NULL,
-  `hist_field` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `hist_oldvalue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `hist_newvalue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `hist_field` text COLLATE utf8mb4_unicode_ci,
+  `hist_oldvalue` text COLLATE utf8mb4_unicode_ci,
+  `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   `hist_userid` int NOT NULL,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `history_comments`
@@ -321,9 +352,13 @@ INSERT INTO `history_comments` (`hist_id`, `hist_table`, `hist_event`, `hist_ele
 (18, 'comments', 'DELETE', 93, '2026-02-21 22:59:16', 'com_comment', 'dqdqzd', NULL, 17),
 (19, 'comments', 'INSERT', 94, '2026-02-24 11:46:40', NULL, NULL, NULL, 17),
 (20, 'comments', 'DELETE', 94, '2026-02-24 13:34:21', 'com_comment', 'dzqdzqd', NULL, 17),
-(21, 'comments', 'INSERT', 95, '2026-02-26 09:53:05', NULL, NULL, NULL, 17),
-(22, 'comments', 'DELETE', 95, '2026-02-26 09:56:39', 'com_comment', 'zdqdqzdzq', NULL, 17),
-(23, 'comments', 'INSERT', 96, '2026-02-26 14:44:35', NULL, NULL, NULL, 9);
+(21, 'comments', 'UPDATE', 30, '2026-02-26 22:14:50', 'com_spoiler', '0', '1', 4),
+(22, 'comments', 'UPDATE', 30, '2026-02-26 22:14:52', 'com_spoiler', '1', '0', 4),
+(23, 'comments', 'UPDATE', 30, '2026-02-26 22:15:09', 'com_spoiler', '0', '1', 4),
+(24, 'comments', 'UPDATE', 30, '2026-02-26 22:15:12', 'com_spoiler', '1', '0', 4),
+(25, 'comments', 'INSERT', 95, '2026-02-27 21:31:25', NULL, NULL, NULL, 17),
+(26, 'comments', 'UPDATE', 11, '2026-02-27 21:48:28', 'com_spoiler', '1', '0', 4),
+(27, 'comments', 'DELETE', 95, '2026-02-28 21:05:15', 'com_comment', 'ttstetsfes', NULL, 17);
 
 -- --------------------------------------------------------
 
@@ -334,15 +369,27 @@ INSERT INTO `history_comments` (`hist_id`, `hist_table`, `hist_event`, `hist_ele
 DROP TABLE IF EXISTS `history_contents`;
 CREATE TABLE IF NOT EXISTS `history_contents` (
   `hist_id` int NOT NULL AUTO_INCREMENT,
-  `hist_table` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hist_event` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hist_elementid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hist_table` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hist_event` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hist_elementid` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hist_date` datetime NOT NULL,
-  `hist_field` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `hist_oldvalue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `hist_newvalue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `hist_field` text COLLATE utf8mb4_unicode_ci,
+  `hist_oldvalue` text COLLATE utf8mb4_unicode_ci,
+  `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `history_contents`
+--
+
+INSERT INTO `history_contents` (`hist_id`, `hist_table`, `hist_event`, `hist_elementid`, `hist_date`, `hist_field`, `hist_oldvalue`, `hist_newvalue`) VALUES
+(1, 'movies', 'DELETE', '29', '2026-02-24 15:40:28', NULL, NULL, NULL),
+(2, 'movies', 'DELETE', '30', '2026-02-28 18:35:59', NULL, NULL, NULL),
+(3, 'movies', 'UPDATE', '29', '2026-02-28 21:32:27', 'mov_title', 'test', 'testntm'),
+(4, 'movies', 'DELETE', '30', '2026-02-28 21:33:45', NULL, NULL, NULL),
+(5, 'movies', 'DELETE', '31', '2026-02-28 21:34:18', NULL, NULL, NULL),
+(6, 'movies', 'DELETE', '31', '2026-02-28 21:34:33', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -353,15 +400,15 @@ CREATE TABLE IF NOT EXISTS `history_contents` (
 DROP TABLE IF EXISTS `history_users`;
 CREATE TABLE IF NOT EXISTS `history_users` (
   `hist_id` int NOT NULL AUTO_INCREMENT,
-  `hist_table` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hist_event` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hist_elementid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hist_table` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hist_event` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hist_elementid` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hist_date` datetime NOT NULL,
-  `hist_field` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `hist_oldvalue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `hist_newvalue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `hist_field` text COLLATE utf8mb4_unicode_ci,
+  `hist_oldvalue` text COLLATE utf8mb4_unicode_ci,
+  `hist_newvalue` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`hist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `history_users`
@@ -400,10 +447,14 @@ INSERT INTO `history_users` (`hist_id`, `hist_table`, `hist_event`, `hist_elemen
 (30, 'users', 'UPDATE', '3', '2026-02-24 13:33:36', 'user_ban_at', '3025-02-24 00:00:00', NULL),
 (31, 'users', 'UPDATE', '24', '2026-02-24 13:33:47', 'user_ban_at', NULL, '2026-03-11 00:00:00'),
 (32, 'users', 'UPDATE', '24', '2026-02-24 13:33:50', 'user_ban_at', '2026-03-11 00:00:00', NULL),
-(33, 'users', 'INSERT', '30', '2026-02-26 09:34:18', NULL, NULL, NULL),
-(34, 'users', 'UPDATE', '17', '2026-02-27 10:22:59', 'user_ban_at', '3025-02-19 00:00:00', NULL),
-(35, 'users', 'UPDATE', '17', '2026-02-27 11:03:40', 'user_pwd', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', '$2y$12$Ph8vfugyDy8BODNRisyZke.P8cPsnkq41bXUoHiv1PGi5dseKt7Ci'),
-(36, 'users', 'UPDATE', '17', '2026-02-27 11:04:55', 'user_pwd', '$2y$12$Ph8vfugyDy8BODNRisyZke.P8cPsnkq41bXUoHiv1PGi5dseKt7Ci', '$2y$12$l0iOC6SfTmpW5wr3ECavk.ubjynvlaqA7gYnSmefcUrtBT.v/lfmm');
+(33, 'users', 'INSERT', '30', '2026-02-25 20:28:16', NULL, NULL, NULL),
+(34, 'users', 'INSERT', '31', '2026-02-25 20:32:07', NULL, NULL, NULL),
+(35, 'users', 'UPDATE', '17', '2026-02-25 21:43:28', 'user_bio', '<h2> zdqdqzd z</h2>\r\n', '<h2> zdqdqdqzdqdzqzd z</h2>\r\n'),
+(36, 'users', 'UPDATE', '17', '2026-02-25 21:48:46', 'user_bio', '<h2> zdqdqdqzdqdzqzd z</h2>\r\n', '<h2> zdqdqdqzddqzdqdzqdqdzqzd z</h2>\r\n'),
+(37, 'users', 'UPDATE', '17', '2026-02-25 21:51:54', 'user_bio', '<h2> zdqdqdqzddqzdqdzqdqdzqzd z</h2>\r\n', ' zdqdqdqzddqzdqdzqdqdzqzd zdzqdzqd'),
+(38, 'users', 'UPDATE', '17', '2026-02-27 16:56:24', 'user_ban_at', '3025-02-19 00:00:00', NULL),
+(39, 'users', 'UPDATE', '23', '2026-02-28 15:12:43', 'user_pwd', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', '$2y$10$ZWiLqzPoxwvP5KSCRW.Ac.VDgw41CLBalyfmtQ3jolT062c78.M2W'),
+(40, 'users', 'UPDATE', '3', '2026-02-28 22:16:54', 'user_ban_at', NULL, '3025-02-28 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -502,10 +553,8 @@ INSERT INTO `liked` (`lik_user_id`, `lik_mov_id`, `lik_com_id`, `lik_created_at`
 (17, NULL, 90, '2026-02-20 20:51:56'),
 (17, NULL, 91, '2026-02-20 21:10:10'),
 (17, 14, NULL, '2026-02-22 14:41:07'),
-(17, 20, NULL, '2026-02-22 15:18:31'),
-(17, NULL, 22, '2026-02-25 08:11:05'),
-(17, NULL, 95, '2026-02-26 08:53:11'),
-(17, 21, NULL, '2026-02-27 09:33:46');
+(17, 20, NULL, '2026-02-26 21:14:01'),
+(17, 29, NULL, '2026-02-28 20:33:34');
 
 -- --------------------------------------------------------
 
@@ -522,7 +571,7 @@ CREATE TABLE IF NOT EXISTS `logs_users` (
   `log_agent` text,
   `log_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `logs_users`
@@ -581,29 +630,26 @@ INSERT INTO `logs_users` (`log_id`, `log_user_id`, `log_event`, `log_ip`, `log_a
 (50, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-24 10:51:32'),
 (51, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-24 12:27:33'),
 (52, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-24 12:41:01'),
-(53, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-25 08:01:57'),
-(54, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-25 08:20:50'),
-(55, 25, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 07:59:23'),
-(56, 25, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 08:04:32'),
-(57, 25, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 08:10:49'),
-(58, 25, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 08:33:41'),
-(59, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 08:39:06'),
-(60, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 10:31:23'),
-(61, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 10:36:41'),
-(62, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 12:07:23'),
-(63, 9, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 13:45:54'),
-(64, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:02:20'),
-(65, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:03:22'),
-(66, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:03:25'),
-(67, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:04:23'),
-(68, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:11:15'),
-(69, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:20:58'),
-(70, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:21:05'),
-(71, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 09:53:17'),
-(72, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 10:03:50'),
-(73, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 10:04:28'),
-(74, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 10:05:03'),
-(75, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 10:06:02');
+(53, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-24 14:09:11'),
+(54, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-24 15:27:36'),
+(55, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-24 22:40:10'),
+(56, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-24 22:41:25'),
+(57, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-25 19:50:45'),
+(58, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-25 19:53:12'),
+(59, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-25 19:58:28'),
+(60, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-26 21:10:06'),
+(61, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 15:55:24'),
+(62, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 18:20:18'),
+(63, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-27 20:00:32'),
+(64, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 13:06:43'),
+(65, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 14:09:45'),
+(66, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 14:09:51'),
+(67, 17, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 14:09:53'),
+(68, 23, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 14:12:48'),
+(69, 23, 'LOGOUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 14:18:38'),
+(70, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 14:18:46'),
+(71, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 16:16:00'),
+(72, 17, 'LOGIN', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', '2026-02-28 20:04:58');
 
 -- --------------------------------------------------------
 
@@ -648,28 +694,30 @@ CREATE TABLE IF NOT EXISTS `movies` (
   `mov_mod_id` int UNSIGNED DEFAULT NULL,
   `mov_nat_id` int UNSIGNED DEFAULT NULL,
   `mov_trailer_url` varchar(255) DEFAULT NULL,
+  `mov_published_at` datetime DEFAULT NULL,
   PRIMARY KEY (`mov_id`),
   KEY `mov_mod_id` (`mov_mod_id`),
   KEY `fk_movies_nationality` (`mov_nat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `movies`
 --
 
-INSERT INTO `movies` (`mov_id`, `mov_title`, `mov_original_title`, `mov_length`, `mov_description`, `mov_release_date`, `mov_mod_id`, `mov_nat_id`, `mov_trailer_url`) VALUES
-(13, 'Orange Mécanique', 'A Clockwork Orange', '02:16:00', 'Dans un futur dystopique, un chef de gang sadique est soumis à une expérience de réhabilitation.', '1971-12-19', NULL, 3, 'https://www.youtube.com/watch?v=T54uZPI4Z8A'),
-(14, 'Full Metal Jacket', 'Full Metal Jacket', '01:56:00', 'Le parcours de jeunes marines américains, de l\'entraînement brutal à la guerre du Vietnam.', '1987-06-26', NULL, 2, 'https://www.google.com/search?q=trailer+full+metal+jacket&rlz=1C1VDKB_frFR1102FR1102&oq=trailer+full+metal+jacket&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCAgCEAAYFhgeMggIAxAAGBYYHjIICAQQABgWGB4yCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMggIC'),
-(15, 'Eyes Wide Shut', 'Eyes Wide Shut', '02:39:00', 'Un médecin new-yorkais s\'aventure dans une odyssée nocturne étrange et érotique.', '1999-07-16', NULL, 2, 'https://www.google.com/search?q=trailer+eyes+wide+shut&sca_esv=f9558c3169decf9e&rlz=1C1VDKB_frFR1102FR1102&sxsrf=ANbL-n5RN_Qb7MwyMR5AJXafxA7vtNqRZA%3A1768731365994&ei=5bJsadC6PPWpkdUPk8Xh4QY&oq=trailer+eyes&gs_lp=Egxnd3Mtd2l6LXNlcnAiDHRyYWlsZXIgZXllcyoCCA'),
-(16, 'Mulholland Drive', 'Mulholland Dr.', '02:27:00', 'Une femme amnésique et une aspirante actrice enquêtent dans un Los Angeles onirique.', '2001-10-12', NULL, 2, 'https://www.youtube.com/watch?v=91kRgjELBek'),
-(17, 'Blue Velvet', 'Blue Velvet', '02:00:00', 'La découverte d\'une oreille humaine coupée mène un jeune homme dans un monde souterrain sombre.', '1986-09-19', NULL, 2, 'https://www.youtube.com/watch?v=rAA6imfqMYQ'),
-(18, 'Eraserhead', 'Eraserhead', '01:29:00', 'Henry Spencer tente de survivre dans son environnement industriel avec sa petite amie et leur enfant mutant.', '1977-03-19', NULL, 2, 'https://www.youtube.com/watch?v=oK-2_OsBe0s'),
-(19, 'Elephant Man', 'The Elephant Man', '02:04:00', 'Un chirurgien victorien sauve un homme gravement défiguré, exploité comme un monstre de foire.', '1980-10-03', NULL, 2, 'https://www.youtube.com/watch?v=AF9gNKJi79g'),
-(20, 'Lost Highway', 'Lost Highway', '02:14:00', 'Après une rencontre bizarroïde lors d\'une fête, un saxophoniste est accusé du meurtre de sa femme.', '1997-02-21', NULL, 2, 'https://www.youtube.com/watch?v=8-1pcMvy5qc'),
-(21, 'Avatar: Fire and Ash', 'Avatar: Fire and Ash', '03:10:00', 'Jake Sully et Neytiri affrontent un nouveau clan de Na\'vi lié au feu dans une région volcanique de Pandora.', '2026-01-07', NULL, 2, 'https://www.youtube.com/watch?v=nb_fFj_0rq8'),
-(22, 'M3GAN 2.0', 'M3GAN 2.0', '01:42:00', 'L\'intelligence artificielle meurtrière est de retour dans une version plus évoluée et plus dangereuse.', '2026-01-14', NULL, 2, 'https://www.youtube.com/watch?v=I0VWWnMUjFU'),
-(24, 'Paddington au Pérou', 'Paddington in Peru', '01:43:00', 'Paddington retourne au Pérou pour rendre visite à sa tante Lucy, entraînant les Brown dans une aventure épique.', '2026-01-07', NULL, 3, 'https://www.youtube.com/watch?v=Fp-1L1KOIk8'),
-(25, 'The Drama', 'The Drama', '02:05:00', 'Une crise inattendue survient dans la vie d\'un couple à la veille de leur mariage.', '2026-01-30', NULL, 2, 'https://www.google.com/search?q=trailer+the+drama&rlz=1C1VDKB_frFR1102FR1102&sca_esv=f9558c3169decf9e&sxsrf=ANbL-n40rc4yxeDI2p-TpaTEP3S6ZfVrTA%3A1768731399284&ei=B7Nsaf6EEeDCnsEP7fu26QI&ved=0ahUKEwi-pIf27ZSSAxVgoScCHe29LS0Q4dUDCBE&uact=5&oq=trailer+the+dr');
+INSERT INTO `movies` (`mov_id`, `mov_title`, `mov_original_title`, `mov_length`, `mov_description`, `mov_release_date`, `mov_mod_id`, `mov_nat_id`, `mov_trailer_url`, `mov_published_at`) VALUES
+(13, 'Orange Mécanique', 'A Clockwork Orange', '02:16:00', 'Dans un futur dystopique, un chef de gang sadique est soumis à une expérience de réhabilitation.', '1971-12-19', NULL, 3, 'https://www.youtube.com/watch?v=T54uZPI4Z8A', '2026-02-28 17:14:23'),
+(14, 'Full Metal Jacket', 'Full Metal Jacket', '01:56:00', 'Le parcours de jeunes marines américains, de l\'entraînement brutal à la guerre du Vietnam.', '1987-06-26', NULL, 2, 'https://www.google.com/search?q=trailer+full+metal+jacket&rlz=1C1VDKB_frFR1102FR1102&oq=trailer+full+metal+jacket&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCAgCEAAYFhgeMggIAxAAGBYYHjIICAQQABgWGB4yCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMggIC', '2026-02-28 17:14:23'),
+(15, 'Eyes Wide Shut', 'Eyes Wide Shut', '02:39:00', 'Un médecin new-yorkais s\'aventure dans une odyssée nocturne étrange et érotique.', '1999-07-16', NULL, 2, 'https://www.google.com/search?q=trailer+eyes+wide+shut&sca_esv=f9558c3169decf9e&rlz=1C1VDKB_frFR1102FR1102&sxsrf=ANbL-n5RN_Qb7MwyMR5AJXafxA7vtNqRZA%3A1768731365994&ei=5bJsadC6PPWpkdUPk8Xh4QY&oq=trailer+eyes&gs_lp=Egxnd3Mtd2l6LXNlcnAiDHRyYWlsZXIgZXllcyoCCA', '2026-02-28 17:14:23'),
+(16, 'Mulholland Drive', 'Mulholland Dr.', '02:27:00', 'Une femme amnésique et une aspirante actrice enquêtent dans un Los Angeles onirique.', '2001-10-12', NULL, 2, 'https://www.youtube.com/watch?v=91kRgjELBek', '2026-02-28 17:14:23'),
+(17, 'Blue Velvet', 'Blue Velvet', '02:00:00', 'La découverte d\'une oreille humaine coupée mène un jeune homme dans un monde souterrain sombre.', '1986-09-19', NULL, 2, 'https://www.youtube.com/watch?v=rAA6imfqMYQ', '2026-02-28 17:14:23'),
+(18, 'Eraserhead', 'Eraserhead', '01:29:00', 'Henry Spencer tente de survivre dans son environnement industriel avec sa petite amie et leur enfant mutant.', '1977-03-19', NULL, 2, 'https://www.youtube.com/watch?v=oK-2_OsBe0s', '2026-02-28 17:14:23'),
+(19, 'Elephant Man', 'The Elephant Man', '02:04:00', 'Un chirurgien victorien sauve un homme gravement défiguré, exploité comme un monstre de foire.', '1980-10-03', NULL, 2, 'https://www.youtube.com/watch?v=AF9gNKJi79g', '2026-02-28 17:14:23'),
+(20, 'Lost Highway', 'Lost Highway', '02:14:00', 'Après une rencontre bizarroïde lors d\'une fête, un saxophoniste est accusé du meurtre de sa femme.', '1997-02-21', NULL, 2, 'https://www.youtube.com/watch?v=8-1pcMvy5qc', '2026-02-28 17:14:23'),
+(21, 'Avatar: Fire and Ash', 'Avatar: Fire and Ash', '03:10:00', 'Jake Sully et Neytiri affrontent un nouveau clan de Na\'vi lié au feu dans une région volcanique de Pandora.', '2026-01-07', NULL, 2, 'https://www.youtube.com/watch?v=nb_fFj_0rq8', '2026-02-28 17:14:23'),
+(22, 'M3GAN 2.0', 'M3GAN 2.0', '01:42:00', 'L\'intelligence artificielle meurtrière est de retour dans une version plus évoluée et plus dangereuse.', '2026-01-14', NULL, 2, 'https://www.youtube.com/watch?v=I0VWWnMUjFU', '2026-02-28 17:14:23'),
+(24, 'Paddington au Pérou', 'Paddington in Peru', '01:43:00', 'Paddington retourne au Pérou pour rendre visite à sa tante Lucy, entraînant les Brown dans une aventure épique.', '2026-01-07', NULL, 3, 'https://www.youtube.com/watch?v=Fp-1L1KOIk8', '2026-02-28 17:14:23'),
+(25, 'The Drama', 'The Drama', '02:05:00', 'Une crise inattendue survient dans la vie d\'un couple à la veille de leur mariage.', '2026-01-30', NULL, 2, 'https://www.google.com/search?q=trailer+the+drama&rlz=1C1VDKB_frFR1102FR1102&sca_esv=f9558c3169decf9e&sxsrf=ANbL-n40rc4yxeDI2p-TpaTEP3S6ZfVrTA%3A1768731399284&ei=B7Nsaf6EEeDCnsEP7fu26QI&ved=0ahUKEwi-pIf27ZSSAxVgoScCHe29LS0Q4dUDCBE&uact=5&oq=trailer+the+dr', '2026-02-28 17:14:23'),
+(29, 'testntm', '', '02:00:00', 'dzqdzqdqzdqzdqz', '2000-03-23', NULL, 2, 'https://www.google.com/search?q=trailer+the+drama&rlz=1C1VDKB_frFR1102FR1102&sca_esv=f9558c3169decf9e&sxsrf=ANbL-n40rc4yxeDI2p-TpaTEP3S6ZfVrTA%3A1768731399284&ei=B7Nsaf6EEeDCnsEP7fu26QI&ved=0ahUKEwi-pIf27ZSSAxVgoScCHe29LS0Q4dUDCBE&uact=5&oq=trailer+the+dr', '2026-02-28 21:33:22');
 
 --
 -- Déclencheurs `movies`
@@ -916,7 +964,7 @@ CREATE TABLE IF NOT EXISTS `photos` (
 --
 
 INSERT INTO `photos` (`pho_id`, `pho_photo`, `pho_type`, `pho_mov_id`, `pho_user_id`) VALUES
-(3, '69a00710d85b4.webp', 'Affiche', 13, NULL),
+(3, 'https://fr.web.img6.acsta.net/medias/nmedia/18/36/25/34/18465555.jpg', 'Affiche', 13, NULL),
 (4, '699b1f71abdce.webp', 'Affiche', 14, NULL),
 (5, 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/65/43/72/19106205.jpg', 'Affiche', 15, NULL),
 (6, 'https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png', 'Affiche', 16, NULL),
@@ -928,7 +976,8 @@ INSERT INTO `photos` (`pho_id`, `pho_photo`, `pho_type`, `pho_mov_id`, `pho_user
 (12, 'https://i.ebayimg.com/images/g/0RoAAOSwRFpnoRMo/s-l400.jpg', 'Affiche', 22, NULL),
 (14, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS0XU9K0CSrtM7H7Aam3yZdOoekxqJTno9u2U4LB5x76ND5qwp6', 'Affiche', 24, NULL),
 (15, '699994a114858.webp', 'Affiche', 25, NULL),
-(17, '698dda1f43162.png', 'Content', 22, 24);
+(17, '698dda1f43162.png', 'Content', 22, 24),
+(45, '699db85c072c4.webp', 'Affiche', 29, NULL);
 
 -- --------------------------------------------------------
 
@@ -997,7 +1046,6 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (9, 14, 5.0),
 (9, 16, 5.0),
 (9, 18, 5.0),
-(9, 21, 4.5),
 (10, 13, 3.0),
 (10, 14, 4.0),
 (10, 15, 2.0),
@@ -1015,10 +1063,10 @@ INSERT INTO `ratings` (`rat_user_id`, `rat_mov_id`, `rat_score`) VALUES
 (15, 24, 4.0),
 (15, 25, 5.0),
 (16, 24, 0.5),
-(17, 13, 4.5),
 (17, 15, 4.0),
 (17, 16, 3.0),
 (17, 17, 4.5),
+(17, 21, 5.0),
 (17, 23, 3.0);
 
 -- --------------------------------------------------------
@@ -1033,29 +1081,28 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `rep_reported_user_id` int UNSIGNED DEFAULT NULL,
   `rep_reported_movie_id` int UNSIGNED DEFAULT NULL,
   `rep_reported_com_id` int UNSIGNED DEFAULT NULL,
-  `rep_com_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `rep_com_content` text COLLATE utf8mb4_unicode_ci,
   `rep_pseudo_user` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rep_bio_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rep_date` datetime DEFAULT NULL,
   `rep_reporter_user_id` int UNSIGNED DEFAULT NULL,
-  `rep_reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rep_reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rep_delete_at` datetime DEFAULT NULL,
   PRIMARY KEY (`rep_id`),
   KEY `fk_rep_reported_user` (`rep_reported_user_id`),
   KEY `fk_rep_reported_mov` (`rep_reported_movie_id`),
   KEY `fk_rep_reported_com` (`rep_reported_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reports`
 --
 
 INSERT INTO `reports` (`rep_id`, `rep_reported_user_id`, `rep_reported_movie_id`, `rep_reported_com_id`, `rep_com_content`, `rep_pseudo_user`, `rep_bio_user`, `rep_date`, `rep_reporter_user_id`, `rep_reason`, `rep_delete_at`) VALUES
-(70, 24, NULL, NULL, NULL, 'marcoooo', '', '2026-02-15 20:18:24', 17, 'PP buger', NULL),
+(36, 5, NULL, NULL, NULL, 'keke_99', '', '2026-02-14 18:09:30', 25, 'test', '2026-02-21 21:09:38'),
 (76, 3, NULL, 22, 'L\'expérience la plus sonore et visuelle de ma vie.', NULL, NULL, '2026-02-20 20:19:45', 24, 'qdzdzqdqzdqzd', NULL),
 (83, NULL, 17, NULL, NULL, NULL, NULL, '2026-02-21 21:45:52', 17, 'c de la merde\r\n', '2026-02-22 11:50:35'),
-(84, NULL, 25, NULL, NULL, NULL, NULL, '2026-02-24 13:34:38', 17, 'c nulllllllllllllllllll\r\n', '2026-02-26 09:41:25'),
-(85, NULL, 25, NULL, NULL, NULL, NULL, '2026-02-27 10:11:47', 17, 'dzqdqzd', NULL);
+(85, NULL, 21, NULL, NULL, NULL, NULL, '2026-02-25 21:38:37', 17, 'dqzdzdqd', NULL);
 
 -- --------------------------------------------------------
 
@@ -1091,7 +1138,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `fk_user_funct_id` (`user_funct_id`),
   KEY `fk_users_nationalities` (`user_nat_id`),
   KEY `fk_users_roles` (`user_com_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -1100,7 +1147,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `user_email`, `user_birthdate`, `user_creadate`, `user_com_id`, `user_nat_id`, `user_funct_id`, `user_bio`, `user_photo`, `user_pwd`, `user_delete_at`, `user_update_at`, `user_ban_at`, `user_reason_ban`, `user_reset_token`, `user_reset_expires`, `user_reset_at`) VALUES
 (1, 'Dubois', 'Thomas', 'tom_dubois', 'thomas.dubois@exemple.com', '1990-05-15', '2024-01-10 09:00:00', NULL, NULL, 3, NULL, NULL, '', '2026-02-07 16:32:25', NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 'Leroy', 'Marie', 'mary_l', 'marie.leroy@exemple.com', '1985-11-20', '2024-01-12 10:30:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-10 17:04:20', NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'Martin', 'Lucas', '', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, '', '', '', '2026-02-11 18:12:50', NULL, NULL, 'dqzd', NULL, NULL, NULL),
+(3, 'Martin', 'Lucas', '', 'lucas.martin@exemple.com', '1998-03-08', '2024-01-15 14:15:00', NULL, NULL, 2, NULL, NULL, '', '2026-02-11 18:12:50', NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 'Bernard', 'Sophie', 'sophie_b', 'sophie.bernard@exemple.com', '1992-07-22', '2024-02-01 11:00:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, '2026-02-20 00:00:00', 'dzqdzqdqzdqzdqz', NULL, NULL, NULL),
 (5, 'Petit', 'Kevin', 'keke_99', 'kevin.petit@exemple.com', '1999-12-01', '2024-02-10 16:45:00', NULL, NULL, 2, NULL, NULL, '', NULL, NULL, NULL, 'Parce que!', NULL, NULL, NULL),
 (6, 'Robert', 'Camille', 'cam_rob', 'camille.robert@exemple.com', '1995-09-14', '2024-02-20 08:20:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -1108,15 +1155,16 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_pseudo`, `u
 (8, 'Durand', 'Léa', 'lele_d', 'lea.durand@exemple.com', '2001-06-30', '2024-03-12 18:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (9, 'Moreau', 'Nathan', 'nate_m', 'nathan.moreau@exemple.com', '1993-04-10', '2024-03-25 09:45:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, 'e édqdzq', NULL, NULL, NULL),
 (10, 'Simon', 'Sarah', 's_simon', 'sarah.simon@exemple.com', '1982-08-05', '2024-04-01 12:00:00', NULL, NULL, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, '<h2> zdqdqzd z</h2>\r\n', '6991c05b884fb.png', '$2y$12$l0iOC6SfTmpW5wr3ECavk.ubjynvlaqA7gYnSmefcUrtBT.v/lfmm', NULL, '2026-02-24 11:15:29', NULL, NULL, '91baa3299770e3d458b73c9bb00b228e98dcf10fca2689e6982780b53d2826e3c12fdf973d6dfb58177b683e488d4f704db5acadc363a9be0b515edc7827a771', '2026-02-27 11:36:05', NULL),
-(23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$rBwyIBmYDriRgNCVsBrqsuW2wzv1y.7az5Ps79.sGeh3oauP1SIzq', NULL, '2026-02-10 11:00:47', NULL, NULL, '1cbc51676f0100473d1c7d75660d6b36dc18c16927bbb1f85b32d169830a6658dc66fa1837f9eacd428675b48f9d142d2e3e7655c25eb1b7643cf8b05ae8207e', '2026-02-27 11:58:59', NULL),
+(17, 'MARCO', 'Marco', 'Test', 'slendsher48@gmail.com', '2006-03-22', '2026-02-05 15:50:29', NULL, NULL, 3, ' zdqdqdqzddqzdqdzqdqdzqzd zdzqdzqd', '6991c05b884fb.png', '$2y$12$zRjrT2Pcs1Lfn6jhd0Z6guipp3vIph5ZdgGF4dybhQp35RiTst6HO', NULL, '2026-02-25 21:51:54', NULL, NULL, '4f8c7a804b1127776714a58a808d9de6f5b7f397252f6feda9b3292b063db3abbd2e9a2bf4bbf3697e4367e25763274a2fb422759d2c71fa23c7f4efd72ed1d5', '2026-02-28 15:41:45', NULL),
+(23, 'SCHMITT', 'MARCO', 'Truc', 'marco06.marco06@gmail.com', '2222-02-22', '2026-02-08 15:12:38', NULL, NULL, 1, '', '698b01cf4551c.png', '$2y$10$ZWiLqzPoxwvP5KSCRW.Ac.VDgw41CLBalyfmtQ3jolT062c78.M2W', NULL, '2026-02-10 11:00:47', NULL, NULL, NULL, NULL, NULL),
 (24, 'SCHMITT', 'MARCOOOOOOO', 'marcoooo', 'test@gmail.com', '2222-02-22', '2026-02-09 08:55:06', NULL, NULL, 2, '', '698b57ac34581.png', '$2y$10$QtZit0YtsMgqojOEnlsi6eQcph6yTiI.RuxXqRNI29ZlTXpMPoc6a', NULL, '2026-02-20 22:11:38', NULL, 'parceque', NULL, NULL, NULL),
 (25, 'dqzzdq', 'dzqdzq', 'user', 'user@gmail.com', '2222-02-22', '2026-02-13 11:12:08', NULL, NULL, 1, NULL, NULL, '$2y$12$VMEuNAGgcYnmr13mM7Sy3.naxE/pgFRbal1ujYj6hsHKF.nEUAz8G', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (26, 'dzqdzq', 'dzqdqz', 'Testdzqdzq', 'zaezaedzqd@gmail.com', '2222-02-22', '2026-02-20 08:33:57', NULL, NULL, 1, NULL, NULL, '$2y$10$D0EWAzxywtwK7iv6wdBn0.Q62/fr4fUtHMhMhtZpOG30JCLPmJEU2', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (27, 'SCHMITT', 'MARCO', 'Testdzqdzqddddddddddddd', 'slendsher67@gmail.com', '2006-03-22', '2026-02-24 10:30:22', NULL, NULL, 1, NULL, NULL, '$2y$10$tVH9f3eInanq5vMiLL15f.FDbcq3fd9tvLgKOpjxQiRiBw9UkT82K', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (28, 'SCHMITT', 'MARCO', 'Testdzqdzqddddddddddddddzqdqzdzqdzqdz', 'slensdsher67@gmail.com', '2006-03-22', '2026-02-24 10:37:56', NULL, NULL, 1, NULL, NULL, '$2y$10$LqOWxt80Vpbz1u5aw87nu.KN5zaDBWuwwU4zOamaNYn5LofXFgZmy', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (29, 'SCHMITT', 'MARCO', 'Trucdzqdzq', 'marco06.mdzqdarco06@gmail.com', '2006-03-22', '2026-02-24 10:39:24', NULL, NULL, 1, NULL, NULL, '$2y$10$oal4chUiaE/x4xdlqdc55u6v2JpvGnfhig6cPnvV3m0gevdsKu9n2', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(30, 'dqzdqzdqzd', 'ddddddddddddddddddddd', 'dzzzzzzzzzzzzzzzzzzzzzzzzzz', 'dqzdqzdz@gmail.com', '2323-03-22', '2026-02-26 09:34:18', NULL, NULL, 1, NULL, NULL, '$2y$12$Ppb1S235KpwPJU1nkO6akOkIiuopKa9ZC57bDBqqFI8sipOHyNGfe', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(30, 'dqzdzq', 'dzqdqzdq', 'dzqdqzdzqdzqdq', 'mdzqdqzdqzo06@gmail.com', '2032-09-28', '2026-02-25 20:28:16', NULL, NULL, 1, NULL, NULL, '$2y$10$2iEaM1R15HfcSQqrTGn9DeMd0wC3j3y7n5rFH2WJDxXF0TbjEGzEi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(31, 'dzqdqzdzqdzq', 'ddqdzqdqzdq', 'zdqzdqzdq', 'dadadqdzqdzqo06@gmail.com', '3022-12-11', '2026-02-25 20:32:07', NULL, NULL, 1, NULL, NULL, '$2y$10$8VpzK6yfS07bj79y7tYBMu0yBGVT3d/5qB8Ys9/38DjjTNOcwhiNa', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Déclencheurs `users`

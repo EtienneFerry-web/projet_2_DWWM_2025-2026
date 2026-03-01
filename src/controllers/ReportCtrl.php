@@ -9,6 +9,12 @@
     use App\Models\CommentModel;
     use App\Models\UserModel;
 
+    /**
+     * @author Marco Schmitt
+     * 27/02/2026
+     * Version 1
+     */
+
     class ReportCtrl extends MotherCtrl{
 
         /**
@@ -19,6 +25,7 @@
          */
 
         public function allReport(){
+            var_dump($_SESSION);
             $this->_checkAccess(2);
 
             $objCommentModel = new CommentModel;
@@ -32,15 +39,17 @@
 
 			    if($objCommentModel->addSpoiler($_POST['addRemoveSpoiler'])){
 					$_SESSION['success'] = "Spoiler Update !";
+                    $this->_selfRedirect();
 				}
 			}
 
-			if(isset($_POST['id']) && isset($_POST['reason'])){
+			if(isset($_POST['id']) && isset($_POST['reason']) && $_SESSION['user']['user_funct_id'] == 3){
 			    $objReport->hydrate($_POST);
 			    $boolResult = $objUserModel->banUser($objReport);
 
 				if($boolResult){
 				    $_SESSION['success'] = "L'utilisateur à était Bannie !";
+                    $this->_selfRedirect();
 				} else{
 				    $arrError[] = "Erreur lors du banissement";
 				}
@@ -56,46 +65,34 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+                    $this->_selfRedirect();
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
             }
 
-            if(isset($_POST['unBanUser'])){
+            if(isset($_POST['unBanUser']) && $_SESSION['user']['user_funct_id'] == 3){
                 $boolResult = $objUserModel->unBanUser($_POST['unBanUser']);
 
                 if($boolResult){
                     $_SESSION['success'] = "L'utilisateur a était banni !";
+                    $this->_selfRedirect();
                 } else{
                     $arrError[] = "erreur lors de la tentative de suppression !";
                 }
             }
 
-            //Delete Reports
             if (isset($_POST['deleteRep'])){
 
                 $boolResult = $objReportModel->validateReport($_POST['deleteRep']);
 
                 if($boolResult){
                     $_SESSION['success'] = "Le reports à bien était supprimer !";
+                    $this->_selfRedirect();
                 } else{
                     $arrError[] = "erreur lors de la tentative de suppression !";
                 }
             }
-
-            //User ban
-            if (isset($_POST['userBan'])){
-
-                $boolResult = $objUserModel->banUser($_POST['userBan']);
-
-                if($boolResult){
-                    $_SESSION['success'] = "L'utilisateur a était banni !";
-                } else{
-                    $arrError[] = "erreur lors de la tentative de suppression !";
-                }
-            }
-
-
 
             $objReportModel = new ReportModel;
 

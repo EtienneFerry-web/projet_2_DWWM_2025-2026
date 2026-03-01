@@ -2,6 +2,11 @@
     namespace App\Models;
     use PDO;
 
+    /**
+     * @author Marco Schmitt
+     * 27/02/2026
+     * Version 1
+     */
 
     class MovieModel extends Connect{
 
@@ -21,7 +26,7 @@
         * @return array a collection containing only the ID and title of every movie
         */
 
-        public function findAllMovies() : array {
+        public function findAllMovies(): array {
             $strRq = "SELECT mov_id, mov_title
                         FROM movies";
             return $this->_db->query($strRq)->fetchAll();
@@ -32,7 +37,7 @@
         * @return array a list of movies with their official poster, average rating, and like count
         */
 
-        public function newMovie(){
+        public function newMovie(): array {
           $strRq	= "
                         SELECT mov_id, pho_photo AS 'mov_photo', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM movies
@@ -144,9 +149,21 @@
             $stmt->execute();
 
             return $stmt->fetchAll();
-                }
+        }
 
-        public function findMovie(int $idMovie, int $intUserId = 0){
+        /**
+         * Retrieves comprehensive details for a specific movie, including user-specific interactions.
+         * * This method fetches movie data combined with:
+         * - Global statistics: average rating (COALESCE to 0) and total likes count.
+         * - User context: checks if the given user ID has liked the movie, reported it, 
+         * or already assigned a personal rating.
+         * * @author Marco
+         * @param int $idMovie The unique identifier of the movie.
+         * @param int $intUserId The ID of the current user (defaults to 0 for guests).
+         * @return array An associative array containing movie details and user-specific status.
+         */
+
+        public function findMovie(int $idMovie, int $intUserId = 0): array {
 
             $strRq  = " SELECT movies.*,
                             pho_photo AS 'mov_photo',
@@ -193,7 +210,15 @@
             return $stmt->fetch();
         }
 
-		public function findOneMovie(){
+        /**
+         * Retrieves detailed information for a single movie by its ID.
+         * * Joins multiple tables (photos, nationalities, categories) to provide 
+         * a complete dataset for the specific movie requested via GET parameters.
+         * * @author Audrey
+         * @return array An associative array containing the movie's full details.
+         */
+
+		public function findOneMovie(): array {
             $strRq	= " SELECT movies.*,
                             mov_original_title AS 'mov_orginalTitle',
                             pho_photo AS 'mov_photo',
@@ -208,13 +233,27 @@
                         INNER JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         INNER JOIN belongs ON movies.mov_id = belongs.belong_mov_id
                         INNER JOIN categories ON belongs.belong_cat_id = categories.cat_id
-                        WHERE mov_id = ".$_GET['id'];
+                        WHERE mov_id = :id";
 
 
-            return $this->_db->query($strRq)->fetch();
+            $prep = $this->_db->prepare($strRq);
+            $prep->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+            $prep->execute();
+
+            return $prep->fetch();
         }
 
-        public function deleteNoteUser(int $intUserId, int $intMovieId ){
+        /**
+         * Deletes a user's rating for a specific movie if no associated comment exists.
+         * * This method first checks the 'comments' table. If no comment is found for the 
+         * given user and movie, it proceeds to delete the record from the 'ratings' table.
+         * * @author Audrey
+         * @param int $intUserId The unique identifier of the user.
+         * @param int $intMovieId The unique identifier of the movie.
+         * @return bool True if the rating was deleted, false if a comment exists or if the query failed.
+         */
+
+        public function deleteNoteUser(int $intUserId, int $intMovieId ): bool{
 
             $strRq = "  SELECT COUNT(*) AS 'nbr'
                         FROM comments
@@ -240,10 +279,20 @@
     			$rqPrep->bindValue(":movieId", $intMovieId, PDO::PARAM_INT);
 
     			return $rqPrep->execute();
+            } else{
+                return false;
             }
 
         }
 
+        /**
+         * Updates all information related to a movie in the database.
+         * * This method updates the main movie details, its associated photo, 
+         * and its category assignment within a single flow.
+         * * @author Audrey
+         * @param object $objNewMovie The movie object containing the updated data.
+         * @return bool True on success, false otherwise.
+         */
 
 		public function updateMovie(object $objNewMovie){
 
@@ -675,11 +724,14 @@
             }
 
 		}
+
         /**
-         * 
-         * @author Audrey 
-         * @param object $
-         * return Array
+         * Retrieves a list of movies based on search criteria, category filters, and sorting.
+         * * @author Audrey
+         * @param string|null $strSearch The search term for the movie title (optional).
+         * @param string $strFilter The category ID to filter by (ignored if empty or '0').
+         * @param string $strSort The sorting direction ('desc' for descending, defaults to ascending).
+         * @return array An array of movies matching the criteria.
          */
         public function findMovieWithFilters(?string $strSearch, string $strFilter,string $strSort): array {
 
@@ -731,17 +783,22 @@
 			return $this->_db->query($strRq)->fetchColumn();
 		}
 
-        /**
-        * Getting the total number of movies in the catalog
-        * @return int the total count of all movie records
-        */
-        public function countAllLikesFromOneUser(int $intUserId) {
-			$strRq = "SELECT COUNT(*)
-						FROM liked
-                        WHERE lik_user_id =  $intUserId";
+        // /**
+        // * Getting the total number of movies in the catalog
+        // * @return int the total count of all movie records
+        // */
+        // public function countAllLikesFromOneUser(int $intUserId) {
+		// 	$strRq = "SELECT COUNT(*)
+		// 				FROM liked
+        //                 WHERE lik_user_id =  $intUserId";
 
-			return $this->_db->query($strRq)->fetchColumn();
-		}
+		// 	return $this->_db->query($strRq)->fetchColumn();
+		// }
+
+        /**
+        * Getting the total number of movies across the entire platform
+        * @return int the total count of all movies 
+        */
 
         public function countAllMovies() {
 			$strRq = "SELECT COUNT(*)
@@ -804,6 +861,12 @@
                         LIMIT 5";
             return $this->_db->query($strRq)->fetchAll();
         }
+
+        /**
+         * @author Marco Schmitt
+         * Retrieving movies that are not yet published
+         * @return array the list of movies with no publication date
+         */
 
         public function movieNotPublished(){
             $strRq = "  SELECT mov_title, mov_id

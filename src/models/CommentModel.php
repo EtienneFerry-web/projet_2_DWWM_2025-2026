@@ -4,6 +4,12 @@
     use PDO;
 	use PDOException;
 
+     /**
+     * @author Marco Schmitt
+     * 27/02/2026
+     * Version 1
+     */
+
     class CommentModel extends Connect{
 
         /**
@@ -13,7 +19,7 @@
         * @return array the list of comments including user info, ratings, like counts, and report status
         */
 
-        public function commentOfMovie(int $idMovie=0, $idConnectUser=0){
+        public function commentOfMovie(int $idMovie=0, $idConnectUser=0): array{
 
             $strRq	= " SELECT
                             comments.com_id,
@@ -29,13 +35,13 @@
                             EXISTS(
                             SELECT 1 FROM reports
                             WHERE rep_reported_com_id = comments.com_id
-                            AND rep_reporter_user_id = :user_id
+                            AND rep_reporter_user_id = :userId
                             AND rep_delete_at IS NULL
                             ) AS 'com_reported',
 
                             EXISTS(
                                 SELECT 1 FROM liked
-                                WHERE lik_user_id = :user_id
+                                WHERE lik_user_id = :userId
                                 AND lik_mov_id IS NULL
                                 AND lik_com_id = comments.com_id
                             ) AS com_user_liked
@@ -57,7 +63,7 @@
 
             $stmt = $this->_db->prepare($strRq);
             $stmt->bindValue(':id', $idMovie, PDO::PARAM_INT);
-            $stmt->bindValue(':user_id', $idConnectUser, PDO::PARAM_INT);
+            $stmt->bindValue(':userId', $idConnectUser, PDO::PARAM_INT);
             $stmt->execute();
 
 		    return $stmt->fetchAll();
@@ -71,7 +77,7 @@
         * @return array a collection of reviews including movie titles, posters, ratings, and social interactions
         */
 
-        public function reviewUser(int $idUser=0, int $idConnectUser=0){
+        public function reviewUser(int $idUser=0, int $idConnectUser=0): array{
 
             $strRq	="  SELECT
                         com_id,
@@ -87,13 +93,13 @@
                         EXISTS(
                         SELECT 1 FROM reports
                         WHERE rep_reported_com_id = comments.com_id
-                        AND rep_reporter_user_id = $idConnectUser
+                        AND rep_reporter_user_id = :userId
                         AND rep_pseudo_user IS NULL
                         ) AS 'com_reported',
 
                         EXISTS(
                         SELECT 1 FROM liked
-                        WHERE lik_user_id = $idConnectUser
+                        WHERE lik_user_id = :userId
                         AND lik_mov_id IS NULL
                         AND lik_com_id = comments.com_id
                         ) AS com_user_liked
@@ -104,7 +110,7 @@
                         INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN liked ON liked.lik_com_id = comments.com_id AND liked.lik_mov_id IS NULL
-                        WHERE users.user_id = $idUser AND user_delete_at IS NULL AND (user_ban_at < NOW() OR user_ban_at IS NULL)
+                        WHERE users.user_id = :id AND user_delete_at IS NULL AND (user_ban_at < NOW() OR user_ban_at IS NULL)
 
                         GROUP BY
                             comments.com_id,
@@ -118,7 +124,13 @@
                             movies.mov_title";
 
 
-	        return $this->_db->query($strRq)->fetchAll();
+	        $stmt = $this->_db->prepare($strRq);
+            $stmt->bindValue(':id', $idUser, PDO::PARAM_INT);
+            $stmt->bindValue(':userId', $idConnectUser, PDO::PARAM_INT);
+            $stmt->execute();
+
+		    return $stmt->fetchAll();
+
 
         }
 
@@ -127,10 +139,10 @@
          * @author Etienne
          * Function insert Comment & rating in database
          * @param object $objComment Comment object
-         *
+         * @todo la note est ajouté instant donc inutile 
          */
 
-        public function commentInsert(object $objComment) {
+        public function commentInsert(object $objComment): array | bool {
 
             $sql1 = "INSERT IGNORE INTO comments (com_comment, com_user_id, com_movie_id, com_datetime)
                     VALUES (:comment, :userId, :movieId, NOW())";
@@ -153,8 +165,6 @@
                     VALUES (:userId, :movieId, :rating)
                     ON DUPLICATE KEY UPDATE rat_score = :rating";
 
-            $sql2 = "INSERT IGNORE INTO ratings (rat_user_id, rat_mov_id, rat_score)
-                    VALUES (:userId, :movieId, :rating)";
 
 
             $rq2 = $this->_db->prepare($sql2);
@@ -309,7 +319,7 @@
         * @return bool returns true if the specific comment report was successfully deleted
         */
 
-        public function deleteRepCom(object $objReport, int $intId ){
+        public function deleteRepCom(object $objReport, int $intId ):bool{
 
                   $strRq = "  DELETE FROM reports
                               WHERE  rep_reported_com_id  = :comId AND rep_reporter_user_id = :reporter AND rep_pseudo_user IS NULL AND rep_reported_movie_id IS NULL";
@@ -329,7 +339,7 @@
         * @return int returns 1 if a like was added, 2 if a like was removed
         */
 
-        public function likeComment($intUserId, $intComId){
+        public function likeComment($intUserId, $intComId): int{
 
             $strRq = "INSERT IGNORE INTO liked(lik_user_id, lik_com_id)
                 VALUES (:user_id, :com_id)";
@@ -367,7 +377,7 @@
         * @return int the total count of all user comments
         */
 
-        public function countAllComments() {
+        public function countAllComments(): int {
             $strRq = "SELECT COUNT(*)
                         FROM comments";
             return $this->_db->query($strRq)->fetchColumn();

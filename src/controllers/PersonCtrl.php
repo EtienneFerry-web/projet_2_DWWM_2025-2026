@@ -3,25 +3,23 @@
 
     //Entities
     use App\Entities\MovieEntity;
-    use App\Entities\CommentEntity;
     use App\Entities\PersonEntity;
     //Models
     use App\Models\MovieModel;
-    use App\Models\CommentModel;
     use App\Models\PersonModel;
 
 
 
     /**
      * @author Marco Schmitt
-     * 16/01/2026
-     * Version 0.1
+     * 27/02/2026
+     * Version 1
      */
 
     class PersonCtrl extends MotherCtrl{
 
         /**
-         * @author Marco
+        * @author Marco
         * Single person details page
         * @return void retrieves personal info, associated jobs, and the movie filmography for a specific person
         */
@@ -49,8 +47,7 @@
 
 			$objPerson = new PersonEntity('pers_');
 			$objPerson->hydrate($arrPerson);
-
-
+            
             $arrMovie		    = $objMovieModel->movieOfPerson($_GET['id']);
 
             $arrMovieToDisplay	= array();
@@ -83,18 +80,15 @@
 
         public function deletePerson() {
 
-           if (isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
+            $this->_checkAccess(2);
+
             $objPersonModel = new PersonModel();
             $success = $objPersonModel->deletePerson($_GET['id']);
 
             
             if($success){
                 $_SESSION['success'] = "La célébrité a bien été supprimée";
-                header("Location:index.php?ctrl=admin&action=dashboard");
-                exit;
+                $this->_redirect("admin/dashboard");
             }
 		}
 
@@ -108,11 +102,7 @@
         */
 
         public function settingsPerson() {
-            // Check if user is authenticated and has correct permission
-            if (isset($_GET['id']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // s'il est pas admin ou modo
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
+            $this->_checkAccess(2);
 
             $objPersonModel = new PersonModel();
             var_dump($_POST);
@@ -165,6 +155,13 @@
                     }
 
 					$boolUpdate 	= $objPersonModel->updatePerson($objPerson);
+
+                    if($boolUpdate){
+                        $_SESSION['success'] = "Vos modification on bien était enregistré";
+                        $this->_redirect("person/allPerson");
+                    } else{
+                        $arrError[] = "Erreur Lors de la modification veuillez réassayer";
+                    }
                 }
 
             }
@@ -193,6 +190,7 @@
         }
 
         /**
+        * @author Audrey Sonntag 
         * Management page for all celebrities
         * @return void retrieves a list of all persons from the database and displays the admin list
         */

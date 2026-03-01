@@ -147,6 +147,14 @@
             $this->_display("list");
         }
 
+		/**
+		* Updates the movie rating and returns the new average.
+		* * Receives the movie ID via GET and the user's rating via a JSON POST.
+		* Inserts or updates the value in the database and returns the 
+		* updated average rating of the movie in JSON format.
+		* * @return void Outputs JSON and exits.
+		*/
+		
         public function note(){
 
             $objMovieModel = new MovieModel;
@@ -228,10 +236,10 @@
 
 				if ($repResult === 1) {
 					$_SESSION['success'] = "Votre like a bien été pris en compte !";
-					//$this->_selfRedirect();
+					$this->_selfRedirect();
 				} else if($repResult === 2) {
 					$_SESSION['success'] = "Votre like a bien été était supprimer !";
-					//$this->_selfRedirect();
+					$this->_selfRedirect();
 				}
 
 			}
@@ -444,7 +452,7 @@
 			$arrMovieImages = $objMovieModel->selectImageMovie($_GET['id']);
 
 			if(!$arrMovie){
-				$this->_redirect($_ENV['BASE_URL']."error/err404");
+				$this->_redirect("error/err404");
 			}
 
 			$arrImagesToDisplay = array();
@@ -617,10 +625,10 @@
 
 						if (is_null($objMovie->getId())){
 							$_SESSION['success'] 	= "Le film a bien été créé";
-							header("Location:index.php?");
-						exit;
+							$this->_redirect();
 						}else{
 							$_SESSION['success'] 	= "Le film a bien été modifié";
+							$this->_redirect("movies/allMovie");
 						}
 					}else{
 						$arrError['img'] = "Erreur dans le traitement de l'image";
@@ -681,6 +689,11 @@
             }
 
 		}
+
+		/**
+        * Updating a movie from the database
+        * @return void redirects to the dashboard with a success message upon deletion
+        */
 
 		public function publishMovie(){
 			$this->_checkAccess(2);

@@ -2,8 +2,8 @@
     namespace App\Controllers;
     /**
      * @author Marco Schmitt
-     * 16/01/2026
-     * Version 0.1
+     * 27/02/2026
+     * Version 1
      */
 
     use PHPMailer\PHPMailer\PHPMailer;
@@ -58,45 +58,6 @@
                 }
 
                 if (count($arrError) == 0){
-                    // $objMail = new PHPMailer(); // Nouvel objet Mail
-                    // $objMail->IsSMTP();
-                    // $objMail->Mailer 		= "smtp";
-                    // $objMail->CharSet 		= PHPMailer::CHARSET_UTF8;
-
-                    // // Si on veut afficher les messages de debug
-                    // $objMail->SMTPDebug  	= 0;
-
-                    // // Connection au serveur de mail
-                    // $objMail->SMTPAuth   	= TRUE;
-                    // $objMail->SMTPSecure 	= "ssl";
-                    // $objMail->Port       	= $_ENV['MAIL_PORT'];
-                    // $objMail->Host       	= "smtp.gmail.com";
-                    // $objMail->Username 		= $_ENV['MAIL_USERNAME'];
-                    // $objMail->Password 		= $_ENV['MAIL_PASSWORD'];
-
-                    // // Comment envoyer le mail
-                    // $objMail->IsHTML(true); // en HTML
-                    // $objMail->setFrom($_ENV['MAIL_USERNAME'], 'Give Me Five'); // Expéditeur
-
-                    // // Destinataire(s)
-                    // $objMail->addAddress('slendSher48@gmail.com', 'GiveMeFive');
-
-                    // // Mail
-                    // $objMail->Subject    = 'Give Me Five - Formulaire de Contact';
-
-                    // $this->_arrData['strName']       = $strName;
-                    // $this->_arrData['strSubject']    = $strSubject;
-                    // $this->_arrData['strEmail']      = $strEmail;
-                    // $this->_arrData['strMessage']    = $strMessage;
-
-                    // $objMail->Body       = $this->_display("mailMessage", false);
-
-                    // // Envoyer le mail
-                    // if($objMail->Send()){
-                    //     $_SESSION['success'] = "mail envoyer !";
-                    //     header("location: index.php?ctrl=page&action=contact");
-                    //     exit;
-                    // }
 
                     $this->_arrData['strName']       = $strName;
                     $this->_arrData['strSubject']    = $strSubject;
@@ -111,6 +72,9 @@
 
                     if($this->_sendMail()){
                         $_SESSION['success'] = "L'email a bien était envoyé !";
+                        $this->_redirect();
+                    } else{
+                        $arrError[] = "Erreur lors de l'envoie veuillez réassayer !";
                     }
 
                 }

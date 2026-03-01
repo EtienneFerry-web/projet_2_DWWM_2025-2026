@@ -6,8 +6,8 @@
 
     /**
      * @author Marco Schmitt
-     * 16/01/2026
-     * Version 0.1
+     * 27/02/2026
+     * Version 1
      */
 
     class SearchCtrl extends MotherCtrl{
@@ -81,8 +81,7 @@
     				}
 
             } else {
-                header("Location: index.php");
-                exit();
+                $this->_redirect();
             }
 
             $this->_arrData['arrResultToDisplay']	= $arrResultToDisplay;

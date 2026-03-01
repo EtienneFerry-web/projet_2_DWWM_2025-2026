@@ -1,11 +1,6 @@
 <?php
     namespace App\Controllers;
-    /**
-    * @author Marco Schmitt
-    * 16/01/2026
-    * Version 0.1
-    *
-    */
+    
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
@@ -13,24 +8,33 @@
     use Smarty\Smarty;
     use DateTime;
 
+    /**
+     * @author All
+     * 27/02/2026
+     * Version 1
+     * Parent controller providing core utilities for mailing, security, and rendering.
+     */
     class MotherCtrl{
 
+        
         protected array $_arrData = [];
+        
         protected object $_objMail;
 
+        /**
+         * @author Marco
+         * Constructor: Initializes PHPMailer and handles CSRF protection logic for requests.
+         */
         public function __construct() {
 
             $this->_objMail = new PHPMailer(true); 
 
-            
-    
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
                 $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? $_POST['csrf_token'] ?? '';
                 
                 if (!$this->_verifyCsrfToken($token)) {   
-                    $this->_redirect($_ENV['BASE_URL']."error/err403");
-                    exit; 
+                    $this->_redirect("error/err403");
                 }
 
             } else {
@@ -47,16 +51,17 @@
         /**
         * Rendering the view using the Smarty template engine
         * @param string $strView the name of the template file to display
-        * @return void assigns data to Smarty and renders the final view
+        * @param bool $boolDisplay If true, displays the template; if false, returns the rendered string (useful for emails)
+        * @return void|string assigns data to Smarty and renders the final view or returns content
         */
-        
         protected function _display(string $strView, bool $boolDisplay = true){
 
-            $objSmarty	= new Smarty();
+            $objSmarty  = new Smarty();
 
             $objSmarty->registerPlugin('modifier', 'vardump', 'var_dump');
             $objSmarty->registerPlugin('modifier', 'is_null', 'is_null');
-            // Récupérer les variables
+
+            // Assign data variables to the template engine
             foreach($this->_arrData as $key=>$value){
                 $objSmarty->assign($key, $value);
             }
@@ -64,19 +69,20 @@
             $date = new DateTime();
             $objSmarty->assign('curDate', $date);
 
-
             $objSmarty->assign("pseudo", $_SESSION['user']['user_pseudo']??NULL);
 
             $objSmarty->assign("success_message", $_SESSION['success']??NULL);
             unset($_SESSION['success']);
+            
             if($boolDisplay){
                 $objSmarty->display("views/".$strView."_view.tpl");
             }else{
-				return $objSmarty->fetch("views/mails/".$strView."_view.tpl");
-			}
+                return $objSmarty->fetch("views/mails/".$strView."_view.tpl");
+            }
         }
 
          /**
+         * @author Marco
          * Resizes an image file while maintaining quality and optional aspect ratio.
          * * This internal method performs the following:
          * 1. Retrieves original dimensions using getimagesize.
@@ -93,25 +99,19 @@
          * @param  bool    $keepRatio If true, prevents distortion by calculating proportional dimensions.
          * @return void
          */
-
         protected function _resize($img, $intX = 280, $intY = 400, $keepRatio = false) {
             $filename = $img;
 
-          
             list($width_orig, $height_orig) = getimagesize($filename);
 
             $width = $intX;
             $height = $intY;
 
-            
             if ($keepRatio) {
                 $ratio = $width_orig / $height_orig;
 
-
                 $height = $intY;
-
                 $width = $intY * $ratio;
-
 
                 if ($width > $intX) {
                     $width = $intX;
@@ -121,7 +121,6 @@
 
             $image_p = imagecreatetruecolor($width, $height);
 
-            
             imagealphablending($image_p, false);
             imagesavealpha($image_p, true);
 
@@ -151,11 +150,11 @@
         }
 
         /**
+        * @author Marco
         * Checking user access permissions
         * @param int $grade the minimum required function ID level
         * @return void redirects to 403 error page if access is denied
         */
-
         protected function _checkAccess(int $grade=1):void{
 
             if(!isset($_SESSION['user']) || $grade > $_SESSION['user']['user_funct_id']){
@@ -166,70 +165,80 @@
         }
 
         /** 
-		* Générer et stocker le token CSRF dans la session avec une expiration
-		* @return string $token le jeton généré
-		*/
-		protected function _generateCsrfToken():string {
-			$token = bin2hex(random_bytes(32)); 
-			$_SESSION['csrf_token'] = $token;
-		
-			$_SESSION['csrf_token_expiration'] = time() + (30 * 60); 
-			return $token;
-		}
-		
-		/**
-		* Vérifier le token CSRF et son expiration
-		* @param string $token Le token à vérifier
-		* @return boolean le token est ok ou pas
-		*/
-		protected function _verifyCsrfToken(string $token):bool {
-			if ($_ENV['CSRF_TOKEN'] == 1){
-				return isset($_SESSION['csrf_token'])
-					&& $_SESSION['csrf_token'] === $token
-					&& isset($_SESSION['csrf_token_expiration'])
-					&& $_SESSION['csrf_token_expiration'] >= time(); // Vérifie si le token n'a pas expiré
-			}else{
-				return true;
-			}
-		}
+        * Generates and stores the CSRF token in the session with an expiration timestamp
+        * @return string $token The generated security token
+        */
+        protected function _generateCsrfToken():string {
+            $token = bin2hex(random_bytes(32)); 
+            $_SESSION['csrf_token'] = $token;
+        
+            $_SESSION['csrf_token_expiration'] = time() + (30 * 60); 
+            return $token;
+        }
+        
+        /**
+        * Verifies the CSRF token integrity and expiration
+        * @param string $token The token string to validate
+        * @return bool True if the token is valid and not expired, false otherwise
+        */
+        protected function _verifyCsrfToken(string $token):bool {
+            if ($_ENV['CSRF_TOKEN'] == 1){
+                return isset($_SESSION['csrf_token'])
+                    && $_SESSION['csrf_token'] === $token
+                    && isset($_SESSION['csrf_token_expiration'])
+                    && $_SESSION['csrf_token_expiration'] >= time(); // Validates if the token hasn't expired
+            }else{
+                return true;
+            }
+        }
 
+        /**
+         * @author Marco
+         * Redirects the user to the current URI (Self-refresh)
+         * @return void
+         */
         protected function _selfRedirect(){
             header("Location:".$_SERVER['REQUEST_URI']);
             exit;
         }
 
-        protected function _redirect($url){
-             header("Location:".$url);
+        /**
+         * @author Marco
+         * Redirects the user to a specific URL
+         * @param string $url The destination URL
+         * @return void
+         */
+        protected function _redirect($url=""){
+             header("Location:".$_ENV['BASE_URL'].$url);
             exit;
         }
 
-        /** 
-		* Envoyer le mail
-		* 
-		*/
-		protected function _sendMail():bool{
+        /**
+        * Configures and sends an email using the PHPMailer object
+        * @return bool Returns true if the email was sent successfully, false otherwise
+        */
+        protected function _sendMail():bool{
             try {
-			//$this->_objMail 			= new PHPMailer(); // Nouvel objet Mail
-			$this->_objMail->IsSMTP();
-			$this->_objMail->Mailer 	= "smtp";
-			$this->_objMail->CharSet	= PHPMailer::CHARSET_UTF8;
+            $this->_objMail->IsSMTP();
+            $this->_objMail->Mailer     = "smtp";
+            $this->_objMail->CharSet    = PHPMailer::CHARSET_UTF8;
 
-			// Si on veut afficher les messages de debug
-			$this->_objMail->SMTPDebug  = 0;
+            // Debug level (0 to disable)
+            $this->_objMail->SMTPDebug  = 0;
 
-			// Connection au serveur de mail
-			$this->_objMail->SMTPAuth   	= TRUE;
-			$this->_objMail->SMTPSecure 	= "tls";
-			$this->_objMail->Port       	= $_ENV['MAIL_PORT'];
-			$this->_objMail->Host       	= "smtp.gmail.com";
-			$this->_objMail->Username 		= $_ENV['MAIL_USERNAME'];
-			$this->_objMail->Password 		= $_ENV['MAIL_PASSWORD'];
+            // Mail server connection settings
+            $this->_objMail->SMTPAuth       = TRUE;
+            $this->_objMail->SMTPSecure     = "tls";
+            $this->_objMail->Port           = $_ENV['MAIL_PORT'];
+            $this->_objMail->Host           = "smtp.gmail.com";
+            $this->_objMail->Username       = $_ENV['MAIL_USERNAME'];
+            $this->_objMail->Password       = $_ENV['MAIL_PASSWORD'];
 
-			// Comment envoyer le mail
-			$this->_objMail->IsHTML(true); // en HTML
-			$this->_objMail->setFrom($_ENV['MAIL_USERNAME'], 'GiveMeFive'); // Expéditeur
+            // Email format settings
+            $this->_objMail->IsHTML(true); // Enable HTML format
+            $this->_objMail->setFrom($_ENV['MAIL_USERNAME'], 'GiveMeFive'); // Sender identity
 
-			if($this->_objMail->Send()) {
+            if($this->_objMail->Send()) {
                 $this->_objMail->clearAddresses();
                 return true;
             } else {

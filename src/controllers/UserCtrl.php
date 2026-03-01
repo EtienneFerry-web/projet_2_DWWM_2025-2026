@@ -84,7 +84,7 @@
                             );
 
                             $objUserModel->addLogs($arrData);
-                            $this->_redirect($_ENV['BASE_URL']);
+                            $this->_redirect();
                     }
                 }
             }
@@ -125,13 +125,13 @@
                 $_SESSION['success']  = "Vous avez êtes déconnecté pour inactivité !";
                 unset($_SESSION['user']);
                 unset($_SESSION['last_activity']);
-                $this->_redirect($_ENV['BASE_URL']."user/login");
+                $this->_redirect("user/login");
                
             } else {
                 $_SESSION['success']  = "Vous êtes bien déconnecté";
                 unset($_SESSION['user']);
                 unset($_SESSION['last_activity']);
-                $this->_redirect($_ENV['BASE_URL']);
+                $this->_redirect();
             }
 
         }
@@ -230,7 +230,7 @@
                     if ($boolInsert != false && count($arrError) == 0){
 
                             $_SESSION['success']    = "Le compte compte a bien été crée";
-                            $this->_redirect($_ENV['BASE_URL']."user/login");
+                            $this->_redirect("user/login");
 
                     }else{
                         $arrError[] = '';
@@ -405,7 +405,7 @@
 			$arrUser		= $objUserModel->userPage($intId, $_SESSION['user']['user_id']??0);
 
             if (!$arrUser) {
-                $this->_redirect($_ENV['BASE_URL']."error/err404");
+                $this->_redirect("error/err404");
             }
 
 			$objUser       = new UserEntity('mov_');
@@ -447,7 +447,7 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était modifier !";
-                    $this->_selfRedirect();
+                  
                 } else {
                     $arrError[] = "erreur lors de la modification";
                 }

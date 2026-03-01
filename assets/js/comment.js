@@ -95,6 +95,7 @@ function enableEdit(reviewId) {
                   <!--input value for rating score-->
                   <input type="hidden" name="rating" id="note" value="${currentNote}" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
               </div>
+              <input type="hidden" name="csrf_token" value="${csrfToken}">
               <input type="hidden" name="id" value="${reviewId}">
               <input type="hidden" name="movieId" value="${movieId}">
               <div method="post" class="d-block ms-auto col-auto">
