@@ -36,7 +36,7 @@ class SearchModel extends Connect {
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id
-                        WHERE mov_title LIKE :fullSearch AND lik_com_id IS NULL
+                        WHERE mov_title LIKE :fullSearch AND lik_com_id IS NULL AND mov_published_at IS NOT NULL
                         GROUP BY mov_id";
         }
 

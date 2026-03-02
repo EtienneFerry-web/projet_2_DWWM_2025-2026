@@ -28,7 +28,8 @@
 				
 				$this->_db->exec("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
 				// Setting character encoding to UTF-8
-				$this->_db->exec("SET CHARACTER SET utf8");
+				// $this->_db->exec("SET CHARACTER SET utf8");
+				$this->_db->exec("SET NAMES utf8mb4");
 
 				// Enabling exception-based error handling
 				$this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

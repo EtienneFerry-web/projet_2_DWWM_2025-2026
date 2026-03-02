@@ -7,18 +7,25 @@
         </div>
     {/if}
 
-    <div class="row align-items-center">
-        <div class="rounded-circle col-auto">
+    <div class="row align-items-center g-2"> <div class="col-auto">
+        <a href="{$smarty.env.BASE_URL}user/userPage/{$comment->getUser_id()}" class="d-block">
             <img src="{$smarty.env.BASE_URL}assets/img/users/{$comment->getPhoto()}"
-                class="rounded-circle border"
-                style="width: 40px; height: 40px; object-fit: cover;"
-                alt="Avatar">
-        </div>
-        <span class="spanMovie col-auto p-0"><a href="{$smarty.env.BASE_URL}user/userPage/{$comment->getUser_id()}">{$comment->getPseudo()}</a></span>
-        <span class="pageMovieNote spanMovie col-auto ms-auto" data-note="{$comment->getRating()}">
+                 class="rounded-circle border"
+                 style="width: 40px; height: 40px; object-fit: cover;"
+                 alt="Avatar">
+        </a>
+    </div>
+    <div class="col-auto p-0">
+        <a href="{$smarty.env.BASE_URL}user/userPage/{$comment->getUser_id()}" class="text-decoration-none">
+            <span class="spanMovie">{$comment->getPseudo()}</span>
+        </a>
+    </div>
+    <div class="col-auto ms-auto">
+        <span class="pageMovieNote spanMovie" data-note="{$comment->getRating()}">
             <span class="stars d-block"></span>
         </span>
     </div>
+</div>
 
     <p>
         {$comment->getComment()}

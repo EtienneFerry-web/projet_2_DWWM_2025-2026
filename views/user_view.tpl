@@ -140,7 +140,7 @@
             <div class="splide__track">
                 <ul class="splide__list">
                 {foreach from=$arrImageToDisplay item=objImage}
-                    {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id}
+                    {if isset($smarty.session.user) && $smarty.session.user.user_id == $smarty.get.id || $smarty.session.user.user_funct_id >= 2}
                     <li class="splide__slide position-relative overlay-container">
                         <img src="{$smarty.env.BASE_URL}assets/img/movie/{$objImage->getPhoto()}" class="img-fluid" />
 

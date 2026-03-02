@@ -71,12 +71,14 @@
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
 
+                $this->_arrData['strName']       = $strName;
+                $this->_arrData['strSubject']    = $strSubject;
+                $this->_arrData['strEmail']      = $strEmail;
+                $this->_arrData['strMessage']    = $strMessage;
+
                 if (count($arrError) == 0){
 
-                    $this->_arrData['strName']       = $strName;
-                    $this->_arrData['strSubject']    = $strSubject;
-                    $this->_arrData['strEmail']      = $strEmail;
-                    $this->_arrData['strMessage']    = $strMessage;
+                    
 
                     $this->_objMail->addAddress('slendsher48@gmail.com', 'GiveMeFive');
                     $this->_objMail->Subject    = "Formulaire de Contact";

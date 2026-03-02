@@ -165,7 +165,7 @@
          * @return array An associative array containing movie details and user-specific status.
          */
 
-        public function findMovie(int $idMovie, int $intUserId = 0): array {
+        public function findMovie(int $idMovie, int $intUserId = 0): array | bool {
 
             $strRq  = " SELECT movies.*,
                             pho_photo AS 'mov_photo',
@@ -201,7 +201,7 @@
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
 
                         LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
-                        WHERE mov_id = :id
+                        WHERE mov_id = :id AND mov_published_at IS NOT NULL
                         GROUP BY movies.mov_id";
 
             $stmt = $this->_db->prepare($strRq);
