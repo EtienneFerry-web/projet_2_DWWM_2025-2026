@@ -13,5 +13,11 @@
         <span class="movieLikes py-2 d-flex gap-1 spanMovie">
             <i class="bi bi-heart-fill"></i><span>{$objMovie->getLike()}</span>
         </span>
+
+        <a href="index.php?ctrl=movie&action=addToCalendar&id={$objMovie->getId()}" 
+               class="btn btn-outline-dark btn-sm" 
+               title="Ajouter la sortie à mon agenda">
+                <i class="bi bi-calendar-plus"></i>
+        </a>
     </div>
 </div>

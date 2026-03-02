@@ -18,6 +18,11 @@
             <span class="note d-inline-block" id="average" >{$objMovie->getRating()}</span>
         </span>
         <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset"><i class="bi bi-heart-fill me-1"></i> {$objMovie->getLike()}</span>
+                <a href="index.php?ctrl=movie&action=addToCalendar&id={$objMovie->getId()}" 
+               class="btn btn-outline-dark btn-sm" 
+               title="Ajouter la sortie à mon agenda">
+                <i class="bi bi-calendar-plus"></i>
+        </a>
     </div>
 </div>
 <div class="col-12 col-md-8 py-3 py-md-5 text-center text-md-start">
@@ -61,7 +66,6 @@
                 </button>
             </form>
         </div>
-
         <div class="col-12 col-sm-auto">
             <form method="post">
                 <div class="rating user-select-none d-flex align-items-center justify-content-center justify-content-md-start gap-1">

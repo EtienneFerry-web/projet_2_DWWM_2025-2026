@@ -11,6 +11,7 @@
     use App\Entities\ReportEntity;
     use App\Entities\CommentEntity;
     use App\Entities\PersonEntity;
+use DateTime;
 
     /**
      * @author Marco Schmitt
@@ -734,5 +735,87 @@
 
 			$this->_display("allMovie");
 		}
+
+	/**
+     * Generate and download an ICS calendar event for a movie release
+     * @author Etienne
+     *
+     * 1. Clear output buffer to prevent file corruption (essential for .ics files)
+     * 2. Retrieve movie ID and user context
+     * 3. Fetch movie details from database; redirect if not found
+     * 4. Configure event timing based on release date (defaulting to 20:00, 2h duration)
+     * 5. Sanitize and format text data (title, description) for iCalendar standard
+     * 6. Construct the ICS file content with unique ID and VEVENT structure
+     * 7. Send HTTP headers to force file download and output content
+     */
+
+	public function addToCalendar() {
+        if (ob_get_level()) ob_end_clean();
+
+        $intId      = (int)($_GET['id'] ?? 0);
+        $intUser    = $_SESSION['user']['user_id'] ?? 0;
+
+        $objMovieModel  = new MovieModel();
+        $arrMovie       = $objMovieModel->findMovie($intId, $intUser); 
+
+        if($arrMovie === false){
+
+            $this->_redirect(); 
+            exit;
+        }
+
+        $strDateDb = $arrMovie['mov_release_date'] ?? date('Y-m-d');
+
+        try {
+ 
+            $dateStart = new DateTime($strDateDb .' 20:00:00');
+        } catch (Exception $e) {
+            $dateStart = new DateTime('now');
+        }
+
+        $dateEnd = clone $dateStart;
+        $dateEnd->modify('+2 hours');
+
+        $title          = $this->_escapeIcs($arrMovie['mov_title']);
+        $descText       = $arrMovie['mov_synopsis'] ?? "Sortie du film " . $title;
+        
+
+        $description    = $this->_escapeIcs(substr($descText, 0, 200). "..."); 
+
+        $icsContent  = "BEGIN:VCALENDAR\r\n";
+        $icsContent .= "VERSION:2.0\r\n";
+        $icsContent .= "PRODID:-//GiveMeFive//Movie Release//FR\r\n";
+        $icsContent .= "BEGIN:VEVENT\r\n";
+        $icsContent .= "UID:" . md5($intId . "movie") . "@givemefive.fr\r\n";
+        $icsContent .= "DTSTAMP:" . date('Ymd\THis') . "\r\n"; 
+        $icsContent .= "DTSTART:" . $dateStart->format('Ymd\THis') . "\r\n";
+        $icsContent .= "DTEND:" . $dateEnd->format('Ymd\THis') . "\r\n";
+        $icsContent .= "SUMMARY:" . $title . "\r\n";
+        $icsContent .= "DESCRIPTION:" . $description . "\r\n";
+        $icsContent .= "END:VEVENT\r\n";
+        $icsContent .= "END:VCALENDAR\r\n";
+
+        $filename = "sortie_" . preg_replace('/[^a-z0-9]/i', '_', $title) . ".ics";
+        
+        header('Content-Type: text/calendar; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        
+        echo $icsContent;
+        exit;
+    }
+
+	/**
+     * Escape special characters for iCalendar format
+     * @author Etienne
+     *
+     * 1. Replace various newline characters with a literal "\n" string
+     * 2. Escape commas, semicolons, and backslashes
+     * 3. Return the sanitized string safe for ICS files
+     */
+
+    private function _escapeIcs($string) {
+        $string = str_replace(["\r\n", "\r", "\n"], "\\n", $string);
+        return addcslashes($string, ",;\\");
+    }
 
     }
