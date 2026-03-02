@@ -93,14 +93,6 @@
                         $arrResult = $objUserModel->verifUser($strEmail, $strPwd);
                         if ($arrResult === false){
                                 $arrError[] = "Mail ou mot de passe invalide";
-
-                                $objUserModel->addFailedAttempts($ipAddress);
-
-                                $_SESSION['pwdError']['nbr'] += 1;
-
-                                if($_SESSION['pwdError']['nbr'] > 3){    
-                                $_SESSION['pwdError']['restrict'] = new DateTime('+5 minutes');
-                                }
                             }else{
 
                                 $objUserModel->clearLoginAttempts($ipAddress);
@@ -426,7 +418,6 @@
          */
 
         public function userPage() {
-
             $intId = $_GET['id'];
             $objUserModel = new UserModel;
 			$arrUser		= $objUserModel->userPage($intId, $_SESSION['user']['user_id']??0);
@@ -537,19 +528,25 @@
             $objUser = new UserEntity;
             $objUser->hydrate($arrUser);
 
-            if (isset($_POST['repUser']) && $_POST['repUser'] != '' && isset($_SESSION['user']['user_id'])) {
+            if (isset($_POST['repUser']) && isset($_SESSION['user']['user_id'])) {
 
                 $objReport = new ReportEntity;
                 $objReport->setReason($_POST['repUser']);
 
-                $repResult = $objUserModel->reportUser($objUser, $objReport,$_SESSION['user']['user_id']);
-
-                if ($repResult) {
-                    $_SESSION['success'] = "Le signalement a bien été envoyé !";
-                    $this->_selfRedirect();
-                }  else {
-                    $arrError[] = "erreur";
+                if($objReport->getReason() == ''){
+                    $arrError[]= "Veuillez renseigner une raison !";
                 }
+
+                if(count($arrError) == 0){
+                    $repResult = $objUserModel->reportUser($objUser, $objReport,$_SESSION['user']['user_id']);
+
+                    if ($repResult) {
+                        $_SESSION['success'] = "Le signalement a bien été envoyé !";
+                        $this->_selfRedirect();
+                    }  else {
+                        $arrError[] = "erreur";
+                    }
+                }   
 
             } elseif(isset($_POST['repDelete']) && $_POST['repDelete'] == 'delete'){
 

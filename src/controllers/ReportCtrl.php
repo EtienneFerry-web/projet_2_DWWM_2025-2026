@@ -23,7 +23,7 @@
          */
 
         public function allReport(){
-            var_dump($_SESSION);
+            
             $this->_checkAccess(2);
 
             $objCommentModel = new CommentModel;

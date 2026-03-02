@@ -52,14 +52,14 @@
         public function list(){
             $objContentModel 	= new MovieModel;
 
-            $objContentModel->producer  	= $_POST['producer']??"";
-            $objContentModel->actor 	    = $_POST['actor']??"";
-            $objContentModel->realisator 	= $_POST['realisator']??"";
-            $objContentModel->categories  	= $_POST['categories']??"";
-            $objContentModel->country     	= $_POST['country']??"";
-            $objContentModel->date 			= $_POST['date']??"";
-            $objContentModel->startdate  	= $_POST['startdate']??"";
-            $objContentModel->enddate 	    = $_POST['enddate']??"";
+            $objContentModel->producer  	= $_GET['producer']??"";
+            $objContentModel->actor 	    = $_GET['actor']??"";
+            $objContentModel->realisator 	= $_GET['realisator']??"";
+            $objContentModel->categories  	= $_GET['categories']??"";
+            $objContentModel->country     	= $_GET['country']??"";
+            $objContentModel->date 			= $_GET['date']??"";
+            $objContentModel->startdate  	= $_GET['startdate']??"";
+            $objContentModel->enddate 	    = $_GET['enddate']??"";
 
             $objPersonModel 	   = new PersonModel;
             $arrActor              = $objPersonModel->findActor();
@@ -561,38 +561,33 @@
 
 					if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
 					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
-				}else{
-					switch ($_FILES['photo']['error']){
-						case 0 :
-							$strImageName	= uniqid().".webp";
-						//Getting the original image name
-							$strOldImg	= $objMovie->getPhoto();
+					}else{
+						switch ($_FILES['photo']['error']){
+							case 0 :
+								$strImageName	= uniqid().".webp";
+							//Getting the original image name
+								$strOldImg	= $objMovie->getPhoto();
 
-							$objMovie->setPhoto($strImageName);
-							break;
+								$objMovie->setPhoto($strImageName);
+								break;
 
-						case 1 :
-							$arrError['photo'] = "Le fichier est trop volumineux";
-							break;
-						case 2 :
-							$arrError['photo'] = "Le fichier est trop volumineux";
-							break;
-						case 3 :
-							$arrError['photo'] = "Le fichier a été partiellement téléchargé";
-							break;
-						case 6 :
-							$arrError['photo'] = "Le répertoire temporaire est manquant";
-							break;
-						default :
-							$arrError['photo'] = "Erreur sur l'image";
-							break;
-					}
+							case 1 :
+								$arrError['photo'] = "Le fichier est trop volumineux";
+								break;
+							case 2 :
+								$arrError['photo'] = "Le fichier est trop volumineux";
+								break;
+							case 3 :
+								$arrError['photo'] = "Le fichier a été partiellement téléchargé";
+								break;
+							case 6 :
+								$arrError['photo'] = "Le répertoire temporaire est manquant";
+								break;
+							default :
+								$arrError['photo'] = "Erreur sur l'image";
+								break;
+						}
 				}
-				
-				
-
-			// 3. Data insertion logic
-
 			}elseif(!isset($_GET['id'])){
 
 				// Check if the file exists
@@ -613,12 +608,12 @@
 				if ($boolResultMovie === true) {
 					if (isset($strImageName)){
 						
-						$strDest = $_ENV['IMG_PATH'] . $strImageName;
+						$strDest = 'assets/img/movie/' . $strImageName;
 						
 						var_dump($strImageName);		
 						if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
 							if (!empty($strOldImg)) {
-								$strOldFile = $_ENV['IMG_PATH'].$strOldImg;
+								$strOldFile = 'assets/img/movie/'.$strOldImg;
 								if (file_exists($strOldFile)) {
 								 	unlink($strOldFile);
 								}
@@ -629,11 +624,11 @@
 					}
 
 						if (is_null($objMovie->getId())){
-							$_SESSION['success'] 	= "Le film a bien été créé";
-							$this->_redirect();
+							$_SESSION['success'] 	= "La demande du film a été enregistrer";
+							$this->_selfRedirect();
 						}else{
 							$_SESSION['success'] 	= "Le film a bien été modifié";
-							$this->_redirect("movies/allMovie");
+							$this->_redirect("movie/allMovie");
 						}
 					}else{
 						$arrError['img'] = "Erreur dans le traitement de l'image";
@@ -688,7 +683,7 @@
             if($success){
 
                 $_SESSION['success'] = "Le film a bien été supprimé";
-                $this->_redirect($_ENV['BASE_URL']."movie/allMovie");
+                $this->_redirect("movie/allMovie");
 
             }
 
@@ -709,7 +704,7 @@
             if($success){
 
                 $_SESSION['success'] = "Le film a bien été publié";
-                $this->_redirect($_ENV['BASE_URL']."movie/allMovie");
+                $this->_redirect("movie/allMovie");
 
             }
 		}

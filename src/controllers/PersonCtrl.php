@@ -107,10 +107,26 @@
             $objPersonModel = new PersonModel();
             var_dump($_POST);
             $objPerson = new PersonEntity();
-            $objPerson->hydrate($_POST);
+            
+
+            $arrPerson      = $objPersonModel->findPerson($_GET['id']);
+            $arrCountry     = $objPersonModel->allCountry();
+
+
+            $arrCountryToDisplay    = array();
+
+            foreach($arrCountry as $arrDetCountry){
+                $objPerson = new PersonEntity('pers_');
+                $objPerson->hydrate($arrDetCountry);
+
+                $arrCountryToDisplay[]  = $objPerson;
+            }
+            var_dump($arrPerson);
+			$objPerson->hydrate($arrPerson);
 
             $arrError = [];
             if (count($_POST) > 0) {
+                $objPerson->hydrate($_POST);
                 if ($objPerson->getName() == ""){
                     $arrError['name'] = "Le nom est obligatoire";
                 }
@@ -127,29 +143,64 @@
                     $arrError['bio'] = "La biographie est obligatoire";
                 }
 
-                $arrTypeAllowed	= array('image/jpeg', 'image/png');
-				if ($_FILES['photo']['error'] == 4){ 
-					$arrError['photo'] = "L'image est obligatoire";
-				}else if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
+                $arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
+				if ($_FILES['photo']['error'] != 4){
+
+				if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
 					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
+				}else{
+					switch ($_FILES['photo']['error']){
+						case 0 :
+							$strImageName	= uniqid().".webp";
+						//Getting the original image name
+							$strOldImg	= $objPerson->getPhoto();
+
+							$objPerson->setPhoto($strImageName);
+							break;
+
+						case 1 :
+							$arrError['photo'] = "Le fichier est trop volumineux";
+							break;
+						case 2 :
+							$arrError['photo'] = "Le fichier est trop volumineux";
+							break;
+						case 3 :
+							$arrError['photo'] = "Le fichier a été partiellement téléchargé";
+							break;
+						case 6 :
+							$arrError['photo'] = "Le répertoire temporaire est manquant";
+							break;
+						default :
+							$arrError['photo'] = "Erreur sur l'image";
+							break;
+					}
 				}
+				
+				
+
+			// 3. Data insertion logic
+
+			}elseif(!isset($_GET['id'])){
+
+				// Check if the file exists
+				if (is_null($objPerson->getPhoto())){
+					$arrError['img'] = "L'image est obligatoire";
+				}
+			}
 
                 if (count($arrError) == 0){
                     $objPerson->setId($_GET['id']);
 
-                    $strImageName	= uniqid();
-					switch ($_FILES['photo']['type']){
-						case 'image/jpeg' :
-							$strImageName .= '.jpg';
-							break;
-						case 'image/png' :
-							$strImageName .= '.png';
-							break;
-					}
+                    
                      $strDest = 'assets/img/person/' . $strImageName;
 
                     if(move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)){
                         $objPerson->setPhoto($strImageName);
+                        $this->_resize($strDest,280, 350);
+                        $strOldFile = 'assets/img/person/'.$strOldImg;
+                        if (file_exists($strOldFile)) {
+                            unlink($strOldFile);
+                        }
                     } else {
                         $arrError['photo'] = "Erreur lors du téléchargement";
                     }
@@ -166,20 +217,7 @@
 
             }
 
-            $arrPerson      = $objPersonModel->findPerson($_GET['id']);
-            $arrCountry     = $objPersonModel->allCountry();
-
-
-            $arrCountryToDisplay    = array();
-
-            foreach($arrCountry as $arrDetCountry){
-                $objPerson = new PersonEntity('pers_');
-                $objPerson->hydrate($arrDetCountry);
-
-                $arrCountryToDisplay[]  = $objPerson;
-            }
-
-			$objPerson->hydrate($arrPerson);
+            
 
             $this->_arrData['objPerson']            = $objPerson;
             $this->_arrData['arrCountryToDisplay']  = $arrCountryToDisplay;

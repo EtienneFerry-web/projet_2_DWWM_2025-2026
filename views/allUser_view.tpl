@@ -15,7 +15,7 @@
 
     <div class="py-2 row g-2">
         <a id="user" href="{$smarty.env.BASE_URL}admin/dashboard" class="nav-link col-2">Home</a>
-        <a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2 active">Utilisateurs</a>
+        {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 3}<a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2">Utilisateurs</a>{/if}
         <a id="addMovie" href="{$smarty.env.BASE_URL}movie/allMovie" class="nav-link col-2">Films</a>
         <a id="person" href="{$smarty.env.BASE_URL}person/allPerson" class="nav-link col-2">Célébrités</a>
         <a id="report" href="{$smarty.env.BASE_URL}report/allReport" class="nav-link col-2">Signalement</a>

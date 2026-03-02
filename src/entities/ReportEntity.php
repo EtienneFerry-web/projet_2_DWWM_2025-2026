@@ -246,7 +246,7 @@
          */
 
         public function getReason():string{
-            return $this->_reason;
+            return trim($this->_reason);
         }
 
         /**

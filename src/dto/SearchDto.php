@@ -38,6 +38,17 @@
 		}
 
 		/**
+		 * Returns the result name, truncated with '...' if too long.
+		 * @return string The entity name, truncated if it exceeds the maximum length.
+		 */
+		public function getNameFormat(): string {
+			$maxLength = 18; // Modifie selon tes besoins
+			return strlen($this->_name) > $maxLength 
+			? substr($this->_name, 0, $maxLength) . '...' 
+			: $this->_name;
+		}
+
+		/**
         * Sets the result name.
         * @param string $strName The name of the entity.
         */
@@ -74,7 +85,7 @@
         * @param string|null $strPhoto Path to the image file.
         */
 		public function setPhoto(?string $strPhoto=""){
-		   $this->_photo = $strPhoto??'assets/img/defaultImgUser.jpg';
+		   $this->_photo = $strPhoto??'defaultImgUser.jpg';
 		}
 
 		/**

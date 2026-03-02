@@ -4,7 +4,7 @@
 {block name="content"}
 <section class="container row mx-auto" id="actor">
     <div class="col-12 col-md-3 py-5 text-center ">
-        <img src="{$objPerson->getPhoto()}" alt="Photo de {$objPerson->getFullName()}" class="img-fluid w-75 w-50">
+        <img src="{$smarty.env.BASE_URL}assets/img/person/{$objPerson->getPhoto()}" alt="Photo de {$objPerson->getFullName()}" class="img-fluid w-75 w-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
             <span class="spanMovie d-block py-1">{$objPerson->getCountry()}</span>
             <span class="spanMovie d-block py-1">{$objPerson->getBirthdateFormat()}</span>

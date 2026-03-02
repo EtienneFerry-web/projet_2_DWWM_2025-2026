@@ -5,7 +5,7 @@ const sugesContainer = document.getElementById('suggestions');
 var csrfToken = document.querySelector('meta[name="csrf_token"]').content;
 let historique = JSON.parse(localStorage.getItem('allSearch')) || [];
 let timer;
-console.log(csrfToken);
+
 searchForm.addEventListener('submit', function (e) {
   if (searchBar.value.trim() === '') {
     e.preventDefault();

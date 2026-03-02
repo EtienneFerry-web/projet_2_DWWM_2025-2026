@@ -60,6 +60,7 @@
         */
 
         public function searchPage(){
+            
 
             if(isset($_GET['search']) && !empty(trim($_GET['search']))){
 
@@ -83,7 +84,7 @@
             } else {
                 $this->_redirect();
             }
-
+            
             $this->_arrData['arrResultToDisplay']	= $arrResultToDisplay;
             $this->_arrData['arrSearch']	        = $objSearch;
 

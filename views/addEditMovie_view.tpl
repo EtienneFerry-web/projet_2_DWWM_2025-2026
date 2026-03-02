@@ -74,7 +74,7 @@
 				<label for="photo" class="form-label">Affiche du film*</label>
 				
 				{if isset($smarty.get.id)}
-				<div>
+				<div class="py-1">
 					<img src="{$smarty.env.BASE_URL}assets/img/movie/{$objMovie->getPhoto()}" alt="Affiche du film {$objMovie->getTitle()}">
 				</div>
 				{/if}

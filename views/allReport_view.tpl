@@ -18,7 +18,7 @@
         <nav class="py-2 row g-2">
             <div class="py-2 row g-2">
                 <a id="user" href="{$smarty.env.BASE_URL}admin/dashboard" class="nav-link col-2">Home</a>
-                <a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2">Utilisateurs</a>
+                {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 3}<a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2">Utilisateurs</a>{/if}
                 <a id="addMovie" href="{$smarty.env.BASE_URL}movie/allMovie" class="nav-link col-2">Films</a>
                 <a id="person" href="{$smarty.env.BASE_URL}person/allPerson" class="nav-link col-2">Célébrités</a>
                 <a id="report" href="{$smarty.env.BASE_URL}report/allReport" class="nav-link col-2  active">Signalement</a>
@@ -46,15 +46,17 @@
                         <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+                    {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 3}
                         {if !$objReport->getUserBan()}
-                        <button type="button"
-                                class="btn btn-outline-danger btn-sm px-3"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalBan"
-                                data-userid="{$objReport->getReportedUserId()}"
-                                data-pseudo="{$objReport->getPseudo()}">
-                            Bannir
-                        </button>
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm px-3"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalBan"
+                                    data-userid="{$objReport->getReportedUserId()}"
+                                    data-pseudo="{$objReport->getPseudo()}">
+                                Bannir
+                            </button>
+                        {/if}
                         {/if}
                         {if $objReport->getUserBan()} <button type="submit" name="unBanUser" value="{$objReport->getReportedUserId()}" class="btn btn-outline-success btn-sm px-3">Débannir</button>{/if}
                         <button type="submit" name="addRemoveSpoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-warning btn-sm">{if $objReport->getSpoiler() == 0} Add Spoiler {else} Remove Spoiler {/if}</button>
@@ -67,7 +69,7 @@
             {/foreach}
         </div>
     </section>
-
+    {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 3}
     <section class="mb-5">
         <h3 class="h4"><i class="bi bi-people me-2"></i>Signalements : Utilisateurs</h3>
         <div class="container-fluid p-3">
@@ -107,7 +109,7 @@
             {/foreach}
         </div>
     </section>
-
+    {/if}
     <div class="modal fade" id="modalBan" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <form method="post" class="modal-content">

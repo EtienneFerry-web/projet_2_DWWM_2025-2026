@@ -47,7 +47,7 @@
        <h2 class='text-center'>Aucun Résultat !</h2>
     {else}
         {foreach from=$arrResultToDisplay item=objContent}
-            {include file="views/_partial/movieSearch.tpl"}
+            {include file="views/_partial/displaySearch.tpl"}
         {/foreach}
     {/if}
     </div>
