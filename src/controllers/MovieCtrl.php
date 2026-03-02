@@ -444,7 +444,7 @@
 			$arrMovieImages = $objMovieModel->selectImageMovie($_GET['id']);
 
 			if(!$arrMovie){
-				$this->redirect($_ENV['BASE_URL']."error/err404");
+				$this->_redirect("error/err404");
 			}
 
 			$arrImagesToDisplay = array();

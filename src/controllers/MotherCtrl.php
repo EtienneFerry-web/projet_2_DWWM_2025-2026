@@ -17,8 +17,11 @@
 
         protected array $_arrData = [];
         protected object $_objMail;
+        protected object $_now;
 
         public function __construct() {
+
+            $this->_now = new DateTime("-8 years");
 
             $this->_objMail = new PHPMailer(true); 
         
@@ -194,8 +197,8 @@
             exit;
         }
 
-        protected function _redirect($url){
-             header("Location:".$url);
+        protected function _redirect($url = ""){
+             header("Location:".$_ENV['BASE_URL'].$url);
             exit;
         }
 

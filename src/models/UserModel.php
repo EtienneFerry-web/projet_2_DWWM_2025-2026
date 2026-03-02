@@ -451,6 +451,15 @@
 			return $rqPrep->execute();
 		}
 
+		/**
+		 * Unban a user account
+		 * @author Marco
+		 *
+		 * 1. Define the SQL query to reset the ban timestamp to NULL
+		 * 2. Prepare the database statement
+		 * 3. Bind the user ID to the query parameter
+		 * 4. Execute the update and return the operation result
+		 */
 		public function unBanUser(int $intId){
             $strRq = "  UPDATE users
            					SET user_ban_at	= NULL
@@ -462,6 +471,16 @@
 
     		return $rqPrep->execute();
 		}
+
+		/**
+		 * User activity logging
+		 * @author Marco
+		 *
+		 * 1. Define the SQL statement to insert a new log record
+		 * 2. Prepare the database query
+		 * 3. Bind the user ID, event type, IP address, and user agent to the parameters
+		 * 4. Execute the query to store the log entry and return the result
+		 */
 
 		public function addLogs(array $arrData){
             $strRq = "  INSERT INTO logs_users (log_user_id, log_event, log_ip, log_agent)
@@ -476,6 +495,15 @@
 
             return $rqPrep->execute();
 		}
+		/**
+		 * Retrieve user-specific content photos
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to retrieve 'Content' type photos for a specific user
+		 * 2. Prepare the database statement
+		 * 3. Bind the user ID to the query parameter
+		 * 4. Execute the query and return the list of photos
+		 */
 
 		public function photoMovieOfUser(int $intId){
             $strRq = "  SELECT pho_id, pho_photo
@@ -490,8 +518,17 @@
 
             return $rqPrep->fetchAll();
 		}
+		/**
+		 * Delete user photo with permission check
+		 * @author Marco
+		 *
+		 * 1. Define the SQL query to delete a specific photo
+		 * 2. Restrict deletion to the photo owner or users with administrative roles (ID 2 or 3)
+		 * 3. Prepare the statement and bind the photo and user IDs
+		 * 4. Execute the deletion and return the result
+		 */	
 
-		public function deletephotoMovieOfUser(int $intPhotoId, int $intUserId){
+		public function deletePhotoMovieOfUser(int $intPhotoId, int $intUserId){
 		$strRq = "  DELETE FROM photos
                         WHERE pho_id = :phoId
                         AND (pho_user_id = :userId
@@ -508,20 +545,38 @@
             return $rq->execute();
 		}
 
+		/**
+		 * Update user password
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to update the password for a specific user ID
+		 * 2. Prepare the database statement
+		 * 3. Bind the hashed password and user ID to the query parameters
+		 * 4. Execute the update and return the success status
+		 */
+
 		public function updatePwd(object $objUser):bool{
-			// Construire la requête
+
 			$strRq 	= "UPDATE users 
 						SET user_pwd = :pwd
 						WHERE user_id = :id";
-			// Préparer la requête
 			$rqPrep	= $this->_db->prepare($strRq);
-			// Donne les informations
+
 			$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
 			$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
 
-			// Executer la requête
 			return $rqPrep->execute();
 		}
+
+		/**
+		 * Retrieve failed login attempts count
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to count failed attempts from a specific IP within the last 15 minutes
+		 * 2. Prepare the database statement and bind the IP address parameter
+		 * 3. Execute the query and fetch the result
+		 * 4. Return the total count of failed attempts as an integer
+		 */
 
 		public function getFailedAttempts(string $ip): int {
 			$strRq = "SELECT COUNT(*) as total
@@ -538,12 +593,30 @@
 			return (int)$data['total'];
 		}
 
+		/**
+		 * Record a failed login attempt
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to insert a new failed login attempt record
+		 * 2. Prepare the database statement
+		 * 3. Execute the insertion using the provided IP address
+		 */
+
         public function addFailedAttempts(string $ip): void{
             $strRq = "INSERT INTO login_attempts (attempt_ip) VALUES (:ip)";
             $rqPrep = $this->_db->prepare($strRq);
             $rqPrep->execute([':ip' => $ip]);
         }
 
+		/**
+		 * Clear failed login attempts
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to remove all failed attempt records for a specific IP
+		 * 2. Prepare the database statement
+		 * 3. Execute the deletion using the provided IP address
+		 */
+		
         public function clearLoginAttempts(string $ip): void{
             $strRq = "DELETE FROM login_attempts WHERE attempt_ip = :ip";
             $rqPrep = $this->_db->prepare($strRq);

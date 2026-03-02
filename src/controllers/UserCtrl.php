@@ -13,18 +13,17 @@
 
     use DateTime;
 
-    /**
-     * User authentication
-     * @author Etienne
-     *
-     * 1. Collect credentials from the POST request
-     * 2. Validate if the email and password fields are filled
-     * 3. If valid, verify credentials against the database
-     * 4. If authenticated, start session and redirect; else, manage failed attempts and lockout timer
-     */
-
-
     class UserCtrl extends MotherCtrl{
+
+    /**
+     * User session activity tracking
+     * @author Marco
+     *
+     * 1. Initialize the current DateTime object
+     * 2. Compare the session's stored expiration time against the current time
+     * 3. If the session is still valid, extend the expiration time by 30 minutes
+     * 4. If expired, reset the session variable, output logout signal, and terminate execution
+     */
 
         public function userActivity(){
 
@@ -40,6 +39,18 @@
             }
 
         }
+
+    /**
+     * User authentication
+     * @author Etienne
+     *
+     * 1. Retrieve POST data and client IP address
+     * 2. Check if the IP is currently blocked due to excessive failed attempts
+     * 3. Validate that email and password fields are present
+     * 4. Verify credentials; if invalid, increment failure counters and enforce restrictions
+     * 5. If valid, clear failure counters, initialize session, log the event, and redirect
+     * 6. Prepare data and render the login view
+     */
 
         public function login(){
 
@@ -71,7 +82,7 @@
 
                     if (count($arrError) == 0 ){
                         $arrResult = $objUserModel->verifUser($strEmail, $strPwd);
-                        if ($arrResult === false){//If database return nothing
+                        if ($arrResult === false){
                                 $arrError[] = "Mail ou mot de passe invalide";
 
                                 $objUserModel->addFailedAttempts($ipAddress);
@@ -97,7 +108,7 @@
                                 );
 
                                 $objUserModel->addLogs($arrData);
-                                $this->_redirect($_ENV['BASE_URL']);
+                                $this->_redirect();
                         }
                     }
                 }
@@ -131,20 +142,18 @@
             );
 
             $objUserModel->addLogs($arrData);
-            // Cleaning session from User
-
 
             if($_SESSION['last_activity'] == 0){
                 $_SESSION['success']  = "Vous avez êtes déconnecté pour inactivité !";
                 unset($_SESSION['user']);
                 unset($_SESSION['last_activity']);
-                $this->_redirect($_ENV['BASE_URL']."user/login");
+                $this->_redirect("user/login");
                
             } else {
                 $_SESSION['success']  = "Vous êtes bien déconnecté";
                 unset($_SESSION['user']);
                 unset($_SESSION['last_activity']);
-                $this->_redirect($_ENV['BASE_URL']);
+                $this->_redirect();
             }
 
         }
@@ -156,7 +165,6 @@
         * 1. Collect information from the form
         * 2. Test if the form is correctly filled
         * 3. If the form is correctly filled, add of the information in the database, else ERROR
-        *
         */
 
         public function createAccount(){
@@ -173,9 +181,10 @@
             $objUser->hydrate($_POST);
 
             $arrError = [];
-
+            var_dump($this->_now);
             if (count($_POST) > 0) {
-
+                
+            $birthdate = $objUser->getBirthdate();
                
 
                 if ($objUser->getName() == ""){
@@ -187,63 +196,36 @@
                 if ($objUser->getPseudo() == ""){
                     $arrError['pseudo'] = "Le pseudo est obligatoire";
                 }
-                if ($objUser->getBirthdate() == ""){
-                    $arrError['birthdate'] = "La date de naissance est obligatoire";
+                if ($birthdate == ""){
+                    $arrError['birthdate'] = "La date de naissance est obligatoire.";
+                }
+                if ($birthdate instanceof DateTime && $birthdate > $this->_now) {
+                    $arrError['birthdate'] = "Vous devez avoir plus de 8 ans.";
                 }
                 if ($objUser->getEmail() == ""){
                     $arrError['email'] = "Le mail est obligatoire";
                 }else if (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)){
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
-
-                $password = $objUser->getPwd();
-
-
-                if ($password == "") {
-                    $arrError['pwd'] = "Le mot de passe est obligatoire";
-                } else {
-                    if(strlen($password) < 16) {
-                        $arrError['pwd'] = "Le mot de passe doit au moins avoir 16 caractères";
-                    }
-
-                    if (!preg_match('/[A-Z]/', $password)) {
-                        $arrError['pwd'] = "Il manque une majuscule";
-                    }
-
-                    if (!preg_match('/[a-z]/', $password)) {
-                        $arrError['pwd'] = "Il manque une minuscule";
-                    }
-
-                    if (!preg_match('/[0-9]/', $password)) {
-                        $arrError['pwd'] = "Il manque au moins un chiffre";
-                    }
-
-                    if (!preg_match('/[#?!@$%^&*-]/', $password)) {
-                        $arrError['pwd'] = "Il manque un caractère spécial (#?!@$%^&*-)";
-                    }
-
-                    if ($password != $strPwdConfirm){
-                        $arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
-                    }
-                }
-
-                //If form is correctly filled
+                //use verifypwd for regex
+                //$arrError = $this->_verifPwd($objUser, $strPwdConfirm);
+                
                 if (count($arrError) == 0){
-                    //Database add
+            
                     $objUserModel   = new UserModel;
                     $boolInsert     = $objUserModel->insert($objUser);
 
                     if($boolInsert != true && $boolInsert['user_email'] == $objUser->getEmail()){
-                        $arrError[] = 'Adresse mail ou Mots de passe Invalide !';
+                        $arrError[] = "Adresse mail ou Mots de passe Invalide !";
                     }
                     if($boolInsert != true  && $boolInsert['user_pseudo'] == $objUser->getPseudo()){
-                       $arrError[] = 'pseudo probleme change';
+                       $arrError[] = "Ce pseudonyme est déja utilisé !";
                     }
 
                     if ($boolInsert != false && count($arrError) == 0){
 
                             $_SESSION['success']    = "Le compte compte a bien été crée";
-                            $this->_redirect($_ENV['BASE_URL']."user/login");
+                            $this->_redirect("user/login");
 
                     }else{
                         $arrError[] = '';
@@ -258,7 +240,7 @@
             $this->_arrData['strEmail']     = $strEmail;
             $this->_arrData['arrError']     = $arrError;
             $this->_arrData['objUser']      = $objUser;
-            // Afficher
+
             $this->_display("createAccount");
         }
 
@@ -418,7 +400,7 @@
 			$arrUser		= $objUserModel->userPage($intId, $_SESSION['user']['user_id']??0);
 
             if (!$arrUser) {
-                $this->_redirect($_ENV['BASE_URL']."error/err404");
+                $this->_redirect("error/err404");
             }
 
 			$objUser       = new UserEntity('mov_');
@@ -431,12 +413,14 @@
             $arrError = [];
 
             if (isset($_POST['deleteImage']) && isset($_SESSION['user'])) {
-                $result = $objUserModel->deletephotoMovieOfUser($_POST['deleteImage'], $_SESSION['user']['user_id']);
+                $result = $objUserModel->deletePhotoMovieOfUser($_POST['deleteImage'], $_SESSION['user']['user_id']);
 
                 if ($result) {
                     $_SESSION['success'] = "L'image à bien était supprimer !";
+                    $this->_selfRedirect();
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
+                    
                 }
             }
 
@@ -449,6 +433,7 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était supprimer !";
+                    $this->_selfRedirect();
                 } else {
                     $arrError[] = "erreur lors de la suppression veulliez réssayer !";
                 }
@@ -475,8 +460,7 @@
 
                 if ($repResult) {
                     $_SESSION['success'] = "Le signalement a bien été envoyé !";
-                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
-                    exit;
+                    $this->_selfRedirect();
                 }  else {
                     $arrError[] = "erreur";
                 }
@@ -490,6 +474,7 @@
 
                     if ($repResult) {
                         $_SESSION['success'] = "Votre signalement a bien était supprimer ! !";
+                        $this->_selfRedirect();
                     }  else {
                         $arrError[] = "erreur";
                     }
@@ -501,21 +486,17 @@
 
 					if ($repResult === 1) {
 						$_SESSION['success'] = "Votre like a bien été pris en compte !";
-                        header("Location: index.php?ctrl=user&action=user&id=" . $intId);
-                        exit;
+                        $this->_selfRedirect();
 					} else if($repResult === 2) {
 						$_SESSION['success'] = "Votre like a bien été était supprimer !";
+                        $this->_selfRedirect();
 					}
-
-    			}elseif(isset($_POST['likeReviewBtn']) && !isset($_SESSION['user'])){
-    				$arrError[''] = "Vous devez etre connecté pour liker un commentaire";
     			}
-
-
 
             if (isset($_POST['spoiler']) && $_SESSION['user']['user_funct_id'] != 1) {
                 if ($objCommentModel->addSpoiler($_POST['spoiler'])) {
                     $_SESSION['success'] = "Spoiler Update !";
+                    $this->_selfRedirect();
                 }
             }
 
@@ -533,8 +514,7 @@
 
                 if ($repResult) {
                     $_SESSION['success'] = "Le signalement a bien été envoyé !";
-                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
-                    exit;
+                    $this->_selfRedirect();
                 }  else {
                     $arrError[] = "erreur";
                 }
@@ -545,8 +525,7 @@
 
                 if ($repResult) {
                     $_SESSION['success'] = "Votre signalement a bien était supprimer ! !";
-                    header("Location: index.php?ctrl=user&action=user&id=" . $intId);
-                    exit;
+                    $this->_selfRedirect();
                 }  else {
                     $arrError[] = "erreur";
                 }
@@ -623,6 +602,7 @@
 
             $this->_display("user");
         }
+
         /**
          * Delete user account (Self-service or Administrative)
          * @author Etienne
@@ -649,15 +629,13 @@
                 $intTargetId = (int)$_GET['id'];
 
                 if ($myRank != 2 && $myRank != 3){
-                    header("Location:index.php?ctrl=error&action=err403");
-                    exit;
+                    $this->_selfRedirect();
                 }
 
 
                 if ($intTargetId == $myId){
                     $_SESSION['error'] = "Pour supprimer votre propre compte, ne passez pas par la gestion admin.";
-                    header("Location:index.php?ctrl=admin&action=dashboard");
-                    exit;
+                    $this->_selfRedirect();
                 }
 
 
@@ -665,8 +643,7 @@
 
                 if(!$arrTargetData) {
                     $_SESSION['error'] = "Cet utilisateur n'existe pas.";
-                    header("location:index.php?ctrl=user&action=allUser");
-                    exit;
+                    $this->_selfRedirect();
                 }
 
 
@@ -677,26 +654,23 @@
 
                 if($targetRank == 3) {
                     $_SESSION['error'] = "ACTION REFUSÉE : Impossible de supprimer un Administrateur.";
-                    header("location:index.php?ctrl=user&action=allUser");
-                    exit;
+                    $this->_selfRedirect("error/err403");
                 }
 
 
                 if($myRank <= $targetRank) {
                     $_SESSION['error'] = "Vous n'avez pas le grade suffisant pour supprimer cet utilisateur.";
-                    header("location:index.php?ctrl=user&action=allUser");
-                    exit;
+                    $this->_selfRedirect("error/err403");
                 }
 
                 if($objUserModel->deleteUser($intTargetId)) {
                     $_SESSION['success'] = "L'utilisateur a bien été supprimé.";
+                    $this->_selfRedirect();
                 } else {
                     $_SESSION['error'] = "Erreur technique lors de la suppression.";
                 }
 
-
-                header("Location:index.php?ctrl=user&action=allUser");
-                exit;
+               $this->_selfRedirect();
 
             }
 
@@ -708,13 +682,10 @@
                     session_destroy();
                     session_start();
                     $_SESSION['success'] = "Votre compte a bien été supprimé. Au revoir !";
-
-                    header("Location:index.php");
-                    exit;
+                    $this->_selfRedirect();
                 } else {
                     $_SESSION['error'] = "Erreur lors de la suppression de votre compte.";
-                    header("Location:index.php");
-                    exit;
+                    $this->_selfRedirect();
                 }
             }
         }
@@ -731,14 +702,13 @@
          * */
 
         public function allUser(){
+            $this->_checkAccess(3);
 
             $search = $_GET['search'] ?? NULL;
             $filter = $_GET['filter'] ?? 'all';
 
-			if (!isset($_SESSION['user']) && $_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3){ // Pas d'utilisateur connecté
-				header("Location:index.php?ctrl=error&action=err403");
-				exit;
-			}
+
+
 
 			$objUserModel 	= new UserModel;
 			$arrUsers 		= $objUserModel->findAllUsers();
@@ -775,10 +745,7 @@
 
         public function settingsAllUser() {
 
-            if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
-            header("Location:index.php?ctrl=error&action=error_403");
-            exit;
-            }
+            $this->_checkAccess(3);
 
             $objUserModel	= new UserModel;
             $arrUser		= $objUserModel->userPage($_GET['id']??$_SESSION['user']['user_id']);
@@ -826,8 +793,7 @@
                         if($objUser->getPseudo() == $_SESSION['user']['user_pseudo']){
 
                         $_SESSION['success'] = "Le profil à bien été mis à jour";
-                        header("Location:index.php?ctrl=user&action=settingsAllUser");
-                        exit;
+                        $this->_redirect("user/allUser");
                         }
                     }else{
                         $arrError[] = "Erreur lors de la mise a jours, veuillez reessayer";
@@ -853,11 +819,10 @@
          * 5. Redirect back to the user management list
          *
          */
+
         public function updateGrade() {
-            if(!isset($_SESSION['user']) || ($_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3)) {
-                header("Location:index.php?ctrl=error&action=err403");
-                exit;
-            }
+            
+            $this->_checkAccess(3);
 
             $intIdUser      = $_GET['id']?? null;
             $intNewGrade = $_POST['user_funct_id'] ?? null;
@@ -873,22 +838,37 @@
                 }
             }
 
-            header("Location: index.php?ctrl=user&action=allUser");
+            $this->_redirect("user/allUser");
         }
 
-         /**
-		* @author Audrey
-		* Affichage de la page permission en fonction de son grade
-		*/
+        /**
+         * Permissions page access control
+		 * @author Audrey
+         * 
+         *
+         * 1. Verify if the user is logged in and holds a specific role (ID 2 or 3)
+         * 2. If authentication or authorization fails, redirect to a 403 error page and exit
+         * 3. If authorized, load and display the permissions view
+         */
 
         public function permissions() {
-            if(!isset($_SESSION['user']) || ($_SESSION['user']['user_funct_id'] != 2 && $_SESSION['user']['user_funct_id'] != 3)) {
-                header("Location:index.php?ctrl=error&action=err403");
-                exit;
-            }
+        
+            $this->_checkAccess();
 
             $this->_display("permissions");
         }
+
+        /**
+         * Password recovery request handling
+         * @author Etienne
+         *
+         * 1. Initialize user entity and check for POST data
+         * 2. Retrieve email and search for the user in the database
+         * 3. Set a generic success message to prevent user enumeration
+         * 4. If user exists, generate a secure token and save it to the database
+         * 5. Construct the recovery link, generate the email body via template, and send the email
+         * 6. Render the forgot password view
+         */
 
         public function forgotPwd(){
 			$objUser 	= new UserEntity();
@@ -908,18 +888,13 @@
                 $_SESSION['success'] = "Si vous êtes inscrit sur notre site, vous allez recevoir un mail contenant un lien pour redéfinir votre mot de passe.";
 				
 				if ($arrUser !== false){
-					$strToken 	= bin2hex(random_bytes(64)); // Génère un token aléatoire
+					$strToken 	= bin2hex(random_bytes(64));
 					$boolOk		= $objModel->updateForgotInfos($strToken, $arrUser['user_id']);
 					if ($boolOk){
-                        //Construction lien
-                        /*
-                        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-                        $domainName = $_SERVER['HTTP_HOST']; 
-
-                        $link = $protocol . $domainName . "/givemefive/index.php?ctrl=user&action=recoverPwd&token=" . $strToken;*/
+                      
                         $link = "http://localhost:8888/givemefive/index.php?ctrl=user&action=recoverPwd&token=" . $strToken;
 
-						// Destinataire(s)
+				
 						$this->_objMail->addAddress($arrUser['user_email'], $arrUser['user_name'].' '.$arrUser['user_firstname']);
 						$this->_objMail->Subject    = "Mot de passe oublié";
 				
@@ -930,7 +905,8 @@
 						$this->_objMail->Body      	= $this->_display("mailForgotPwd", false);
 
                         if($this->_sendMail()){
-                            $_SESSION['success'] = "Ca marche !";
+                            $_SESSION['success'] = "Cliquez sur le lien que nous venons de vous envoyer par e-mail pour continuer.";
+                            $this->_selfRedirect();
                         }
                     }
 				}
@@ -938,17 +914,26 @@
 			
 			$this->_display("forgotPwd");
         }
-		/**
-		* Page de modification du mot de passe si oublié
-		*/
+
+        /**
+         * Password reset processing
+         * @author Etienne
+         *
+         * 1. Retrieve and validate the recovery token from the URL; redirect to login if missing
+         * 2. Verify the token against the database to identify the associated user
+         * 3. If the token is invalid or expired, redirect to the forgot password page
+         * 4. On form submission, validate the new password and its confirmation
+         * 5. If valid, update the password in the database and redirect to the login page
+         * 6. Render the recovery view, displaying errors if the update failed or validation didn't pass
+         */
+	
 		public function recoverPwd(){
             var_dump($_POST);
             $strToken = $_GET['token'] ?? '';
             $arrError = [];
             if(empty($strToken)){
                 $_SESSION['error'] = "Token manquant.";
-                header("Location:index.php?ctrl=user&action=login");
-                exit;
+                $this->_redirect("user/login");
             }
 
 			$objModel	= new UserModel();
@@ -956,8 +941,7 @@
 
             if($arrUser === false) {
                 $_SESSION['error'] = "Ce lien de réinitialisation est invalide ou expiré.";
-                header("Location:index.php?ctrl=user&action=forgotPwd");
-                exit;
+                $this->_selfRedirect("user/forgotPwd");
             }
 			
 			if (count($_POST) > 0){
@@ -971,8 +955,7 @@
 					$boolOk	= $objModel->updatePwd($objUser);
 					if ($boolOk){
 						$_SESSION['success'] = "Votre mot de passe a bien été changé";
-						header("Location:index.php?ctrl=user&action=login");
-						exit;
+						$this->_redirect("user/login");
 					}else{
 						$arrError[]	= "Erreur lors du changement de mot de passe.";
 					}
@@ -985,11 +968,15 @@
 		}
 
         /**
-         * Vérification de la complexité du mot de passe
-         * @param UserEntity $objUser
-         * @param string $strPwdConfirm
-         * @return array
+         * Password complexity and confirmation validation
+         * @author Etienne
+         *
+         * 1. Retrieve the password from the user entity
+         * 2. Validate the password against complexity rules (length, case, numbers, special characters)
+         * 3. Compare the password with the confirmation string to ensure they match
+         * 4. Return an array containing any validation errors found
          */
+        
         private function _verifPwd(UserEntity $objUser, string $strPwdConfirm): array {
             $arrError = [];
             $password = $objUser->getPwd();
