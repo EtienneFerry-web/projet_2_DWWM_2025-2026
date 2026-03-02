@@ -21,8 +21,9 @@
 
 
 		/**
-		* Constructeur
-		*/
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
+        */
 		public function __construct(string $prefixe = ""){
 			$this->_prefixe = $prefixe;
 		}

@@ -35,9 +35,10 @@
 
 
 		/**
-		 * Constructor.
-		 * Sets the prefix used by the hydrator (e.g., user_name, user_email, etc.).
-		 */
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
+        */
+
 		public function __construct(){
 			// Table prefix for hydratation
 			$this->_prefixe = 'user_';
@@ -46,6 +47,7 @@
 		/**
 		 * Getters & Setters
 		 */
+		
 		/**
 		 * Getting the Lastname
 		 * @return string from the objectUser

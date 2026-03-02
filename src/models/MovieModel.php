@@ -3,7 +3,6 @@
     use PDO;
 
     /**
-     * @author Marco Schmitt
      * 27/02/2026
      * Version 1
      */
@@ -22,6 +21,7 @@
         public string $job          = 'ASC';
 
         /**
+        * @author Marco
         * Retrieving a list of all movies in the database
         * @return array a collection containing only the ID and title of every movie
         */
@@ -33,6 +33,7 @@
         }
 
         /**
+        * @author Marco
         * Retrieving recent movie releases from the last 30 days
         * @return array a list of movies with their official poster, average rating, and like count
         */
@@ -52,6 +53,7 @@
         }
 
         /**
+        * @author Marco 
         * Dynamic filtering and retrieval of all movies
         * @return array a filtered collection of movies with ratings, likes, and posters
         */
@@ -247,7 +249,7 @@
          * Deletes a user's rating for a specific movie if no associated comment exists.
          * * This method first checks the 'comments' table. If no comment is found for the 
          * given user and movie, it proceeds to delete the record from the 'ratings' table.
-         * * @author Audrey
+         * * @author Marco
          * @param int $intUserId The unique identifier of the user.
          * @param int $intMovieId The unique identifier of the movie.
          * @return bool True if the rating was deleted, false if a comment exists or if the query failed.
@@ -351,6 +353,7 @@
 
 		}
         /**
+        * @author Marco
         * Retrieving full details for a single movie
         * @param int $idMovie the identifier of the movie to fetch
         * @param int $intUserId the ID of the connected user to retrieve personalized flags (rating, like, report)
@@ -402,6 +405,7 @@
         }
 
         /**
+        * @author Marco
         * Retrieving the collection of movies liked by a specific user
         * @param int $idUser the identifier of the user whose liked movies are being fetched
         * @return array a list of movies including their IDs and posters, ordered by the date they were liked
@@ -425,6 +429,7 @@
 		}
 
         /**
+        * @author Marco
         * Retrieving a list of all countries/nationalities
         * @return array a collection of countries with their IDs and names
         */
@@ -439,6 +444,7 @@
 		}
 
         /**
+        * @author Marco
         * Retrieving a list of all movie categories/genres
         * @return array a collection of categories with their IDs and names
         */
@@ -453,6 +459,7 @@
         }
 
         /**
+        * @author Audrey 
         * Adding a new movie and its associated metadata (photo and category)
         * @param object $objNewMovie the MovieEntity containing all details for the new entry
         * @return bool returns true if the movie, poster, and category were all successfully inserted
@@ -518,6 +525,15 @@
 			return $rqPrep->execute();
         }
 
+        /**
+         * @brief Publishes a movie by setting its publication timestamp.
+         * @details Updates the 'mov_published_at' field to the current date and time (NOW()), 
+         * making the movie visible on the platform.
+         * @author Marco
+         * @param int $intId The unique identifier of the movie to be published.
+         * @return bool True on success, false on failure.
+         */
+
         public function publishMovie(int $intId){
 			$strRq = "UPDATE movies
                         SET mov_published_at = NOW()
@@ -533,6 +549,7 @@
 
 
         /**
+        * @author Etienne
         * Toggling a like (favorite) on a movie
         * @param int $intUserId the identifier of the user liking the movie
         * @param int $intMovId the identifier of the movie being liked
@@ -573,6 +590,7 @@
 		}
 
         /**
+        * @author Marco
         * Adding a community image to a movie's gallery
         * @param string $img the filename or path of the image to be added
         * @param int $intMovId the identifier of the movie the image belongs to
@@ -626,6 +644,7 @@
 
 
         /**
+        * @author Marco
         * Retrieving the gallery of community/content images for a movie
         * @param int $intMovId the identifier of the movie to fetch images for
         * @return array a collection of images (ID and filename) with the 'Content' type
@@ -644,6 +663,7 @@
 		}
 
         /**
+        * @author Marco
         * Submitting a report for a specific movie
         * @param object $objReport the ReportEntity containing the movie ID, reporter ID, and reason
         * @return bool returns true if the report was successfully saved in the database
@@ -665,6 +685,7 @@
 		}
 
         /**
+        * @author Audrey
         * Deleting a specific movie report
         * @param object $objReport the ReportEntity containing the movie ID and reporter ID
         * @return bool returns true if the report was successfully removed
@@ -684,6 +705,7 @@
 		}
 
         /**
+        * @author Marco Schmitt
         * Creating or updating a user rating and retrieving the new global average
         * @param int $intIdUser the identifier of the user giving the rating
         * @param int $movId the identifier of the movie being rated
@@ -772,6 +794,7 @@
 
 
         /**
+        * @author Etienne
         * Getting the total number of likes across the entire platform
         * @return int the total count of all likes (movies and comments combined)
         */
@@ -783,19 +806,8 @@
 			return $this->_db->query($strRq)->fetchColumn();
 		}
 
-        // /**
-        // * Getting the total number of movies in the catalog
-        // * @return int the total count of all movie records
-        // */
-        // public function countAllLikesFromOneUser(int $intUserId) {
-		// 	$strRq = "SELECT COUNT(*)
-		// 				FROM liked
-        //                 WHERE lik_user_id =  $intUserId";
-
-		// 	return $this->_db->query($strRq)->fetchColumn();
-		// }
-
         /**
+        * @author Etienne
         * Getting the total number of movies across the entire platform
         * @return int the total count of all movies 
         */
@@ -808,6 +820,7 @@
 		}
 
         /**
+        * @author Etienne
         * Retrieving the 10 most recently added movies
         * @return array a list of the latest movies with their like and comment counts
         */
@@ -826,6 +839,7 @@
         }
 
         /**
+        * @author Etienne
         * Retrieving the top 5 movies with the most likes
         * @return array the most popular movies based on user "likes"
         */
@@ -845,6 +859,7 @@
         }
 
         /**
+        * @author Etienne
         * Retrieving the top 5 movies with the most comments
         * @return array the most discussed movies on the platform
         */

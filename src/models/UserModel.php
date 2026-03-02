@@ -490,7 +490,7 @@
 
 		/**
          * @brief Retrieves all "Content" type photos uploaded by a specific user.
-         * @author Etienne
+         * @author Marco
          * @param int $intId The user's unique ID.
          * @return array A list of photos (IDs and paths).
          */
@@ -536,7 +536,7 @@
 		/**
          * @brief Compiles engagement statistics (Total comments and likes).
          * @details Uses subqueries to count active comments and likes for a specific user ID.
-         * @author Etienne
+         * @author Audrey
          * @param int $intUserId The user's unique ID.
          * @return array Statistics array ['user_nb_comments', 'user_nb_liked'].
          */
@@ -562,18 +562,6 @@
 			return $rqPrep->fetch();
 
 		}
-
-		// public function updatePwd(object $objUser):bool {
-		// 	$strRq = "UPDATE users
-		// 				SET user_pwd 			= :pwd,
-		// 					user_reset_token 	= NULL,
-		// 					user_reset_expires 	= NULL
-		// 				WHERE user_id = :id";
-		// 	$prep = $this->_db->prepare($strRq);
-		// 	$prep->bindValue(":pwd", password_hash($objUser->getPwd(), PASSWORD_DEFAULT), PDO::PARAM_STR);
-		// 	$prep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
-		// 	return $prep->execute();
-		// }
 
 		/**
          * @brief Updates a user's password with a new hash.

@@ -14,6 +14,7 @@
     public int $intJob = 0;
 
     /**
+    * * @author Audrey
     * Retrieving the complete cast and crew for a specific movie
     * @param int $idMovie the identifier of the movie
     * @return array a list of all persons (actors, directors, etc.) and their nationality
@@ -33,6 +34,7 @@
     }
 
     /**
+    * @author Audrey
     * Retrieving a simplified list of all persons in the database
     * @return array a collection of all individuals with their IDs and full names
     */
@@ -46,6 +48,7 @@
     }
 
     /**
+    * @author Marco
     * Retrieving a list of all individuals registered as Actors
     * @return array a collection of people who have held the 'Actor' role (Job ID 3)
     */
@@ -66,6 +69,7 @@
     }
 
     /**
+    * @author Audrey
     * Retrieving a specific individual's profile
     * @param int $idPerson the unique identifier of the person
     * @return array|bool the complete person data including nationality, or false if not found
@@ -85,6 +89,7 @@
     }
 
     /**
+    * @author Marco
     * Retrieving a list of all individuals registered as Directors
     * @return array a collection of people who have held the 'Director' role (Job ID 1)
     */
@@ -103,6 +108,7 @@
     }
 
     /**
+    * @author Marco
     * Retrieving a list of all individuals registered as Producers
     * @return array a collection of people who have held the 'Producer' role (Job ID 2)
     */
@@ -121,6 +127,7 @@
     }
 
     /**
+     * @author Marco
     * Retrieving all professional roles (jobs) held by a specific person
     * @param int $idPerson the identifier of the person
     * @return array a collection of job IDs and names associated with the person
@@ -141,6 +148,7 @@
     }
 
     /**
+     * @author Audrey
      * Retrieving the master list of all possible professional roles (Director, Actor, etc.)
      * @return array a collection of all jobs with consistent 'pers_' aliasing
      */
@@ -153,6 +161,7 @@
     }
 
     /**
+     * @author Audrey
      * Retrieving the master list of all available nationalities
      * @return array a collection of all countries with consistent 'pers_' aliasing
      */
@@ -164,28 +173,6 @@
 
         return $this->_db->query($strRq)->fetchAll();
 	}
-
-    /**
-     * Insert a new person into the database
-     * @author Audrey
-     * @param object $objPerson The Person entity containing profile details
-     * @return bool Returns true if the insertion was successful, false otherwise
-     */
-
-    public function insertPerson(object $objPerson): bool {
-        $strRq = "INSERT INTO persons (pers_name, pers_firstname, pers_birthdate, pers_deathdate, pers_nat_id)
-                   VALUES (:name, :firstname, :birthdate, :deathdate, :nat_id)";
-
-        $rqPrep = $this->_db->prepare($strRq);
-        $rqPrep->bindValue(':id', $objPerson->getId(), PDO::PARAM_INT);
-        $rqPrep->bindValue(':name', $objPerson->getName(), PDO::PARAM_STR);
-        $rqPrep->bindValue(':firstname', $objPerson->getFirstname(), PDO::PARAM_STR);
-        $rqPrep->bindValue(':birthdate', $objPerson->getBirthdate(), PDO::PARAM_STR);
-        $rqPrep->bindValue(':deathdate', $objPerson->getDeathdate(), PDO::PARAM_STR);
-        $rqPrep->bindValue(':nat_id', $objPerson->getNationalityId(), PDO::PARAM_INT);
-
-        return $rqPrep->execute();
-    }
 
     /**
      * Update an existing person's details in the database

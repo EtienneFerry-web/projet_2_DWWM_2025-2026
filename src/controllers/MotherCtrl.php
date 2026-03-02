@@ -167,6 +167,7 @@
         }
 
         /** 
+        * @author Marco
         * Generates and stores the CSRF token in the session with an expiration timestamp
         * @return string $token The generated security token
         */
@@ -179,6 +180,7 @@
         }
         
         /**
+        * @author Marco
         * Verifies the CSRF token integrity and expiration
         * @param string $token The token string to validate
         * @return bool True if the token is valid and not expired, false otherwise
@@ -216,6 +218,7 @@
         }
 
         /**
+        * @author Etienne
         * Configures and sends an email using the PHPMailer object
         * @return bool Returns true if the email was sent successfully, false otherwise
         */

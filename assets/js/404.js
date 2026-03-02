@@ -51,7 +51,7 @@ class DvdAnimation {
         this.movY *= -2;
     }
 
-  update(timestamp) {
+    update(timestamp) {
         //Survielle le temps de frame pour un fluidité similaire surtout les l'écrans
         if (!this.lastTime) this.lastTime = timestamp;
         const deltaTime = (timestamp - this.lastTime) / 1000;

@@ -25,13 +25,17 @@
 		private int		$_user_liked = 0;
 
 		/**
-        * Constructor
-        * Sets the table prefix for hydration
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
         */
 
 		public function __construct(string $prefixe = ""){
 			$this->_prefixe = 'com_';
 		}
+
+		/**
+		 * Getters & Setters
+		 */
 
 		/**
         * Getting the formatted date

@@ -19,6 +19,7 @@
     class MovieCtrl extends MotherCtrl{
 
 		/**
+		* @author Marco
         * Main home page of the application
         * @return void retrieves the latest movies and displays the homepage view
         */
@@ -43,6 +44,7 @@
         }
 
 		/**
+		* @author Marco
         * Filtering and displaying the movie list
         * @return void handles search filters and hydrates entities for actors, directors, producers, and movies
         */
@@ -146,6 +148,7 @@
         }
 
 		/**
+		* @author Marco
 		* Updates the movie rating and returns the new average.
 		* * Receives the movie ID via GET and the user's rating via a JSON POST.
 		* Inserts or updates the value in the database and returns the 
@@ -175,6 +178,8 @@
 
 
 		/**
+		* @author Marco & Etienne
+		* Marco(Note, Insert Image, Report, Content display) & Etienne(Insert Comment, Insert / Remove Like)
         * Single movie details page
         * @return void manages ratings, likes, comments, reports, and image uploads for a specific movie
         */
@@ -490,8 +495,9 @@
 				$arrCommentToDisplay[]	= $objComment;
 			}
 
-			$this->_arrData['arrError'] = $arrError;
+			
 
+			$this->_arrData['arrError'] = $arrError;
 			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
 			$this->_arrData['arrImagesToDisplay'] = $arrImagesToDisplay;
@@ -501,6 +507,7 @@
         }
 
 		/**
+		* @author Audrey
         * Adding a new movie to the catalog
         * @return void handles form validation, file upload, and database insertion
 		* @todo récupérer la partie d'audrey
@@ -666,6 +673,7 @@
         }
 
 		/**
+		* @author Audrey
         * Deleting a movie from the database
         * @return void redirects to the dashboard with a success message upon deletion
         */
@@ -687,6 +695,7 @@
 		}
 
 		/**
+		* @author Marco
         * Updating a movie from the database
         * @return void redirects to the dashboard with a success message upon deletion
         */
@@ -706,6 +715,7 @@
 		}
 
 		/**
+		* @author Marco
         * Management page for all movies
         * @return void retrieves all movies from the database and displays the administration list
         */

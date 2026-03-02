@@ -9,7 +9,7 @@
 
     <div class="row align-items-center">
         <div class="rounded-circle col-auto">
-            <img src="{$smarty.env.BASE_URL}assets/img/{$comment->getPhoto()}"
+            <img src="{$smarty.env.BASE_URL}assets/img/users/{$comment->getPhoto()}"
                 class="rounded-circle border"
                 style="width: 40px; height: 40px; object-fit: cover;"
                 alt="Avatar">

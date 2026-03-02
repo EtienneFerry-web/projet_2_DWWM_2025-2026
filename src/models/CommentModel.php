@@ -5,7 +5,6 @@
 	use PDOException;
 
      /**
-     * @author Marco Schmitt
      * 27/02/2026
      * Version 1
      */
@@ -13,6 +12,7 @@
     class CommentModel extends Connect{
 
         /**
+        * @author Marco Schmitt
         * Retrieving all comments for a specific movie
         * @param int $idMovie the identifier of the movie
         * @param int $idConnectUser the ID of the currently logged-in user (for personalized flags)
@@ -51,7 +51,7 @@
                         INNER JOIN movies ON comments.com_movie_id = movies.mov_id
                         LEFT JOIN liked ON liked.lik_com_id = comments.com_id AND liked.lik_mov_id IS NULL
                         LEFT JOIN ratings ON ratings.rat_mov_id = movies.mov_id AND ratings.rat_user_id = users.user_id
-                        WHERE movies.mov_id = :id AND user_ban_at < NOW() AND user_delete_at IS NULL
+                        WHERE movies.mov_id = :id AND user_delete_at IS NULL AND (user_ban_at < NOW() OR user_ban_at IS NULL)
                         GROUP BY
                             comments.com_id,
                             comments.com_user_id,
@@ -71,6 +71,7 @@
         }
 
         /**
+        * @author Marco Schmitt
         * Retrieving all reviews and ratings posted by a specific user
         * @param int $idUser the identifier of the user whose reviews are being fetched
         * @param int $idConnectUser the ID of the currently logged-in user (to check for interaction flags)
@@ -178,6 +179,7 @@
         }
 
         /**
+        * @author Marco Schmitt
         * Modifying an existing comment and its associated rating
         * @param object $objComment the CommentEntity containing the updated data
         * @param int $comId the identifier of the user performing the modification
@@ -231,6 +233,7 @@
         }
 
         /**
+        * @author Marco Schmitt
         * Deleting a comment from the database
         * @param object $objComment the CommentEntity containing the ID and the requester's user ID
         * @return bool returns true if the deletion was successful (authorized by ownership or rank)
@@ -256,6 +259,7 @@
         }
 
         /**
+        * @author Marco Schmitt
         * Toggling the spoiler status of a comment
         * @param int $idComment the identifier of the comment to update
         * @return bool returns true if the toggle was successful
@@ -274,6 +278,7 @@
         }
 
         /**
+        * @author Marco Schmitt
         * Reporting a comment for moderation
         * @param object $objReport the ReportEntity containing the comment ID and reason
         * @param int $reporterId the ID of the user filing the report
@@ -313,6 +318,7 @@
         }
 
         /**
+        * @author Marco Schmitt
         * Removing a specific comment report
         * @param object $objReport the ReportEntity containing the reported comment identifier
         * @param int $intId the identifier of the reporter who filed the report
@@ -333,6 +339,7 @@
 		}
 
         /**
+        * @author Etienne
         * Toggling a like on a comment
         * @param int $intUserId the identifier of the user liking the comment
         * @param int $intComId the identifier of the comment being liked
@@ -373,6 +380,7 @@
 		}
         
         /**
+        * @author Etienne
         * Getting the total number of comments in the database
         * @return int the total count of all user comments
         */

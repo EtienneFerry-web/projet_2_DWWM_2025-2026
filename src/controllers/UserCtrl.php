@@ -421,6 +421,7 @@
          * - All reviews/comments written by the user.
          * - User-specific statistics (counts of likes, comments, etc.).
          * * @author Marco & Etienne
+         * Marco(All) & Etienne(Insert / Remove Like)
          * @return void Renders the "user" view or handles redirects for POST actions.
          */
 
@@ -476,7 +477,7 @@
 
                 if ($result) {
                     $_SESSION['success'] = "Le commentaire à bien était modifier !";
-                  
+                    $this->_selfRedirect();
                 } else {
                     $arrError[] = "erreur lors de la modification";
                 }
@@ -736,17 +737,12 @@
             $search = $_GET['search'] ?? NULL;
             $filter = $_GET['filter'] ?? 'all';
 
-
-
-
 			$objUserModel 	= new UserModel;
 			$arrUsers 		= $objUserModel->findAllUsers();
             $arrUsers       = $objUserModel->findAllUsersWithFilters($search, $filter);
 
-			// Initialisation d'un tableau => objets
 			$arrUserToDisplay	= array();
 
-			// Boucle de transformation du tableau de tableau en tableau d'objets
 			foreach($arrUsers as $arrDetUser){
 				$objUser = new UserEntity;
 				$objUser->hydrate($arrDetUser);

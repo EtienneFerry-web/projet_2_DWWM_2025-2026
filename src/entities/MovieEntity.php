@@ -26,16 +26,21 @@
 		private int     $_reported;
 		private int 	$_nb_comments = 0;
 		private ?string $_published_at = NULL;
-		/**
-         * Constructor.
-         * @param string $prefixe table prefix for hydration (default empty)
-         */
 
+
+		/**
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
+        */
 
 		public function __construct(string $prefixe = ""){
 
 			$this->_prefixe = $prefixe;
 		}
+
+		/**
+		* Getters & Setters
+		*/
 
 		/**
         * Getting the title
@@ -371,6 +376,13 @@
 		public function setNb_comments(int $IntNb) {
 			$this->_nb_comments = $IntNb;
 		}
+
+		/**
+         * @brief Retrieves the publication date of the movie.
+         * @details Returns the date as a string if the movie is public. 
+         * If the value is null, it indicates the movie has not been published yet.
+         * @return string|null The publication date or null if unpublished.
+         */
 
 		public function getPublished(): ?string {
 			return $this->_published_at;

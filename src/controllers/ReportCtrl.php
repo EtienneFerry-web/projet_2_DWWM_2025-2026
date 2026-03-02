@@ -18,8 +18,6 @@
     class ReportCtrl extends MotherCtrl{
 
         /**
-         * @author Marco
-         * 
          * Management page for all user, comment, and movie reports
          * @return void handles moderation actions like spoilers, deletions, and bans, then displays all active reports
          */
