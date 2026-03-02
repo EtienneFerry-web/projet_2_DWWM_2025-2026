@@ -9,12 +9,15 @@
 
     class UserModel extends Connect{
 
-        /**
-         *Retrieves a user by their ID.
+		/**
+		 * Retrieve a specific user by ID
+		 * @author Etienne
 		 *
-		 **@param int $id The user ID.
-		 *@return array|bool User data as an array, or false if not found.
-         */
+		 * 1. Define the SQL query to select user details by ID, excluding soft-deleted accounts
+		 * 2. Prepare the database statement
+		 * 3. Bind the user ID to the query parameter
+		 * 4. Execute the query and return the user data
+		 */
 
 		public function findUser(int $id) {
 			$strRq = "SELECT *
@@ -30,9 +33,13 @@
 		}
 
 		/**
-		 * Retrieves a simplified list of active users.
-		 * @return array  An array of the user data.
-		 */
+		 * Retrieve all active users
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to select user details
+		 * 2. Filter results to exclude soft-deleted users
+		 * 3. Execute the query and return the complete list of users
+		 */	
 
         public function findAllUsers():array{
 			$strRq	= "SELECT user_id, user_firstname, user_name, user_pseudo, user_email, user_funct_id
@@ -180,10 +187,15 @@
 		}
 		
 		/**
-		* Fonction permettant de récupérer un utilisateur avec son mail
-		* @param string $strMail Mail à trouver
-		* @return array|bool soit un tableau de l'utilisateur soit false
-		*/
+		 * Search for a user by email address
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to retrieve user details based on email, excluding soft-deleted accounts
+		 * 2. Prepare the database statement
+		 * 3. Bind the email address to the query parameter
+		 * 4. Execute the query and return the user data or false if not found
+		 */
+
 		public function findUserByMail(string $strMail):array|bool{
 			$strRq 		= "SELECT user_id, user_email, user_name, user_firstname
 							FROM users
@@ -195,12 +207,17 @@
 			$arrUser	= $rqPrepare->fetch();
 			return $arrUser;
 		}
-		
+			
 		/**
-		* Fonction permettant de récupérer un utilisateur avec son token
-		* @param string $strToken token à trouver
-		* @return array|bool soit un tableau de l'utilisateur soit false
-		*/
+		 * Verify password reset token validity
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to find a user with a matching reset token
+		 * 2. Check that the token has not expired and the user is not soft-deleted
+		 * 3. Prepare the database statement and bind the token parameter
+		 * 4. Execute the query and return the user ID or false if invalid
+		 */
+
 		public function findUserByToken(string $strToken):array|bool{
 			$strRq 		= "SELECT user_id
 							FROM users
@@ -215,7 +232,13 @@
 		}
 		
 		/**
-		 * Met à jour le token de réinitialisation et sa date d'expiration 
+		 * Update password recovery token and expiration
+		 * @author Etienne
+		 *
+		 * 1. Define the SQL query to save the reset token and set the expiration time to 30 minutes from now
+		 * 2. Prepare the database statement
+		 * 3. Bind the token string and user ID to the query parameters
+		 * 4. Execute the update and return the operation success status
 		 */
 
 		public function updateForgotInfos(string $strToken, int $intId):bool {
@@ -274,15 +297,14 @@
 			return $rqPrep->execute();
         }
 
-        /**
+		/**
+		 * Ban user via stored procedure
 		 * @author Marco
 		 *
-		 * Bans a user for a specific duration.
-		 *
-		 * @param object $objReport The user ID.
-		 *
-		 *
-		 * @return bool
+		 * 1. Define the SQL command to invoke the 'auto_ban_users' stored procedure
+		 * 2. Prepare the database statement
+		 * 3. Bind the user ID and ban reason from the report object to the parameters
+		 * 4. Execute the procedure call and return the result
 		 */
 
         public function banUser(object $objReport):bool{
@@ -291,7 +313,6 @@
 			$rqPrep = $this->_db->prepare($strRq);
 			$rqPrep->bindValue(':id', $objReport->getId(), PDO::PARAM_INT);
 			$rqPrep->bindValue(':reason', $objReport->getReason(), PDO::PARAM_STR);
-
 
 			return $rqPrep->execute();
         }
@@ -346,7 +367,6 @@
 		 *
 		 * Modifies a user profile by an Admin/Moderator.
 		 * Similar to settingsUser, but does not include password modification here.
-		 *
 		 * @param object $objUser The user object.
 		 * @return bool
 		 */
@@ -406,9 +426,7 @@
 
 		/**
 		 * @author Marco
-		 *
 		 * Removes a user report (Cancellation).
-		 *
 		 * @param object $objUser The user concerned.
 		 * @param int $intId The ID of the person canceling their report.
 		 * @return bool
@@ -429,9 +447,7 @@
 
 		/**
 		 * @author Etienne
-		 *
 		 * Updates a user's rank (role).
-		 *
 		 * @param int $intId The user ID.
 		 * @param int $intFunctId The new role ID (1 = User, 2 = Moderator, 3 = Admin).
 		 * @return bool
@@ -454,12 +470,12 @@
 		/**
 		 * Unban a user account
 		 * @author Marco
-		 *
 		 * 1. Define the SQL query to reset the ban timestamp to NULL
 		 * 2. Prepare the database statement
 		 * 3. Bind the user ID to the query parameter
 		 * 4. Execute the update and return the operation result
 		 */
+		
 		public function unBanUser(int $intId){
             $strRq = "  UPDATE users
            					SET user_ban_at	= NULL
@@ -495,6 +511,7 @@
 
             return $rqPrep->execute();
 		}
+
 		/**
 		 * Retrieve user-specific content photos
 		 * @author Etienne
@@ -518,6 +535,7 @@
 
             return $rqPrep->fetchAll();
 		}
+
 		/**
 		 * Delete user photo with permission check
 		 * @author Marco
@@ -529,7 +547,7 @@
 		 */	
 
 		public function deletePhotoMovieOfUser(int $intPhotoId, int $intUserId){
-		$strRq = "  DELETE FROM photos
+			$strRq = "  DELETE FROM photos
                         WHERE pho_id = :phoId
                         AND (pho_user_id = :userId
                         OR :userId IN ( SELECT user_id
