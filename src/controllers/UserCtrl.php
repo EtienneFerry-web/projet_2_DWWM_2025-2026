@@ -45,50 +45,63 @@
 
             $strEmail       = $_POST['email']??"";
             $strPwd         = $_POST['pwd']??"";
+            $ipAddress      = $_SERVER['REMOTE_ADDR'];
+
 
             $objUser            = new UserEntity;
             $objUserModel       = new UserModel;
             $objUser->hydrate($_POST);
 
             $arrError = [];
-            if (count($_POST) > 0) {
 
-                if ($strEmail == ""){
-                    $arrError['email'] = "Le mail est obligatoire";
-                }
-                if ($strPwd == ""){
-                    $arrError['pwd'] = "Le mot de passe est obligatoire";
-                }
+            $failedAttempts = $objUserModel->getFailedAttempts($ipAddress);
 
-                if (count($arrError) == 0 ){
-                    $arrResult = $objUserModel->verifUser($strEmail, $strPwd);
-                    if ($arrResult === false){//If database return nothing
-                            $arrError[] = "Mail ou mot de passe invalide";
 
-                            $_SESSION['pwdError']['nbr'] += 1;
+            if($failedAttempts >= 5) {
+                $arrError[] = "Trop de tentatives de connexion échoues. Par sécurité votre accès est bloqué pour 15 minutes";
+            } else {
+                if (count($_POST) > 0) {
 
-                            if($_SESSION['pwdError']['nbr'] > 3){
+                    if ($strEmail == ""){
+                        $arrError['email'] = "Le mail est obligatoire";
+                    }
+                    if ($strPwd == ""){
+                        $arrError['pwd'] = "Le mot de passe est obligatoire";
+                    }
+
+                    if (count($arrError) == 0 ){
+                        $arrResult = $objUserModel->verifUser($strEmail, $strPwd);
+                        if ($arrResult === false){//If database return nothing
+                                $arrError[] = "Mail ou mot de passe invalide";
+
+                                $objUserModel->addFailedAttempts($ipAddress);
+
+                                $_SESSION['pwdError']['nbr'] += 1;
+
+                                if($_SESSION['pwdError']['nbr'] > 3){    
                                 $_SESSION['pwdError']['restrict'] = new DateTime('+5 minutes');
-                            }
-                        }else{
+                                }
+                            }else{
 
-                            $_SESSION['user']       = $arrResult;
-                            $_SESSION['success']    = "Bienvenue, vous êtes bien connecté";
-                            $_SESSION['last_activity']    = new DateTime('+30 minutes');
+                                $objUserModel->clearLoginAttempts($ipAddress);
 
-                            $arrData = array (
-                                'userId'  => $_SESSION['user']['user_id'],
-                                'event'   => 'LOGIN',
-                                'ip'      => $_SERVER['REMOTE_ADDR'],
-                                'agent'   => $_SERVER['HTTP_USER_AGENT'] ?? 'Inconnu'
-                            );
+                                $_SESSION['user']       = $arrResult;
+                                $_SESSION['success']    = "Bienvenue, vous êtes bien connecté";
+                                $_SESSION['last_activity']    = new DateTime('+30 minutes');
 
-                            $objUserModel->addLogs($arrData);
-                            $this->_redirect($_ENV['BASE_URL']);
+                                $arrData = array (
+                                    'userId'  => $_SESSION['user']['user_id'],
+                                    'event'   => 'LOGIN',
+                                    'ip'      => $_SERVER['REMOTE_ADDR'],
+                                    'agent'   => $_SERVER['HTTP_USER_AGENT'] ?? 'Inconnu'
+                                );
+
+                                $objUserModel->addLogs($arrData);
+                                $this->_redirect($_ENV['BASE_URL']);
+                        }
                     }
                 }
             }
-            
             $this->_arrData['objUser'] = $objUser;
             $this->_arrData['arrError'] = $arrError;
             $this->_arrData['strEmail'] = $strEmail;

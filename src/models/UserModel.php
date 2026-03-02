@@ -522,4 +522,31 @@
 			// Executer la requête
 			return $rqPrep->execute();
 		}
+
+		public function getFailedAttempts(string $ip): int {
+			$strRq = "SELECT COUNT(*) as total
+						FROM login_attempts
+						WHERE attempt_ip = :ip
+						AND attempt_datetime >(NOW() - INTERVAL 15 MINUTE)";
+			$prep = $this->_db->prepare($strRq);
+			$prep->bindValue(':ip', $ip, PDO::PARAM_STR);
+			$prep->execute();
+
+			$data = $prep->fetch();
+
+
+			return (int)$data['total'];
+		}
+
+        public function addFailedAttempts(string $ip): void{
+            $strRq = "INSERT INTO login_attempts (attempt_ip) VALUES (:ip)";
+            $rqPrep = $this->_db->prepare($strRq);
+            $rqPrep->execute([':ip' => $ip]);
+        }
+
+        public function clearLoginAttempts(string $ip): void{
+            $strRq = "DELETE FROM login_attempts WHERE attempt_ip = :ip";
+            $rqPrep = $this->_db->prepare($strRq);
+            $rqPrep->execute([':ip' => $ip]);
+        }
     }

@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{block name="description"}{/block}">
-    <meta name="csrf-token" content="{$smarty.session.csrf_token}">
+    <meta name="csrf-token" content="{$smarty.session.csrf_token|default:''}">
     <link rel="shortcut icon" href="{$smarty.env.BASE_URL}assets/img/iconSite.png" type="image/x-icon">
 	<title>{block name="title"} - Give Me Five{/block}</title>
     {block name="css_variation"}{/block}
