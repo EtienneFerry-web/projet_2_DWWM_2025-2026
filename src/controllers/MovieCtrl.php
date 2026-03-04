@@ -810,13 +810,18 @@ use DateTime;
     }
 
 	/**
-     * Escape special characters for iCalendar format
-     * @author Etienne
-     *
-     * 1. Replace various newline characters with a literal "\n" string
-     * 2. Escape commas, semicolons, and backslashes
-     * 3. Return the sanitized string safe for ICS files
-     */
+	 * @brief Escapes special characters according to the iCalendar (RFC 5545) format.
+	 * * @details This helper method ensures that the input string is compliant with ICS 
+	 * requirements by sanitizing delimiters and line breaks that could otherwise 
+	 * corrupt the calendar file structure.
+	 * * The sanitization process involves:
+	 * -# Replacing various newline characters (LF, CR, CRLF) with the literal string "\\n".
+	 * -# Escaping reserved characters: commas (,), semicolons (;), and backslashes (\\).
+	 * -# Returning the sanitized string safe for VEVENT properties.
+	 * * @author Etienne
+	 * @param string $str The raw string to be escaped.
+	 * @return string The sanitized string safe for ICS files.
+	 */
 
     private function _escapeIcs($string) {
         $string = str_replace(["\r\n", "\r", "\n"], "\\n", $string);
