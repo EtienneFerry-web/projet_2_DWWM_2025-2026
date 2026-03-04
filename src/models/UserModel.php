@@ -546,7 +546,7 @@
                         (
                             SELECT count(*)  
     						FROM comments
-                            WHERE com_user_id = :userId AND com_delete_at IS NULL
+                            WHERE com_user_id = :userId 
                         ) AS user_nb_comments,
                         (
                             SELECT count(*) 

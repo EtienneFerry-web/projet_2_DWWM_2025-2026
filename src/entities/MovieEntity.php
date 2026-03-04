@@ -57,7 +57,7 @@
         */
 
 		public function setTitle(string $strTitle){
-			$this->_title = $this->clean($strTitle);
+			$this->_title = $this->_clean($strTitle);
 		}
 
 		/**
@@ -110,7 +110,7 @@
 		* @param string le nouveau titre
 		*/
 		public function setOriginal_title(string $strOriginalTitle){
-			$this->_original_title = $this->clean($strOriginalTitle);
+			$this->_original_title = $this->_clean($strOriginalTitle);
 		}
 
 
@@ -147,7 +147,7 @@
         */
 
 		public function setDescription(string $strContent){
-			$this->_description = $this->clean($strContent);
+			$this->_description = $this->_clean($strContent);
 		}
 
 		/**
@@ -203,7 +203,7 @@
         */
 
 		public function getRating():float{
-			return  number_format($this->_rating, 1, '.', '');
+			return round($this->_rating, 2);
 		}
 
 		/**

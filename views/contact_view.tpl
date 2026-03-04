@@ -41,7 +41,7 @@
                 <input type="text"
                        name="subject"
                        class="form-control {if isset($arrError['subject'])}is-invalid{/if}"
-                       value="{$strMessage}"
+                       value="{$strSubject}"
                        placeholder="Ex: Problème d'affichage, Suggestion de film...">
                 {if isset($arrError['subject'])}<div class="invalid-feedback">{$arrError['subject']}</div>{/if}
             </div>

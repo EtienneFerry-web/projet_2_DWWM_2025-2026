@@ -59,7 +59,7 @@
         */
 
         public function allMovie(): array {
-            $strWhere = " WHERE ";
+           
             $strRq = " SELECT mov_id, mov_title, mov_description, pho_photo AS 'mov_photo',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                             COUNT(DISTINCT lik_user_id) AS 'mov_like'
@@ -67,6 +67,7 @@
                     LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                     LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                     LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
+                    WHERE mov_published_at IS NOT NULL
                     ";
 
             $conditions = [];
@@ -84,36 +85,36 @@
             }
 
             if (!empty($conditions)) {
-                $strRq .= " $strWhere mov_id IN (
+                $strRq .= " AND mov_id IN (
                                 SELECT part_mov_id
                                 FROM participates
                                 WHERE " . implode(" OR ", $conditions) . "
                             )";
-                $strWhere = " AND ";
+                
             }
 
             if (!empty($this->categories)) {
-                $strRq .= " $strWhere mov_id IN (
+                $strRq .= " AND mov_id IN (
                                 SELECT belong_mov_id
                                 FROM belongs
                                 WHERE belong_cat_id = :category
                             )";
-                $strWhere = " AND ";
+                
             }
 
             if (!empty($this->country)) {
-                $strRq .= " $strWhere mov_nat_id = :country";
-                $strWhere = " AND ";
+                $strRq .= " AND mov_nat_id = :country";
+                
             }
 
             if (!empty($this->date)) {
-                $strRq .= " $strWhere mov_release_date = :date";
+                $strRq .= " AND mov_release_date = :date";
             } elseif (!empty($this->startdate) && !empty($this->enddate)) {
-                $strRq .= " $strWhere mov_release_date BETWEEN :startDate AND :endDate";
+                $strRq .= " AND mov_release_date BETWEEN :startDate AND :endDate";
             } elseif (!empty($this->startdate)) {
-                $strRq .= " $strWhere mov_release_date > :startDate";
+                $strRq .= " AND mov_release_date > :startDate";
             } elseif (!empty($this->enddate)) {
-                $strRq .= " $strWhere mov_release_date < :endDate";
+                $strRq .= " AND mov_release_date < :endDate";
             }
 
             $strRq .= " GROUP BY movies.mov_id

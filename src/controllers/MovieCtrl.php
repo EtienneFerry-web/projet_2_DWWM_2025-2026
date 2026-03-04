@@ -11,6 +11,7 @@
     use App\Entities\CommentEntity;
     use App\Entities\PersonEntity;
 
+	use DateTime;
     /**
      * 27/02/2026
      * Version 1
@@ -263,27 +264,29 @@
 
     		if (isset($_POST['repMovie']) && isset($_SESSION['user']['user_id'])) {
 
-				if($_POST['repMovie'] == "" && trim($_POST['repMovie'])== ""){
-					$arrError ="Veulliez écrire la raison de report !";
-				}
-
-                $arrData = array_merge([
+				$arrData = array_merge([
                     'reported_movie_id' => $_GET['id'],
                     'reporter_user_id'  => $_SESSION['user']['user_id'],
                     'rep_reason' => $_POST['repMovie']
                 ]);
 
-			    $objReport = new ReportEntity;
+				$objReport = new ReportEntity;
 				$objReport->hydrate($arrData);
 
-                $repResult = $objMovieModel->reportMovie($objReport);
+				if(trim($_POST['repMovie'])== ""){
+					$arrError[] ="Veulliez écrire la raison de report !";
+				}
 
-                if ($repResult) {
-                    $_SESSION['success'] = "Le signalement a bien été envoyé !";
-					$this->_selfRedirect();
-                }  else {
-                    $arrError[] = "erreur";
-                }
+				if(count($arrError) == 0){
+					$repResult = $objMovieModel->reportMovie($objReport);
+
+					if ($repResult) {
+						$_SESSION['success'] = "Le signalement a bien été envoyé !";
+						$this->_selfRedirect();
+					}  else {
+						$arrError[] = "erreur";
+					}
+				}
 
             } elseif(isset($_POST['repDelete']) && $_POST['repDelete'] == 'delete'){
 
@@ -385,7 +388,21 @@
 				
 					if (empty($_POST['rating'])){
 						$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
-					}
+					}	
+
+					$arrData = [
+						'comment' => $_POST['com_comment'],
+						'user_id' => $_SESSION['user']['user_id'],
+						'rating' => $_POST['rating'],
+						'movieId' => $_GET['id']
+					];
+
+					$objComment = new CommentEntity;
+					$objComment->hydrate($arrData);
+						// $objComment->setComment($_POST['com_comment']);
+						// $objComment->setUser_id($_SESSION['user']['user_id']);
+						// $objComment->setRating($_POST['rating']);
+						// $objComment->setmovieId($_GET['id']);
 
 					if(count($arrError)===0) {
 
@@ -406,6 +423,7 @@
 							$this->_selfRedirect();
 						}
 					}
+					$this->_arrData['strComment'] = $objComment->getComment();
 
 				} else{
 					$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
@@ -771,4 +789,93 @@
 			$this->_display("allMovie");
 		}
 
+		/** @brief Generates and forces the download of an ICS calendar event for a movie release.
+		 * * @details This method constructs a file in iCalendar (.ics) format to allow 
+		 * the user to add a movie's release date to their personal calendar.
+		 * * The process follows these steps:
+		 * -# Clears the output buffer to prevent file corruption.
+		 * -# Retrieves the movie ID and user context.
+		 * -# Fetches movie details from the database with a redirect on failure.
+		 * -# Configures event timing (defaults to 20:00, 2-hour duration).
+		 * -# Sanitizes and formats text data according to the iCalendar standard.
+		 * -# Constructs the VEVENT structure with a unique UID.
+		 * -# Sends HTTP headers to force file download.
+		 * * @author Etienne
+		 * @param int $id Movie identifier (retrieved via request context).
+		 * @return void Streams the file directly to the browser and terminates the script.
+		 */
+		
+		public function addToCalendar() {
+			if (ob_get_level()) ob_end_clean();
+
+			$intId      = (int)($_GET['id'] ?? 0);
+			$intUser    = $_SESSION['user']['user_id'] ?? 0;
+
+			$objMovieModel  = new MovieModel();
+			$arrMovie       = $objMovieModel->findMovie($intId, $intUser); 
+
+			if($arrMovie === false){
+
+				$this->_redirect(); 
+				exit;
+			}
+
+			$strDateDb = $arrMovie['mov_release_date'] ?? date('Y-m-d');
+
+			try {
+	
+				$dateStart = new DateTime($strDateDb .' 20:00:00');
+			} catch (Exception $e) {
+				$dateStart = new DateTime('now');
+			}
+
+			$dateEnd = clone $dateStart;
+			$dateEnd->modify('+2 hours');
+
+			$title          = $this->_escapeIcs($arrMovie['mov_title']);
+			$descText       = $arrMovie['mov_synopsis'] ?? "Sortie du film " . $title;
+			
+
+			$description    = $this->_escapeIcs(substr($descText, 0, 200). "..."); 
+
+			$icsContent  = "BEGIN:VCALENDAR\r\n";
+			$icsContent .= "VERSION:2.0\r\n";
+			$icsContent .= "PRODID:-//GiveMeFive//Movie Release//FR\r\n";
+			$icsContent .= "BEGIN:VEVENT\r\n";
+			$icsContent .= "UID:" . md5($intId . "movie") . "@givemefive.fr\r\n";
+			$icsContent .= "DTSTAMP:" . date('Ymd\THis') . "\r\n"; 
+			$icsContent .= "DTSTART:" . $dateStart->format('Ymd\THis') . "\r\n";
+			$icsContent .= "DTEND:" . $dateEnd->format('Ymd\THis') . "\r\n";
+			$icsContent .= "SUMMARY:" . $title . "\r\n";
+			$icsContent .= "DESCRIPTION:" . $description . "\r\n";
+			$icsContent .= "END:VEVENT\r\n";
+			$icsContent .= "END:VCALENDAR\r\n";
+
+			$filename = "sortie_" . preg_replace('/[^a-z0-9]/i', '_', $title) . ".ics";
+			
+			header('Content-Type: text/calendar; charset=utf-8');
+			header('Content-Disposition: attachment; filename="' . $filename . '"');
+			
+			echo $icsContent;
+			exit;
+		}
+
+		/* * @brief Escapes special characters according to the iCalendar (RFC 5545) format.
+		* * @details This helper method ensures that the input string is compliant with ICS 
+		* requirements by sanitizing delimiters and line breaks that could otherwise 
+		* corrupt the calendar file structure.
+		* * The sanitization process involves:
+		* -# Replacing various newline characters (LF, CR, CRLF) with the literal string "\\n".
+		* -# Escaping reserved characters: commas (,), semicolons (;), and backslashes (\\).
+		* -# Returning the sanitized string safe for VEVENT properties.
+		* * @author Etienne
+		* @param string $str The raw string to be escaped.
+		* @return string The sanitized string safe for ICS files.
+		*/
+
+
+		private function _escapeIcs($string) {
+			$string = str_replace(["\r\n", "\r", "\n"], "\\n", $string);
+			return addcslashes($string, ",;\\");
+		}
     }

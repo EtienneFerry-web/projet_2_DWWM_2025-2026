@@ -29,19 +29,19 @@
          * @return void
          */
 
-        public function userActivity(){
+        public function userActivity() {
 
+            $now = new DateTime();
+            $lastActivity = $_SESSION['last_activity'] ?? null;
 
-            $time = new DateTime;
-
-            if($_SESSION['last_activity'] > $time){
-                $_SESSION['last_activity']    = new DateTime('+30 minutes');
-            } else{
+            if ($lastActivity && $lastActivity > $now) {
+                $_SESSION['last_activity'] = (new DateTime())->modify('+30 minutes');
+                echo 'active';
+            } else {
                 $_SESSION['last_activity'] = 0;
-                echo('logout');
+                echo 'logout';
                 exit;
             }
-
         }
 
         /**

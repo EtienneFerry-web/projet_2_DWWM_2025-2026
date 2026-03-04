@@ -1,4 +1,4 @@
-console.log('rechargement');
+
 const searchForm = document.querySelector('#formSearch');
 const searchBar = document.getElementById('searchBar');
 const sugesContainer = document.getElementById('suggestions');
@@ -109,8 +109,6 @@ function clickContent() {
 
 
 function saveSearch(keyword) {
-
-  console.log(historique);
 
   if (!historique.some(item => item.label === keyword)) {
     historique.unshift({ label: keyword });

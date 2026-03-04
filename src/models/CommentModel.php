@@ -81,35 +81,35 @@
         public function reviewUser(int $idUser=0, int $idConnectUser=0): array{
 
             $strRq	="  SELECT
-                        com_id,
-                        comments.com_spoiler,
-                        movies.mov_id AS 'com_movieId',
-                        photos.pho_photo AS 'com_photo',
-                        movies.mov_title AS 'com_title',
-                        comments.com_comment,
-                        ratings.rat_score AS 'com_rating',
-                        COUNT(DISTINCT liked.lik_user_id) AS 'com_like',
-                        com_datetime,
+                            com_id,
+                            comments.com_spoiler,
+                            movies.mov_id AS 'com_movieId',
+                            photos.pho_photo AS 'com_photo',
+                            movies.mov_title AS 'com_title',
+                            comments.com_comment,
+                            ratings.rat_score AS 'com_rating',
+                            COUNT(DISTINCT liked.lik_user_id) AS 'com_like',
+                            com_datetime,
 
                         EXISTS(
-                        SELECT 1 FROM reports
-                        WHERE rep_reported_com_id = comments.com_id
-                        AND rep_reporter_user_id = :userId
-                        AND rep_pseudo_user IS NULL
+                            SELECT 1 FROM reports
+                            WHERE rep_reported_com_id = comments.com_id
+                            AND rep_reporter_user_id = :userId
+                            AND rep_pseudo_user IS NULL
                         ) AS 'com_reported',
 
                         EXISTS(
-                        SELECT 1 FROM liked
-                        WHERE lik_user_id = :userId
-                        AND lik_mov_id IS NULL
-                        AND lik_com_id = comments.com_id
+                            SELECT 1 FROM liked
+                            WHERE lik_user_id = :userId
+                            AND lik_mov_id IS NULL
+                            AND lik_com_id = comments.com_id
                         ) AS com_user_liked
 
                         FROM users
                         INNER JOIN ratings ON users.user_id = ratings.rat_user_id
                         INNER JOIN movies ON ratings.rat_mov_id = movies.mov_id
                         INNER JOIN comments ON (users.user_id = comments.com_user_id AND movies.mov_id = comments.com_movie_id)
-                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
+                        INNER JOIN photos ON movies.mov_id = photos.pho_mov_id AND pho_type = 'Affiche'
                         LEFT JOIN liked ON liked.lik_com_id = comments.com_id AND liked.lik_mov_id IS NULL
                         WHERE users.user_id = :id AND user_delete_at IS NULL AND (user_ban_at < NOW() OR user_ban_at IS NULL)
 

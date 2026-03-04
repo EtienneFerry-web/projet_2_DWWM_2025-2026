@@ -45,7 +45,7 @@
         * @return string the trimmed and filtered text
         */
 
-		protected function clean(string $strText){
+		protected function _clean(string $strText){
 			$strText	= trim($strText);
 			$strText = strip_tags($strText);
 			return $strText;

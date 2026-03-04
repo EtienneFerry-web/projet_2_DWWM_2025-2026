@@ -8,18 +8,18 @@
 {/block}
 
 {block name="content"}
-<section class="container row mx-auto" id="movie">
-    <div class="col-12 col-md-4 py-1 py-md-5 text-center">
+<section class="container-xxl row mx-auto" id="movie">
+    <div class="col-12 col-md-4 py-1 py-md-5 text-center my-auto">
         <h1 class="d-block d-md-none">{$objMovie->getTitle()}</h1>
         <img src="{$smarty.env.BASE_URL}assets/img/movie/{$objMovie->getPhoto()}" alt="" class="img-fluid w-75 w-md-50">
         <div class="py-3 text-center w-75 w-md-50 mx-auto">
-        <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
-            <span class="stars d-inline-block"></span>
-            <span class="note d-inline-block" id="average" >{$objMovie->getRating()}</span>
-        </span>
-        <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset"><i class="bi bi-heart-fill me-1"></i> {$objMovie->getLike()}</span>
+            <span class="pageMovieNote spanMovie" data-note="{$objMovie->getRating()}">
+                <span class="stars d-inline-block"></span>
+                <span class="note d-inline-block" id="average" >{$objMovie->getRating()}</span>
+            </span>
+            <span class="movieLikes py-2 d-flex gap-1 spanMovie justify-content-center border-0 bg-transparent w-100 p-0 text-reset"><i class="bi bi-heart-fill me-1"></i> {$objMovie->getLike()}</span>
+        </div>
     </div>
-</div>
 <div class="col-12 col-md-8 py-3 py-md-5 text-center text-md-start">
     <h1 class="d-md-block d-none mb-3">{$objMovie->getTitle()}</h1>
 
@@ -40,6 +40,8 @@
                         {$objPerson->getFullName()}
                     </a>
                 </div>
+            {foreachelse}
+                <p class="text-muted py-3 m-0">Nous n'avons pas le casting de ce film !</p>
             {/foreach}
         </div>
     </div>
@@ -47,10 +49,16 @@
     <div class="d-flex flex-wrap align-items-center gap-3 justify-content-center justify-content-md-start mb-4">
         <a href="{$objMovie->getTrailer()}" target="_blank" class="spanMovie link">Voir le trailer &#8599;</a>
         <a id="shareMovie" class="spanMovie link" style="cursor:pointer;">Partager &#8599;</a>
+        {if $curDate->format('Y-m-d') <= $objMovie->getRelease_date()}
+        <a href="{$smarty.env.BASE_URL}movie/addToCalendar/{$objMovie->getId()}" 
+               class="btn btn-outline-dark btn-sm" 
+               title="Ajouter la sortie à mon agenda">
+                <i class="bi bi-calendar-plus"></i>
+        </a>
+        {/if}
     </div>
 
-    <hr class="d-md-none my-4 opacity-25">
-
+    
     {if isset($smarty.session.user)}
     <div class="row g-3 justify-content-center justify-content-md-start align-items-center">
         <div class="col-12 col-sm-auto">
@@ -63,29 +71,31 @@
             </form>
         </div>
 
-        <div class="col-12 col-sm-auto">
-            <form method="post">
-                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
-                <div class="rating user-select-none d-flex align-items-center justify-content-center justify-content-md-start gap-1">
-                    <span class="spanMovie me-2">Votre Note :</span>
-                    <i class="bi bi-star fs-4" data-value="1"></i>
-                    <i class="bi bi-star fs-4" data-value="2"></i>
-                    <i class="bi bi-star fs-4" data-value="3"></i>
-                    <i class="bi bi-star fs-4" data-value="4"></i>
-                    <i class="bi bi-star fs-4" data-value="5"></i>
-                    <input type="hidden" name="rating" id="note" value="{$objMovie->getNoteUser()}" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
-                </div>
-            </form>
+        <div class="d-flex flex-row align-items-center justify-content-center justify-content-md-start gap-2 col-auto">
+            <div class="col-auto">
+                <form method="post" class="m-0">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
+                    <div class="rating user-select-none d-flex align-items-center gap-1">
+                        <span class="spanMovie me-2">Votre Note :</span>
+                        <i class="bi bi-star fs-4" data-value="1"></i>
+                        <i class="bi bi-star fs-4" data-value="2"></i>
+                        <i class="bi bi-star fs-4" data-value="3"></i>
+                        <i class="bi bi-star fs-4" data-value="4"></i>
+                        <i class="bi bi-star fs-4" data-value="5"></i>
+                        <input type="hidden" name="rating" id="note" value="{$objMovie->getNoteUser()}" class="form-control {if isset($arrError['noteRating'])} is-invalid {/if}">
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-auto">
+                <form method="post" class="{if $objMovie->getNoteUser() == 0 }d-none{/if} m-0" id="deleteNoteForm">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
+                    <button class="border-0 bg-transparent p-0 d-flex align-items-center" type="submit" name="deleteNoteUser" style="cursor: pointer;">
+                        <i class="bi bi-trash fs-4"></i>
+                    </button>
+                </form>
+            </div>
         </div>
-        <div class="col-12 col-sm-auto">
-            <form method="post" class="{if $objMovie->getNoteUser() == 0 }d-none{/if}" id="deleteNoteForm">
-                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
-                <button class="border-0 bg-transparent" type="submit" name="deleteNoteUser" style="cursor: pointer;">
-                    <i class="bi bi-trash fs-4"></i>
-                </button>
-            </form>
-        </div>
-    </div>
 
 
     <div class="mt-4">
@@ -170,7 +180,7 @@
                         class="form-control {if isset($arrError['com_comment'])} is-invalid {/if}"
                         rows="4"
                         placeholder="Écrivez votre commentaire..."
-                    ></textarea>
+                    >{$strComment}</textarea>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-md-8 rating user-select-none text-center text-md-start py-2">

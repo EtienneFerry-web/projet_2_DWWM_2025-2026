@@ -116,7 +116,7 @@
         * @param string $strSearch The raw search string.
         */
 		public function setSearch(string $strSearch=""){
-		   $this->_search = $this->clean($strSearch);
+		   $this->_search = $this->_clean($strSearch);
 		}
 
 		/**
@@ -132,7 +132,7 @@
         * @param string $strSearchBy The filter identifier.
         */
 		public function setSearchBy(string $strSearchBy=""){
-		   $this->_searchBy = $this->clean($strSearchBy);
+		   $this->_searchBy = $this->_clean($strSearchBy);
 		}
 
 		/**

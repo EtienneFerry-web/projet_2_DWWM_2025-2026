@@ -102,7 +102,7 @@
 		 */
 
 		public function setName(string $strNewName){
-			$this->_name = $this->clean($strNewName);
+			$this->_name = $this->_clean($strNewName);
 		}
 
 		/**
@@ -120,7 +120,7 @@
 		 */
 
 		public function setFirstname(string $strFirstname){
-			$this->_firstname = $this->clean($strFirstname);
+			$this->_firstname = $this->_clean($strFirstname);
 		}
 
 		/**
@@ -138,7 +138,7 @@
 		 */
 
 		public function setPseudo(string $strPseudo){
-			$this->_pseudo = $this->clean($strPseudo);
+			$this->_pseudo = $this->_clean($strPseudo);
 		}
 
 		/**
@@ -174,7 +174,7 @@
 		 */
 
 		public function setEmail(string $strEmail){
-			$this->_email = strtolower($this->clean($strEmail));
+			$this->_email = strtolower($this->_clean($strEmail));
 		}
 
 		/**
@@ -192,7 +192,7 @@
 		 */
 
 		public function setBio(?string $strBio){
-			$this->_bio = $this->clean($strBio??'')??"";
+			$this->_bio = $this->_clean($strBio??'')??"";
 		}
 
 		/**

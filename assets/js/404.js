@@ -1,75 +1,92 @@
+/**
+ * @class DvdAnimation
+ * @brief Handles a bouncing DVD-style animation within a container.
+ * * This class manages the movement, boundary collisions, color cycling, 
+ * and interactive speed scaling of an element.
+ */
 class DvdAnimation {
+    /**
+     * @constructor
+     * @brief Initializes the animation state and starts the loop.
+     */
     constructor() {
-        // Sélection des éléments
         this.box = document.getElementById('dvd-logo');
         this.zone = document.getElementById('zone');
 
-        // Dimensions Zone et Logo Dvd
         this.zoneWidth = this.zone.clientWidth;
         this.zoneHeight = this.zone.clientHeight;
         this.boxWidth = this.box.clientWidth;
         this.boxHeight = this.box.clientHeight;
 
-        // Position de départ vitesse
         this.posX = Math.random() * (this.zoneWidth - this.boxWidth);
         this.posY = Math.random() * (this.zoneHeight - this.boxHeight);
         this.movX = 500;
         this.movY = 500;
 
-        //Attribut pour les colision et lastime pour gérer le parametre de requestAnimationFrame
         this.lastTime = 0;
         this.hit = false;
 
-        //Les couleur aléatoire
         this.colors = ['#2E5BFF', '#D81B60', '#00796B', '#6A1B9A', '#E65100', '#1A1A1B', '#FF4500', '#0000FF', '#228B22', '#800080'];
         this.lastColorIndex = 0;
 
-        //Appelle de la méthode pour lancer l'animation
         this.init();
     }
 
+    /**
+     * @fn init
+     * @brief Sets up initial styles and attaches event listeners.
+     * @return {void}
+     */
     init() {
-        // État initial
         this.box.style.color = this.colors[0];
 
-        // Événements Changement de la zone et click sur le logoDvd
         this.box.addEventListener('click', () => this.handleClick());
         window.addEventListener('resize', () => this.handleResize());
 
-        // Lancement de la boucle
         requestAnimationFrame((t) => this.update(t));
     }
 
+    /**
+     * @fn handleResize
+     * @brief Refreshes the boundaries when the window is resized.
+     * @return {void}
+     */
     handleResize() {
         this.zoneWidth = this.zone.clientWidth;
         this.zoneHeight = this.zone.clientHeight;
     }
 
+    /**
+     * @fn handleClick
+     * @brief Increases movement speed and reverses direction upon user click.
+     * @return {void}
+     */
     handleClick() {
         if (this.hit) return;
         this.movX *= -2;
         this.movY *= -2;
     }
 
+    /**
+     * @fn update
+     * @brief Core animation loop that calculates physics and renders the position.
+     * @param {number} timestamp - The current time in milliseconds provided by requestAnimationFrame.
+     * @return {void}
+     */
     update(timestamp) {
-        //Survielle le temps de frame pour un fluidité similaire surtout les l'écrans
         if (!this.lastTime) this.lastTime = timestamp;
         const deltaTime = (timestamp - this.lastTime) / 1000;
         this.lastTime = timestamp;
-
 
         this.posX += (this.movX * deltaTime);
         this.posY += (this.movY * deltaTime);
         this.hit = false;
 
-        // Ralentissement Si vitesse > 500
         if (Math.abs(this.movX) > 500 || Math.abs(this.movY) > 500) {
-            console.log('test');
             this.movX *= 0.999;
             this.movY *= 0.999;
         }
 
-        // Collisions horizontales
         if (this.posX + this.boxWidth >= this.zoneWidth) {
             this.posX = this.zoneWidth - this.boxWidth;
             this.movX *= -1;
@@ -80,7 +97,6 @@ class DvdAnimation {
             this.hit = true;
         }
 
-        // Collisions verticales
         if (this.posY + this.boxHeight >= this.zoneHeight) {
             this.posY = this.zoneHeight - this.boxHeight;
             this.movY *= -1;
@@ -91,7 +107,6 @@ class DvdAnimation {
             this.hit = true;
         }
 
-        // Changement de couleur si impact
         if (this.hit) {
             let newColorIndex;
             do {
@@ -102,13 +117,12 @@ class DvdAnimation {
             this.box.style.color = this.colors[newColorIndex];
         }
 
-        // Déplacement
         this.box.style.transform = `translate(${this.posX}px, ${this.posY}px)`;
 
-        // Prochain frame
         requestAnimationFrame((t) => this.update(t));
     }
 }
 
-// Initialisation de l'objet
+/** * @brief Entry point: Instance of the animation class. 
+ */
 const animation = new DvdAnimation();

@@ -115,7 +115,7 @@
         */
 
 		public function setComment(string $strComment){
-			$this->_comment = $strComment;
+			$this->_comment = $this->_clean($strComment);
 		}
 
 		/**
