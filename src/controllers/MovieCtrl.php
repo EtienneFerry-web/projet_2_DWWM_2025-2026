@@ -737,17 +737,22 @@ use DateTime;
 		}
 
 	/**
-     * Generate and download an ICS calendar event for a movie release
-     * @author Etienne
-     *
-     * 1. Clear output buffer to prevent file corruption (essential for .ics files)
-     * 2. Retrieve movie ID and user context
-     * 3. Fetch movie details from database; redirect if not found
-     * 4. Configure event timing based on release date (defaulting to 20:00, 2h duration)
-     * 5. Sanitize and format text data (title, description) for iCalendar standard
-     * 6. Construct the ICS file content with unique ID and VEVENT structure
-     * 7. Send HTTP headers to force file download and output content
-     */
+	 * @brief Generates and forces the download of an ICS calendar event for a movie release.
+	 * * @details This method constructs a file in iCalendar (.ics) format to allow 
+	 * the user to add a movie's release date to their personal calendar.
+	 * * The process follows these steps:
+	 * -# Clears the output buffer to prevent file corruption.
+	 * -# Retrieves the movie ID and user context.
+	 * -# Fetches movie details from the database with a redirect on failure.
+	 * -# Configures event timing (defaults to 20:00, 2-hour duration).
+	 * -# Sanitizes and formats text data according to the iCalendar standard.
+	 * -# Constructs the VEVENT structure with a unique UID.
+	 * -# Sends HTTP headers to force file download.
+	 * * @author Etienne
+	 * @param int $id Movie identifier (retrieved via request context).
+	 * @return void Streams the file directly to the browser and terminates the script.
+	 */
+
 
 	public function addToCalendar() {
         if (ob_get_level()) ob_end_clean();
