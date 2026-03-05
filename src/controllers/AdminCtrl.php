@@ -2,29 +2,22 @@
     namespace App\Controllers;
 
     // Modèles
-    use App\Models\AdminModel;
-    use App\Models\UserModel;
     use App\Models\MovieModel;
-    use App\Models\PersonModel;
     use App\Models\CommentModel;
-
     // Entités
-    use App\Entities\AdminEntity;
-    use App\Entities\UserEntity;
     use App\Entities\MovieEntity;
-    use App\Entities\PersonEntity;
-
+   
 
     /**
-     * @author Audrey Sonntag
-     * 06/02/2026
-     * Version 0.1
+     * @author Etienne
+     * 27/02/2026
+     * Version 1
      */
 
     class AdminCtrl extends MotherCtrl{
 
         /**
-         * 
+        * @author Etienne
         * Administrator & Moderator dashboard page
         * Displays statistics and latest lists for the admin panel
         * @return displays displays site statistics and allows quick actions to rank or delete another user,

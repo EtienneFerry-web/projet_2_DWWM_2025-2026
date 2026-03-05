@@ -1,5 +1,5 @@
 
-<form action="{$smarty.env.BASE_URL}search/searchPage" class="{$formClass}" role="search" method="post" id="formSearch">
+<form action="{$smarty.env.BASE_URL}search/searchPage" class="{$formClass}" role="search" method="get" id="formSearch">
     <div class="search-container">
         <input class="form-control me-2" type="search" placeholder="Rechercher..." name="search" value="{if isset($arrSearch)} {$arrSearch->getSearch()} {/if}" id="searchBar" autocomplete="off">
         <div id="suggestions" class="suggestions-list"></div>

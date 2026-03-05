@@ -13,13 +13,14 @@
         </p>
 
         <form method="post">
+            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
             <div class="row">
                 <div class="col-md-6 form-group py-2">
                     <label class="form-label">Nom :</label>
                     <input type="text"
                            name="name"
                            class="form-control {if isset($arrError['name'])}is-invalid{/if}"
-                           value="{if isset($smarty.session.user)}{$smarty.session.user.user_name|cat:' '|cat:$smarty.session.user.user_firstname}{/if}"
+                           value="{if !empty($strName)}{$strName}{elseif isset($smarty.session.user)}{$smarty.session.user.user_name|cat:' '|cat:$smarty.session.user.user_firstname}{/if}"
                            placeholder="Votre nom">
                     {if isset($arrError['name'])}<div class="invalid-feedback">{$arrError['name']}</div>{/if}
                 </div>
@@ -29,7 +30,7 @@
                     <input type="email"
                            name="email"
                            class="form-control {if isset($arrError['email'])}is-invalid{/if}"
-                           value="{$smarty.session.user.user_email|default:''}"
+                           value="{$smarty.session.user.user_email|default:$strEmail|default:''}"
                            placeholder="votre@email.com">
                     {if isset($arrError['email'])}<div class="invalid-feedback">{$arrError['email']}</div>{/if}
                 </div>
@@ -40,7 +41,7 @@
                 <input type="text"
                        name="subject"
                        class="form-control {if isset($arrError['subject'])}is-invalid{/if}"
-                       value=""
+                       value="{$strSubject}"
                        placeholder="Ex: Problème d'affichage, Suggestion de film...">
                 {if isset($arrError['subject'])}<div class="invalid-feedback">{$arrError['subject']}</div>{/if}
             </div>
@@ -50,7 +51,7 @@
                 <textarea name="message"
                           rows="6"
                           class="form-control {if isset($arrError['message'])}is-invalid{/if}"
-                          placeholder="Écrivez votre message ici..."></textarea>
+                          placeholder="Écrivez votre message ici...">{$strMessage}</textarea>
                 {if isset($arrError['message'])}<div class="invalid-feedback">{$arrError['message']}</div>{/if}
             </div>
 

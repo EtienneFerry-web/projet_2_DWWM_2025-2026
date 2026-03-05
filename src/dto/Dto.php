@@ -2,9 +2,10 @@
     namespace App\Dto;
 
     /**
-     * @class Dto
-     * @brief Base Data Transfer Object providing hydration and sanitization.
-     */
+	* @author Marco Schmitt 
+    * 27/02/2026
+    * Version 1
+    */
 
 
 	class Dto {
@@ -47,9 +48,9 @@
         * @param string $strText The raw input string.
         * @return string The cleaned string.
         */
-		protected function clean(string $strText){
+		protected function _clean(string $strText){
 			$strText	= trim($strText);
-			$clean = htmlspecialchars($strText);
+			$clean = strip_tags($strText);
 			return $clean;
 		}
 	}

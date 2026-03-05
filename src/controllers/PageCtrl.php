@@ -2,8 +2,8 @@
     namespace App\Controllers;
     /**
      * @author Marco Schmitt
-     * 16/01/2026
-     * Version 0.1
+     * 27/02/2026
+     * Version 1
      */
 
     use PHPMailer\PHPMailer\PHPMailer;
@@ -29,7 +29,21 @@
         public function policy(){
             $this->_display("policy");
         }
-        //Page Contact
+
+        /**
+         * @brief Handles the contact form submission and email dispatch.
+         * * @details This method processes the public contact form:
+         * 1. **Data Retrieval:** Captures name, email, subject, and message from the POST request.
+         * 2. **Input Validation:** * - Checks for mandatory presence of all fields.
+         * - Validates the email address against standard formats using filter_var.
+         * 3. **Data Preparation:** If validation passes, it maps the input to the internal data array for the email template.
+         * 4. **Email Configuration:** * - Sets the recipient address and subject line.
+         * - Generates the email body by rendering the "mailMessage" view.
+         * 5. **Transmission:** Attempts to send the email via the internal _sendMail helper.
+         * 6. **Feedback:** Redirects with a success message on completion or returns to the form with error notifications.
+         * @return void
+         */
+
         public function contact(){
 
             if (count($_POST)>0){
@@ -57,55 +71,33 @@
                     $arrError['email'] = "Le format du mail n'est pas correct";
                 }
 
+                $this->_arrData['strName']       = $strName;
+                $this->_arrData['strSubject']    = $strSubject;
+                $this->_arrData['strEmail']      = $strEmail;
+                $this->_arrData['strMessage']    = $strMessage;
+
                 if (count($arrError) == 0){
-                    $objMail = new PHPMailer(); // Nouvel objet Mail
-                    $objMail->IsSMTP();
-                    $objMail->Mailer 		= "smtp";
-                    $objMail->CharSet 		= PHPMailer::CHARSET_UTF8;
 
-                    // Si on veut afficher les messages de debug
-                    $objMail->SMTPDebug  	= 0;
+                    
 
-                    // Connection au serveur de mail
-                    $objMail->SMTPAuth   	= TRUE;
-                    $objMail->SMTPSecure 	= "ssl";
-                    $objMail->Port       	= $_ENV['MAIL_PORT'];
-                    $objMail->Host       	= "smtp.gmail.com";
-                    $objMail->Username 		= $_ENV['MAIL_USERNAME'];
-                    $objMail->Password 		= $_ENV['MAIL_PASSWORD'];
+                    $this->_objMail->addAddress('slendsher48@gmail.com', 'GiveMeFive');
+                    $this->_objMail->Subject    = "Formulaire de Contact";
+        
 
-                    // Comment envoyer le mail
-                    $objMail->IsHTML(true); // en HTML
-                    $objMail->setFrom($_ENV['MAIL_USERNAME'], 'Give Me Five'); // Expéditeur
+                    $this->_objMail->Body      	= $this->_display("mailMessage", false);
 
-                    // Destinataire(s)
-                    $objMail->addAddress('slendSher48@gmail.com', 'GiveMeFive');
-
-                    // Mail
-                    $objMail->Subject    = 'Give Me Five - Formulaire de Contact';
-
-                    $this->_arrData['strName']       = $strName;
-                    $this->_arrData['strSubject']    = $strSubject;
-                    $this->_arrData['strEmail']      = $strEmail;
-                    $this->_arrData['strMessage']    = $strMessage;
-
-                    //$this->_arrData['strName'] = $_POST['name']??'';
-                    $objMail->Body       = $this->_display("mail_message", false);
-
-                    // Envoyer le mail
-                    if($objMail->Send()){
-                        $_SESSION['success'] = "mail envoyer !";
-                        header("location: index.php?ctrl=page&action=contact");
-                        exit;
+                    if($this->_sendMail()){
+                        $_SESSION['success'] = "L'email a bien était envoyé !";
+                        $this->_redirect();
+                    } else{
+                        $arrError[] = "Erreur lors de l'envoie veuillez réassayer !";
                     }
-
 
                 }
 
                 $this->_arrData['arrError'] = $arrError;
             }
 
-			// Afficher
 			$this->_display("contact");
         }
 

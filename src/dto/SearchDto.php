@@ -2,12 +2,10 @@
     namespace App\Dto;
 
     /**
-     * @author Marco Schmitt
-     * @class SearchDto
-     * @brief Data Transfer Object for unified search results.
-     * * Used to standardize data coming from movies, persons, and users
-     * into a single object format.
-     */
+	* @author Marco Schmitt 
+    * 27/02/2026
+    * Version 1
+    */
 
     class SearchDto extends Dto{
 
@@ -23,10 +21,10 @@
 
 
 		/**
-		* Constructeur
-		*/
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
+        */
 		public function __construct(string $prefixe = ""){
-			// Préfixe de la table pour hydratation
 			$this->_prefixe = $prefixe;
 		}
 
@@ -37,6 +35,17 @@
         */
 		public function getName():string{
 		    return $this->_name;
+		}
+
+		/**
+		 * Returns the result name, truncated with '...' if too long.
+		 * @return string The entity name, truncated if it exceeds the maximum length.
+		 */
+		public function getNameFormat(): string {
+			$maxLength = 18; // Modifie selon tes besoins
+			return strlen($this->_name) > $maxLength 
+			? substr($this->_name, 0, $maxLength) . '...' 
+			: $this->_name;
 		}
 
 		/**
@@ -76,7 +85,7 @@
         * @param string|null $strPhoto Path to the image file.
         */
 		public function setPhoto(?string $strPhoto=""){
-		   $this->_photo = $strPhoto??'assets/img/defaultImgUser.jpg';
+		   $this->_photo = $strPhoto??'defaultImgUser.jpg';
 		}
 
 		/**
@@ -107,7 +116,7 @@
         * @param string $strSearch The raw search string.
         */
 		public function setSearch(string $strSearch=""){
-		   $this->_search = $this->clean($strSearch);
+		   $this->_search = $this->_clean($strSearch);
 		}
 
 		/**
@@ -123,7 +132,7 @@
         * @param string $strSearchBy The filter identifier.
         */
 		public function setSearchBy(string $strSearchBy=""){
-		   $this->_searchBy = $this->clean($strSearchBy);
+		   $this->_searchBy = $this->_clean($strSearchBy);
 		}
 
 		/**

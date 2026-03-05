@@ -28,14 +28,18 @@
 		private string 	$_function;
 		private string 	$_pwd;
 		private string 	$_pwdConfirm;
+		private ?string $_ban_at;
 		private int 	$_reported = 0;
 		private int 	$_funct_id = 1;
+		private int 	$_nb_comments = 0;
+		private int 	$_nb_likes = 0;
 
 
 		/**
-		 * Constructor.
-		 * Sets the prefix used by the hydrator (e.g., user_name, user_email, etc.).
-		 */
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
+        */
+
 		public function __construct(){
 			// Table prefix for hydratation
 			$this->_prefixe = 'user_';
@@ -44,6 +48,68 @@
 		/**
 		 * Getters & Setters
 		 */
+		
+		/**
+		 * Getting the Lastname
+		 * @return string from the objectUser
+		 */
+
+		public function getNbComment():int{
+			return $this->_nb_comments;
+		}
+
+		/**
+		 * Updating the Lastname
+		 * @param string from the new name
+		 */
+
+		public function setNb_comments(int $intNbComment){
+			$this->_nb_comments = $intNbComment;
+		}
+		
+		/**
+        * Sets the ban date.
+        *
+        * @param string|null $strban The ban date string or null to unban.
+        * @return void
+        */
+		
+		public function setBan_at(?string $strban){
+			$this->_ban_at = $strban;
+		}
+		
+		/**
+        * Checks if the entity is currently banned.
+        *
+        * @return bool True if a ban date is set, false otherwise.
+        */
+		
+		public function getBanAt(){
+			if(is_null($this->_ban_at)){
+				return false;
+			} else{
+				return true;
+			}
+		}
+
+
+		/**
+		 * Getting the Lastname
+		 * @return string from the objectUser
+		 */
+
+		public function getNbLike():int{
+			return $this->_nb_likes;
+		}
+
+		/**
+		 * Updating the Lastname
+		 * @param string from the new name
+		 */
+
+		public function setNb_liked(int $intNbLike){
+			$this->_nb_likes = $intNbLike;
+		}
 
 		/**
 		 * Getting the Lastname
@@ -60,7 +126,7 @@
 		 */
 
 		public function setName(string $strNewName){
-			$this->_name = $this->clean($strNewName);
+			$this->_name = $this->_clean($strNewName);
 		}
 
 		/**
@@ -78,7 +144,7 @@
 		 */
 
 		public function setFirstname(string $strFirstname){
-			$this->_firstname = $this->clean($strFirstname);
+			$this->_firstname = $this->_clean($strFirstname);
 		}
 
 		/**
@@ -96,7 +162,7 @@
 		 */
 
 		public function setPseudo(string $strPseudo){
-			$this->_pseudo = $this->clean($strPseudo);
+			$this->_pseudo = $this->_clean($strPseudo);
 		}
 
 		/**
@@ -132,7 +198,7 @@
 		 */
 
 		public function setEmail(string $strEmail){
-			$this->_email = strtolower($this->clean($strEmail));
+			$this->_email = strtolower($this->_clean($strEmail));
 		}
 
 		/**
@@ -150,7 +216,7 @@
 		 */
 
 		public function setBio(?string $strBio){
-			$this->_bio = $this->clean($strBio??'')??"";
+			$this->_bio = $this->_clean($strBio??'')??"";
 		}
 
 		/**

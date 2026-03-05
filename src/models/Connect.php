@@ -3,8 +3,8 @@
     use PDO;
     /**
     * @author All
-    * 16/01/2026
-    * Version 0.1
+    * 27/02/2026
+    * Version 1
     */
 
     class Connect {
@@ -26,14 +26,15 @@
 					array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC)
 				);
 				
-
+				$this->_db->exec("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
 				// Setting character encoding to UTF-8
-				$this->_db->exec("SET CHARACTER SET utf8");
+				// $this->_db->exec("SET CHARACTER SET utf8");
+				$this->_db->exec("SET NAMES utf8mb4");
 
 				// Enabling exception-based error handling
 				$this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				
-			} catch(PDOException$e) {
+			} catch(PDOException $e) {
 				echo "Échec : " . $e->getMessage();
 			}
 		}

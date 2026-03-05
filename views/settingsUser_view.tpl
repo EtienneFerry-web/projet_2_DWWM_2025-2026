@@ -9,8 +9,9 @@
 <div class="py-5">
      <h2>Profil Utilisateur</h2>
      <form method="post" enctype="multipart/form-data" class="row">
+        <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
         <div class="form-group py-2">
-            <label  class="form-label">Changez le prenom :</label>
+            <label  class="form-label">Changer le prénom :</label>
             <input  type="text"
                     name="firstname"
                     class="form-control {if (isset($arrError['firstname']))} is-invalid {/if}"  
@@ -18,7 +19,7 @@
                     placeholder="Prenom">
         </div>
         <div class="form-group py-2">
-            <label  class="form-label">Changez le nom :</label>
+            <label  class="form-label">Changer le nom :</label>
             <input  type="text"
                     name="name"
                     class="form-control {if (isset($arrError['name']))} is-invalid {/if}"  
@@ -26,20 +27,20 @@
                     placeholder="Nom">
         </div>
           <div class="form-group py-2">
-             <label for="" class="form-label">Changez de pseudo</label>
+             <label for="" class="form-label">Changer de pseudo :</label>
              <input type="text" 
                     name="pseudo"  
                     value="{$objUser->getPseudo()}" 
                     class="form-control {if (isset($arrError['pseudo']))} is-invalid {/if}">
          </div>
           <div class="form-group py-2">
-             <label for="" class="form-label">Changez de Bio</label>
+             <label for="" class="form-label">Changer de Bio :</label>
              <textarea  name="bio" 
                         placeholder="Bio Utilisateur"
                         class="form-control {if (isset($arrError['bio']))} is-invalid {/if}">{$objUser->getBio()}</textarea>
          </div>
          <div class="col-12 p-2">
-            <label class="form-label">Photo de profil</label>
+            <label class="form-label">Changer la photo de profil :</label>
             <div class="mb-2">
                 <img src="{$smarty.env.BASE_URL}assets/img/users/{$objUser->getPhoto()}" alt="Photo de profil" style="max-width: 150px;">
             </div>
@@ -52,15 +53,15 @@
 
      <h2 class="py-2">Sécurité</h2>
         <div class="form-group py-2">
-             <label for="" class="form-label">Adresse Email</label>
+             <label for="" class="form-label">Adresse E-mail :</label>
              <input name="email" id="" placeholder="Email" value="{$objUser->getEmail()}"class="form-control"> 
          </div>
          <div class="form-group py-2">
-             <label for="" class="form-label">Mot de Passe</label>
+             <label for="" class="form-label">Mot de Passe :</label>
              <input type="text" name="pwd" value="" class="form-control">
          </div>
          <div class="form-group py-2">
-             <label for="" class="form-label">Confirmation du Mots de Passe</label>
+             <label for="" class="form-label">Confirmation du Mot de Passe :</label>
              <input type="text" name="pwdConfirm" value="" class="form-control">
          </div>
          <button type="submit" class="btnCustom py-3">Enregistrer</button>
@@ -74,11 +75,12 @@
 
          <div class="col-auto">
              <form action="{$smarty.env.BASE_URL}user/deleteAccount" method="POST" class="nav-link col-auto"
-      onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
-        <button type="submit" class="border-0 bg-transparent">
-            Supprimer mon compte
-        </button>
-</form>
+                onsubmit="return confirm('Êtes-vous sûr ? C’est irréversible !');">
+                    <button type="submit" class="border-0 bg-transparent">
+                        Supprimer mon compte
+                    </button>
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
+            </form>
          </div>
      </div>
 </div>

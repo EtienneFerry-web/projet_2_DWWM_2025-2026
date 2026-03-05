@@ -12,7 +12,7 @@
 		private string 	$_name = '';
 		private string 	$_firstname = '';
 		private string 	$_birthdate;
-		private ?string $_deathdate= "";
+		private ?string $_deathdate= NULL;
 		private ?string $_bio = "";
 		private string 	$_country;
 		private string 	$_photo;
@@ -20,12 +20,17 @@
 
 
 		/**
-        * Constructor
-        * Sets the table prefix for hydration
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
         */
+
 		public function __construct(string $prefixe = ""){
 			$this->_prefixe = "pers_";
 		}
+
+		/**
+		* Getters & Setters
+		*/
 
 		/**
         * Getting the birth date

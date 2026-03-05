@@ -2,7 +2,7 @@
 
 {block name="title" prepend}Dashboard - Signalements{/block}
 
-{block name="description"}{/block}
+{block name="description"}Dashboard des signalements de Give Me Five{/block}
 
 {block name="css_variation"}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
         <nav class="py-2 row g-2">
             <div class="py-2 row g-2">
                 <a id="user" href="{$smarty.env.BASE_URL}admin/dashboard" class="nav-link col-2">Home</a>
-                <a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2">Utilisateurs</a>
+                {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 3}<a id="user" href="{$smarty.env.BASE_URL}user/allUser" class="nav-link col-2">Utilisateurs</a>{/if}
                 <a id="addMovie" href="{$smarty.env.BASE_URL}movie/allMovie" class="nav-link col-2">Films</a>
                 <a id="person" href="{$smarty.env.BASE_URL}person/allPerson" class="nav-link col-2">Célébrités</a>
                 <a id="report" href="{$smarty.env.BASE_URL}report/allReport" class="nav-link col-2  active">Signalement</a>
@@ -33,10 +33,11 @@
         <div class="container-fluid p-3">
             {foreach from=$arrRepComToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                     <div class="col-md-1 fw-bold">#{$objReport->getId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <a class="text-decoration-none text-dark d-flex align-items-center" href="{$smarty.env.BASE_URL}user/userPage/{$objReport->getReportedUserId()}">
-                            <img src="{$smarty.env.BASE_URL}assets/img/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
+                            <img src="{$smarty.env.BASE_URL}assets/img/users/{$objReport->getPhoto()}" class="rounded-circle border me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Photo de profil">
                             <span class="fw-bold">{$objReport->getPseudo()}</span>
                         </a>
                     </div>
@@ -45,15 +46,17 @@
                         <p class="m-0 ">Commentaire: {$objReport->getComContent()}</p>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+                    {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 3}
                         {if !$objReport->getUserBan()}
-                        <button type="button"
-                                class="btn btn-outline-danger btn-sm px-3"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalBan"
-                                data-userid="{$objReport->getReportedUserId()}"
-                                data-pseudo="{$objReport->getPseudo()}">
-                            Bannir
-                        </button>
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm px-3"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalBan"
+                                    data-userid="{$objReport->getReportedUserId()}"
+                                    data-pseudo="{$objReport->getPseudo()}">
+                                Bannir
+                            </button>
+                        {/if}
                         {/if}
                         {if $objReport->getUserBan()} <button type="submit" name="unBanUser" value="{$objReport->getReportedUserId()}" class="btn btn-outline-success btn-sm px-3">Débannir</button>{/if}
                         <button type="submit" name="addRemoveSpoiler" value="{$objReport->getReportedComId()}" class="btn btn-outline-warning btn-sm">{if $objReport->getSpoiler() == 0} Add Spoiler {else} Remove Spoiler {/if}</button>
@@ -66,7 +69,7 @@
             {/foreach}
         </div>
     </section>
-
+    {if isset($smarty.session.user) && $smarty.session.user.user_funct_id == 3}
     <section class="mb-5">
         <h3 class="h4"><i class="bi bi-people me-2"></i>Signalements : Utilisateurs</h3>
         <div class="container-fluid p-3">
@@ -75,7 +78,7 @@
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedUserId()}</div>
                     <div class="col-md-3 d-flex align-items-center">
                         <a class="text-decoration-none text-dark d-flex align-items-center" href="{$smarty.env.BASE_URL}user/userPage/{$objReport->getReportedUserId()}">
-                            <img src="{$smarty.env.BASE_URL}assets/img/{$objReport->getPhoto()|default:'default-user.png'}"
+                            <img src="{$smarty.env.BASE_URL}assets/img/users/{$objReport->getPhoto()|default:'default-user.png'}"
                                  class="rounded-circle border me-2"
                                  style="width: 40px; height: 40px; object-fit: cover;" alt="Photo">
                             <span class="fw-bold text-dark">{$objReport->getPseudoUser()}</span>
@@ -93,8 +96,9 @@
                             Bannir
                         </button>
                     {/if}
-                        <a href="" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
+                        <a href="{$smarty.env.BASE_URL}user/settingsAllUser/{$objReport->getReportedUserId()}" class="btn btn-sm btn-outline-dark px-3">Modifier</a>
                         <form method="post" class="m-0">
+                            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                            {if $objReport->getUserBan()} <button type="submit" name="unBanUser" value="{$objReport->getReportedUserId()}" class="btn btn-outline-success btn-sm px-3">Débannir</button>{/if}
                             <button type="submit" name="deleteRep" value="{$objReport->getId()}" class="btn btn-outline-success btn-sm px-3">Valider</button>
                         </form>
@@ -105,10 +109,11 @@
             {/foreach}
         </div>
     </section>
-
+    {/if}
     <div class="modal fade" id="modalBan" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <form method="post" class="modal-content">
+                <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                 <div class="modal-header">
                     <h5 class="modal-title">Bannir : <span id="modalPseudo"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -136,8 +141,9 @@
         <div class="container-fluid p-3">
             {foreach from=$arrRepMovieToDisplay item=objReport}
                 <form method="post" class="row border-bottom py-3 align-items-center">
+                    <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
                     <div class="col-md-1 fw-bold">#{$objReport->getReportedMovieId()}</div>
-                    <a href="{$smarty.env.BASE_URL}movie&action=movie&id={$objReport->getReportedMovieId()}"class="col-md-3 d-flex align-items-center text-decoration-none text-dark">
+                    <a href="{$smarty.env.BASE_URL}movie/moviePage/{$objReport->getReportedMovieId()}"class="col-md-3 d-flex align-items-center text-decoration-none text-dark">
                         <span class="fw-bold">{$objReport->getTitle()}</span>
                     </a>
                     <p class="col-md-4 m-0 fw-bold">Raison: {$objReport->getReason()}</p>

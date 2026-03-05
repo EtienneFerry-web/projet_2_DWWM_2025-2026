@@ -2,6 +2,10 @@
     namespace App\Models;
     use PDO;
 
+    /**
+     * 27/02/2026
+     * Version 1
+     */
 
     class MovieModel extends Connect{
 
@@ -17,29 +21,31 @@
         public string $job          = 'ASC';
 
         /**
+        * @author Marco
         * Retrieving a list of all movies in the database
         * @return array a collection containing only the ID and title of every movie
         */
 
-        public function findAllMovies() : array {
+        public function findAllMovies(): array {
             $strRq = "SELECT mov_id, mov_title
                         FROM movies";
             return $this->_db->query($strRq)->fetchAll();
         }
 
         /**
+        * @author Marco
         * Retrieving recent movie releases from the last 30 days
         * @return array a list of movies with their official poster, average rating, and like count
         */
 
-        public function newMovie(){
+        public function newMovie(): array {
           $strRq	= "
                         SELECT mov_id, pho_photo AS 'mov_photo', COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating', COUNT(DISTINCT lik_user_id) AS 'mov_like'
                         FROM movies
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
-                        WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND photos.pho_type = 'Affiche'
+                        WHERE mov_release_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND photos.pho_type = 'Affiche' AND mov_published_at IS NOT NULL
                         GROUP BY movies.mov_id,  pho_photo
                         ";
 
@@ -47,12 +53,13 @@
         }
 
         /**
+        * @author Marco 
         * Dynamic filtering and retrieval of all movies
         * @return array a filtered collection of movies with ratings, likes, and posters
         */
 
         public function allMovie(): array {
-            $strWhere = " WHERE ";
+           
             $strRq = " SELECT mov_id, mov_title, mov_description, pho_photo AS 'mov_photo',
                             COALESCE(AVG(ratings.rat_score), 0) AS 'mov_rating',
                             COUNT(DISTINCT lik_user_id) AS 'mov_like'
@@ -60,6 +67,7 @@
                     LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                     LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                     LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
+                    WHERE mov_published_at IS NOT NULL
                     ";
 
             $conditions = [];
@@ -77,36 +85,36 @@
             }
 
             if (!empty($conditions)) {
-                $strRq .= " $strWhere mov_id IN (
+                $strRq .= " AND mov_id IN (
                                 SELECT part_mov_id
                                 FROM participates
                                 WHERE " . implode(" OR ", $conditions) . "
                             )";
-                $strWhere = " AND ";
+                
             }
 
             if (!empty($this->categories)) {
-                $strRq .= " $strWhere mov_id IN (
+                $strRq .= " AND mov_id IN (
                                 SELECT belong_mov_id
                                 FROM belongs
                                 WHERE belong_cat_id = :category
                             )";
-                $strWhere = " AND ";
+                
             }
 
             if (!empty($this->country)) {
-                $strRq .= " $strWhere mov_nat_id = :country";
-                $strWhere = " AND ";
+                $strRq .= " AND mov_nat_id = :country";
+                
             }
 
             if (!empty($this->date)) {
-                $strRq .= " $strWhere mov_release_date = :date";
+                $strRq .= " AND mov_release_date = :date";
             } elseif (!empty($this->startdate) && !empty($this->enddate)) {
-                $strRq .= " $strWhere mov_release_date BETWEEN :startDate AND :endDate";
+                $strRq .= " AND mov_release_date BETWEEN :startDate AND :endDate";
             } elseif (!empty($this->startdate)) {
-                $strRq .= " $strWhere mov_release_date > :startDate";
+                $strRq .= " AND mov_release_date > :startDate";
             } elseif (!empty($this->enddate)) {
-                $strRq .= " $strWhere mov_release_date < :endDate";
+                $strRq .= " AND mov_release_date < :endDate";
             }
 
             $strRq .= " GROUP BY movies.mov_id
@@ -144,9 +152,21 @@
             $stmt->execute();
 
             return $stmt->fetchAll();
-                }
+        }
 
-        public function findMovie(int $idMovie, int $intUserId = 0){
+        /**
+         * Retrieves comprehensive details for a specific movie, including user-specific interactions.
+         * * This method fetches movie data combined with:
+         * - Global statistics: average rating (COALESCE to 0) and total likes count.
+         * - User context: checks if the given user ID has liked the movie, reported it, 
+         * or already assigned a personal rating.
+         * * @author Marco
+         * @param int $idMovie The unique identifier of the movie.
+         * @param int $intUserId The ID of the current user (defaults to 0 for guests).
+         * @return array An associative array containing movie details and user-specific status.
+         */
+
+        public function findMovie(int $idMovie, int $intUserId = 0): array | bool {
 
             $strRq  = " SELECT movies.*,
                             pho_photo AS 'mov_photo',
@@ -166,7 +186,7 @@
                                 SELECT 1 FROM reports
                                 WHERE rep_reporter_user_id = :user_id
                                 AND rep_reported_movie_id = movies.mov_id
-                                AND rep_delete_at IS NULL
+                                AND rep_deleted_at IS NULL
 
                             ) AS mov_reported,
 
@@ -182,7 +202,7 @@
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
 
                         LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id AND liked.lik_com_id IS NULL
-                        WHERE mov_id = :id
+                        WHERE mov_id = :id AND mov_published_at IS NOT NULL
                         GROUP BY movies.mov_id";
 
             $stmt = $this->_db->prepare($strRq);
@@ -193,7 +213,15 @@
             return $stmt->fetch();
         }
 
-		public function findOneMovie(){
+        /**
+         * Retrieves detailed information for a single movie by its ID.
+         * * Joins multiple tables (photos, nationalities, categories) to provide 
+         * a complete dataset for the specific movie requested via GET parameters.
+         * * @author Audrey
+         * @return array An associative array containing the movie's full details.
+         */
+
+		public function findOneMovie(): array {
             $strRq	= " SELECT movies.*,
                             mov_original_title AS 'mov_orginalTitle',
                             pho_photo AS 'mov_photo',
@@ -201,19 +229,34 @@
                             nat_country AS 'mov_country',
                             belong_mov_id AS 'mov_belong_id',
                             cat_id AS 'mov_categoriesId',
-                            cat_name AS 'mov_categorie'
+                            cat_name AS 'mov_categorie',
+                            mov_published_at
                         FROM movies
                         INNER JOIN photos ON movies.mov_id = photos.pho_mov_id
                         INNER JOIN nationalities ON movies.mov_nat_id = nationalities.nat_id
                         INNER JOIN belongs ON movies.mov_id = belongs.belong_mov_id
                         INNER JOIN categories ON belongs.belong_cat_id = categories.cat_id
-                        WHERE mov_id = ".$_GET['id'];
+                        WHERE mov_id = :id";
 
 
-            return $this->_db->query($strRq)->fetch();
+            $prep = $this->_db->prepare($strRq);
+            $prep->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+            $prep->execute();
+
+            return $prep->fetch();
         }
 
-        public function deleteNoteUser(int $intUserId, int $intMovieId ){
+        /**
+         * Deletes a user's rating for a specific movie if no associated comment exists.
+         * * This method first checks the 'comments' table. If no comment is found for the 
+         * given user and movie, it proceeds to delete the record from the 'ratings' table.
+         * * @author Marco
+         * @param int $intUserId The unique identifier of the user.
+         * @param int $intMovieId The unique identifier of the movie.
+         * @return bool True if the rating was deleted, false if a comment exists or if the query failed.
+         */
+
+        public function deleteNoteUser(int $intUserId, int $intMovieId ): bool{
 
             $strRq = "  SELECT COUNT(*) AS 'nbr'
                         FROM comments
@@ -239,12 +282,22 @@
     			$rqPrep->bindValue(":movieId", $intMovieId, PDO::PARAM_INT);
 
     			return $rqPrep->execute();
+            } else{
+                return false;
             }
 
         }
 
+        /**
+         * Updates all information related to a movie in the database.
+         * * This method updates the main movie details, its associated photo, 
+         * and its category assignment within a single flow.
+         * * @author Audrey
+         * @param object $objNewMovie The movie object containing the updated data.
+         * @return bool True on success, false otherwise.
+         */
 
-		public function updateMovie(object $objNewMovie):bool{
+		public function updateMovie(object $objNewMovie){
 
 		// Request construction
 			$strRq 	=   "UPDATE movies
@@ -254,7 +307,8 @@
                              mov_description = :description,
                              mov_release_date = :createDate,
                              mov_nat_id = :idNationality,
-                             mov_trailer_url = :trailer
+                             mov_trailer_url = :trailer,
+                             mov_updated_at = NOW()
 						 WHERE mov_id= :id";
 			// Prepared request
 			$rqPrep	= $this->_db->prepare($strRq);
@@ -275,7 +329,8 @@
 
                 $strRq2 = "UPDATE photos
                             SET pho_photo = :photo,
-                                pho_mov_id = :idMovie
+                                pho_mov_id = :idMovie,
+                                pho_updated_at = NOW()
                             WHERE pho_mov_id = :idMovie";
 
             $rqPrep2	= $this->_db->prepare($strRq2);
@@ -301,6 +356,7 @@
 
 		}
         /**
+        * @author Marco
         * Retrieving full details for a single movie
         * @param int $idMovie the identifier of the movie to fetch
         * @param int $intUserId the ID of the connected user to retrieve personalized flags (rating, like, report)
@@ -352,6 +408,7 @@
         }
 
         /**
+        * @author Marco
         * Retrieving the collection of movies liked by a specific user
         * @param int $idUser the identifier of the user whose liked movies are being fetched
         * @return array a list of movies including their IDs and posters, ordered by the date they were liked
@@ -375,6 +432,7 @@
 		}
 
         /**
+        * @author Marco
         * Retrieving a list of all countries/nationalities
         * @return array a collection of countries with their IDs and names
         */
@@ -389,6 +447,7 @@
 		}
 
         /**
+        * @author Marco
         * Retrieving a list of all movie categories/genres
         * @return array a collection of categories with their IDs and names
         */
@@ -403,12 +462,13 @@
         }
 
         /**
+        * @author Audrey 
         * Adding a new movie and its associated metadata (photo and category)
         * @param object $objNewMovie the MovieEntity containing all details for the new entry
         * @return bool returns true if the movie, poster, and category were all successfully inserted
         */
 
-        public function addMovie(object $objNewMovie):bool{
+        public function addMovie(object $objNewMovie){
 		
 			$strRq 	=   "INSERT INTO movies (mov_title, mov_original_title, mov_length, mov_description, mov_release_date, mov_nat_id, mov_trailer_url)
 						        VALUES (:title, :originalTitle, :length, :description, :createDate, :idNationality, :trailer)";
@@ -469,6 +529,30 @@
         }
 
         /**
+         * @brief Publishes a movie by setting its publication timestamp.
+         * @details Updates the 'mov_published_at' field to the current date and time (NOW()), 
+         * making the movie visible on the platform.
+         * @author Marco
+         * @param int $intId The unique identifier of the movie to be published.
+         * @return bool True on success, false on failure.
+         */
+
+        public function publishMovie(int $intId){
+			$strRq = "UPDATE movies
+                        SET mov_published_at = NOW()
+					  WHERE mov_id = :id";
+
+			$rqPrep = $this->_db->prepare($strRq);
+			$rqPrep->bindValue(':id', $intId, PDO::PARAM_INT);
+
+			return $rqPrep->execute();
+        }
+
+
+
+
+        /**
+        * @author Etienne
         * Toggling a like (favorite) on a movie
         * @param int $intUserId the identifier of the user liking the movie
         * @param int $intMovId the identifier of the movie being liked
@@ -509,6 +593,7 @@
 		}
 
         /**
+        * @author Marco
         * Adding a community image to a movie's gallery
         * @param string $img the filename or path of the image to be added
         * @param int $intMovId the identifier of the movie the image belongs to
@@ -562,6 +647,7 @@
 
 
         /**
+        * @author Marco
         * Retrieving the gallery of community/content images for a movie
         * @param int $intMovId the identifier of the movie to fetch images for
         * @return array a collection of images (ID and filename) with the 'Content' type
@@ -580,6 +666,7 @@
 		}
 
         /**
+        * @author Marco
         * Submitting a report for a specific movie
         * @param object $objReport the ReportEntity containing the movie ID, reporter ID, and reason
         * @return bool returns true if the report was successfully saved in the database
@@ -601,6 +688,7 @@
 		}
 
         /**
+        * @author Audrey
         * Deleting a specific movie report
         * @param object $objReport the ReportEntity containing the movie ID and reporter ID
         * @return bool returns true if the report was successfully removed
@@ -620,6 +708,7 @@
 		}
 
         /**
+        * @author Marco Schmitt
         * Creating or updating a user rating and retrieving the new global average
         * @param int $intIdUser the identifier of the user giving the rating
         * @param int $movId the identifier of the movie being rated
@@ -660,11 +749,14 @@
             }
 
 		}
+
         /**
-         * 
-         * @author Audrey
-         * @param object $
-         * return Array
+         * Retrieves a list of movies based on search criteria, category filters, and sorting.
+         * * @author Audrey
+         * @param string|null $strSearch The search term for the movie title (optional).
+         * @param string $strFilter The category ID to filter by (ignored if empty or '0').
+         * @param string $strSort The sorting direction ('desc' for descending, defaults to ascending).
+         * @return array An array of movies matching the criteria.
          */
         public function findMovieWithFilters(?string $strSearch, string $strFilter,string $strSort): array {
 
@@ -672,7 +764,7 @@
 						FROM movies
                         INNER JOIN belongs ON belongs.belong_mov_id = movies.mov_id
                         INNER JOIN categories ON categories.cat_id = belongs.belong_cat_id
-                        WHERE 1 = 1";
+                        WHERE 1 = 1 AND mov_published_at IS NOT NULL";
 
 
 			$params = [];
@@ -705,6 +797,7 @@
 
 
         /**
+        * @author Etienne
         * Getting the total number of likes across the entire platform
         * @return int the total count of all likes (movies and comments combined)
         */
@@ -717,16 +810,10 @@
 		}
 
         /**
-        * Getting the total number of movies in the catalog
-        * @return int the total count of all movie records
+        * @author Etienne
+        * Getting the total number of movies across the entire platform
+        * @return int the total count of all movies 
         */
-        public function countAllLikesFromOneUser(int $intUserId) {
-			$strRq = "SELECT COUNT(*)
-						FROM liked
-                        WHERE lik_user_id =  $intUserId";
-
-			return $this->_db->query($strRq)->fetchColumn();
-		}
 
         public function countAllMovies() {
 			$strRq = "SELECT COUNT(*)
@@ -736,6 +823,7 @@
 		}
 
         /**
+        * @author Etienne
         * Retrieving the 10 most recently added movies
         * @return array a list of the latest movies with their like and comment counts
         */
@@ -754,6 +842,7 @@
         }
 
         /**
+        * @author Etienne
         * Retrieving the top 5 movies with the most likes
         * @return array the most popular movies based on user "likes"
         */
@@ -773,6 +862,7 @@
         }
 
         /**
+        * @author Etienne
         * Retrieving the top 5 movies with the most comments
         * @return array the most discussed movies on the platform
         */
@@ -787,6 +877,19 @@
                         GROUP BY movies.mov_id
                         ORDER BY mov_nb_comments DESC
                         LIMIT 5";
+            return $this->_db->query($strRq)->fetchAll();
+        }
+
+        /**
+         * @author Marco Schmitt
+         * Retrieving movies that are not yet published
+         * @return array the list of movies with no publication date
+         */
+
+        public function movieNotPublished(){
+            $strRq = "  SELECT mov_title, mov_id
+                        FROM movies
+                        WHERE mov_published_at IS NULL";
             return $this->_db->query($strRq)->fetchAll();
         }
     }

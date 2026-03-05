@@ -1,4 +1,5 @@
- <form method="post">
+ <form method="get">
+    
      <div class="row flex-sm-column g-2 text-start">
          <!-- Filtre Réalisateur -->
          <div class="col-md-3 w-100">

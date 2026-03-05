@@ -2,7 +2,7 @@
     namespace App\Controllers;
     /**
      * @author Marco Schmitt
-     * 24/02/2026
+     * 27/02/2026
      * Version 1
      */
     class ErrorCtrl extends MotherCtrl{

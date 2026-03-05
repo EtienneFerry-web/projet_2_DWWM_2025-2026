@@ -5,22 +5,22 @@
     use App\Models\MovieModel;
     use App\Models\CommentModel;
     use App\Models\PersonModel;
-    use App\Models\UserModel;
     // Entités
     use App\Entities\MovieEntity;
     use App\Entities\ReportEntity;
     use App\Entities\CommentEntity;
     use App\Entities\PersonEntity;
 
+	use DateTime;
     /**
-     * @author Marco Schmitt
-     * 16/01/2026
-     * Version 0.1
+     * 27/02/2026
+     * Version 1
      */
 
     class MovieCtrl extends MotherCtrl{
 
 		/**
+		* @author Marco
         * Main home page of the application
         * @return void retrieves the latest movies and displays the homepage view
         */
@@ -45,6 +45,7 @@
         }
 
 		/**
+		* @author Marco
         * Filtering and displaying the movie list
         * @return void handles search filters and hydrates entities for actors, directors, producers, and movies
         */
@@ -52,14 +53,14 @@
         public function list(){
             $objContentModel 	= new MovieModel;
 
-            $objContentModel->producer  	= $_POST['producer']??"";
-            $objContentModel->actor 	    = $_POST['actor']??"";
-            $objContentModel->realisator 	= $_POST['realisator']??"";
-            $objContentModel->categories  	= $_POST['categories']??"";
-            $objContentModel->country     	= $_POST['country']??"";
-            $objContentModel->date 			= $_POST['date']??"";
-            $objContentModel->startdate  	= $_POST['startdate']??"";
-            $objContentModel->enddate 	    = $_POST['enddate']??"";
+            $objContentModel->producer  	= $_GET['producer']??"";
+            $objContentModel->actor 	    = $_GET['actor']??"";
+            $objContentModel->realisator 	= $_GET['realisator']??"";
+            $objContentModel->categories  	= $_GET['categories']??"";
+            $objContentModel->country     	= $_GET['country']??"";
+            $objContentModel->date 			= $_GET['date']??"";
+            $objContentModel->startdate  	= $_GET['startdate']??"";
+            $objContentModel->enddate 	    = $_GET['enddate']??"";
 
             $objPersonModel 	   = new PersonModel;
             $arrActor              = $objPersonModel->findActor();
@@ -147,6 +148,15 @@
             $this->_display("list");
         }
 
+		/**
+		* @author Marco
+		* Updates the movie rating and returns the new average.
+		* * Receives the movie ID via GET and the user's rating via a JSON POST.
+		* Inserts or updates the value in the database and returns the 
+		* updated average rating of the movie in JSON format.
+		* * @return void Outputs JSON and exits.
+		*/
+		
         public function note(){
 
             $objMovieModel = new MovieModel;
@@ -169,6 +179,8 @@
 
 
 		/**
+		* @author Marco & Etienne
+		* Marco(Note, Insert Image, Report, Content display) & Etienne(Insert Comment, Insert / Remove Like)
         * Single movie details page
         * @return void manages ratings, likes, comments, reports, and image uploads for a specific movie
         */
@@ -252,27 +264,29 @@
 
     		if (isset($_POST['repMovie']) && isset($_SESSION['user']['user_id'])) {
 
-				if($_POST['repMovie'] == "" && trim($_POST['repMovie'])== ""){
-					$arrError ="Veulliez écrire la raison de report !";
-				}
-
-                $arrData = array_merge([
+				$arrData = array_merge([
                     'reported_movie_id' => $_GET['id'],
                     'reporter_user_id'  => $_SESSION['user']['user_id'],
                     'rep_reason' => $_POST['repMovie']
                 ]);
 
-			    $objReport = new ReportEntity;
+				$objReport = new ReportEntity;
 				$objReport->hydrate($arrData);
 
-                $repResult = $objMovieModel->reportMovie($objReport);
+				if(trim($_POST['repMovie'])== ""){
+					$arrError[] ="Veulliez écrire la raison de report !";
+				}
 
-                if ($repResult) {
-                    $_SESSION['success'] = "Le signalement a bien été envoyé !";
-					$this->_selfRedirect();
-                }  else {
-                    $arrError[] = "erreur";
-                }
+				if(count($arrError) == 0){
+					$repResult = $objMovieModel->reportMovie($objReport);
+
+					if ($repResult) {
+						$_SESSION['success'] = "Le signalement a bien été envoyé !";
+						$this->_selfRedirect();
+					}  else {
+						$arrError[] = "erreur";
+					}
+				}
 
             } elseif(isset($_POST['repDelete']) && $_POST['repDelete'] == 'delete'){
 
@@ -374,15 +388,19 @@
 				
 					if (empty($_POST['rating'])){
 						$arrError['noteRating'] = "Vous devez notez le film pour laisser un avis";
-					}
+					}	
+
+					$arrData = [
+						'comment' => $_POST['com_comment'],
+						'user_id' => $_SESSION['user']['user_id'],
+						'rating' => $_POST['rating'],
+						'movieId' => $_GET['id']
+					];
+
+					$objComment = new CommentEntity;
+					$objComment->hydrate($arrData);
 
 					if(count($arrError)===0) {
-
-						$objComment = new CommentEntity;
-						$objComment->setComment($_POST['com_comment']);
-						$objComment->setUser_id($_SESSION['user']['user_id']);
-						$objComment->setRating($_POST['rating']);
-						$objComment->setmovieId($_GET['id']);
 
 						$comment = $objCommentModel->commentInsert($objComment);
 
@@ -395,6 +413,7 @@
 							$this->_selfRedirect();
 						}
 					}
+					$this->_arrData['strComment'] = $objComment->getComment();
 
 				} else{
 					$arrError[] ="Vous devez être connecté pour pouvoir commenter !";
@@ -444,7 +463,7 @@
 			$arrMovieImages = $objMovieModel->selectImageMovie($_GET['id']);
 
 			if(!$arrMovie){
-				$this->redirect($_ENV['BASE_URL']."error/err404");
+				$this->_redirect("error/err404");
 			}
 
 			$arrImagesToDisplay = array();
@@ -484,8 +503,9 @@
 				$arrCommentToDisplay[]	= $objComment;
 			}
 
-			$this->_arrData['arrError'] = $arrError;
+			
 
+			$this->_arrData['arrError'] = $arrError;
 			$this->_arrData['arrCommentToDisplay'] = $arrCommentToDisplay;
 			$this->_arrData['arrPersToDisplay'] = $arrPersToDisplay;
 			$this->_arrData['arrImagesToDisplay'] = $arrImagesToDisplay;
@@ -495,15 +515,16 @@
         }
 
 		/**
+		* @author Audrey
         * Adding a new movie to the catalog
         * @return void handles form validation, file upload, and database insertion
 		* @todo récupérer la partie d'audrey
         */
 
         public function addEditMovie(){
-
+			
+			// 1. Object and variable initialization
 			$objMovie = new MovieEntity('mov_');
-			$objMovie->hydrate($_POST); 
 			$objMovieModel = new MovieModel();
 
 			if (isset($_GET['id'])){
@@ -514,76 +535,78 @@
 			}
 
 			$arrError = [];
-			
+			// 2. Data validation
 			if (count($_POST)>0){
+				$objMovie->hydrate($_POST);
 
 				if (empty($objMovie->getTitle())) {
-					$arrError['title'] = "Le titre est obligatoire";
+					$arrError['title'] = "Le titre est obligatoire.";
+				}
+				if (strlen($objMovie->getTitle()) >  100) {
+					$arrError['title'] = "Le titre ne doit pas dépasser 100 caractères.";
+				}
+				if (strlen($objMovie->getOriginalTitle()) > 100) {
+					$arrError['original_title'] = "Le titre original ne doit pas dépasser 100 caractères.";
 				}
 				if ($objMovie->getCategoriesId() == 0) {
-					$arrError['categoriesId'] = "Le genre est obligatoire";
+					$arrError['categoriesId'] = "Le genre est obligatoire.";
 				}
 				if ($objMovie->getCountryId() == 0) {
-					$arrError['countryId'] = "Le pays d'origine est obligatoire";
+					$arrError['countryId'] = "Le pays d'origine est obligatoire.";
 				}
 				if ($objMovie->getRelease_date() == '') {
-					$arrError['countryId'] = "La durée est obligatoire";
+					$arrError['release_date'] = "La date de sortie est obligatoire.";
 				}
 				if (empty($objMovie->getLength())) {
-					$arrError['length'] = "La durée est obligatoire";
+					$arrError['length'] = "La durée est obligatoire.";
 				}
 				if (empty($objMovie->getDescription())) {
-					$arrError['description'] = "Le synopsis est obligatoire";
+					$arrError['description'] = "Le synopsis est obligatoire.";
 				}
 				if (empty($objMovie->getTrailer())) {
-					$arrError['countryId'] = "La durée est obligatoire";
+					$arrError['trailer_url'] = "Le lien de la bande-annonce est obligatoire.";
 				}
-
-				$objMovie->hydrate($_POST);
 
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
 				if ($_FILES['photo']['error'] != 4){
 
 					if (!in_array($_FILES['photo']['type'], $arrTypeAllowed)){
 					$arrError['photo'] = "Le type de fichier n'est pas autorisé";
-				}else{
-					switch ($_FILES['photo']['error']){
-						case 0 :
-							$strImageName	= uniqid().".webp";
-						//Getting the original image name
-							$strOldImg	= $objMovie->getPhoto();
+					}else{
+						switch ($_FILES['photo']['error']){
+							case 0 :
+								$strImageName	= uniqid().".webp";
+							//Getting the original image name
+								$strOldImg	= $objMovie->getPhoto();
 
-							$objMovie->setPhoto($strImageName);
-							break;
+								$objMovie->setPhoto($strImageName);
+								break;
 
-						case 1 :
-							$arrError['photo'] = "Le fichier est trop volumineux";
-							break;
-						case 2 :
-							$arrError['photo'] = "Le fichier est trop volumineux";
-							break;
-						case 3 :
-							$arrError['photo'] = "Le fichier a été partiellement téléchargé";
-							break;
-						case 6 :
-							$arrError['photo'] = "Le répertoire temporaire est manquant";
-							break;
-						default :
-							$arrError['photo'] = "Erreur sur l'image";
-							break;
-					}
+							case 1 :
+								$arrError['photo'] = "Le fichier est trop volumineux";
+								break;
+							case 2 :
+								$arrError['photo'] = "Le fichier est trop volumineux";
+								break;
+							case 3 :
+								$arrError['photo'] = "Le fichier a été partiellement téléchargé";
+								break;
+							case 6 :
+								$arrError['photo'] = "Le répertoire temporaire est manquant";
+								break;
+							default :
+								$arrError['photo'] = "Erreur sur l'image";
+								break;
+						}
 				}
-
-				// 3. Logique d'insertion
-
 			}elseif(!isset($_GET['id'])){
 
-				// Est-ce que le fichier existe ?
+				// Check if the file exists
 				if (is_null($objMovie->getPhoto())){
 					$arrError['img'] = "L'image est obligatoire";
 				}
 			}
-
+			
 			// If the form is correctly completed
 			if (count($arrError) == 0){
 
@@ -595,45 +618,36 @@
 				// If no errors, attempting the insertion
 				if ($boolResultMovie === true) {
 					if (isset($strImageName)){
-							// Setting the destination path
-							$strDest    = $_ENV['IMG_PATH'].$strImageName;
-							// Fetching the source file path
-							$strSource	= $_FILES['photo']['tmp_name'];
-						}
-						if ($boolResultMovie === true){
-
-							//Removing the old image
-							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
-
-							if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
-								if (!empty($strOldImg)) {
-									$strOldFile = $_ENV['IMG_PATH'] . $strOldImg;
-									if (file_exists($strOldFile)) {
-										unlink($strOldFile);
-									}
+						
+						$strDest = 'assets/img/movie/' . $strImageName;
+						
+						
+						if (move_uploaded_file($_FILES['photo']['tmp_name'], $strDest)) {
+							if (!empty($strOldImg)) {
+								$strOldFile = 'assets/img/movie/'.$strOldImg;
+								if (file_exists($strOldFile)) {
+								 	unlink($strOldFile);
 								}
-								$this->_resize($strDest,280, 450, true);
+								
 							}
+							$this->_resize($strDest,280, 400);
+						}
+					}
 
-
-							if (is_null($objMovie->getId())){
-								$_SESSION['success'] 	= "Le film a bien été créé";
-								$this->_redirect($_ENV['BASE_URL']);
-							exit;
-							}else{
-								$_SESSION['success'] 	= "Le film a bien été modifié";
-								$this->_redirect($_ENV['BASE_URL']."movie/allMovie");
-							}
+						if (is_null($objMovie->getId())){
+							$_SESSION['success'] 	= "La demande du film a été enregistrer";
+							$this->_selfRedirect();
 						}else{
-							$arrError['img'] = "Erreur dans le traitement de l'image";
+							$_SESSION['success'] 	= "Le film a bien été modifié";
+							$this->_redirect("movie/allMovie");
 						}
 					}else{
-						$arrError[] = "Erreur lors de l'ajout";
+						$arrError['img'] = "Erreur dans le traitement de l'image";
 					}
+					
 				}
 			}
 			
-			// Loading categories for the select input
 			$arrCategory = $objMovieModel->allCategories();
 				$arrCatToDisplay	= array();
 
@@ -645,7 +659,6 @@
 				$arrCatToDisplay[]	= $objContent;
 			}
 			
-			// Loading nationalites for the select input
 			$arrNationality = $objMovieModel->allCountry();
 			$arrNatToDisplay	= array();
 
@@ -656,7 +669,7 @@
 
 				$arrNatToDisplay[]	= $objNat;
 			}
-			//$this->_arrData['form_token']	= $this->_generateCsrfToken();
+
 			$this->_arrData['objMovie']		   = $objMovie;
 			$this->_arrData['arrError']		   = $arrError;
 			$this->_arrData['arrCatToDisplay'] = $arrCatToDisplay;
@@ -666,6 +679,7 @@
         }
 
 		/**
+		* @author Audrey
         * Deleting a movie from the database
         * @return void redirects to the dashboard with a success message upon deletion
         */
@@ -680,13 +694,34 @@
             if($success){
 
                 $_SESSION['success'] = "Le film a bien été supprimé";
-                $this->_redirect($_ENV['BASE_URL']."movie/allMovie");
+                $this->_redirect("movie/allMovie");
 
             }
 
 		}
 
 		/**
+		* @author Marco
+        * Updating a movie from the database
+        * @return void redirects to the dashboard with a success message upon deletion
+        */
+
+		public function publishMovie(){
+			$this->_checkAccess(2);
+							
+			$objMovieModel = new MovieModel();
+            $success = $objMovieModel->publishMovie($_GET['id']);
+
+            if($success){
+
+                $_SESSION['success'] = "Le film a bien été publié";
+                $this->_redirect("movie/allMovie");
+
+            }
+		}
+
+		/**
+		* @author Marco
         * Management page for all movies
         * @return void retrieves all movies from the database and displays the administration list
         */
@@ -703,6 +738,7 @@
 			// Initialize model and fetch movies based on filters
 			$objMovieModel 	= new MovieModel;
 			$arrMovie   	= $objMovieModel->findMovieWithFilters($search, $filter,$sort);
+			$arrNotPublished  	= $objMovieModel->movieNotPublished();
 
 			
 			$arrMovieToDisplay	= array();
@@ -713,6 +749,16 @@
 				$objMovie->hydrate($arrDetMovie);
 
 				$arrMovieToDisplay[]= $objMovie;
+			}
+
+			$arrMovieNotPublishedToDisplay	= array();
+
+			// Converting the multidimensional array into an object array for the list of Movie
+			foreach($arrNotPublished as $arrDetMovie){
+				$objMovieToPublish = new MovieEntity("mov_");
+				$objMovieToPublish->hydrate($arrDetMovie);
+
+				$arrMovieNotPublishedToDisplay[]= $objMovieToPublish;
 			}
 
 			// Loading categories for the select input
@@ -726,6 +772,7 @@
 				$arrCatToDisplay[]	= $objContent;
 			}
 
+			$this->_arrData['arrMovieNotPublishedToDisplay']	= $arrMovieNotPublishedToDisplay;
 			$this->_arrData['arrMovieToDisplay']	= $arrMovieToDisplay;
 			$this->_arrData['arrCatToDisplay']	    = $arrCatToDisplay;
             $this->_arrData['search']               = $search;
@@ -735,4 +782,93 @@
 			$this->_display("allMovie");
 		}
 
+		/** @brief Generates and forces the download of an ICS calendar event for a movie release.
+		 * * @details This method constructs a file in iCalendar (.ics) format to allow 
+		 * the user to add a movie's release date to their personal calendar.
+		 * * The process follows these steps:
+		 * -# Clears the output buffer to prevent file corruption.
+		 * -# Retrieves the movie ID and user context.
+		 * -# Fetches movie details from the database with a redirect on failure.
+		 * -# Configures event timing (defaults to 20:00, 2-hour duration).
+		 * -# Sanitizes and formats text data according to the iCalendar standard.
+		 * -# Constructs the VEVENT structure with a unique UID.
+		 * -# Sends HTTP headers to force file download.
+		 * * @author Etienne
+		 * @param int $id Movie identifier (retrieved via request context).
+		 * @return void Streams the file directly to the browser and terminates the script.
+		 */
+		
+		public function addToCalendar() {
+			if (ob_get_level()) ob_end_clean();
+
+			$intId      = (int)($_GET['id'] ?? 0);
+			$intUser    = $_SESSION['user']['user_id'] ?? 0;
+
+			$objMovieModel  = new MovieModel();
+			$arrMovie       = $objMovieModel->findMovie($intId, $intUser); 
+
+			if($arrMovie === false){
+
+				$this->_redirect(); 
+				exit;
+			}
+
+			$strDateDb = $arrMovie['mov_release_date'] ?? date('Y-m-d');
+
+			try {
+	
+				$dateStart = new DateTime($strDateDb .' 20:00:00');
+			} catch (Exception $e) {
+				$dateStart = new DateTime('now');
+			}
+
+			$dateEnd = clone $dateStart;
+			$dateEnd->modify('+2 hours');
+
+			$title          = $this->_escapeIcs($arrMovie['mov_title']);
+			$descText       = $arrMovie['mov_synopsis'] ?? "Sortie du film " . $title;
+			
+
+			$description    = $this->_escapeIcs(substr($descText, 0, 200). "..."); 
+
+			$icsContent  = "BEGIN:VCALENDAR\r\n";
+			$icsContent .= "VERSION:2.0\r\n";
+			$icsContent .= "PRODID:-//GiveMeFive//Movie Release//FR\r\n";
+			$icsContent .= "BEGIN:VEVENT\r\n";
+			$icsContent .= "UID:" . md5($intId . "movie") . "@givemefive.fr\r\n";
+			$icsContent .= "DTSTAMP:" . date('Ymd\THis') . "\r\n"; 
+			$icsContent .= "DTSTART:" . $dateStart->format('Ymd\THis') . "\r\n";
+			$icsContent .= "DTEND:" . $dateEnd->format('Ymd\THis') . "\r\n";
+			$icsContent .= "SUMMARY:" . $title . "\r\n";
+			$icsContent .= "DESCRIPTION:" . $description . "\r\n";
+			$icsContent .= "END:VEVENT\r\n";
+			$icsContent .= "END:VCALENDAR\r\n";
+
+			$filename = "sortie_" . preg_replace('/[^a-z0-9]/i', '_', $title) . ".ics";
+			
+			header('Content-Type: text/calendar; charset=utf-8');
+			header('Content-Disposition: attachment; filename="' . $filename . '"');
+			
+			echo $icsContent;
+			exit;
+		}
+
+		/* * @brief Escapes special characters according to the iCalendar (RFC 5545) format.
+		* * @details This helper method ensures that the input string is compliant with ICS 
+		* requirements by sanitizing delimiters and line breaks that could otherwise 
+		* corrupt the calendar file structure.
+		* * The sanitization process involves:
+		* -# Replacing various newline characters (LF, CR, CRLF) with the literal string "\\n".
+		* -# Escaping reserved characters: commas (,), semicolons (;), and backslashes (\\).
+		* -# Returning the sanitized string safe for VEVENT properties.
+		* * @author Etienne
+		* @param string $str The raw string to be escaped.
+		* @return string The sanitized string safe for ICS files.
+		*/
+
+
+		private function _escapeIcs($string) {
+			$string = str_replace(["\r\n", "\r", "\n"], "\\n", $string);
+			return addcslashes($string, ",;\\");
+		}
     }

@@ -6,8 +6,8 @@
 
     /**
      * @author Marco Schmitt
-     * 16/01/2026
-     * Version 0.1
+     * 27/02/2026
+     * Version 1
      */
 
     class SearchCtrl extends MotherCtrl{
@@ -60,13 +60,14 @@
         */
 
         public function searchPage(){
+            
 
-            if(isset($_POST['search']) && !empty(trim($_POST['search']))){
+            if(isset($_GET['search']) && !empty(trim($_GET['search']))){
 
                 $objSearch = new SearchDto();
-                $objSearch->setSearch($_POST['search']);
+                $objSearch->setSearch($_GET['search']);
 
-                $searchBy = $_POST['searchBy']??0;
+                $searchBy = $_GET['searchBy']??0;
 
                 $objSearchModel 	= new SearchModel;
     			$arrResult		    = $objSearchModel->searchContent($objSearch, 20, $searchBy);
@@ -81,10 +82,9 @@
     				}
 
             } else {
-                header("Location: index.php");
-                exit();
+                $this->_redirect();
             }
-
+            
             $this->_arrData['arrResultToDisplay']	= $arrResultToDisplay;
             $this->_arrData['arrSearch']	        = $objSearch;
 

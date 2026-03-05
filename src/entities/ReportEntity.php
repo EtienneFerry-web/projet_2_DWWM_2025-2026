@@ -29,18 +29,23 @@
 
 
         /**
-        * Constructor
-        * Sets the table prefix for hydration
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
         */
+
         public function __construct(string $prefixe = ""){
             $this->_prefixe = "rep_";
         }
 
         /**
+		* Getters & Setters
+		*/
+
+        /**
          * @return int|null The ID of the user being reported
          */
 
-        public function getDeleteAt():string{
+        public function getDeletedAt():string{
             if(is_null($this->_delete_at)){
                 return 'En cours de traitement';
             } else{
@@ -48,7 +53,7 @@
             }
         }
 
-        public function setDelete_at(?string $strDate){
+        public function setDeleted_at(?string $strDate){
             $this->_delete_at = $strDate;
         }
 
@@ -241,7 +246,7 @@
          */
 
         public function getReason():string{
-            return $this->_reason;
+            return trim($this->_reason);
         }
 
         /**

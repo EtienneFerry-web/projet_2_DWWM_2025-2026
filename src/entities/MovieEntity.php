@@ -17,25 +17,30 @@
 		private int     $_categoriesId = 0;
 		private string  $_categories;
 		private string  $_length='';
-		private string  $_func;
+		//private string  $_func;
 		private int     $_like;
 		private float   $_rating;
-		private string  $_nationality;
+		//private string  $_nationality;
 		private int	    $_user_liked;
 		private ?float	$_note_user;
 		private int     $_reported;
 		private int 	$_nb_comments = 0;
+		private ?string $_published_at = NULL;
+
 
 		/**
-         * Constructor.
-         * @param string $prefixe table prefix for hydration (default empty)
-         */
-
+        * @brief Initializes the entity with an optional database prefix.
+		* @param string $prefixe The prefix string used in the database table schema.
+        */
 
 		public function __construct(string $prefixe = ""){
 
 			$this->_prefixe = $prefixe;
 		}
+
+		/**
+		* Getters & Setters
+		*/
 
 		/**
         * Getting the title
@@ -52,7 +57,7 @@
         */
 
 		public function setTitle(string $strTitle){
-			$this->_title = $this->clean($strTitle);
+			$this->_title = $this->_clean($strTitle);
 		}
 
 		/**
@@ -105,7 +110,7 @@
 		* @param string le nouveau titre
 		*/
 		public function setOriginal_title(string $strOriginalTitle){
-			$this->_original_title = $this->clean($strOriginalTitle);
+			$this->_original_title = $this->_clean($strOriginalTitle);
 		}
 
 
@@ -142,7 +147,7 @@
         */
 
 		public function setDescription(string $strContent){
-			$this->_description = $this->clean($strContent);
+			$this->_description = $this->_clean($strContent);
 		}
 
 		/**
@@ -198,7 +203,7 @@
         */
 
 		public function getRating():float{
-			return  number_format($this->_rating, 1, '.', '');
+			return round($this->_rating, 2);
 		}
 
 		/**
@@ -288,7 +293,7 @@
         */
 
 		public function getLength():string{
-			return $this->_length;
+		return str_replace(':00', '', $this->_length);
 		}
 
 		/**
@@ -370,5 +375,25 @@
 
 		public function setNb_comments(int $IntNb) {
 			$this->_nb_comments = $IntNb;
+		}
+
+		/**
+         * @brief Retrieves the publication date of the movie.
+         * @details Returns the date as a string if the movie is public. 
+         * If the value is null, it indicates the movie has not been published yet.
+         * @return string|null The publication date or null if unpublished.
+         */
+
+		public function getPublished(): ?string {
+			return $this->_published_at;
+		}
+
+		/**
+        * Updating the total comments count
+        * @param int $IntNb the new comment total
+        */
+
+		public function setPublished_at(?string $IntNb) {
+			$this->_published_at = $IntNb;
 		}
 	}

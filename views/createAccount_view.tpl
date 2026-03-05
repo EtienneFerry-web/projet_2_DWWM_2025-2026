@@ -6,6 +6,7 @@
 	    <h1 class="text-center">Inscription</h1>
 		<p class="mx-auto text-center py-2">Créez votre compte en quelques secondes et débloquez des fonctionnalités exclusives : notes personnalisées, listes de favoris et bien plus encore !</p>
 		<form method="post">
+            <input type="hidden" name="csrf_token" value="{$smarty.session.csrf_token}">
             <div class="form-group py-2">
                 <label  class="form-label">Nom :</label>
                 <input  type="text" 
@@ -49,24 +50,22 @@
                         name="email"
                         class="form-control {if (isset($arrError['email']))} is-invalid{/if}" 
                         value="{$objUser->getEmail()}"
-                        placeholder="Email">
+                        placeholder="E-mail">
             </div>
             <div class="form-group py-2">
                 <label class="form-label" >Mot de passe :</label>
                 <input  type="password" 
                         name="pwd"
                         class="form-control {if (isset($arrError['pwd']))} is-invalid {/if}"  
-                        placeholder="Mots de Passe">
+                        placeholder="Mot de Passe">
             </div>
             <div class="form-group py-2">
                 <label class="form-label">Confirmation du mot de passe :</label>
                 <input  type="password" 
                         name="pwd_confirm"
                         class="form-control {if (isset($arrError['pwd_confirm']))} is-invalid {/if}"  
-                        placeholder="Mots de passe de comfirmation">
+                        placeholder="Confirmation du mot de passe">
             </div>
-            <input type="hidden" name="csrf_token" value="{$form_token}">
-
             <input class="w-100 btnCustom" type="submit" >
         </form>
     </section>

@@ -36,7 +36,7 @@ class SearchModel extends Connect {
                         LEFT JOIN photos ON movies.mov_id = photos.pho_mov_id
                         LEFT JOIN ratings ON movies.mov_id = ratings.rat_mov_id
                         LEFT JOIN liked ON movies.mov_id = liked.lik_mov_id
-                        WHERE mov_title LIKE :fullSearch AND lik_com_id IS NULL
+                        WHERE mov_title LIKE :fullSearch AND lik_com_id IS NULL AND mov_published_at IS NOT NULL
                         GROUP BY mov_id";
         }
 
@@ -75,7 +75,7 @@ class SearchModel extends Connect {
                                     WHEN user_pseudo LIKE :startSearch THEN 2
                                     ELSE 3 END AS score
                                 FROM users
-                                WHERE user_pseudo LIKE :fullSearch";
+                                WHERE user_pseudo LIKE :fullSearch AND user_deleted_at IS NULL AND (user_ban_at < NOW() OR user_ban_at IS NULL)";
         }
 
         // Closing the subquery and applying global ordering
